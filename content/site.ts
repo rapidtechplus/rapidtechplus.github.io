@@ -751,6 +751,48 @@ export const footerColumns: { title: string; links: NavLink[] }[] = [
       { label: "All Articles", href: "/blog" },
     ],
   },
+];
+
+/**
+ * Legal links surfaced in the footer bottom bar (before the theme toggle).
+ * Kept here so the footer and the /sitemap page share one source of truth.
+ */
+export const legalLinks: NavLink[] = [
+  { label: "Privacy Policy", href: "/privacy" },
+  { label: "Terms of Service", href: "/terms" },
+  { label: "Cookie Policy", href: "/cookies" },
+];
+
+/**
+ * Grouped index of every public route, powering the human-readable
+ * `/sitemap` page. Mirrors the machine-readable `app/sitemap.ts`.
+ */
+export const sitemapGroups: { title: string; links: NavLink[] }[] = [
+  {
+    title: "Main",
+    links: [
+      { label: "Home", href: "/" },
+      { label: "About", href: "/about" },
+      { label: "Contact", href: "/contact" },
+    ],
+  },
+  {
+    title: "What We Do",
+    links: [
+      { label: "Services", href: "/services" },
+      { label: "Solutions", href: "/solutions" },
+      { label: "Products", href: "/products" },
+      { label: "Industries", href: "/industries" },
+      { label: "Technologies", href: "/technologies" },
+    ],
+  },
+  {
+    title: "Work & Insights",
+    links: [
+      { label: "Case Studies", href: "/case-studies" },
+      { label: "Blogs", href: "/blog" },
+    ],
+  },
   {
     title: "Legal",
     links: [

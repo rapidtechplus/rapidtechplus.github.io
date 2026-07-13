@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Reveal } from "@/components/reveal";
-import { ButtonLink } from "@/components/ui/button";
 import { DualCta } from "@/components/sections/pieces";
 import { caseStudies } from "@/content/site";
 
