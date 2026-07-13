@@ -1,6 +1,7 @@
 import Link from "next/link";
 import {
   footerColumns,
+  legalLinks,
   site,
   socialLinks,
   type NavLink,
@@ -130,6 +131,15 @@ export function Footer() {
           <span>
             © {year} {site.name}. {site.footerNote}
           </span>
+          <nav className="foot-legal" aria-label="Legal and sitemap">
+            <Link href="/">Home</Link>
+            {legalLinks.map((link) => (
+              <Link key={link.href} href={link.href}>
+                {link.label}
+              </Link>
+            ))}
+            <Link href="/sitemap">Sitemap</Link>
+          </nav>
           <span className="foot-theme">
             <span className="foot-theme-label">Theme</span>
             <ThemeToggle />

@@ -314,6 +314,48 @@ premium identity.
       navy gradient with muted text, 4 SVG social icons, 8px radii, and the
       theme switch flips light/dark while the footer stays dark in both
 
+## Phase 11 — Nav, footer, homepage & CTA refresh
+
+- [x] Brand slogan "The Way to Web Presence" made clearly visible — recoloured
+      from `--text-dim` to the brand accent in the header, and to `--footer-accent`
+      in the footer (bolder weight, wider tracking)
+- [x] Footer columns reduced to Company, Services, Industries, **Top Trending
+      Insights** (+ Legal), replacing the old Solutions/Products/Blogs columns
+- [x] Header nav: removed **Products**, added **Case Studies** mega-menu
+      (By Industry / By Capability / Outcomes) — every link resolves to the
+      real `/case-studies` page
+- [x] New `/case-studies` route + `caseStudies` content (6 illustrative studies
+      with category, client, summary, and two metrics each); added to sitemap
+- [x] Global typography scale tightened for a more balanced look — body 17→16px,
+      h1 `4.4→3.6rem` cap, h2/h3, hero lead, and section-head lead all reduced
+- [x] Two new homepage sections modelled on techalmas.com: **"Our process for
+      tailored IT solutions"** (5-step) and **"Spurring digital growth across
+      domains"** (6-domain grid)
+- [x] Reusable `CtaActions` (Get A Quote / Hire Us) + `DualCta` panel;
+      `CtaBanner` now shows both actions; hero secondary button is now "Hire Us";
+      paired CTAs placed on the new homepage sections and the Case Studies page
+- [x] lint + typecheck + static build (18 routes) all green; verified in the
+      browser — nav shows Case Studies (no Products), footer has the 4 requested
+      columns, both slogans render in brand blue, new sections + dual CTAs present
+- [ ] Design review still to confirm on real devices: mobile/tablet breakpoints,
+      Firefox/Safari, and Lighthouse (not runnable in this environment)
+
+## Phase 15 — Footer legal/sitemap, Home link & vibrant palette
+
+Owner-requested round: surface legal links and a sitemap in the footer, restore
+a Home link, and replace the dull palette with a modern, vibrant identity.
+
+- [x] Footer bottom bar now carries **Home + legal links + Sitemap** before the
+      theme toggle (`legalLinks` in `content/site.ts`, `.foot-legal` styles);
+      removed the redundant "Legal" footer column
+- [x] New human-readable **`/sitemap`** page grouping every route
+      (`sitemapGroups` in `content/site.ts`); added `/sitemap` to `sitemap.ts`
+- [x] Restored a **Home** entry (footer bottom bar + sitemap page)
+- [x] Recoloured the design system in `app/globals.css` from the dull navy/sky
+      to a vibrant **electric indigo → violet** identity (both themes
+      independently re-tuned; stable class API, no component churn)
+- [ ] lint + typecheck + build; design review across breakpoints/themes
+
 ## Phase 6 — Future Expansion (not v1)
 
 - [ ] Product detail pages (`generateStaticParams` from `content/`)
@@ -321,7 +363,8 @@ premium identity.
 - [ ] Documentation section
 - [~] Blog / insights — static `/blog` index shipped (Phase 10); per-post
   routes still to come
-- [ ] Case studies
+- [x] Case studies — `/case-studies` index shipped (Phase 11) with illustrative
+  studies + metrics; per-industry/per-study detail routes still to come
 - [ ] Open source page
 - [ ] Press kit
 - [~] Testimonials / trust section — homepage placeholders shipped (Phase 10);

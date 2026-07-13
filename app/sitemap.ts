@@ -9,6 +9,7 @@ const routes = [
   "/services",
   "/solutions",
   "/products",
+  "/case-studies",
   "/industries",
   "/technologies",
   "/blog",
@@ -16,6 +17,7 @@ const routes = [
   "/privacy",
   "/terms",
   "/cookies",
+  "/sitemap",
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
