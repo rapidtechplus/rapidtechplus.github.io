@@ -1,0 +1,9 @@
+# Code owners for rapidtechplus.github.io
+#
+# Every change requires review from the core team. Combined with a branch
+# ruleset that enables "Require review from Code Owners", this ensures no
+# code lands on master/develop without an organization member's approval.
+#
+# Replace @rapidtechplus/core with the actual GitHub team slug once created.
+
+* @rapidtechplus/core
