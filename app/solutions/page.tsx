@@ -45,7 +45,6 @@ export default function SolutionsPage() {
       <CtaBanner
         title="Have a process worth automating?"
         body="Tell us where your team loses time. We'll design a solution that gives it back."
-        ctaLabel="Talk to us →"
       />
     </>
   );

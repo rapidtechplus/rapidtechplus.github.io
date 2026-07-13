@@ -45,7 +45,6 @@ export default function IndustriesPage() {
       <CtaBanner
         title="Don't see your industry?"
         body="We work across sectors. Tell us about your business and the software you need."
-        ctaLabel="Contact us →"
       />
     </>
   );

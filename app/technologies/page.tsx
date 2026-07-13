@@ -48,7 +48,6 @@ export default function TechnologiesPage() {
       <CtaBanner
         title="Have a stack in mind?"
         body="Whether you're starting fresh or extending an existing system, we'll help you choose the right tools."
-        ctaLabel="Contact us →"
       />
     </>
   );

@@ -87,7 +87,6 @@ export default function BlogPage() {
       <CtaBanner
         title="Want to talk through a build?"
         body="Have a project in mind? Tell us what you're building and we'll help you scope it."
-        ctaLabel="Get A Quote →"
       />
     </>
   );

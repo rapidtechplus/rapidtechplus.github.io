@@ -63,7 +63,6 @@ export default function ServicesPage() {
       <CtaBanner
         title="Ready to get started?"
         body="Tell us about your project and we'll help you plan the right approach."
-        ctaLabel="Contact us →"
       />
     </>
   );

@@ -85,7 +85,6 @@ export default function AboutPage() {
       <CtaBanner
         title="Let's build something great together"
         body="We'd love to hear about your project and explore how we can help."
-        ctaLabel="Get in touch →"
       />
     </>
   );

@@ -585,58 +585,82 @@ export const megaMenu: MegaItem[] = [
     ],
   },
   {
-    label: "Products",
-    href: "/products",
+    label: "Case Studies",
+    href: "/case-studies",
+    overview: "Explore all case studies",
     columns: [
       {
-        title: "Our Products",
+        title: "By Industry",
         links: [
           {
-            label: "Planix",
-            href: "/products",
-            icon: "◆",
-            desc: "Planning & delivery workspace",
+            label: "FinTech Platforms",
+            href: "/case-studies",
+            icon: "◈",
+            desc: "Secure, correct financial products",
           },
           {
-            label: "Rocket Intelligence Engine",
-            href: "/products",
-            icon: "✦",
-            desc: "AI insight & automation layer",
+            label: "Healthcare Systems",
+            href: "/case-studies",
+            icon: "✚",
+            desc: "Compliant patient & clinical tools",
           },
           {
-            label: "WhatsApp Business OS",
-            href: "/products",
-            icon: "◍",
-            desc: "Conversational commerce suite",
+            label: "Retail & eCommerce",
+            href: "/case-studies",
+            icon: "▲",
+            desc: "Storefronts and back-office",
           },
           {
-            label: "KidzoRides",
-            href: "/products",
-            icon: "●",
-            desc: "Rides booking & management",
+            label: "Logistics & Operations",
+            href: "/case-studies",
+            icon: "⚙",
+            desc: "Automation for daily workflows",
           },
         ],
       },
       {
-        title: "Build With Us",
+        title: "By Capability",
         links: [
           {
-            label: "SaaS Applications",
-            href: "/products",
-            icon: "▲",
-            desc: "Subscription-ready platforms",
+            label: "AI & Automation",
+            href: "/case-studies",
+            icon: "✦",
+            desc: "Agents and workflow automation",
           },
           {
-            label: "Internal Tools",
-            href: "/products",
-            icon: "⚙",
-            desc: "Admin panels & operations",
+            label: "SaaS Platforms",
+            href: "/case-studies",
+            icon: "⬢",
+            desc: "Multi-tenant products at scale",
           },
           {
-            label: "Integration Systems",
-            href: "/products",
-            icon: "⇄",
-            desc: "Middleware and API layers",
+            label: "Web Applications",
+            href: "/case-studies",
+            icon: "◆",
+            desc: "Bespoke, high-performance apps",
+          },
+          {
+            label: "Modernization",
+            href: "/case-studies",
+            icon: "↻",
+            desc: "Legacy re-platforming, de-risked",
+          },
+        ],
+      },
+      {
+        title: "Outcomes",
+        links: [
+          {
+            label: "Featured Results",
+            href: "/case-studies",
+            icon: "★",
+            desc: "Measured impact and delivery",
+          },
+          {
+            label: "Client Stories",
+            href: "/case-studies",
+            icon: "◍",
+            desc: "Partnerships from idea to launch",
           },
         ],
       },
@@ -708,24 +732,6 @@ export const footerColumns: { title: string; links: NavLink[] }[] = [
     ],
   },
   {
-    title: "Solutions",
-    links: [
-      { label: "AI Agents", href: "/solutions" },
-      { label: "Workflow Automation", href: "/solutions" },
-      { label: "Business Automation", href: "/solutions" },
-      { label: "Cloud Solutions", href: "/solutions" },
-    ],
-  },
-  {
-    title: "Products",
-    links: [
-      { label: "Planix", href: "/products" },
-      { label: "Rocket Intelligence Engine", href: "/products" },
-      { label: "WhatsApp Business OS", href: "/products" },
-      { label: "KidzoRides", href: "/products" },
-    ],
-  },
-  {
     title: "Industries",
     links: [
       { label: "Healthcare", href: "/industries" },
@@ -736,13 +742,13 @@ export const footerColumns: { title: string; links: NavLink[] }[] = [
     ],
   },
   {
-    title: "Blogs",
+    title: "Top Trending Insights",
     links: [
-      { label: "Latest Articles", href: "/blog" },
-      { label: "AI", href: "/blog" },
-      { label: "Web Development", href: "/blog" },
-      { label: "Product Engineering", href: "/blog" },
-      { label: "FAQs", href: "/#faq" },
+      { label: "Shipping AI Agents in Production", href: "/blog" },
+      { label: "RAG That Grounds Answers", href: "/blog" },
+      { label: "Why TypeScript Everywhere", href: "/blog" },
+      { label: "Static-First That Scales", href: "/blog" },
+      { label: "All Articles", href: "/blog" },
     ],
   },
   {
@@ -1265,5 +1271,163 @@ export const blogPosts: BlogPost[] = [
     category: "Product Engineering",
     date: "2026-03-22",
     readingTime: "5 min read",
+  },
+];
+
+/**
+ * "Our Process For Tailored IT Solutions" — a five-stage delivery model shown
+ * on the homepage. Distinct from the four-phase `process` timeline: this is the
+ * consulting-flavoured, tailored-engagement narrative.
+ */
+export const tailoredProcess = [
+  {
+    icon: "01",
+    title: "Discovery & Consulting",
+    body: "We map your goals, users, and constraints, then shape a plan tailored to your business — not a template.",
+  },
+  {
+    icon: "02",
+    title: "Solution Design",
+    body: "We architect the right system and experience, choosing the stack and approach that fit your problem.",
+  },
+  {
+    icon: "03",
+    title: "Agile Development",
+    body: "We build in reviewable increments with quality, testing, and communication built into every sprint.",
+  },
+  {
+    icon: "04",
+    title: "Quality Assurance",
+    body: "We test rigorously across devices and edge cases so what ships is reliable, accessible, and secure.",
+  },
+  {
+    icon: "05",
+    title: "Launch & Support",
+    body: "We deploy, monitor, and keep improving — an accountable partner well beyond go-live.",
+  },
+];
+
+/**
+ * "Spurring Digital Growth Across Domains" — industry domains we serve, shown
+ * as a homepage grid mirroring the techalmas-style domains section.
+ */
+export const growthDomains = [
+  {
+    icon: "◈",
+    title: "FinTech & Banking",
+    body: "Secure, correct financial products — payments, dashboards, and compliant back-office systems.",
+  },
+  {
+    icon: "✚",
+    title: "Healthcare & MedTech",
+    body: "Patient portals, clinical tools, and data platforms built with privacy and compliance in mind.",
+  },
+  {
+    icon: "▲",
+    title: "Retail & eCommerce",
+    body: "Conversion-focused storefronts, catalogs, and operations tooling that scale with demand.",
+  },
+  {
+    icon: "⚙",
+    title: "Manufacturing & Logistics",
+    body: "Operations dashboards and automation that streamline supply, inventory, and fulfilment.",
+  },
+  {
+    icon: "◇",
+    title: "Education & eLearning",
+    body: "Learning platforms, LMS, and assessment tools designed for engagement and reach.",
+  },
+  {
+    icon: "⌂",
+    title: "Real Estate & PropTech",
+    body: "Listings, CRMs, and portals that connect buyers, sellers, and agents seamlessly.",
+  },
+];
+
+export type CaseStudy = {
+  icon: string;
+  title: string;
+  client: string;
+  category: string;
+  summary: string;
+  metrics: { value: string; label: string }[];
+};
+
+/**
+ * Illustrative case studies for the Case Studies page. Representative of the
+ * engagements we take on until real, client-approved studies are published.
+ */
+export const caseStudies: CaseStudy[] = [
+  {
+    icon: "◈",
+    title: "Payments platform rebuilt for scale",
+    client: "FinTech scaleup",
+    category: "FinTech",
+    summary:
+      "Re-platformed a legacy payments dashboard into a fast, multi-tenant system with real-time reconciliation and audit-grade correctness.",
+    metrics: [
+      { value: "3×", label: "Faster load times" },
+      { value: "99.9%", label: "Uptime at launch" },
+    ],
+  },
+  {
+    icon: "✦",
+    title: "AI agent that triages support at scale",
+    client: "SaaS company",
+    category: "AI & Automation",
+    summary:
+      "Shipped a retrieval-grounded AI agent wired into the product and knowledge base, deflecting routine tickets and routing the rest.",
+    metrics: [
+      { value: "40%", label: "Tickets deflected" },
+      { value: "24/7", label: "First-response cover" },
+    ],
+  },
+  {
+    icon: "▲",
+    title: "Headless storefront for a growing retailer",
+    client: "Retail brand",
+    category: "Retail & eCommerce",
+    summary:
+      "Designed and built a headless commerce storefront with fast search, streamlined checkout, and an operations back office.",
+    metrics: [
+      { value: "+28%", label: "Conversion lift" },
+      { value: "0.9s", label: "Median page load" },
+    ],
+  },
+  {
+    icon: "⚙",
+    title: "Operations automation for logistics",
+    client: "Logistics operator",
+    category: "Automation",
+    summary:
+      "Replaced manual, spreadsheet-driven workflows with automated pipelines and dashboards that surface exceptions in real time.",
+    metrics: [
+      { value: "12h", label: "Saved per week" },
+      { value: "−65%", label: "Manual errors" },
+    ],
+  },
+  {
+    icon: "✚",
+    title: "Clinical portal for a healthcare provider",
+    client: "Healthcare provider",
+    category: "Healthcare",
+    summary:
+      "Built a compliant patient and clinician portal with secure records, scheduling, and integrations to existing systems.",
+    metrics: [
+      { value: "HIPAA", label: "Aligned by design" },
+      { value: "4.8★", label: "User satisfaction" },
+    ],
+  },
+  {
+    icon: "⬢",
+    title: "Multi-tenant SaaS from MVP to scale",
+    client: "B2B SaaS startup",
+    category: "SaaS Platforms",
+    summary:
+      "Took a SaaS product from first MVP to a billing-ready, role-based platform engineered to grow with the business.",
+    metrics: [
+      { value: "6 wks", label: "To first launch" },
+      { value: "10×", label: "Headroom to scale" },
+    ],
   },
 ];

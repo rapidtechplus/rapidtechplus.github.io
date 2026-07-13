@@ -8,6 +8,7 @@ import {
   IconCard,
   TimelineStep,
   CtaBanner,
+  CtaActions,
 } from "@/components/sections/pieces";
 import {
   homeStats,
@@ -19,6 +20,8 @@ import {
   industries,
   products,
   process,
+  tailoredProcess,
+  growthDomains,
   testimonials,
   blogPosts,
   faqs,
@@ -74,11 +77,11 @@ export default function HomePage() {
                     Get A Quote →
                   </ButtonLink>
                   <ButtonLink
-                    href="/services"
+                    href="/contact"
                     variant="ghost"
                     className="btn-lg"
                   >
-                    Explore capabilities
+                    Hire Us
                   </ButtonLink>
                 </div>
                 <div className="trust-row">
@@ -258,11 +261,71 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* TAILORED PROCESS */}
+      <section className="band">
+        <div className="container-wide container">
+          <SectionHead
+            eyebrow="Our approach"
+            title="Our process for tailored IT solutions"
+          >
+            Every engagement is shaped around your business — a clear,
+            consulting-led path from first conversation to lasting support.
+          </SectionHead>
+          <div className="grid-3 grid">
+            {tailoredProcess.map((p, i) => (
+              <IconCard
+                key={p.title}
+                icon={p.icon}
+                title={p.title}
+                body={p.body}
+                delay={i * 0.05}
+              />
+            ))}
+          </div>
+          <Reveal
+            className="section-head"
+            style={{ marginTop: 44, marginBottom: 0 }}
+          >
+            <CtaActions className="cta-actions-center" />
+          </Reveal>
+        </div>
+      </section>
+
+      {/* DIGITAL GROWTH ACROSS DOMAINS */}
+      <section>
+        <div className="container-wide container">
+          <SectionHead
+            eyebrow="Who we build for"
+            title="Spurring digital growth across domains"
+          >
+            We adapt our craft to the realities of each industry — its users,
+            constraints, and pace — to drive measurable growth.
+          </SectionHead>
+          <div className="grid-3 grid">
+            {growthDomains.map((it, i) => (
+              <IconCard
+                key={it.title}
+                icon={it.icon}
+                title={it.title}
+                body={it.body}
+                delay={i * 0.05}
+              />
+            ))}
+          </div>
+          <Reveal
+            className="section-head"
+            style={{ marginTop: 44, marginBottom: 0 }}
+          >
+            <CtaActions className="cta-actions-center" />
+          </Reveal>
+        </div>
+      </section>
+
       {/* INDUSTRIES */}
       <section className="band">
         <div className="container-wide container">
           <SectionHead
-            eyebrow="Who we build for"
+            eyebrow="Industries"
             title="Depth across the domains that matter"
           >
             We adapt our craft to the realities of your industry — its users,
@@ -410,7 +473,6 @@ export default function HomePage() {
       <CtaBanner
         title="Have something worth building?"
         body="Tell us what you're building. We'll help you scope it, design it, and ship it — fast."
-        ctaLabel="Get A Quote →"
       />
     </>
   );
