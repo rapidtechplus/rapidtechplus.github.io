@@ -1,26 +1,31 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#0a0e16"/>
-      <stop offset="1" stop-color="#10151f"/>
+      <stop offset="0" stop-color="#0a1220"/>
+      <stop offset="1" stop-color="#0e1a2c"/>
     </linearGradient>
-    <linearGradient id="acc" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#38d6f0"/>
-      <stop offset="1" stop-color="#4f8cff"/>
+    <linearGradient id="acc" x1="8" y1="88" x2="88" y2="8" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#123a6b"/>
+      <stop offset="0.6" stop-color="#2f6aa8"/>
+      <stop offset="1" stop-color="#5ea6e0"/>
     </linearGradient>
     <radialGradient id="glow" cx="80%" cy="0%" r="70%">
-      <stop offset="0" stop-color="#4f8cff" stop-opacity="0.28"/>
-      <stop offset="1" stop-color="#4f8cff" stop-opacity="0"/>
+      <stop offset="0" stop-color="#3e7cb8" stop-opacity="0.32"/>
+      <stop offset="1" stop-color="#3e7cb8" stop-opacity="0"/>
     </radialGradient>
   </defs>
   <rect width="1200" height="630" fill="url(#bg)"/>
   <rect width="1200" height="630" fill="url(#glow)"/>
   <g transform="translate(90,235)">
     <rect width="96" height="96" rx="22" fill="url(#acc)"/>
-    <path d="M33 74V28h22c9 0 15 5.4 15 13.8 0 6.4-3.6 11-9.6 12.8L71 74H60l-9.2-17H46v17h-13zm13-25.4h11c4 0 6.4-2.3 6.4-5.9s-2.4-5.9-6.4-5.9H46v11.8z" fill="#041019"/>
+    <path d="M26 72V24h20.7c8.4 0 14 5.1 14 12.9 0 5.9-3.2 10.2-8.6 12L62 72h-10.5l-8.1-15.6H36V72H26zm10-23.9h9.6c3.6 0 5.9-2.1 5.9-5.4s-2.3-5.3-5.9-5.3H36v10.7z" fill="#ffffff"/>
+    <g fill="none" stroke="#bfe0f7" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M57 48 L75 30"/>
+      <path d="M63 29.5 H76 V42"/>
+    </g>
   </g>
-  <text x="210" y="298" fill="#eef2f8" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="52" font-weight="700">Rapid Tech Plus</text>
-  <text x="92" y="410" fill="#eef2f8" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="66" font-weight="800" letter-spacing="-1">Modern software, built to scale.</text>
-  <text x="92" y="470" fill="#9aa6b8" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="32">Web platforms · SaaS products · digital systems for growing businesses</text>
+  <text x="210" y="298" fill="#eef4fb" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="52" font-weight="700">Rapid Tech Plus</text>
+  <text x="92" y="410" fill="#eef4fb" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="64" font-weight="800" letter-spacing="-1">Software that thinks ahead.</text>
+  <text x="92" y="470" fill="#9db0c6" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="32">AI-first engineering · web platforms · SaaS · digital systems</text>
   <rect x="92" y="520" width="120" height="6" rx="3" fill="url(#acc)"/>
 </svg>

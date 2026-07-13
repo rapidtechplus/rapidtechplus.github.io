@@ -42,6 +42,27 @@ export function IconCard({
   );
 }
 
+/** Connected, numbered process step for the .timeline grid. */
+export function TimelineStep({
+  n,
+  title,
+  body,
+  delay = 0,
+}: {
+  n: number | string;
+  title: string;
+  body: string;
+  delay?: number;
+}) {
+  return (
+    <Reveal className="step" delay={delay}>
+      <div className="n">{n}</div>
+      <h3>{title}</h3>
+      <p>{body}</p>
+    </Reveal>
+  );
+}
+
 /** Full-width call-to-action banner. */
 export function CtaBanner({
   title,

@@ -1,15 +1,23 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Sora } from "next/font/google";
 import "./globals.css";
 import { Nav } from "@/components/layout/nav";
 import { Footer } from "@/components/layout/footer";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Background } from "@/components/background";
 import { site } from "@/content/site";
 
 const inter = Inter({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-inter",
+});
+
+const sora = Sora({
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["500", "600", "700"],
+  variable: "--font-sora",
 });
 
 export const metadata: Metadata = {
@@ -61,16 +69,20 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={inter.variable} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${inter.variable} ${sora.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         <meta
           name="theme-color"
-          content="#0a0e16"
+          content="#0a1220"
           media="(prefers-color-scheme: dark)"
         />
         <meta
           name="theme-color"
-          content="#f7f9fc"
+          content="#f5f8fc"
           media="(prefers-color-scheme: light)"
         />
         <script
@@ -81,12 +93,8 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem={false}
-          disableTransitionOnChange
-        >
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <Background />
           <Nav />
           <main>{children}</main>
           <Footer />

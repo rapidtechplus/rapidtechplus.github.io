@@ -27,7 +27,7 @@ export default function TechnologiesPage() {
       </section>
 
       <section style={{ paddingTop: "clamp(24px,4vw,48px)" }}>
-        <div className="container">
+        <div className="container-wide container">
           <div className="grid-2 grid">
             {techGroups.map((group) => (
               <Reveal className="panel" key={group.title}>

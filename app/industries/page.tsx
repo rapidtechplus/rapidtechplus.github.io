@@ -28,7 +28,7 @@ export default function IndustriesPage() {
       </section>
 
       <section style={{ paddingTop: "clamp(24px,4vw,48px)" }}>
-        <div className="container">
+        <div className="container-wide container">
           <div className="grid-3 grid">
             {industries.map((i) => (
               <IconCard

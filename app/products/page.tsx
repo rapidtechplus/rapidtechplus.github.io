@@ -28,7 +28,7 @@ export default function ProductsPage() {
       </section>
 
       <section style={{ paddingTop: "clamp(24px,4vw,48px)" }}>
-        <div className="container">
+        <div className="container-wide container">
           <div className="grid-3 grid">
             {products.map((p) => (
               <IconCard

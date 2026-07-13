@@ -67,7 +67,7 @@ export default function AboutPage() {
       </section>
 
       <section style={{ background: "var(--bg-elev)" }}>
-        <div className="container">
+        <div className="container-wide container">
           <SectionHead eyebrow="What drives us" title="Our values" />
           <div className="grid-3 grid">
             {aboutValues.map((v) => (

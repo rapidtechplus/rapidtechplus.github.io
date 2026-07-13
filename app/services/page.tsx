@@ -42,7 +42,7 @@ export default function ServicesPage() {
       </section>
 
       <section style={{ background: "var(--bg-elev)" }}>
-        <div className="container">
+        <div className="container-wide container">
           <SectionHead
             eyebrow="How we work"
             title="A clear, collaborative process"

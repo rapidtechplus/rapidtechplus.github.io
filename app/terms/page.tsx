@@ -11,14 +11,14 @@ export default function TermsPage() {
   return (
     <>
       <section className="page-hero">
-        <div className="container">
+        <div className="container-content container">
           <span className="eyebrow">Legal</span>
           <h1>Terms of Service</h1>
         </div>
       </section>
 
       <section style={{ paddingTop: 0 }}>
-        <div className="prose container">
+        <div className="prose container-content container">
           <p className="updated">Last updated: 13 July 2026</p>
 
           <p>

@@ -154,6 +154,38 @@ All code must:
 
 ---
 
+# Design Review Checklist
+
+Before marking **any** task complete, review the affected work against every
+item below. A task that changes UI, layout, content, or metadata must pass all
+that apply; note in the backlog/PR which were verified and how.
+
+Responsive breakpoints (no layout break, overflow, or cramped spacing):
+
+- ✅ Mobile (320–480px)
+- ✅ Tablet (768–1024px)
+- ✅ Laptop (1280px)
+- ✅ Desktop (1440px)
+- ✅ Ultra-wide (1920px+)
+
+Themes:
+
+- ✅ Light theme
+- ✅ Dark theme
+
+Quality:
+
+- ✅ Keyboard accessibility (focus order, visible focus, Escape/traps, ARIA)
+- ✅ Performance (Lighthouse — target ≥95 mobile)
+- ✅ SEO (title, description, canonical, OG/Twitter, structured data)
+- ✅ Cross-browser testing (Chrome, Edge, Firefox, Safari)
+
+If an item cannot be verified in the current environment (e.g. Safari on
+Windows, or Lighthouse without a running server), say so explicitly rather than
+silently skipping it — never claim a check passed that was not actually run.
+
+---
+
 # Definition of Done
 
 A task is complete only when:
@@ -163,6 +195,8 @@ A task is complete only when:
 - build succeeds
 - lint succeeds
 - typecheck succeeds
+- the Design Review Checklist above is satisfied (or unverifiable items are
+  called out explicitly)
 - backlog updated
 - documentation updated if required
 
