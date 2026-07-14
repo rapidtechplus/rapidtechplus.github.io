@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
-import { Breadcrumbs } from "@/components/sections/breadcrumbs";
-import { SectionHead, IconCard, CtaBanner } from "@/components/sections/pieces";
-import { services, process } from "@/content/site";
+import {
+  PageHero,
+  SectionHead,
+  IconCard,
+  CtaBanner,
+} from "@/components/sections/pieces";
+import { serviceOfferings, process } from "@/content/services";
 
 export const metadata: Metadata = {
   title: "Services",
@@ -13,27 +17,22 @@ export const metadata: Metadata = {
 export default function ServicesPage() {
   return (
     <>
-      <section className="page-hero">
-        <div className="container">
-          <Breadcrumbs
-            items={[{ label: "Home", href: "/" }, { label: "Services" }]}
-          />
-          <span className="eyebrow">Services</span>
-          <h1>
+      <PageHero
+        crumbs={[{ label: "Home", href: "/" }, { label: "Services" }]}
+        eyebrow="Services"
+        title={
+          <>
             Everything you need to{" "}
             <span className="grad-text">build and scale</span> software
-          </h1>
-          <p>
-            From first concept to production and beyond, we cover the full
-            software lifecycle with modern engineering and thoughtful design.
-          </p>
-        </div>
-      </section>
+          </>
+        }
+        lead="From first concept to production and beyond, we cover the full software lifecycle with modern engineering and thoughtful design."
+      />
 
       <section style={{ paddingTop: "clamp(24px,4vw,48px)" }}>
         <div className="container">
           <div className="grid-2 grid">
-            {services.map((s) => (
+            {serviceOfferings.map((s) => (
               <IconCard
                 key={s.title}
                 icon={s.icon}

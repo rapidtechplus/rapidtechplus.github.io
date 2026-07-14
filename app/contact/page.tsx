@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { Breadcrumbs } from "@/components/sections/breadcrumbs";
 import { Ico } from "@/components/icon";
 import { Reveal } from "@/components/reveal";
+import { PageHero } from "@/components/sections/pieces";
 import { ContactForm } from "@/components/contact-form";
 import { site } from "@/content/site";
 
@@ -57,24 +57,17 @@ const methods: Method[] = [
 export default function ContactPage() {
   return (
     <>
-      <section className="page-hero">
-        <div className="container">
-          <Breadcrumbs
-            items={[{ label: "Home", href: "/" }, { label: "Contact" }]}
-          />
-          <span className="eyebrow">Contact</span>
-          <h1>
+      <PageHero
+        crumbs={[{ label: "Home", href: "/" }, { label: "Contact" }]}
+        eyebrow="Contact"
+        title={
+          <>
             Let&apos;s talk about{" "}
             <span className="grad-text">your project</span>
-          </h1>
-          <p>
-            Whether you arrive with a fully scoped brief or just the seed of an
-            idea, we&apos;d love to hear it. Tell us where you&apos;re headed and
-            we&apos;ll help you map the fastest route there — every message
-            reaches a real engineer, not a ticket queue.
-          </p>
-        </div>
-      </section>
+          </>
+        }
+        lead="Whether you arrive with a fully scoped brief or just the seed of an idea, we'd love to hear it. Tell us where you're headed and we'll help you map the fastest route there — every message reaches a real engineer, not a ticket queue."
+      />
 
       <section style={{ paddingTop: "clamp(24px,4vw,48px)" }}>
         <div className="container">

@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
-import { Breadcrumbs } from "@/components/sections/breadcrumbs";
 import { Ico } from "@/components/icon";
 import { Reveal } from "@/components/reveal";
-import { DualCta } from "@/components/sections/pieces";
-import { caseStudies } from "@/content/site";
+import {
+  PageHero,
+  MetricStat,
+  Tag,
+  DualCta,
+} from "@/components/sections/pieces";
+import { caseStudies } from "@/content/case-studies";
 
 export const metadata: Metadata = {
   title: "Case Studies",
@@ -15,22 +19,16 @@ export const metadata: Metadata = {
 export default function CaseStudiesPage() {
   return (
     <>
-      <section className="page-hero">
-        <div className="container">
-          <Breadcrumbs
-            items={[{ label: "Home", href: "/" }, { label: "Case Studies" }]}
-          />
-          <span className="eyebrow">Case studies</span>
-          <h1>
+      <PageHero
+        crumbs={[{ label: "Home", href: "/" }, { label: "Case Studies" }]}
+        eyebrow="Case studies"
+        title={
+          <>
             Outcomes we&apos;ve <span className="grad-text">delivered</span>
-          </h1>
-          <p>
-            A look at the kinds of engagements we take on — the problem, the
-            build, and the measurable results. Representative until each
-            client-approved study is published in full.
-          </p>
-        </div>
-      </section>
+          </>
+        }
+        lead="A look at the kinds of engagements we take on — the problem, the build, and the measurable results. Representative until each client-approved study is published in full."
+      />
 
       <section style={{ paddingTop: "clamp(24px,4vw,48px)" }}>
         <div className="container-wide container">
@@ -41,17 +39,14 @@ export default function CaseStudiesPage() {
                   <span className="ico">
                     <Ico name={c.icon} />
                   </span>
-                  <span className="case-cat">{c.category}</span>
+                  <Tag className="case-cat">{c.category}</Tag>
                 </div>
                 <h3>{c.title}</h3>
                 <p className="case-client">{c.client}</p>
                 <p>{c.summary}</p>
                 <div className="case-metrics">
                   {c.metrics.map((m) => (
-                    <div className="case-metric" key={m.label}>
-                      <span className="case-metric-value">{m.value}</span>
-                      <span className="case-metric-label">{m.label}</span>
-                    </div>
+                    <MetricStat key={m.label} value={m.value} label={m.label} />
                   ))}
                 </div>
               </Reveal>

@@ -1,9 +1,11 @@
 import type { MetadataRoute } from "next";
-import { site } from "@/content/site";
+import { SITE_URL, SITEMAP_CHANGE_FREQUENCY } from "@/config/site";
+import { serviceSlugs } from "@/content/services";
 
 export const dynamic = "force-static";
 
-const routes = [
+/** Static hub/landing routes. */
+const staticRoutes = [
   "",
   "/about",
   "/services",
@@ -20,12 +22,22 @@ const routes = [
   "/sitemap",
 ];
 
+/**
+ * Slug routes derived from the content collections — adding a record to a
+ * collection adds its sitemap URL automatically, with no edit here.
+ */
+const collectionRoutes = [
+  ...serviceSlugs.map((slug) => `/services/${slug}`),
+];
+
+const routes = [...staticRoutes, ...collectionRoutes];
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
   return routes.map((route) => ({
-    url: `${site.url}${route}/`.replace(/\/+$/, "/"),
+    url: `${SITE_URL}${route}/`.replace(/\/+$/, "/"),
     lastModified,
-    changeFrequency: "monthly",
+    changeFrequency: SITEMAP_CHANGE_FREQUENCY,
     priority: route === "" ? 1 : 0.7,
   }));
 }

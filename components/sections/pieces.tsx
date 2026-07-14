@@ -1,7 +1,10 @@
 import type { ReactNode } from "react";
+import Link from "next/link";
 import { Ico } from "@/components/icon";
 import { Reveal } from "@/components/reveal";
 import { ButtonLink } from "@/components/ui/button";
+import { Breadcrumbs, type Crumb } from "@/components/sections/breadcrumbs";
+import { CONTACT_HREF } from "@/config/site";
 
 /** Centered eyebrow + heading + optional lead used above card grids. */
 export function SectionHead({
@@ -22,26 +25,186 @@ export function SectionHead({
   );
 }
 
-/** Icon + title + body card, wrapped in a reveal. */
+/**
+ * Inner-page hero: breadcrumb trail + eyebrow + h1 + optional lead. Extracted
+ * from the near-identical `.page-hero` block that was inlined on every inner
+ * page. `title` accepts rich nodes so pages keep their `.grad-text` highlight.
+ * `container` lets legal/prose pages use the narrower reading width.
+ */
+export function PageHero({
+  crumbs,
+  eyebrow,
+  title,
+  lead,
+  container = "container",
+}: {
+  crumbs: Crumb[];
+  eyebrow: string;
+  title: ReactNode;
+  lead?: ReactNode;
+  container?: string;
+}) {
+  return (
+    <section className="page-hero">
+      <div className={`${container} container`}>
+        <Breadcrumbs items={crumbs} />
+        <span className="eyebrow">{eyebrow}</span>
+        <h1>{title}</h1>
+        {lead ? <p>{lead}</p> : null}
+      </div>
+    </section>
+  );
+}
+
+/**
+ * Icon + title + body card, wrapped in a reveal. When `href` is supplied the
+ * whole card becomes a link with a hover arrow (used by `RelatedGrid`).
+ */
 export function IconCard({
   icon,
   title,
   body,
+  href,
   delay = 0,
 }: {
   icon: string;
   title: string;
   body: string;
+  href?: string;
   delay?: number;
 }) {
-  return (
-    <Reveal className="card" delay={delay}>
+  const inner = (
+    <>
       <div className="ico">
         <Ico name={icon} />
       </div>
       <h3>{title}</h3>
       <p>{body}</p>
+      {href ? (
+        <span className="card-more" aria-hidden>
+          →
+        </span>
+      ) : null}
+    </>
+  );
+
+  if (href) {
+    return (
+      <Reveal className="card card-link" delay={delay}>
+        <Link href={href} className="card-link-a">
+          {inner}
+        </Link>
+      </Reveal>
+    );
+  }
+
+  return (
+    <Reveal className="card" delay={delay}>
+      {inner}
     </Reveal>
+  );
+}
+
+/**
+ * A grid of cross-linked cards ("related services", "related industries", …).
+ * Each item links to its own detail page.
+ */
+export function RelatedGrid({
+  eyebrow,
+  title,
+  items,
+  columns = 3,
+}: {
+  eyebrow: string;
+  title: string;
+  items: { icon: string; title: string; body: string; href: string }[];
+  columns?: 2 | 3 | 4;
+}) {
+  if (items.length === 0) return null;
+  return (
+    <section className="band">
+      <div className="container-wide container">
+        <SectionHead eyebrow={eyebrow} title={title} />
+        <div className={`grid-${columns} grid`}>
+          {items.map((it, i) => (
+            <IconCard
+              key={it.href}
+              icon={it.icon}
+              title={it.title}
+              body={it.body}
+              href={it.href}
+              delay={i * 0.05}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/** A single "value + label" metric stat (e.g. case-study outcomes). */
+export function MetricStat({ value, label }: { value: string; label: string }) {
+  return (
+    <div className="case-metric">
+      <span className="case-metric-value">{value}</span>
+      <span className="case-metric-label">{label}</span>
+    </div>
+  );
+}
+
+/** A short pill/tag label (categories, chips). Defaults to the `.chip` style. */
+export function Tag({
+  children,
+  className = "chip",
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return <span className={className}>{children}</span>;
+}
+
+/** A testimonial / pull quote card. */
+export function Quote({
+  quote,
+  name,
+  role,
+  delay = 0,
+}: {
+  quote: string;
+  name: string;
+  role: string;
+  delay?: number;
+}) {
+  return (
+    <Reveal className="quote" delay={delay}>
+      <span className="mark" aria-hidden>
+        &ldquo;
+      </span>
+      <p>{quote}</p>
+      <div className="who">
+        <div className="name">{name}</div>
+        <div className="role">{role}</div>
+      </div>
+    </Reveal>
+  );
+}
+
+/**
+ * Accessible FAQ accordion built on native details/summary (no JS). Extracted
+ * from the homepage so any page (and future `/resources/faq`) can reuse it.
+ */
+export function FaqAccordion({ items }: { items: { q: string; a: string }[] }) {
+  return (
+    <div className="faq-list">
+      {items.map((f) => (
+        <Reveal className="faq-item" key={f.q}>
+          <details>
+            <summary>{f.q}</summary>
+            <div className="faq-body">{f.a}</div>
+          </details>
+        </Reveal>
+      ))}
+    </div>
   );
 }
 
@@ -74,8 +237,8 @@ export function TimelineStep({
 export function CtaActions({ className }: { className?: string }) {
   return (
     <div className={["cta-actions", className].filter(Boolean).join(" ")}>
-      <ButtonLink href="/contact">Get A Quote →</ButtonLink>
-      <ButtonLink href="/contact" variant="ghost">
+      <ButtonLink href={CONTACT_HREF}>Get A Quote →</ButtonLink>
+      <ButtonLink href={CONTACT_HREF} variant="ghost">
         Hire Us
       </ButtonLink>
     </div>

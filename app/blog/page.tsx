@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { Breadcrumbs } from "@/components/sections/breadcrumbs";
 import Link from "next/link";
 import { Reveal } from "@/components/reveal";
-import { CtaBanner } from "@/components/sections/pieces";
-import { blogPosts } from "@/content/site";
+import { PageHero, CtaBanner } from "@/components/sections/pieces";
+import { blogPosts } from "@/content/blog";
 
 export const metadata: Metadata = {
   title: "Insights",
@@ -23,21 +22,16 @@ export default function BlogPage() {
 
   return (
     <>
-      <section className="page-hero">
-        <div className="container">
-          <Breadcrumbs
-            items={[{ label: "Home", href: "/" }, { label: "Blog" }]}
-          />
-          <span className="eyebrow">Insights</span>
-          <h1>
+      <PageHero
+        crumbs={[{ label: "Home", href: "/" }, { label: "Blog" }]}
+        eyebrow="Insights"
+        title={
+          <>
             Notes from our <span className="grad-text">engineering desk</span>
-          </h1>
-          <p>
-            Practical writing on AI, web development, and product engineering —
-            what we&apos;re learning as we design and ship modern software.
-          </p>
-        </div>
-      </section>
+          </>
+        }
+        lead="Practical writing on AI, web development, and product engineering — what we're learning as we design and ship modern software."
+      />
 
       <section style={{ paddingTop: "clamp(24px,4vw,48px)" }}>
         <div className="container-wide container">

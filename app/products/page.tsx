@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { Breadcrumbs } from "@/components/sections/breadcrumbs";
 import { Reveal } from "@/components/reveal";
-import { IconCard } from "@/components/sections/pieces";
+import { PageHero, IconCard } from "@/components/sections/pieces";
 import { ButtonLink } from "@/components/ui/button";
-import { products } from "@/content/site";
+import { products } from "@/content/products";
 
 export const metadata: Metadata = {
   title: "Products & Work",
@@ -15,21 +14,16 @@ export const metadata: Metadata = {
 export default function ProductsPage() {
   return (
     <>
-      <section className="page-hero">
-        <div className="container">
-          <Breadcrumbs
-            items={[{ label: "Home", href: "/" }, { label: "Products" }]}
-          />
-          <span className="eyebrow">Products &amp; work</span>
-          <h1>
+      <PageHero
+        crumbs={[{ label: "Home", href: "/" }, { label: "Products" }]}
+        eyebrow="Products & work"
+        title={
+          <>
             The kind of software <span className="grad-text">we build</span>
-          </h1>
-          <p>
-            We craft products and platforms across industries. Here&apos;s a
-            snapshot of the solutions we specialize in delivering.
-          </p>
-        </div>
-      </section>
+          </>
+        }
+        lead="We craft products and platforms across industries. Here's a snapshot of the solutions we specialize in delivering."
+      />
 
       <section style={{ paddingTop: "clamp(24px,4vw,48px)" }}>
         <div className="container-wide container">

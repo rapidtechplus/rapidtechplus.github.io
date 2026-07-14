@@ -514,7 +514,191 @@ Owner-requested batch off a Company-menu screenshot.
       Company panel anchored under trigger with no overflow, Case Studies rail
       gone). Screenshot capture still times out in this pane
 
-## Phase 6 — Future Expansion (not v1)
+## Audit checkpoint — 2026-07-14 📋
+
+Full project audit completed → [`docs/audit/project-audit-2026-07.md`](../audit/project-audit-2026-07.md).
+Key finding: the nav advertises ~130 destinations that collapse into ~6 hub
+pages. The plan below (Phases A–O) builds the real detail pages. **No new UI is
+built until Phase A lands.** The legacy "Future Expansion" note below is
+superseded by these phases.
+
+---
+
+## Competitive review checkpoint — 2026-07-14 (ACKPlus) 📋
+
+Full competitive review of https://ackplus.com/ →
+[`docs/design/ackplus-analysis.md`](../design/ackplus-analysis.md); updated
+[`docs/architecture/sitemap.md`](../architecture/sitemap.md) and
+[`docs/architecture/page-inventory.md`](../architecture/page-inventory.md).
+
+**Finding:** ACKPlus is narrow (5 services) but ships every page — real service
+detail pages, ~16 case-study detail pages, a live careers job board, contact
+FAQ + 24h response promise, one real testimonial. Rapid Tech Plus has far wider
+nav breadth but most links resolve to hub pages. The gap is **follow-through**,
+not breadth. This confirms the priority order of Phases A–O below and adds a
+few quick wins + a Careers page. Planning only — **no UI built until approved**.
+
+### Phase P — ACKPlus quick wins (copy/UX, no new architecture)
+
+- [ ] **Contact response promise + FAQ** — add an explicit "we reply within 1
+  business day" promise and a short contact-stage FAQ (demos, response time,
+  support) to `/contact`. _Deps: none. Priority: P1. Complexity: S._
+- [ ] **"Free Consultation" CTA framing** — introduce/test a lower-friction
+  "Book a free consultation" CTA alongside "Get A Quote" in hero + CTA banner.
+  _Deps: none. Priority: P2. Complexity: S._
+- [ ] **Business hours** stated on Contact + footer. _Deps: none. P2. S._
+- [ ] **Real testimonials** — replace homepage testimonial placeholders with
+  3–4 real, attributed client quotes when available (never fabricate). _Deps:
+  real quotes. Priority: P1. Complexity: S._
+
+### Phase I+ — Careers (direct ACKPlus gap, folds into Phase I)
+
+- [ ] `/careers` — static job board (roles + dept/mode/type filters, culture,
+  values, how-to-apply via mailto) plus `/careers/[slug]` role detail. ACKPlus
+  has this; we don't. _Deps: A + job data. Priority: P1. Complexity: M._
+
+---
+
+## Complete-Website Plan (Phases A–O)
+
+Each task: **Title · Description · Dependencies · Acceptance · Priority ·
+Complexity.** One collection = one PR. Every PR must pass the Design Review
+Checklist in `CLAUDE.md`.
+
+### Phase A — Content collections & detail-page architecture 🔑 ✅
+
+_Foundation. Blocks B–H. Done first, as required._
+
+- [x] **Split content collections** — broke `content/site.ts` into typed,
+  slug-keyed collections: `content/types.ts` (shared types) plus
+  `content/{services,hire,solutions,industries,products,case-studies,blog}.ts`.
+  Every record has a `slug`; the mega menu is composed in `site.ts` from those
+  collections (`serviceMenuColumns`, `hireMenuColumns`, `solutionMenuColumns`,
+  `industriesMenu`, `caseStudiesMenu`) so nav + pages read from one source;
+  `site.ts` re-exports page-facing arrays so existing imports keep working. No
+  copy lost. typecheck + lint + build green.
+- [x] **Reusable detail template** — `components/sections/detail-layout.tsx`
+  (`DetailLayout`: hero + breadcrumb + overview split + capability grid +
+  optional FAQ + related grid + CTA). Proven on Services:
+  `app/services/[slug]/page.tsx` with `generateStaticParams` + `dynamicParams
+  = false`, per-page metadata (canonical + OG), and Service + BreadcrumbList
+  JSON-LD. Verified: 23 pages render statically, unknown slug → 404. Services
+  mega-menu links now point at real `/services/[slug]` routes.
+- [x] **Extract shared primitives** — `PageHero`, `RelatedGrid`, `MetricStat`,
+  `Quote`, `Tag` (pill), `FaqAccordion` added to `components/sections/pieces.tsx`
+  (+ linkable `IconCard`). Refactored every inner page to `PageHero`, the
+  homepage to `FaqAccordion`/`Quote`, and Case Studies to `MetricStat`/`Tag`.
+  No duplication; verified no visual regression (both themes, breakpoints).
+- [x] **Sitemap-from-collections** — `app/sitemap.ts` now derives
+  `/services/[slug]` from `serviceSlugs`, so adding a service record adds its
+  sitemap URL automatically.
+- [x] **Create `config/`** — `config/site.ts` holds `SITE_URL`, `CONTACT_HREF`,
+  and `SITEMAP_CHANGE_FREQUENCY`; consumed by breadcrumbs, sitemap, the detail
+  route, and content modules.
+
+**Design Review** — verified in-browser (dev) on `/services/ai-agents`: h1,
+breadcrumbs, overview split (3 capability checks), related grid (3 same-category
+links), Service+BreadcrumbList+Organization JSON-LD, CTA; zero horizontal
+scroll at 375/768/1440 (body clips the decorative aurora/mega layers, matching
+the existing baseline); dark theme confirmed. Not verifiable here: Safari/
+Firefox and Lighthouse (call-outs unchanged from prior phases). Screenshot
+capture still times out in this pane (continuous background compositor) —
+verified via DOM/computed-style metrics.
+
+**Newly discovered / carried tasks:**
+
+- [ ] Detail-page richness for later collections — hire/solution/industry/
+  product/case-study/blog records currently carry `summary`/`body` only; add
+  per-record detail bodies (capabilities, FAQs) when their `[slug]` phases land.
+- [ ] Once `/hire`, `/industries/[slug]`, `/solutions/[slug]`, etc. exist,
+  repoint their mega-menu links from the hubs to the real routes (the
+  collections already expose slugs) and extend `collectionRoutes` in
+  `app/sitemap.ts`.
+
+### Phase B — Service detail pages
+
+- [ ] `/services/[slug]` for all ~23 services (AI Agents, LLM, RAG, MCP, React,
+  Next.js, Node, .NET, Flutter, AWS, K8s, …). _Deps: A. Accept: every Services
+  mega-link resolves to its own page; related services + CTA; metadata +
+  Service/BreadcrumbList JSON-LD. Priority: P0. Complexity: L._
+
+### Phase C — Hire Expert landing + role pages
+
+- [ ] `/hire` hub + `/hire/[slug]` for ~16 roles + Dedicated Teams. _Deps: A.
+  Accept: `Hire Expert` menu links resolve to role pages (not `/contact`); each
+  has engagement models + CTA. Priority: P1. Complexity: L._
+
+### Phase D — Industry detail pages
+
+- [ ] `/industries/[slug]` for all 10 industries. _Deps: A. Accept: each
+  industry link resolves to its own page with sector challenges, relevant
+  services, related case studies. Priority: P0. Complexity: M._
+
+### Phase E — Solution detail pages
+
+- [ ] `/solutions/[slug]` for ~6 solutions. _Deps: A. Accept: each Solutions
+  link resolves to its own page. Priority: P1. Complexity: M._
+
+### Phase F — Product detail pages
+
+- [ ] Model named products (Planix, Rocket Intelligence Engine, WhatsApp
+  Business OS, KidzoRides) in content + `/products/[slug]`. _Deps: A + real
+  product copy. Accept: footer product links resolve; each has overview,
+  features, CTA. Priority: P2. Complexity: M._
+
+### Phase G — Case study detail pages
+
+- [ ] `/case-studies/[slug]` for each study. _Deps: A. Accept: study cards link
+  to full pages (challenge/approach/outcome/metrics); CaseStudy/BreadcrumbList
+  JSON-LD. Priority: P1. Complexity: M._
+
+### Phase H — Blog / Insights
+
+- [ ] `/blog/[slug]` post pages + `/blog/category/[slug]` + `/blog/tag/[slug]` +
+  client-side search + author bylines. _Deps: A + post bodies (MDX or typed).
+  Accept: posts render, archives filter, Article JSON-LD. Priority: P1.
+  Complexity: L._
+
+### Phase I — Company pages
+
+- [ ] `/about/story`, `/about/leadership`, `/about/culture`, `/careers`
+  (retire `soon`). _Deps: A + copy. Accept: Company menu items resolve to real
+  pages. Priority: P2. Complexity: M._
+
+### Phase J — Resources
+
+- [ ] `/resources/faq`, `/resources/open-source`, `/resources/process`,
+  `/why-rapid-tech-plus`. _Deps: A. Accept: standalone FAQ reuses
+  `FaqAccordion` + FAQPage JSON-LD. Priority: P2. Complexity: M._
+
+### Phase K — Legal & system
+
+- [ ] `/disclaimer`, `/coming-soon`, and a `500`/global-error page. _Deps: none.
+  Accept: routes render, linked where appropriate. Priority: P2. Complexity: S._
+
+### Phase L — SEO deepening
+
+- [ ] Per-template OG images, per-template structured data, canonical audit,
+  sitemap sync verified. _Deps: B–K. Priority: P1. Complexity: M._
+
+### Phase M — Performance
+
+- [ ] Lighthouse CI guarding ≥95 (mobile), asset/font budget. _Deps: pages
+  exist. Priority: P1. Complexity: M._
+
+### Phase N — Accessibility hardening
+
+- [ ] Full a11y pass across all new pages (focus order, contrast, landmarks,
+  keyboard). _Deps: B–K. Priority: P0. Complexity: M._
+
+### Phase O — Production readiness
+
+- [ ] Cross-browser (Chrome/Edge/Firefox/Safari), custom domain + HTTPS,
+  deployed-URL render verification. _Deps: all. Priority: P0. Complexity: M._
+
+---
+
+## Phase 6 — Future Expansion (superseded — see Phases A–O above)
 
 - [ ] Product detail pages (`generateStaticParams` from `content/`)
 - [ ] Careers page

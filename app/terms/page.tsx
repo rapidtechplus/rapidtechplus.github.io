@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Breadcrumbs } from "@/components/sections/breadcrumbs";
+import { PageHero } from "@/components/sections/pieces";
 
 export const metadata: Metadata = {
   title: "Terms of Service",
@@ -11,15 +11,12 @@ export const metadata: Metadata = {
 export default function TermsPage() {
   return (
     <>
-      <section className="page-hero">
-        <div className="container-content container">
-          <Breadcrumbs
-            items={[{ label: "Home", href: "/" }, { label: "Terms of Service" }]}
-          />
-          <span className="eyebrow">Legal</span>
-          <h1>Terms of Service</h1>
-        </div>
-      </section>
+      <PageHero
+        crumbs={[{ label: "Home", href: "/" }, { label: "Terms of Service" }]}
+        eyebrow="Legal"
+        title="Terms of Service"
+        container="container-content"
+      />
 
       <section style={{ paddingTop: 0 }}>
         <div className="prose container-content container">
