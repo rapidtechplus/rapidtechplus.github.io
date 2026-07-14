@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Breadcrumbs } from "@/components/sections/breadcrumbs";
 import { Reveal } from "@/components/reveal";
 import { CtaBanner } from "@/components/sections/pieces";
 import { techGroups } from "@/content/site";
@@ -15,6 +16,9 @@ export default function TechnologiesPage() {
     <>
       <section className="page-hero">
         <div className="container">
+          <Breadcrumbs
+            items={[{ label: "Home", href: "/" }, { label: "Technologies" }]}
+          />
           <span className="eyebrow">Technologies</span>
           <h1>
             A modern, <span className="grad-text">proven stack</span>

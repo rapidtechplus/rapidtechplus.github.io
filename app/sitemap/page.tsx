@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Breadcrumbs } from "@/components/sections/breadcrumbs";
 import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 import { CtaBanner } from "@/components/sections/pieces";
@@ -16,6 +17,9 @@ export default function SitemapPage() {
     <>
       <section className="page-hero">
         <div className="container">
+          <Breadcrumbs
+            items={[{ label: "Home", href: "/" }, { label: "Sitemap" }]}
+          />
           <span className="eyebrow">Sitemap</span>
           <h1>
             Everything on <span className="grad-text">Rapid Tech Plus</span>

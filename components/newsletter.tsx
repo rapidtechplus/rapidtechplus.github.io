@@ -24,7 +24,7 @@ export function NewsletterForm() {
   return (
     <form className="foot-newsletter" onSubmit={onSubmit}>
       <label className="foot-news-label" htmlFor="foot-news-email">
-        Subscribe to our newsletter for product updates and engineering notes.
+        Subscribe to our newsletter for product updates
       </label>
       <div className="foot-news-row">
         <input

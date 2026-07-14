@@ -28,12 +28,16 @@ const RINGS = [
 
 type Sat = { x: number; y: number; r: number; key: string };
 
+/** Round to 2dp — trig output differs in the last float bits between the
+    server and browser math libraries, which caused hydration mismatches. */
+const r2 = (n: number) => Math.round(n * 100) / 100;
+
 function ringSats(rx: number, ry: number, angles: number[], ri: number): Sat[] {
   return angles.map((deg, i) => {
     const t = (deg * Math.PI) / 180;
     return {
-      x: CX + rx * Math.cos(t),
-      y: CY + ry * Math.sin(t),
+      x: r2(CX + rx * Math.cos(t)),
+      y: r2(CY + ry * Math.sin(t)),
       r: 4 + ((ri + i) % 2) * 1.6,
       key: `${ri}-${i}`,
     };
@@ -49,8 +53,8 @@ export function HeroVisual() {
     return Array.from({ length: count }, (_, i) => {
       const t = (i / count) * Math.PI * 2;
       return {
-        x2: CX + 300 * Math.cos(t),
-        y2: CY + 150 * Math.sin(t),
+        x2: r2(CX + 300 * Math.cos(t)),
+        y2: r2(CY + 150 * Math.sin(t)),
         delay: (i % 5) * 0.5,
         key: `spoke-${i}`,
       };
@@ -59,6 +63,19 @@ export function HeroVisual() {
 
   return (
     <div className="hero-visual" aria-hidden="true">
+      {/* Console chrome — frames the core as a running system, not an
+          illustration. Copy is decorative telemetry, hidden from AT. */}
+      <div className="hv-bar">
+        <span className="hv-bar-left">
+          <span className="hv-dots">
+            <i />
+            <i />
+            <i />
+          </span>
+          <span className="hv-title">rapidcore · agent orchestration</span>
+        </span>
+        <span className="hv-live">live</span>
+      </div>
       <svg
         viewBox={`0 0 ${VW} ${VH}`}
         role="presentation"
@@ -158,6 +175,20 @@ export function HeroVisual() {
           />
         </g>
       </svg>
+      <div className="hv-metrics">
+        <span className="hv-metric">
+          agents <b>04</b>
+        </span>
+        <span className="hv-metric">
+          uptime <b>99.98%</b>
+        </span>
+        <span className="hv-metric">
+          p95 latency <b>42ms</b>
+        </span>
+        <span className="hv-metric">
+          deploys <b>weekly</b>
+        </span>
+      </div>
     </div>
   );
 }

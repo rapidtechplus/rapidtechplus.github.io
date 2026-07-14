@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ButtonLink } from "@/components/ui/button";
+import { Ico } from "@/components/icon";
 import { Reveal } from "@/components/reveal";
 import { Counter } from "@/components/counter";
 import { HeroVisual } from "@/components/hero-visual";
@@ -19,9 +20,7 @@ import {
   techStack,
   industries,
   products,
-  process,
   tailoredProcess,
-  growthDomains,
   testimonials,
   blogPosts,
   faqs,
@@ -147,7 +146,9 @@ export default function HomePage() {
                   i < homeFeatures.length - 1 ? { marginBottom: 24 } : undefined
                 }
               >
-                <span className="check">✓</span>
+                <span className="check">
+                  <Ico name="check" />
+                </span>
                 <div>
                   <h3>{f.title}</h3>
                   <p>{f.body}</p>
@@ -237,78 +238,24 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* PROCESS TIMELINE */}
+      {/* PROCESS TIMELINE — one consulting-led path, five numbered stages. */}
       <section>
         <div className="container-wide container">
           <SectionHead
             eyebrow="How we work"
-            title="A clear path from idea to launch"
+            title="Our process for tailored IT solutions"
           >
-            No black boxes. Every engagement moves through four transparent,
-            reviewable phases.
+            No black boxes. Every engagement moves through five transparent,
+            reviewable stages — from first conversation to lasting support.
           </SectionHead>
-          <div className="timeline">
-            {process.map((p, i) => (
+          <div className="timeline timeline-5">
+            {tailoredProcess.map((p, i) => (
               <TimelineStep
                 key={p.title}
                 n={p.icon}
                 title={p.title}
                 body={p.body}
                 delay={i * 0.08}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* TAILORED PROCESS */}
-      <section className="band">
-        <div className="container-wide container">
-          <SectionHead
-            eyebrow="Our approach"
-            title="Our process for tailored IT solutions"
-          >
-            Every engagement is shaped around your business — a clear,
-            consulting-led path from first conversation to lasting support.
-          </SectionHead>
-          <div className="grid-3 grid">
-            {tailoredProcess.map((p, i) => (
-              <IconCard
-                key={p.title}
-                icon={p.icon}
-                title={p.title}
-                body={p.body}
-                delay={i * 0.05}
-              />
-            ))}
-          </div>
-          <Reveal
-            className="section-head"
-            style={{ marginTop: 44, marginBottom: 0 }}
-          >
-            <CtaActions className="cta-actions-center" />
-          </Reveal>
-        </div>
-      </section>
-
-      {/* DIGITAL GROWTH ACROSS DOMAINS */}
-      <section>
-        <div className="container-wide container">
-          <SectionHead
-            eyebrow="Who we build for"
-            title="Spurring digital growth across domains"
-          >
-            We adapt our craft to the realities of each industry — its users,
-            constraints, and pace — to drive measurable growth.
-          </SectionHead>
-          <div className="grid-3 grid">
-            {growthDomains.map((it, i) => (
-              <IconCard
-                key={it.title}
-                icon={it.icon}
-                title={it.title}
-                body={it.body}
-                delay={i * 0.05}
               />
             ))}
           </div>
@@ -326,10 +273,10 @@ export default function HomePage() {
         <div className="container-wide container">
           <SectionHead
             eyebrow="Industries"
-            title="Depth across the domains that matter"
+            title="Spurring digital growth across domains"
           >
             We adapt our craft to the realities of your industry — its users,
-            constraints, and pace.
+            constraints, and pace — to drive measurable growth.
           </SectionHead>
           <div className="grid-3 grid">
             {industries.map((it, i) => (

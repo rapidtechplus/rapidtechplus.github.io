@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Breadcrumbs } from "@/components/sections/breadcrumbs";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
@@ -12,6 +13,9 @@ export default function PrivacyPage() {
     <>
       <section className="page-hero">
         <div className="container-content container">
+          <Breadcrumbs
+            items={[{ label: "Home", href: "/" }, { label: "Privacy Policy" }]}
+          />
           <span className="eyebrow">Legal</span>
           <h1>Privacy Policy</h1>
         </div>

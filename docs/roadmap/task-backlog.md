@@ -354,7 +354,165 @@ a Home link, and replace the dull palette with a modern, vibrant identity.
 - [x] Recoloured the design system in `app/globals.css` from the dull navy/sky
       to a vibrant **electric indigo → violet** identity (both themes
       independently re-tuned; stable class API, no component churn)
-- [ ] lint + typecheck + build; design review across breakpoints/themes
+- [x] lint + typecheck + static build (19 routes incl. `/sitemap`) all green;
+      verified in browser — footer bottom bar order is copyright → Home + legal +
+      Sitemap → theme toggle; `/sitemap` renders 4 grouped cards; new electric-
+      iris accent (`#8b93ff`) on deep-ink canvas (`#08080f`) both themes. Device
+      breakpoints / Firefox·Safari / Lighthouse not runnable here.
+- [x] Brand assets re-keyed to the new palette — `public/logo.svg`,
+      `favicon.svg`, `og-image.svg` now use the `#4f46e5 → #7c3aed → #a855f7`
+      gradient (arrow `#ddd6ff`; OG bg/text retuned to the ink canvas); the
+      gradient tile self-backgrounds so one mark works in both themes
+- [x] Company nav converted to a single-level dropdown (owner request, ever.tech
+      screenshot as pattern reference) — new `compact` flag on `MegaItem` +
+      `.mega.is-compact` styles (340px, one column, no category rail); merged
+      the old "Rapid Tech Plus"/"More" columns into one flat 6-item list;
+      verified in browser (no rail, single column, no viewport overflow) and
+      lint + typecheck + build (19 routes) green
+
+## Phase 16 — Mega-menu readability tweaks (round 5) ✅
+
+Owner-requested polish on the mega-menu panels.
+
+- [x] `.mega-link-desc` forced to a single non-wrapping line
+      (`white-space: nowrap` + ellipsis) so descriptions read as clean menu
+      subtitles instead of wrapping
+- [x] Widened panels (master–detail 860→1020px, flat 720→800px) and shortened
+      the one over-long copy ("…wired into your stack" → "…in your stack") so
+      no description is ellipsis-truncated at desktop widths
+- [x] Recentred panels under the nav bar — `.nav-item` set to `position: static`
+      so panels anchor to the full-width header and center via
+      `left: 50%; translateX(-50%)` (retired the right-anchor hack); verified
+      in browser all 6 panels stay in-bounds at 1280px (left 123 / right 1143)
+      and cap to 94vw at 1040px with zero truncation
+- [x] `.mm-foot` given a light `--hairline` top border; overview + CTA text
+      sizes reduced (0.86→0.8rem, 0.84→0.78rem) for a lighter footer
+- [x] lint + typecheck + build (17 routes) green; screenshots unavailable in
+      this environment (browser capture times out) — verified via DOM metrics
+
+## Phase 17 — Full design audit & premium redesign ✅
+
+Owner-requested complete design audit and redesign toward a world-class,
+AI-first software-engineering brand (benchmarked against Vercel/Stripe/Linear/
+Clerk/Supabase/Resend; techalmas/technource/advancio studied for IA only —
+nothing copied). One cohesive pass across the whole system.
+
+- [x] **Icon system overhaul** — replaced ~135 inconsistent dingbat glyphs
+      (`◆ ▲ ⬡ ↻ …`) across all content with a real, coherent line-icon set.
+      New `components/icon.tsx` registry maps kebab-case names → tree-shaken
+      lucide icons (`strokeWidth 1.8`); `content/site.ts` now references icons by
+      name (stays serializable). Wired into `IconCard`, nav `ServiceCard`,
+      contact/case-studies/feature-check renderers. Unknown names fall back to
+      raw text (numeric process markers still render)
+- [x] **Type system** — added a third role: **JetBrains Mono** utility face
+      (`--font-mono`) for eyebrows, stat/metric labels, chips, badges, trust row,
+      breadcrumbs, footer/section labels, and the hero telemetry — a deliberate
+      engineering-console voice against Sora display + Inter body
+- [x] **Colour system re-tuned** — handcrafted, independent light + dark themes.
+      Dark: deep indigo-ink `#0a0a13` canvas, iris `#8a8fff` accent. Light: crisp
+      near-white `#fbfbfd` (retired the lavender wash). Added semantic
+      **success / warning / error** tokens (+ soft variants), used on the feature
+      checks and hero status chrome
+- [x] **Component language tightened** — flatter radii (pills → 8–12px on
+      buttons/cards/chips/mega), refined solid-gradient primary button (less
+      bubbly, real focus ring), quieter ghost button, mono stat/case/post labels
+- [x] **Hero signature** — reframed the neural-core visual as a running
+      **"rapidcore" console**: mono status bar (traffic-light dots · title ·
+      live pulse) above the animation and a telemetry row (agents / uptime /
+      p95 / deploys) below; fixed the SVG hydration mismatch by rounding trig
+      output to 2dp; reduced-motion safe
+- [x] **Landing page IA** — merged the redundant 4-step "process" + 5-step
+      "tailored process" + duplicate industries/growth sections into one clean
+      5-stage numbered timeline + one Industries grid (removed the unused
+      `growthDomains` export and `process` from the homepage)
+- [x] **Header** — scroll-aware sticky (`is-scrolled` adds border + shadow past
+      8px); `▾` text caret replaced with a lucide `ChevronDown` that tints on
+      hover/focus
+- [x] **Mega menus** — panels now anchor to the full-width nav bar via
+      `position: fixed` (the bar's backdrop-filter is the containing block),
+      centered on the viewport, so a 1020px panel never overflows regardless of
+      trigger position on a centered nav — retired the fragile `nth-of-type`
+      edge-anchoring. Verified centered + zero overflow at 1280/1440/1920
+- [x] **Breadcrumbs** — new `components/sections/breadcrumbs.tsx` (mono trail +
+      `BreadcrumbList` JSON-LD, `aria-current` on the leaf) added to all 13 inner
+      pages' `page-hero`
+- [x] **Footer** — expanded to a 5-column hub (Services · Solutions · Industries ·
+      Company · Resources) resolving to real routes, plus the existing contact
+      aside, newsletter, socials, and legal/theme bottom bar
+- [x] **Responsive hardening** — added `minmax(0, …)` track floors to hero/split/
+      contact grids and the mobile mega cards; **zero horizontal overflow** now at
+      375 / 768 / 1280 / 1440 / 1920
+- [x] lint + typecheck + clean static **build (19 routes) all green**; verified in
+      browser both themes, focus-visible rings, reduced-motion, mobile sheet
+      (scroll-lock + Escape). Screenshots unavailable here (capture times out on
+      the continuous compositor) — verified via DOM/computed-style metrics.
+      Firefox/Safari + Lighthouse not runnable in this environment
+
+## Phase 18 — Contact page redesign + footer declutter ✅
+
+Owner-requested: rebuild `/contact` as a premium, copy-rich page and move the
+location (and full contact) details out of the footer onto it.
+
+- [x] Rebuilt `/contact` — richer hero copy + a "ways to reach us" info column
+      (method cards: general/sales, support, careers, phone — each an icon +
+      label + value + descriptive line, mailto/tel links) and a dedicated
+      "where to find us" location + hours card, beside the message form panel
+      (now with its own intro copy)
+- [x] Moved location/contact details out of the footer — dropped the
+      `footer-contact` aside (Sales / Careers / Location) and removed its now-dead
+      CSS + responsive override; footer is link columns + newsletter only, and
+      the contact page is the single home for those details
+- [x] New `.contact-methods` / `.contact-method` / `.contact-place` /
+      `.contact-form-*` styles; `Phone` added to the icon registry;
+      `.footer-main` simplified to a single track
+- [x] lint + typecheck + clean build (17 routes) green; verified in browser —
+      both themes (dark iris / light indigo tokens resolve correctly), method
+      links (mailto/tel) correct, footer aside gone, zero horizontal overflow at
+      375 / 768 / 1280. Screenshots unavailable here (capture times out)
+
+## Phase 19 — Brand refresh: slogan, socials, spacing ✅
+
+Owner-requested batch: AI-focused slogan, more social channels, smaller social
+icons, tighter section rhythm.
+
+- [x] Slogan updated to "AI-First Software Engineering" (was "The Way to Web
+      Presence") in `content/site.ts` — flows through nav/footer brand lockup
+- [x] Social channels expanded to 8 — added Instagram, Facebook, YouTube, and
+      WhatsApp (WhatsApp href derived from `site.contact.phoneHref`) alongside
+      GitHub / LinkedIn / X / Email; new inline SVG brand glyphs added to the
+      footer icon registry, `SocialLink["icon"]` union widened
+- [x] Social icons shrunk — button 40→32px, SVG 18→15px, gap 10→8px, row now
+      wraps for the longer set
+- [x] Reduced section vertical padding site-wide — `section` padding
+      `clamp(72px,10vw,132px)` → `clamp(48px,6.5vw,88px)` for a tighter rhythm
+- [x] lint + typecheck + clean build (17 routes) green; verified live in browser
+      via loaded-CSS rules (section padding + 32px social button) and DOM (new
+      slogan text, 8 social links present). Screenshot capture times out in this
+      pane (reports innerWidth 0); Firefox/Safari + Lighthouse not runnable here
+
+## Phase 20 — Nav + footer polish (round 6) ✅
+
+Owner-requested batch off a Company-menu screenshot.
+
+- [x] Newsletter heading made a single line — kept copy "Subscribe to our
+      newsletter for product updates", `.foot-news-label` set `white-space: nowrap`
+      (dropped `max-width: 34ch`), newsletter column 340→380px so the label (334px
+      natural at 0.9rem) and the email input row share the same 380px width
+- [x] Brand slogan redesigned + reworded to "AI-Native Engineering" (was
+      "AI-First Software Engineering") — now an uppercase, letter-spaced mono
+      micro-label with a glowing accent dot (`.brand-slogan::before`)
+- [x] Mega-menu hover gap fixed — `.mega::before` bridge enlarged (16→20px tall,
+      extended ±60px past the panel edges) to survive diagonal pointer travel
+- [x] Compact menu (Company) now opens anchored directly under its own trigger,
+      right-aligned (`.nav-item.mm-anchored`, `position: absolute`, wrapped in
+      `@media (min-width:1025px)` so mobile accordion is untouched) instead of
+      centring on the viewport — short, direct pointer path into the panel
+- [x] Case Studies converted from master–detail (level-2 category rail) to a
+      single flat menu of 8 direct sub-menu links
+- [x] lint + typecheck + clean build (17 routes) green; verified live via DOM +
+      computed styles (slogan text/uppercase/dot, one-line 380px newsletter,
+      Company panel anchored under trigger with no overflow, Case Studies rail
+      gone). Screenshot capture still times out in this pane
 
 ## Phase 6 — Future Expansion (not v1)
 

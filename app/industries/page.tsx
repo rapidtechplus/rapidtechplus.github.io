@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Breadcrumbs } from "@/components/sections/breadcrumbs";
 import { IconCard, CtaBanner } from "@/components/sections/pieces";
 import { industries } from "@/content/site";
 
@@ -14,6 +15,9 @@ export default function IndustriesPage() {
     <>
       <section className="page-hero">
         <div className="container">
+          <Breadcrumbs
+            items={[{ label: "Home", href: "/" }, { label: "Industries" }]}
+          />
           <span className="eyebrow">Industries</span>
           <h1>
             Software built for{" "}

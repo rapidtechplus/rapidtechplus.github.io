@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { Ico } from "@/components/icon";
 import { Reveal } from "@/components/reveal";
 import { ButtonLink } from "@/components/ui/button";
 
@@ -35,7 +36,9 @@ export function IconCard({
 }) {
   return (
     <Reveal className="card" delay={delay}>
-      <div className="ico">{icon}</div>
+      <div className="ico">
+        <Ico name={icon} />
+      </div>
       <h3>{title}</h3>
       <p>{body}</p>
     </Reveal>
