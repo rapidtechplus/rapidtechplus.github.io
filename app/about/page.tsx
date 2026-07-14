@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { Breadcrumbs } from "@/components/sections/breadcrumbs";
+import { Ico } from "@/components/icon";
 import { Reveal } from "@/components/reveal";
 import { SectionHead, IconCard, CtaBanner } from "@/components/sections/pieces";
 import { aboutValues, aboutGlance } from "@/content/site";
@@ -15,6 +17,9 @@ export default function AboutPage() {
     <>
       <section className="page-hero">
         <div className="container">
+          <Breadcrumbs
+            items={[{ label: "Home", href: "/" }, { label: "About" }]}
+          />
           <span className="eyebrow">About us</span>
           <h1>
             Building software with{" "}
@@ -55,7 +60,9 @@ export default function AboutPage() {
                   i < aboutGlance.length - 1 ? { margin: "18px 0" } : undefined
                 }
               >
-                <span className="check">✓</span>
+                <span className="check">
+                  <Ico name="check" />
+                </span>
                 <div>
                   <h3>{g.title}</h3>
                   <p>{g.body}</p>

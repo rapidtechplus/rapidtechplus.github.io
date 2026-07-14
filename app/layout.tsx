@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Sora } from "next/font/google";
+import { Inter, JetBrains_Mono, Sora } from "next/font/google";
 import "./globals.css";
 import { Nav } from "@/components/layout/nav";
 import { Footer } from "@/components/layout/footer";
@@ -18,6 +18,13 @@ const sora = Sora({
   display: "swap",
   weight: ["500", "600", "700"],
   variable: "--font-sora",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["400", "500", "600"],
+  variable: "--font-jbmono",
 });
 
 export const metadata: Metadata = {
@@ -71,18 +78,18 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${sora.variable}`}
+      className={`${inter.variable} ${sora.variable} ${jetbrainsMono.variable}`}
       suppressHydrationWarning
     >
       <head>
         <meta
           name="theme-color"
-          content="#0a1220"
+          content="#0a0a13"
           media="(prefers-color-scheme: dark)"
         />
         <meta
           name="theme-color"
-          content="#f5f8fc"
+          content="#fbfbfd"
           media="(prefers-color-scheme: light)"
         />
         <script

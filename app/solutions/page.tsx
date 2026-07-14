@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Breadcrumbs } from "@/components/sections/breadcrumbs";
 import { IconCard, CtaBanner } from "@/components/sections/pieces";
 import { solutions } from "@/content/site";
 
@@ -14,6 +15,9 @@ export default function SolutionsPage() {
     <>
       <section className="page-hero">
         <div className="container">
+          <Breadcrumbs
+            items={[{ label: "Home", href: "/" }, { label: "Solutions" }]}
+          />
           <span className="eyebrow">Solutions</span>
           <h1>
             AI-powered solutions that{" "}

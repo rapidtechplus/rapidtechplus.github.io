@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Breadcrumbs } from "@/components/sections/breadcrumbs";
 import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 import { CtaBanner } from "@/components/sections/pieces";
@@ -24,6 +25,9 @@ export default function BlogPage() {
     <>
       <section className="page-hero">
         <div className="container">
+          <Breadcrumbs
+            items={[{ label: "Home", href: "/" }, { label: "Blog" }]}
+          />
           <span className="eyebrow">Insights</span>
           <h1>
             Notes from our <span className="grad-text">engineering desk</span>

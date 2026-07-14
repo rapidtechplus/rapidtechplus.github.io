@@ -3,7 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Ico } from "@/components/icon";
 import { megaMenu, site, type MegaItem, type NavLink } from "@/content/site";
 
 /**
@@ -22,7 +24,7 @@ function ServiceCard({
     <>
       {link.icon && (
         <span className="mega-ico" aria-hidden>
-          {link.icon}
+          <Ico name={link.icon} />
         </span>
       )}
       <span className="mega-link-text">
@@ -81,7 +83,7 @@ function MegaMenuItem({
   // Flat mode — a single grid of items, no category rail.
   if (item.flat && item.links) {
     return (
-      <div className={cn("nav-item", isOpen && "open")}>
+      <div className={cn("nav-item", item.compact && "mm-anchored", isOpen && "open")}>
         <button
           type="button"
           className={cn("nav-trigger", isActive && "active")}
@@ -89,12 +91,10 @@ function MegaMenuItem({
           onClick={onToggle}
         >
           {item.label}
-          <span className="caret" aria-hidden>
-            ▾
-          </span>
+          <ChevronDown className="caret" size={14} aria-hidden />
         </button>
 
-        <div className="mega is-flat">
+        <div className={cn("mega is-flat", item.compact && "is-compact")}>
           <div className="mega-inner">
             <div className="mm-detail">
               <div className="mm-flat-cards">
@@ -142,9 +142,7 @@ function MegaMenuItem({
         onClick={onToggle}
       >
         {item.label}
-        <span className="caret" aria-hidden>
-          ▾
-        </span>
+        <ChevronDown className="caret" size={14} aria-hidden />
       </button>
 
       <div className="mega">
@@ -221,6 +219,7 @@ export function Nav() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [scrolled, setScrolled] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLElement>(null);
 
@@ -233,6 +232,15 @@ export function Nav() {
   useEffect(() => {
     close();
   }, [pathname]);
+
+  // Elevate the header once the page scrolls past the hero's top edge —
+  // stronger border + shadow so it reads as a distinct layer over content.
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   // While the mobile sheet is open: lock body scroll, close on Escape, and
   // move focus into the sheet. Focus returns to the toggle when it closes.
@@ -265,7 +273,7 @@ export function Nav() {
   };
 
   return (
-    <header className="nav">
+    <header className={cn("nav", scrolled && "is-scrolled")}>
       <div className="nav-inner container-wide container">
         <Link className="brand brand-lockup" href="/" onClick={close}>
           {/* eslint-disable-next-line @next/next/no-img-element */}

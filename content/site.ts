@@ -9,7 +9,7 @@ export const site = {
   name: "Rapid Tech Plus",
   shortName: "Rapid Tech Plus",
   logoLetter: "R",
-  slogan: "The Way to Web Presence",
+  slogan: "AI-Native Engineering",
   url: "https://rapidtechplus.github.io",
   tagline:
     "Modern software products, web platforms, and digital systems for growing businesses.",
@@ -70,6 +70,8 @@ export type MegaItem = {
   /** Flat mode: a single grid of items with no second-level category rail. */
   links?: NavLink[];
   flat?: boolean;
+  /** Compact flat panel: narrow, single-column dropdown (for short menus). */
+  compact?: boolean;
   /** Overrides the panel's default "Explore all {label}" footer link text. */
   overview?: string;
 };
@@ -85,37 +87,37 @@ export const megaMenu: MegaItem[] = [
           {
             label: "AI Agents",
             href: "/solutions",
-            icon: "✦",
+            icon: "bot",
             desc: "Autonomous, tool-using assistants",
           },
           {
             label: "LLM Integration",
             href: "/solutions",
-            icon: "✧",
+            icon: "sparkles",
             desc: "Language models in your product",
           },
           {
             label: "RAG Solutions",
             href: "/solutions",
-            icon: "⬗",
+            icon: "database",
             desc: "Answers grounded in your data",
           },
           {
             label: "MCP Servers",
             href: "/solutions",
-            icon: "⬖",
+            icon: "plug-zap",
             desc: "Connect models to your systems",
           },
           {
             label: "AI Automation",
             href: "/solutions",
-            icon: "↻",
+            icon: "workflow",
             desc: "Intelligent workflow automation",
           },
           {
             label: "AI Chatbots",
             href: "/solutions",
-            icon: "◍",
+            icon: "bot-message-square",
             desc: "Conversational support & sales",
           },
         ],
@@ -126,25 +128,25 @@ export const megaMenu: MegaItem[] = [
           {
             label: "React.js",
             href: "/services",
-            icon: "◆",
+            icon: "atom",
             desc: "Interactive, component-driven UIs",
           },
           {
             label: "Next.js",
             href: "/services",
-            icon: "▲",
+            icon: "triangle",
             desc: "Fast, SEO-ready web apps",
           },
           {
             label: "Angular",
             href: "/services",
-            icon: "◈",
+            icon: "shield",
             desc: "Enterprise-grade frontends",
           },
           {
             label: "Vue.js",
             href: "/services",
-            icon: "◇",
+            icon: "diamond",
             desc: "Lightweight, reactive interfaces",
           },
         ],
@@ -155,25 +157,25 @@ export const megaMenu: MegaItem[] = [
           {
             label: "Node.js",
             href: "/services",
-            icon: "⬢",
+            icon: "hexagon",
             desc: "Scalable APIs and services",
           },
           {
             label: "NestJS",
             href: "/services",
-            icon: "⬡",
+            icon: "box",
             desc: "Structured, typed backends",
           },
           {
             label: "Laravel",
             href: "/services",
-            icon: "◐",
+            icon: "layers",
             desc: "Rapid PHP application builds",
           },
           {
             label: ".NET",
             href: "/services",
-            icon: "◑",
+            icon: "circle-dot",
             desc: "Robust enterprise systems",
           },
         ],
@@ -184,31 +186,31 @@ export const megaMenu: MegaItem[] = [
           {
             label: "AWS",
             href: "/services",
-            icon: "☁",
+            icon: "cloud",
             desc: "Scalable cloud infrastructure",
           },
           {
             label: "Azure",
             href: "/services",
-            icon: "◫",
+            icon: "cloud-cog",
             desc: "Enterprise cloud delivery",
           },
           {
             label: "Docker",
             href: "/services",
-            icon: "⬚",
+            icon: "container",
             desc: "Portable, containerized apps",
           },
           {
             label: "Kubernetes",
             href: "/services",
-            icon: "⎔",
+            icon: "ship-wheel",
             desc: "Orchestration at scale",
           },
           {
             label: "CI/CD",
             href: "/services",
-            icon: "↻",
+            icon: "git-branch",
             desc: "Automated build & release",
           },
         ],
@@ -219,25 +221,25 @@ export const megaMenu: MegaItem[] = [
           {
             label: "Flutter",
             href: "/services",
-            icon: "❖",
+            icon: "feather",
             desc: "Cross-platform from one codebase",
           },
           {
             label: "React Native",
             href: "/services",
-            icon: "◆",
+            icon: "smartphone",
             desc: "Native feel, shared logic",
           },
           {
             label: "Native Android",
             href: "/services",
-            icon: "▲",
+            icon: "tablet-smartphone",
             desc: "Kotlin apps built for Android",
           },
           {
             label: "Native iOS",
             href: "/services",
-            icon: "●",
+            icon: "apple",
             desc: "Swift apps built for iOS",
           },
         ],
@@ -255,25 +257,25 @@ export const megaMenu: MegaItem[] = [
           {
             label: "AI Agent Engineers",
             href: "/contact",
-            icon: "✦",
+            icon: "bot",
             desc: "Build autonomous, tool-using agents",
           },
           {
             label: "LLM & RAG Engineers",
             href: "/contact",
-            icon: "⬗",
+            icon: "database",
             desc: "Grounded, production-grade LLM apps",
           },
           {
             label: "ML Engineers",
             href: "/contact",
-            icon: "✧",
+            icon: "brain-circuit",
             desc: "Predictive models and pipelines",
           },
           {
             label: "MCP Integration Engineers",
             href: "/contact",
-            icon: "⬖",
+            icon: "plug-zap",
             desc: "Wire models into your systems",
           },
         ],
@@ -284,25 +286,25 @@ export const megaMenu: MegaItem[] = [
           {
             label: "React Developers",
             href: "/contact",
-            icon: "◆",
+            icon: "atom",
             desc: "High-performing interfaces",
           },
           {
             label: "Next.js Developers",
             href: "/contact",
-            icon: "▲",
+            icon: "triangle",
             desc: "Fast, SEO-ready web apps",
           },
           {
             label: "Angular Developers",
             href: "/contact",
-            icon: "◈",
+            icon: "shield",
             desc: "Enterprise-grade frontends",
           },
           {
             label: "Vue.js Developers",
             href: "/contact",
-            icon: "◇",
+            icon: "diamond",
             desc: "Reactive, lightweight UIs",
           },
         ],
@@ -313,25 +315,25 @@ export const megaMenu: MegaItem[] = [
           {
             label: "Node.js Developers",
             href: "/contact",
-            icon: "⬢",
+            icon: "hexagon",
             desc: "Scalable APIs and services",
           },
           {
             label: "Python Developers",
             href: "/contact",
-            icon: "⬡",
+            icon: "code-xml",
             desc: "Data, AI, and backend systems",
           },
           {
             label: ".NET Developers",
             href: "/contact",
-            icon: "◑",
+            icon: "circle-dot",
             desc: "Robust enterprise systems",
           },
           {
             label: "Laravel Developers",
             href: "/contact",
-            icon: "◐",
+            icon: "layers",
             desc: "Rapid PHP application builds",
           },
         ],
@@ -342,25 +344,25 @@ export const megaMenu: MegaItem[] = [
           {
             label: "React Native Developers",
             href: "/contact",
-            icon: "◆",
+            icon: "smartphone",
             desc: "Cross-platform apps",
           },
           {
             label: "Flutter Developers",
             href: "/contact",
-            icon: "❖",
+            icon: "feather",
             desc: "One codebase, every platform",
           },
           {
             label: "iOS Developers",
             href: "/contact",
-            icon: "●",
+            icon: "apple",
             desc: "Native Swift applications",
           },
           {
             label: "Android Developers",
             href: "/contact",
-            icon: "▲",
+            icon: "tablet-smartphone",
             desc: "Native Kotlin applications",
           },
         ],
@@ -371,25 +373,25 @@ export const megaMenu: MegaItem[] = [
           {
             label: "Cloud Engineers",
             href: "/contact",
-            icon: "☁",
+            icon: "cloud",
             desc: "AWS, Azure, and GCP delivery",
           },
           {
             label: "Kubernetes Engineers",
             href: "/contact",
-            icon: "⎔",
+            icon: "ship-wheel",
             desc: "Orchestration at scale",
           },
           {
             label: "CI/CD Engineers",
             href: "/contact",
-            icon: "↻",
+            icon: "git-branch",
             desc: "Automated build & release",
           },
           {
             label: "Site Reliability (SRE)",
             href: "/contact",
-            icon: "⬚",
+            icon: "activity",
             desc: "Observability and uptime",
           },
         ],
@@ -400,19 +402,19 @@ export const megaMenu: MegaItem[] = [
           {
             label: "Product Designers",
             href: "/contact",
-            icon: "◆",
+            icon: "pen-tool",
             desc: "End-to-end product design",
           },
           {
             label: "UX Researchers",
             href: "/contact",
-            icon: "◇",
+            icon: "search",
             desc: "Insight-driven decisions",
           },
           {
             label: "Design Systems",
             href: "/contact",
-            icon: "◈",
+            icon: "blocks",
             desc: "Scalable, consistent UI",
           },
         ],
@@ -423,19 +425,19 @@ export const megaMenu: MegaItem[] = [
           {
             label: "Automation QA",
             href: "/contact",
-            icon: "↻",
+            icon: "list-checks",
             desc: "Fast, reliable test suites",
           },
           {
             label: "Manual QA",
             href: "/contact",
-            icon: "◐",
+            icon: "search-check",
             desc: "Thorough exploratory testing",
           },
           {
             label: "Performance QA",
             href: "/contact",
-            icon: "⬢",
+            icon: "gauge",
             desc: "Load and stress testing",
           },
         ],
@@ -446,19 +448,19 @@ export const megaMenu: MegaItem[] = [
           {
             label: "Full Product Team",
             href: "/contact",
-            icon: "✦",
+            icon: "users",
             desc: "Design, build, and ship end-to-end",
           },
           {
             label: "Staff Augmentation",
             href: "/contact",
-            icon: "⬡",
+            icon: "user-plus",
             desc: "Extend your in-house team",
           },
           {
             label: "Managed Delivery",
             href: "/contact",
-            icon: "▲",
+            icon: "rocket",
             desc: "We own the outcome",
           },
         ],
@@ -475,19 +477,19 @@ export const megaMenu: MegaItem[] = [
           {
             label: "AI Agents",
             href: "/solutions",
-            icon: "✦",
-            desc: "Autonomous assistants wired into your stack",
+            icon: "bot",
+            desc: "Autonomous assistants in your stack",
           },
           {
             label: "Workflow Automation",
             href: "/solutions",
-            icon: "↻",
+            icon: "workflow",
             desc: "Remove repetitive manual steps",
           },
           {
             label: "Business Automation",
             href: "/solutions",
-            icon: "⚙",
+            icon: "settings",
             desc: "Connect the tools your team relies on",
           },
         ],
@@ -498,19 +500,19 @@ export const megaMenu: MegaItem[] = [
           {
             label: "Enterprise Software",
             href: "/solutions",
-            icon: "⬢",
+            icon: "building-2",
             desc: "Reliable systems built to scale",
           },
           {
             label: "Cloud Solutions",
             href: "/solutions",
-            icon: "☁",
+            icon: "cloud",
             desc: "Scalable, secure cloud delivery",
           },
           {
             label: "Data & Integrations",
             href: "/solutions",
-            icon: "⇄",
+            icon: "arrow-left-right",
             desc: "Unified data across your services",
           },
         ],
@@ -525,61 +527,61 @@ export const megaMenu: MegaItem[] = [
       {
         label: "Healthcare",
         href: "/industries",
-        icon: "✚",
+        icon: "heart-pulse",
         desc: "Compliant patient & clinical tools",
       },
       {
         label: "FinTech",
         href: "/industries",
-        icon: "◈",
+        icon: "landmark",
         desc: "Secure, correct financial apps",
       },
       {
         label: "Retail & eCommerce",
         href: "/industries",
-        icon: "▲",
+        icon: "shopping-cart",
         desc: "Storefronts and back-office",
       },
       {
         label: "Manufacturing",
         href: "/industries",
-        icon: "⚙",
+        icon: "factory",
         desc: "Operations & process tooling",
       },
       {
         label: "Education",
         href: "/industries",
-        icon: "◇",
+        icon: "graduation-cap",
         desc: "Learning platforms and LMS",
       },
       {
         label: "Real Estate",
         href: "/industries",
-        icon: "⌂",
+        icon: "house",
         desc: "Listings, CRMs, and portals",
       },
       {
         label: "Hospitality",
         href: "/industries",
-        icon: "●",
+        icon: "concierge-bell",
         desc: "Guest and property platforms",
       },
       {
         label: "Travel",
         href: "/industries",
-        icon: "✈",
+        icon: "plane",
         desc: "Booking and itinerary systems",
       },
       {
         label: "Food & Beverage",
         href: "/industries",
-        icon: "◐",
+        icon: "utensils",
         desc: "Ordering and supply platforms",
       },
       {
         label: "Cleantech",
         href: "/industries",
-        icon: "❋",
+        icon: "leaf",
         desc: "Sustainability & energy software",
       },
     ],
@@ -587,140 +589,97 @@ export const megaMenu: MegaItem[] = [
   {
     label: "Case Studies",
     href: "/case-studies",
+    flat: true,
     overview: "Explore all case studies",
-    columns: [
+    links: [
       {
-        title: "By Industry",
-        links: [
-          {
-            label: "FinTech Platforms",
-            href: "/case-studies",
-            icon: "◈",
-            desc: "Secure, correct financial products",
-          },
-          {
-            label: "Healthcare Systems",
-            href: "/case-studies",
-            icon: "✚",
-            desc: "Compliant patient & clinical tools",
-          },
-          {
-            label: "Retail & eCommerce",
-            href: "/case-studies",
-            icon: "▲",
-            desc: "Storefronts and back-office",
-          },
-          {
-            label: "Logistics & Operations",
-            href: "/case-studies",
-            icon: "⚙",
-            desc: "Automation for daily workflows",
-          },
-        ],
+        label: "FinTech Platforms",
+        href: "/case-studies",
+        icon: "landmark",
+        desc: "Secure, correct financial products",
       },
       {
-        title: "By Capability",
-        links: [
-          {
-            label: "AI & Automation",
-            href: "/case-studies",
-            icon: "✦",
-            desc: "Agents and workflow automation",
-          },
-          {
-            label: "SaaS Platforms",
-            href: "/case-studies",
-            icon: "⬢",
-            desc: "Multi-tenant products at scale",
-          },
-          {
-            label: "Web Applications",
-            href: "/case-studies",
-            icon: "◆",
-            desc: "Bespoke, high-performance apps",
-          },
-          {
-            label: "Modernization",
-            href: "/case-studies",
-            icon: "↻",
-            desc: "Legacy re-platforming, de-risked",
-          },
-        ],
+        label: "Healthcare Systems",
+        href: "/case-studies",
+        icon: "heart-pulse",
+        desc: "Compliant patient & clinical tools",
       },
       {
-        title: "Outcomes",
-        links: [
-          {
-            label: "Featured Results",
-            href: "/case-studies",
-            icon: "★",
-            desc: "Measured impact and delivery",
-          },
-          {
-            label: "Client Stories",
-            href: "/case-studies",
-            icon: "◍",
-            desc: "Partnerships from idea to launch",
-          },
-        ],
+        label: "Retail & eCommerce",
+        href: "/case-studies",
+        icon: "shopping-cart",
+        desc: "Storefronts and back-office",
+      },
+      {
+        label: "Logistics & Operations",
+        href: "/case-studies",
+        icon: "truck",
+        desc: "Automation for daily workflows",
+      },
+      {
+        label: "AI & Automation",
+        href: "/case-studies",
+        icon: "bot",
+        desc: "Agents and workflow automation",
+      },
+      {
+        label: "SaaS Platforms",
+        href: "/case-studies",
+        icon: "layout-dashboard",
+        desc: "Multi-tenant products at scale",
+      },
+      {
+        label: "Web Applications",
+        href: "/case-studies",
+        icon: "app-window",
+        desc: "Bespoke, high-performance apps",
+      },
+      {
+        label: "Modernization",
+        href: "/case-studies",
+        icon: "refresh-cw",
+        desc: "Legacy re-platforming, de-risked",
       },
     ],
   },
   {
     label: "Company",
     href: "/about",
-    columns: [
+    flat: true,
+    compact: true,
+    links: [
       {
-        title: "Rapid Tech Plus",
-        links: [
-          {
-            label: "About",
-            href: "/about",
-            icon: "◆",
-            desc: "Who we are and how we work",
-          },
-          {
-            label: "Our Process",
-            href: "/about",
-            icon: "↻",
-            desc: "Discover, design, build, launch",
-          },
-          {
-            label: "Technologies",
-            href: "/technologies",
-            icon: "⬡",
-            desc: "The stack we build on",
-          },
-          {
-            label: "Contact",
-            href: "/contact",
-            icon: "✉",
-            desc: "Start a conversation",
-          },
-        ],
+        label: "About",
+        href: "/about",
+        icon: "building-2",
+        desc: "Who we are and how we work",
       },
       {
-        title: "More",
-        links: [
-          { label: "Careers", href: "/about", icon: "★", soon: true },
-          { label: "Culture", href: "/about", icon: "❋", soon: true },
-        ],
+        label: "Our Process",
+        href: "/about",
+        icon: "workflow",
+        desc: "Discover, design, build, launch",
       },
+      {
+        label: "Technologies",
+        href: "/technologies",
+        icon: "cpu",
+        desc: "The stack we build on",
+      },
+      {
+        label: "Contact",
+        href: "/contact",
+        icon: "mail",
+        desc: "Start a conversation",
+      },
+      { label: "Careers", href: "/about", icon: "star", soon: true },
+      { label: "Culture", href: "/about", icon: "heart", soon: true },
     ],
   },
   { label: "Blogs", href: "/blog" },
 ];
 
 export const footerColumns: { title: string; links: NavLink[] }[] = [
-  {
-    title: "Company",
-    links: [
-      { label: "About", href: "/about" },
-      { label: "Our Process", href: "/about" },
-      { label: "Contact", href: "/contact" },
-      { label: "Careers", href: "/about", soon: true },
-    ],
-  },
   {
     title: "Services",
     links: [
@@ -729,6 +688,16 @@ export const footerColumns: { title: string; links: NavLink[] }[] = [
       { label: "Frontend Engineering", href: "/services" },
       { label: "Backend Engineering", href: "/services" },
       { label: "Software Modernization", href: "/services" },
+    ],
+  },
+  {
+    title: "Solutions",
+    links: [
+      { label: "AI Agents", href: "/solutions" },
+      { label: "Workflow Automation", href: "/solutions" },
+      { label: "Cloud Solutions", href: "/solutions" },
+      { label: "Data & Integrations", href: "/solutions" },
+      { label: "Hire an Expert", href: "/contact" },
     ],
   },
   {
@@ -742,13 +711,23 @@ export const footerColumns: { title: string; links: NavLink[] }[] = [
     ],
   },
   {
-    title: "Top Trending Insights",
+    title: "Company",
     links: [
-      { label: "Shipping AI Agents in Production", href: "/blog" },
-      { label: "RAG That Grounds Answers", href: "/blog" },
-      { label: "Why TypeScript Everywhere", href: "/blog" },
-      { label: "Static-First That Scales", href: "/blog" },
-      { label: "All Articles", href: "/blog" },
+      { label: "About", href: "/about" },
+      { label: "Case Studies", href: "/case-studies" },
+      { label: "Technologies", href: "/technologies" },
+      { label: "Contact", href: "/contact" },
+      { label: "Careers", href: "/about", soon: true },
+    ],
+  },
+  {
+    title: "Resources",
+    links: [
+      { label: "Blog", href: "/blog" },
+      { label: "Products", href: "/products" },
+      { label: "Sitemap", href: "/sitemap" },
+      { label: "Privacy Policy", href: "/privacy" },
+      { label: "Cookie Policy", href: "/cookies" },
     ],
   },
 ];
@@ -807,7 +786,15 @@ export type SocialLink = {
   label: string;
   href: string;
   /** Icon key resolved to an inline SVG in the footer. */
-  icon: "github" | "linkedin" | "x" | "email";
+  icon:
+    | "github"
+    | "linkedin"
+    | "x"
+    | "email"
+    | "instagram"
+    | "facebook"
+    | "youtube"
+    | "whatsapp";
 };
 
 export const socialLinks: SocialLink[] = [
@@ -818,6 +805,26 @@ export const socialLinks: SocialLink[] = [
     icon: "linkedin",
   },
   { label: "X", href: "https://x.com/rapidtechplus", icon: "x" },
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/rapidtechplus",
+    icon: "instagram",
+  },
+  {
+    label: "Facebook",
+    href: "https://www.facebook.com/rapidtechplus",
+    icon: "facebook",
+  },
+  {
+    label: "YouTube",
+    href: "https://www.youtube.com/@rapidtechplus",
+    icon: "youtube",
+  },
+  {
+    label: "WhatsApp",
+    href: `https://wa.me/${site.contact.phoneHref.replace(/[^0-9]/g, "")}`,
+    icon: "whatsapp",
+  },
   { label: "Email", href: `mailto:${site.email}`, icon: "email" },
 ];
 
@@ -849,32 +856,32 @@ export const homeFeatures = [
 
 export const homeServices = [
   {
-    icon: "◆",
+    icon: "app-window",
     title: "Custom Web Applications",
     body: "Bespoke web platforms tailored to your workflows, from dashboards to customer portals.",
   },
   {
-    icon: "▲",
+    icon: "layout-dashboard",
     title: "SaaS Product Development",
     body: "Multi-tenant, subscription-ready products engineered for growth and reliability.",
   },
   {
-    icon: "●",
+    icon: "pen-tool",
     title: "UI/UX Implementation",
     body: "Pixel-accurate, accessible interfaces that turn designs into polished experiences.",
   },
   {
-    icon: "⬡",
+    icon: "code-xml",
     title: "Frontend & Backend Engineering",
     body: "Full-stack development with modern frameworks and robust, scalable APIs.",
   },
   {
-    icon: "⇄",
+    icon: "arrow-left-right",
     title: "API Integration",
     body: "Connect your systems to payments, data providers, and third-party services.",
   },
   {
-    icon: "↻",
+    icon: "refresh-cw",
     title: "Software Modernization",
     body: "Refactor and re-platform legacy systems into fast, maintainable applications.",
   },
@@ -882,17 +889,17 @@ export const homeServices = [
 
 export const whyUs = [
   {
-    icon: "⚡",
+    icon: "zap",
     title: "Fast, focused delivery",
     body: "Lean process, quick iterations, and momentum from day one.",
   },
   {
-    icon: "🛡",
+    icon: "shield-check",
     title: "Quality & security",
     body: "Best-practice engineering with security and accessibility built in.",
   },
   {
-    icon: "🤝",
+    icon: "handshake",
     title: "Long-term partnership",
     body: "We support what we build and grow alongside your business.",
   },
@@ -942,32 +949,32 @@ export const faqs = [
 
 export const industries = [
   {
-    icon: "◆",
+    icon: "rocket",
     title: "Startups & Scaleups",
     body: "MVPs and production platforms built to validate fast and scale cleanly as you grow.",
   },
   {
-    icon: "▲",
+    icon: "layout-dashboard",
     title: "SaaS & Software",
     body: "Multi-tenant products, dashboards, and developer tooling engineered for reliability.",
   },
   {
-    icon: "●",
+    icon: "shopping-cart",
     title: "E-commerce & Retail",
     body: "Storefronts, catalogs, and back-office tools with fast, conversion-focused experiences.",
   },
   {
-    icon: "⬡",
+    icon: "landmark",
     title: "Fintech",
     body: "Secure, well-integrated financial applications with careful attention to correctness.",
   },
   {
-    icon: "⚙",
+    icon: "truck",
     title: "Logistics & Operations",
     body: "Internal tools and automation that streamline day-to-day operational workflows.",
   },
   {
-    icon: "⇄",
+    icon: "briefcase",
     title: "Professional Services",
     body: "Client portals, booking systems, and custom platforms tailored to service businesses.",
   },
@@ -994,32 +1001,32 @@ export const techGroups = [
 
 export const aboutValues = [
   {
-    icon: "◆",
+    icon: "gem",
     title: "Craftsmanship",
     body: "We care about the details — clean code, thoughtful design, and durable systems.",
   },
   {
-    icon: "⚡",
+    icon: "zap",
     title: "Momentum",
     body: "We ship in small, meaningful increments and keep projects moving.",
   },
   {
-    icon: "🤝",
+    icon: "handshake",
     title: "Partnership",
     body: "Your goals are our goals. We communicate openly and honestly.",
   },
   {
-    icon: "🛡",
+    icon: "shield-check",
     title: "Reliability",
     body: "Security, accessibility, and quality are built in — not bolted on.",
   },
   {
-    icon: "↻",
+    icon: "refresh-cw",
     title: "Adaptability",
     body: "We meet you where you are and adjust as your needs evolve.",
   },
   {
-    icon: "●",
+    icon: "eye",
     title: "Transparency",
     body: "Clear estimates, clear progress, and no surprises.",
   },
@@ -1042,42 +1049,42 @@ export const aboutGlance = [
 
 export const services = [
   {
-    icon: "◆",
+    icon: "app-window",
     title: "Custom Web Applications",
     body: "Tailored web platforms built around your workflows — internal tools, dashboards, customer portals, and everything in between.",
   },
   {
-    icon: "▲",
+    icon: "layout-dashboard",
     title: "SaaS Product Development",
     body: "End-to-end SaaS builds: authentication, multi-tenancy, billing-ready architecture, and features engineered to scale.",
   },
   {
-    icon: "●",
+    icon: "pen-tool",
     title: "UI/UX Implementation",
     body: "We turn designs into accessible, pixel-accurate, responsive interfaces with smooth, premium interactions.",
   },
   {
-    icon: "◧",
+    icon: "monitor-smartphone",
     title: "Frontend Engineering",
     body: "Modern, component-driven frontends with React, Next.js, and TypeScript — fast, maintainable, and testable.",
   },
   {
-    icon: "⬡",
+    icon: "server",
     title: "Backend Engineering",
     body: "Robust APIs, data models, and services built for reliability, performance, and clean integration.",
   },
   {
-    icon: "⇄",
+    icon: "arrow-left-right",
     title: "API Integration",
     body: "Connect payments, messaging, analytics, and third-party platforms with secure, well-documented integrations.",
   },
   {
-    icon: "↻",
+    icon: "refresh-cw",
     title: "Software Modernization",
     body: "Re-platform and refactor legacy systems into fast, secure, maintainable applications without the risk.",
   },
   {
-    icon: "⚙",
+    icon: "settings",
     title: "Business Automation",
     body: "Streamline manual processes with custom automation, integrations, and internal tooling that saves time.",
   },
@@ -1085,32 +1092,32 @@ export const services = [
 
 export const solutions = [
   {
-    icon: "◆",
+    icon: "bot",
     title: "AI Agents",
     body: "Autonomous assistants wired into your data and tools — answering questions, triaging work, and taking action under your rules.",
   },
   {
-    icon: "↻",
+    icon: "workflow",
     title: "Workflow Automation",
     body: "Replace repetitive, error-prone manual steps with reliable automated pipelines that run around the clock.",
   },
   {
-    icon: "⚙",
+    icon: "settings",
     title: "Business Automation",
     body: "Connect the tools your team already uses so information and tasks flow between them without copy-paste.",
   },
   {
-    icon: "⬡",
+    icon: "cloud",
     title: "Cloud Solutions",
     body: "Scalable, secure cloud infrastructure and delivery — from architecture to CI/CD and observability.",
   },
   {
-    icon: "⇄",
+    icon: "arrow-left-right",
     title: "Data & Integrations",
     body: "Unify data across your services with well-designed APIs, sync layers, and a single source of truth.",
   },
   {
-    icon: "▲",
+    icon: "rocket",
     title: "Managed Delivery",
     body: "We scope, build, ship, and keep improving — an accountable team that owns outcomes, not just tickets.",
   },
@@ -1141,32 +1148,32 @@ export const process = [
 
 export const products = [
   {
-    icon: "◧",
+    icon: "app-window",
     title: "Web Platforms",
     body: "Customer-facing platforms and marketplaces with clean UX and scalable architecture.",
   },
   {
-    icon: "▲",
+    icon: "layout-dashboard",
     title: "SaaS Applications",
     body: "Subscription products with dashboards, roles, and billing-ready foundations.",
   },
   {
-    icon: "⚙",
+    icon: "wrench",
     title: "Internal Tools",
     body: "Admin panels and operational tooling that streamline day-to-day business.",
   },
   {
-    icon: "⇄",
+    icon: "arrow-left-right",
     title: "Integration Systems",
     body: "Middleware and API layers that connect the services a business depends on.",
   },
   {
-    icon: "●",
+    icon: "globe",
     title: "Landing & Marketing Sites",
     body: "Fast, polished, SEO-friendly sites that represent brands with credibility.",
   },
   {
-    icon: "↻",
+    icon: "workflow",
     title: "Automation Solutions",
     body: "Workflow automation that removes repetitive manual work and reduces errors.",
   },
@@ -1175,22 +1182,22 @@ export const products = [
 /** "Why choose us" pillars — value props with a supporting stat. */
 export const whyChoose = [
   {
-    icon: "✦",
+    icon: "sparkles",
     title: "AI-first by default",
     body: "AI is woven through how we scope, build, and review — not bolted on as a demo.",
   },
   {
-    icon: "⚡",
+    icon: "zap",
     title: "Ship in weeks, not quarters",
     body: "A lean senior team and an accelerated workflow move you from idea to production fast.",
   },
   {
-    icon: "🛡",
+    icon: "shield-check",
     title: "Engineering you can trust",
     body: "TypeScript everywhere, tested and reviewed, with security and accessibility built in.",
   },
   {
-    icon: "🤝",
+    icon: "handshake",
     title: "A partner, not a vendor",
     body: "We own outcomes, communicate openly, and keep improving what we build with you.",
   },
@@ -1199,22 +1206,22 @@ export const whyChoose = [
 /** AI capabilities highlighted on the homepage AI-expertise section. */
 export const aiExpertise = [
   {
-    icon: "✦",
+    icon: "bot",
     title: "AI Agents",
     body: "Autonomous assistants that use your tools and data to take real work off your team.",
   },
   {
-    icon: "⬗",
+    icon: "database",
     title: "RAG & Knowledge",
     body: "Answers grounded in your own content, with retrieval pipelines you can trust.",
   },
   {
-    icon: "⬖",
+    icon: "plug-zap",
     title: "LLM & MCP Integration",
     body: "Language models and MCP servers wired securely into your existing systems.",
   },
   {
-    icon: "◍",
+    icon: "bot-message-square",
     title: "Conversational Interfaces",
     body: "Chatbots and copilots that support customers and streamline internal workflows.",
   },
@@ -1349,43 +1356,6 @@ export const tailoredProcess = [
   },
 ];
 
-/**
- * "Spurring Digital Growth Across Domains" — industry domains we serve, shown
- * as a homepage grid mirroring the techalmas-style domains section.
- */
-export const growthDomains = [
-  {
-    icon: "◈",
-    title: "FinTech & Banking",
-    body: "Secure, correct financial products — payments, dashboards, and compliant back-office systems.",
-  },
-  {
-    icon: "✚",
-    title: "Healthcare & MedTech",
-    body: "Patient portals, clinical tools, and data platforms built with privacy and compliance in mind.",
-  },
-  {
-    icon: "▲",
-    title: "Retail & eCommerce",
-    body: "Conversion-focused storefronts, catalogs, and operations tooling that scale with demand.",
-  },
-  {
-    icon: "⚙",
-    title: "Manufacturing & Logistics",
-    body: "Operations dashboards and automation that streamline supply, inventory, and fulfilment.",
-  },
-  {
-    icon: "◇",
-    title: "Education & eLearning",
-    body: "Learning platforms, LMS, and assessment tools designed for engagement and reach.",
-  },
-  {
-    icon: "⌂",
-    title: "Real Estate & PropTech",
-    body: "Listings, CRMs, and portals that connect buyers, sellers, and agents seamlessly.",
-  },
-];
-
 export type CaseStudy = {
   icon: string;
   title: string;
@@ -1401,7 +1371,7 @@ export type CaseStudy = {
  */
 export const caseStudies: CaseStudy[] = [
   {
-    icon: "◈",
+    icon: "landmark",
     title: "Payments platform rebuilt for scale",
     client: "FinTech scaleup",
     category: "FinTech",
@@ -1413,7 +1383,7 @@ export const caseStudies: CaseStudy[] = [
     ],
   },
   {
-    icon: "✦",
+    icon: "bot",
     title: "AI agent that triages support at scale",
     client: "SaaS company",
     category: "AI & Automation",
@@ -1425,7 +1395,7 @@ export const caseStudies: CaseStudy[] = [
     ],
   },
   {
-    icon: "▲",
+    icon: "shopping-cart",
     title: "Headless storefront for a growing retailer",
     client: "Retail brand",
     category: "Retail & eCommerce",
@@ -1437,7 +1407,7 @@ export const caseStudies: CaseStudy[] = [
     ],
   },
   {
-    icon: "⚙",
+    icon: "truck",
     title: "Operations automation for logistics",
     client: "Logistics operator",
     category: "Automation",
@@ -1449,7 +1419,7 @@ export const caseStudies: CaseStudy[] = [
     ],
   },
   {
-    icon: "✚",
+    icon: "heart-pulse",
     title: "Clinical portal for a healthcare provider",
     client: "Healthcare provider",
     category: "Healthcare",
@@ -1461,7 +1431,7 @@ export const caseStudies: CaseStudy[] = [
     ],
   },
   {
-    icon: "⬢",
+    icon: "layout-dashboard",
     title: "Multi-tenant SaaS from MVP to scale",
     client: "B2B SaaS startup",
     category: "SaaS Platforms",

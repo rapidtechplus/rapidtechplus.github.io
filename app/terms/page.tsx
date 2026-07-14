@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Breadcrumbs } from "@/components/sections/breadcrumbs";
 
 export const metadata: Metadata = {
   title: "Terms of Service",
@@ -12,6 +13,9 @@ export default function TermsPage() {
     <>
       <section className="page-hero">
         <div className="container-content container">
+          <Breadcrumbs
+            items={[{ label: "Home", href: "/" }, { label: "Terms of Service" }]}
+          />
           <span className="eyebrow">Legal</span>
           <h1>Terms of Service</h1>
         </div>

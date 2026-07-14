@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Breadcrumbs } from "@/components/sections/breadcrumbs";
 import { Reveal } from "@/components/reveal";
 import { IconCard } from "@/components/sections/pieces";
 import { ButtonLink } from "@/components/ui/button";
@@ -16,6 +17,9 @@ export default function ProductsPage() {
     <>
       <section className="page-hero">
         <div className="container">
+          <Breadcrumbs
+            items={[{ label: "Home", href: "/" }, { label: "Products" }]}
+          />
           <span className="eyebrow">Products &amp; work</span>
           <h1>
             The kind of software <span className="grad-text">we build</span>

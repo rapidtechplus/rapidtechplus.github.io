@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Breadcrumbs } from "@/components/sections/breadcrumbs";
 import { SectionHead, IconCard, CtaBanner } from "@/components/sections/pieces";
 import { services, process } from "@/content/site";
 
@@ -14,6 +15,9 @@ export default function ServicesPage() {
     <>
       <section className="page-hero">
         <div className="container">
+          <Breadcrumbs
+            items={[{ label: "Home", href: "/" }, { label: "Services" }]}
+          />
           <span className="eyebrow">Services</span>
           <h1>
             Everything you need to{" "}

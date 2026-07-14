@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { Breadcrumbs } from "@/components/sections/breadcrumbs";
+import { Ico } from "@/components/icon";
 import { Reveal } from "@/components/reveal";
 import { DualCta } from "@/components/sections/pieces";
 import { caseStudies } from "@/content/site";
@@ -15,6 +17,9 @@ export default function CaseStudiesPage() {
     <>
       <section className="page-hero">
         <div className="container">
+          <Breadcrumbs
+            items={[{ label: "Home", href: "/" }, { label: "Case Studies" }]}
+          />
           <span className="eyebrow">Case studies</span>
           <h1>
             Outcomes we&apos;ve <span className="grad-text">delivered</span>
@@ -33,7 +38,9 @@ export default function CaseStudiesPage() {
             {caseStudies.map((c, i) => (
               <Reveal className="card case-card" key={c.title} delay={i * 0.05}>
                 <div className="case-top">
-                  <span className="ico">{c.icon}</span>
+                  <span className="ico">
+                    <Ico name={c.icon} />
+                  </span>
                   <span className="case-cat">{c.category}</span>
                 </div>
                 <h3>{c.title}</h3>
