@@ -68,6 +68,16 @@ export type ServiceRecord = DetailRecord & {
   overview: string;
   /** What the service includes — rendered as a capability card grid. */
   capabilities: Feature[];
+  /** Business problems this service solves — rendered as a card grid. */
+  problems?: Feature[];
+  /** Technology names rendered as a chip cloud. */
+  technologies?: string[];
+  /** Business benefits / outcomes — rendered as a card grid. */
+  benefits?: Feature[];
+  /** Industry slugs this service commonly serves (links to `/industries/[slug]`). */
+  industries?: string[];
+  /** Case-study slugs to feature (links to `/case-studies`). */
+  caseStudies?: string[];
   /** Optional per-service FAQs. */
   faqs?: Faq[];
 };

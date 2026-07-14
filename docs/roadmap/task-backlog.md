@@ -643,12 +643,31 @@ verified via DOM/computed-style metrics.
   `collectionRoutes` now resolve to `/hire/[slug]` and `/industries/[slug]`**;
   `/solutions/[slug]`, `/products/[slug]`, etc. still pending their phases.
 
-### Phase B — Service detail pages
+### Phase B — Service detail pages ✅
 
-- [ ] `/services/[slug]` for all ~23 services (AI Agents, LLM, RAG, MCP, React,
-  Next.js, Node, .NET, Flutter, AWS, K8s, …). _Deps: A. Accept: every Services
-  mega-link resolves to its own page; related services + CTA; metadata +
-  Service/BreadcrumbList JSON-LD. Priority: P0. Complexity: L._
+- [x] `/services/[slug]` for all 8 core offerings, each rebuilt as a full
+  landing page. _Deps: A._ Enriched `content/services.ts` — every
+  `ServiceRecord` now carries `problems`, `technologies`, `benefits`,
+  `industries` (slug refs) and `caseStudies` (slug refs) plus per-service
+  `faqs`; added a shared 5-stage `serviceProcess` and
+  `serviceIndustries` / `serviceCaseStudies` resolver helpers (unknown slugs are
+  skipped, so no dead links). New `components/sections/service-landing.tsx`
+  composes the landing template: Hero → dual CTA → Overview → **Business
+  problems** → **Technologies** (chip cloud) → **Development process**
+  (5-step timeline) → **Benefits** → **Industries** (links to
+  `/industries/[slug]`) → **Case studies** (metric cards) → **FAQs** → Related
+  services → CTA; every optional section hides when its data is absent.
+  `app/services/[slug]/page.tsx` now renders `ServiceLanding` and emits Service
+  (+ `areaServed`) and FAQPage JSON-LD alongside the existing BreadcrumbList.
+- [x] lint + typecheck + clean static **build** all green; verified in browser —
+  `/services/ai-development` and `/services/cloud-devops` render all nine
+  sections in order (Overview, Business problems, Technologies × 8 chips, How we
+  work × 5 steps, Benefits, Industries × 3 linked, Proof × 2 case cards, FAQ,
+  Related services), zero console errors, zero content-level horizontal overflow
+  at 375 and 1280 (only the pre-existing decorative aurora/mega layers extend
+  past the viewport and are clipped by `body`, matching the documented
+  baseline). Screenshots/Firefox/Safari/Lighthouse not runnable in this pane
+  (unchanged from prior phases).
 
 ### Phase C — Hire Expert landing + role pages ✅
 
