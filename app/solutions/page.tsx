@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import { Breadcrumbs } from "@/components/sections/breadcrumbs";
-import { IconCard, CtaBanner } from "@/components/sections/pieces";
-import { solutions } from "@/content/site";
+import { PageHero, IconCard, CtaBanner } from "@/components/sections/pieces";
+import { solutions } from "@/content/solutions";
 
 export const metadata: Metadata = {
   title: "Solutions",
@@ -13,23 +12,17 @@ export const metadata: Metadata = {
 export default function SolutionsPage() {
   return (
     <>
-      <section className="page-hero">
-        <div className="container">
-          <Breadcrumbs
-            items={[{ label: "Home", href: "/" }, { label: "Solutions" }]}
-          />
-          <span className="eyebrow">Solutions</span>
-          <h1>
+      <PageHero
+        crumbs={[{ label: "Home", href: "/" }, { label: "Solutions" }]}
+        eyebrow="Solutions"
+        title={
+          <>
             AI-powered solutions that{" "}
             <span className="grad-text">do the work</span>
-          </h1>
-          <p>
-            Beyond building software, we solve business problems — pairing
-            senior engineering with AI and automation to remove manual work and
-            unlock new capabilities.
-          </p>
-        </div>
-      </section>
+          </>
+        }
+        lead="Beyond building software, we solve business problems — pairing senior engineering with AI and automation to remove manual work and unlock new capabilities."
+      />
 
       <section style={{ paddingTop: "clamp(24px,4vw,48px)" }}>
         <div className="container-wide container">

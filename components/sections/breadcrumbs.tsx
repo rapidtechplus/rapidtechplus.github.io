@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
+import { SITE_URL } from "@/config/site";
 
 export type Crumb = { label: string; href?: string };
 
@@ -10,7 +11,7 @@ export type Crumb = { label: string; href?: string };
  */
 export function Breadcrumbs({
   items,
-  baseUrl = "https://rapidtechplus.github.io",
+  baseUrl = SITE_URL,
 }: {
   items: Crumb[];
   baseUrl?: string;

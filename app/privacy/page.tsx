@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Breadcrumbs } from "@/components/sections/breadcrumbs";
+import { PageHero } from "@/components/sections/pieces";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
@@ -11,15 +11,12 @@ export const metadata: Metadata = {
 export default function PrivacyPage() {
   return (
     <>
-      <section className="page-hero">
-        <div className="container-content container">
-          <Breadcrumbs
-            items={[{ label: "Home", href: "/" }, { label: "Privacy Policy" }]}
-          />
-          <span className="eyebrow">Legal</span>
-          <h1>Privacy Policy</h1>
-        </div>
-      </section>
+      <PageHero
+        crumbs={[{ label: "Home", href: "/" }, { label: "Privacy Policy" }]}
+        eyebrow="Legal"
+        title="Privacy Policy"
+        container="container-content"
+      />
 
       <section style={{ paddingTop: 0 }}>
         <div className="prose container-content container">

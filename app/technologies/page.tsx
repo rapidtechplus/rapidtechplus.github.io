@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import { Breadcrumbs } from "@/components/sections/breadcrumbs";
 import { Reveal } from "@/components/reveal";
-import { CtaBanner } from "@/components/sections/pieces";
+import { PageHero, CtaBanner } from "@/components/sections/pieces";
 import { techGroups } from "@/content/site";
 
 export const metadata: Metadata = {
@@ -14,21 +13,16 @@ export const metadata: Metadata = {
 export default function TechnologiesPage() {
   return (
     <>
-      <section className="page-hero">
-        <div className="container">
-          <Breadcrumbs
-            items={[{ label: "Home", href: "/" }, { label: "Technologies" }]}
-          />
-          <span className="eyebrow">Technologies</span>
-          <h1>
+      <PageHero
+        crumbs={[{ label: "Home", href: "/" }, { label: "Technologies" }]}
+        eyebrow="Technologies"
+        title={
+          <>
             A modern, <span className="grad-text">proven stack</span>
-          </h1>
-          <p>
-            We choose reliable, well-supported tools that keep projects fast to
-            build, easy to maintain, and ready to scale.
-          </p>
-        </div>
-      </section>
+          </>
+        }
+        lead="We choose reliable, well-supported tools that keep projects fast to build, easy to maintain, and ready to scale."
+      />
 
       <section style={{ paddingTop: "clamp(24px,4vw,48px)" }}>
         <div className="container-wide container">

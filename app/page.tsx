@@ -8,6 +8,8 @@ import {
   SectionHead,
   IconCard,
   TimelineStep,
+  Quote,
+  FaqAccordion,
   CtaBanner,
   CtaActions,
 } from "@/components/sections/pieces";
@@ -333,16 +335,13 @@ export default function HomePage() {
           </SectionHead>
           <div className="quote-grid">
             {testimonials.map((t, i) => (
-              <Reveal className="quote" key={t.name + t.role} delay={i * 0.06}>
-                <span className="mark" aria-hidden>
-                  &ldquo;
-                </span>
-                <p>{t.quote}</p>
-                <div className="who">
-                  <div className="name">{t.name}</div>
-                  <div className="role">{t.role}</div>
-                </div>
-              </Reveal>
+              <Quote
+                key={t.name + t.role}
+                quote={t.quote}
+                name={t.name}
+                role={t.role}
+                delay={i * 0.06}
+              />
             ))}
           </div>
         </div>
@@ -403,16 +402,7 @@ export default function HomePage() {
           <SectionHead eyebrow="FAQ" title="Frequently asked questions">
             Answers to the questions we hear most from new clients.
           </SectionHead>
-          <div className="faq-list">
-            {faqs.map((f) => (
-              <Reveal className="faq-item" key={f.q}>
-                <details>
-                  <summary>{f.q}</summary>
-                  <div className="faq-body">{f.a}</div>
-                </details>
-              </Reveal>
-            ))}
-          </div>
+          <FaqAccordion items={faqs} />
         </div>
       </section>
 
