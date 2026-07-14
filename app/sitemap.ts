@@ -1,6 +1,9 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL, SITEMAP_CHANGE_FREQUENCY } from "@/config/site";
 import { serviceSlugs } from "@/content/services";
+import { hireSlugs } from "@/content/hire";
+import { industrySlugs } from "@/content/industries";
+import { solutionSlugs } from "@/content/solutions";
 
 export const dynamic = "force-static";
 
@@ -8,7 +11,11 @@ export const dynamic = "force-static";
 const staticRoutes = [
   "",
   "/about",
+  "/careers",
+  "/our-process",
+  "/open-source",
   "/services",
+  "/hire",
   "/solutions",
   "/products",
   "/case-studies",
@@ -28,6 +35,9 @@ const staticRoutes = [
  */
 const collectionRoutes = [
   ...serviceSlugs.map((slug) => `/services/${slug}`),
+  ...hireSlugs.map((slug) => `/hire/${slug}`),
+  ...industrySlugs.map((slug) => `/industries/${slug}`),
+  ...solutionSlugs.map((slug) => `/solutions/${slug}`),
 ];
 
 const routes = [...staticRoutes, ...collectionRoutes];

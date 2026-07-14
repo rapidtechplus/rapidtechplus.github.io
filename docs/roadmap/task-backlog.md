@@ -514,6 +514,32 @@ Owner-requested batch off a Company-menu screenshot.
       Company panel anchored under trigger with no overflow, Case Studies rail
       gone). Screenshot capture still times out in this pane
 
+## Phase 21 — Services taxonomy → 8 core offerings ✅
+
+Owner-requested: replace the tech-stack Services taxonomy (5 categories → ~23
+technology-specific pages like React/Node/AWS) with a flat set of **8 core
+service offerings**.
+
+- [x] Rewrote `content/services.ts` — 8 flat `ServiceRecord`s (AI Development,
+      Custom Software Development, SaaS Development, Web Development, Mobile
+      Development, UI/UX Design, Cloud & DevOps, QA & Testing), each with
+      intro/overview/3 capabilities and its own `/services/[slug]` page
+- [x] Services mega-menu converted from master–detail columns to a **flat
+      panel** (`servicesMenu`, mirrors the Industries pattern); retired
+      `serviceCategories` + `serviceMenuColumns`
+- [x] `relatedServices` now returns other offerings (taxonomy is flat, one
+      category "Services"); `serviceOfferings` derived from the collection so
+      the `/services` hub grid + nav stay aligned (cards now link to detail
+      pages)
+- [x] Footer Services column repointed to the real `/services/[slug]` routes
+- [x] Sitemap auto-derives the 8 new slugs (no edit needed); `app/services`
+      hub + `[slug]` detail route unchanged and working
+- [x] lint + typecheck + static **build (27 routes)** all green; verified in
+      browser — flat menu lists all 8 services + overview link, `/services/
+      ai-development` renders (breadcrumb, overview, 3 capabilities, 3 related,
+      CTA), zero console errors. Screenshots/Firefox/Safari/Lighthouse not
+      runnable in this pane (unchanged from prior phases)
+
 ## Audit checkpoint — 2026-07-14 📋
 
 Full project audit completed → [`docs/audit/project-audit-2026-07.md`](../audit/project-audit-2026-07.md).
@@ -553,9 +579,10 @@ few quick wins + a Careers page. Planning only — **no UI built until approved*
 
 ### Phase I+ — Careers (direct ACKPlus gap, folds into Phase I)
 
-- [ ] `/careers` — static job board (roles + dept/mode/type filters, culture,
-  values, how-to-apply via mailto) plus `/careers/[slug]` role detail. ACKPlus
-  has this; we don't. _Deps: A + job data. Priority: P1. Complexity: M._
+- [~] `/careers` — static careers page shipped (Phase 22): remote-first
+  benefits, representative open roles with dept/mode/type chips + per-role
+  mailto apply, and a "how to apply" intro. Filters and `/careers/[slug]` role
+  detail still to come. _Deps: A + live job data._
 
 ---
 
@@ -607,13 +634,14 @@ verified via DOM/computed-style metrics.
 
 **Newly discovered / carried tasks:**
 
-- [ ] Detail-page richness for later collections — hire/solution/industry/
-  product/case-study/blog records currently carry `summary`/`body` only; add
-  per-record detail bodies (capabilities, FAQs) when their `[slug]` phases land.
-- [ ] Once `/hire`, `/industries/[slug]`, `/solutions/[slug]`, etc. exist,
-  repoint their mega-menu links from the hubs to the real routes (the
-  collections already expose slugs) and extend `collectionRoutes` in
-  `app/sitemap.ts`.
+- [~] Detail-page richness for later collections — **hire done (Phase C)**;
+  solution/industry/product/case-study/blog records still carry `summary`/`body`
+  only; add per-record detail bodies (capabilities, FAQs) when their `[slug]`
+  phases land.
+- [~] Repoint mega-menu links from hubs to real routes as `[slug]` phases land —
+  **Hire Expert done (Phase C) + Industries done (Phase D): links +
+  `collectionRoutes` now resolve to `/hire/[slug]` and `/industries/[slug]`**;
+  `/solutions/[slug]`, `/products/[slug]`, etc. still pending their phases.
 
 ### Phase B — Service detail pages
 
@@ -622,22 +650,89 @@ verified via DOM/computed-style metrics.
   mega-link resolves to its own page; related services + CTA; metadata +
   Service/BreadcrumbList JSON-LD. Priority: P0. Complexity: L._
 
-### Phase C — Hire Expert landing + role pages
+### Phase C — Hire Expert landing + role pages ✅
 
-- [ ] `/hire` hub + `/hire/[slug]` for ~16 roles + Dedicated Teams. _Deps: A.
-  Accept: `Hire Expert` menu links resolve to role pages (not `/contact`); each
-  has engagement models + CTA. Priority: P1. Complexity: L._
+- [x] `/hire` hub + `/hire/[slug]` for all 29 roles across 8 disciplines. _Deps:
+  A._ Enriched `content/hire.ts` — each `HireRole` now carries `intro`,
+  `overview`, and role-specific `capabilities`; added shared `engagementModels`
+  + `hireFaqs`, and `hireSlugs` / `getHireRole` / `relatedRoles` / `hireGroups`
+  helpers. `/hire` hub (`app/hire/page.tsx`) = hero + 3 engagement models +
+  discipline-grouped role cards + CTA. `/hire/[slug]` reuses `DetailLayout`
+  (overview + capabilities + shared engagement FAQs + same-discipline related
+  grid + CTA) with `generateStaticParams` + `dynamicParams = false` and
+  Service/BreadcrumbList JSON-LD. Repointed the **Hire Expert** mega-menu (and
+  footer/sitemap "Hire an Expert") from `/contact` to the real `/hire/[slug]`
+  routes; `megaMenu` "Hire Expert" href → `/hire`. `app/sitemap.ts` derives the
+  role URLs from `hireSlugs`; `/hire` added to the human `/sitemap` page.
+- [x] lint + typecheck + clean static **build (57 routes, +30)** all green;
+  verified in browser — `/hire` hub (engagement models + all 8 discipline
+  groups, cards link to detail pages) and `/hire/react-developers` (breadcrumb,
+  overview + 3 capabilities, shared FAQ, related frontend roles, CTA) render;
+  zero console errors; no horizontal overflow at 375px. Screenshots/Firefox/
+  Safari/Lighthouse not runnable in this pane (unchanged from prior phases).
 
-### Phase D — Industry detail pages
+### Phase D — Industry detail pages ✅
 
-- [ ] `/industries/[slug]` for all 10 industries. _Deps: A. Accept: each
-  industry link resolves to its own page with sector challenges, relevant
-  services, related case studies. Priority: P0. Complexity: M._
+- [x] `/industries/[slug]` for all 10 industries. _Deps: A._ Enriched
+  `content/industries.ts` — `IndustrySector` now carries `intro`, `overview`,
+  and sector-specific `capabilities`; added shared `industryFaqs` and
+  `industrySlugs` / `getIndustry` / `relatedIndustries` helpers. New
+  `app/industries/[slug]/page.tsx` reuses `DetailLayout` (overview + 3
+  capabilities + shared FAQs + related-sector grid + dual CTA) with
+  `generateStaticParams` + `dynamicParams = false`, per-page metadata
+  (canonical + OG), and Service/BreadcrumbList JSON-LD (`areaServed` = sector).
+  Repointed the flat **Industries** mega-menu links from `/industries` to the
+  real `/industries/[slug]` routes. `/industries` hub now leads with a linked
+  10-sector grid (cards → detail pages) above the broader audience-segment grid.
+  `app/sitemap.ts` derives the sector URLs from `industrySlugs`.
+- [x] lint + typecheck + clean static **build (67 routes, +10)** all green;
+  verified in browser — `/industries/healthcare` and `/industries/fintech`
+  render (breadcrumb, overview + 3 capabilities, shared FAQ, 3 related sectors,
+  dual CTA); `/industries` hub links all 10 sector pages; zero console errors;
+  zero horizontal overflow at 375px and desktop. Screenshots/Firefox/Safari/
+  Lighthouse not runnable in this pane (unchanged from prior phases).
 
-### Phase E — Solution detail pages
+### Phase E — Solution detail pages ✅
 
-- [ ] `/solutions/[slug]` for ~6 solutions. _Deps: A. Accept: each Solutions
-  link resolves to its own page. Priority: P1. Complexity: M._
+- [x] `/solutions/[slug]` for all 21 solutions across the six categories. _Deps: A.
+  Accept: each Solutions link resolves to its own page. Priority: P1. Complexity: M._
+- [x] Enriched `content/solutions.ts` — each `SolutionRecord` gains `intro`,
+      `overview`, and a 3-card `capabilities` grid; added shared `solutionFaqs`
+      and `getSolution` / `solutionSlugs` / `relatedSolutions` (same-category-first)
+      helpers, mirroring the services/industries collection pattern.
+- [x] `solutionMenuColumns` and the `/solutions` hub cards now link to
+      `/solutions/[slug]` (previously resolved to the hub); sitemap adds the 21
+      solution routes via `solutionSlugs`.
+- [x] New `app/solutions/[slug]/page.tsx` reuses `DetailLayout` with Service
+      JSON-LD, breadcrumb, canonical/OG metadata — consistent with the services
+      and industries detail templates.
+- [x] lint + typecheck + clean static build all green (91 pages, 21 under
+      `/solutions/[slug]`); verified in browser — AI Agents detail renders hero,
+      overview, 3 capabilities, shared FAQ, category-first related grid, and CTA;
+      zero console errors. Screenshots/Firefox/Safari/Lighthouse not runnable in
+      this pane (unchanged from prior phases).
+
+### Phase 23 — Solutions taxonomy → 6 category mega menu ✅
+
+Owner-requested: stop listing dozens of solutions flat in the menu; organise the
+Solutions mega menu into six outcome-focused categories.
+
+- [x] Rewrote `content/solutions.ts` — 20 slug-keyed `SolutionRecord`s across six
+      categories (AI & Automation, Digital Transformation, Enterprise Solutions,
+      Cloud Solutions, Business Applications, Data & Analytics); each with icon,
+      one-line `summary` (menu) + longer `body` (hub card)
+- [x] `solutionMenuColumns` now derives one column per category, so the Solutions
+      mega menu renders as a master–detail rail (6 categories → their solutions);
+      links resolve to the `/solutions` hub until Phase E ships detail pages
+- [x] `/solutions` hub grid now shows all 20 solutions in taxonomy order (fuller
+      catalogue behind the menu); footer Solutions column repointed to the six
+      category labels
+- [x] lint + typecheck + clean static build all green; verified in browser —
+      Solutions rail shows the 6 categories in order, each panel lists the correct
+      solutions (AI & Automation 9, Digital Transformation 3, Enterprise 2, Cloud
+      2, Business Apps 3, Data & Analytics 2), hub renders 20 cards, zero
+      horizontal overflow, zero console errors. Screenshots/Firefox/Safari/
+      Lighthouse not runnable in this pane (unchanged from prior phases)
 
 ### Phase F — Product detail pages
 
@@ -661,9 +756,33 @@ verified via DOM/computed-style metrics.
 
 ### Phase I — Company pages
 
-- [ ] `/about/story`, `/about/leadership`, `/about/culture`, `/careers`
-  (retire `soon`). _Deps: A + copy. Accept: Company menu items resolve to real
-  pages. Priority: P2. Complexity: M._
+- [~] `/careers` shipped (Phase 22) and the `soon` flag retired from the Company
+  menu. `/about/story`, `/about/leadership`, `/about/culture` still to come.
+  _Deps: A + copy. Accept: Company menu items resolve to real pages. Priority:
+  P2. Complexity: M._
+
+### Phase 22 — Company nav restructure + new pages ✅
+
+Owner-requested: restructure the Company mega-menu to About · Careers · Contact ·
+Our Process · Open Source, and build the missing pages (they had pointed at
+`/about`).
+
+- [x] Company menu (`content/site.ts`) restructured to the 5 requested items;
+      `soon` flags dropped; Technologies/Culture removed from this menu
+- [x] New `/careers` — remote-first benefits, 4 representative roles (dept/mode/
+      type chips + per-role mailto apply to the HR inbox), how-to-apply intro
+- [x] New `/our-process` — five-stage `tailoredProcess` timeline (`timeline-5`),
+      four operating principles, working-with-us FAQ, CTA
+- [x] New `/open-source` — engagement principles, investment categories, GitHub
+      org link, collaborate CTA
+- [x] Added `book-open` to the icon registry (`components/icon.tsx`)
+- [x] Footer Company column + human `/sitemap` groups + machine `app/sitemap.ts`
+      wired to the three new routes
+- [x] lint + typecheck + clean static **build (70 routes, +3)** all green;
+      verified in browser — all three pages render, Company mega-menu +
+      descriptions and footer resolve to the new routes, zero console errors.
+      Screenshots/Firefox/Safari/Lighthouse not runnable in this pane (unchanged
+      from prior phases)
 
 ### Phase J — Resources
 

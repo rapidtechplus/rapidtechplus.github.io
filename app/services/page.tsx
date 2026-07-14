@@ -38,6 +38,7 @@ export default function ServicesPage() {
                 icon={s.icon}
                 title={s.title}
                 body={s.body}
+                href={s.href}
               />
             ))}
           </div>

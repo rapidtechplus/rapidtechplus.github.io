@@ -9,7 +9,7 @@
 
 import { CONTACT_HREF, SITE_URL } from "@/config/site";
 import type { MegaItem, NavLink } from "@/content/types";
-import { serviceMenuColumns } from "@/content/services";
+import { servicesMenu } from "@/content/services";
 import { hireMenuColumns } from "@/content/hire";
 import { solutionMenuColumns } from "@/content/solutions";
 import { industriesMenu } from "@/content/industries";
@@ -68,11 +68,10 @@ const companyMenu: MegaItem = {
   compact: true,
   links: [
     { label: "About", href: "/about", icon: "building-2", desc: "Who we are and how we work" },
-    { label: "Our Process", href: "/about", icon: "workflow", desc: "Discover, design, build, launch" },
-    { label: "Technologies", href: "/technologies", icon: "cpu", desc: "The stack we build on" },
+    { label: "Careers", href: "/careers", icon: "star", desc: "Build your career with us" },
     { label: "Contact", href: CONTACT_HREF, icon: "mail", desc: "Start a conversation" },
-    { label: "Careers", href: "/about", icon: "star", soon: true },
-    { label: "Culture", href: "/about", icon: "heart", soon: true },
+    { label: "Our Process", href: "/our-process", icon: "workflow", desc: "Discover, design, build, launch" },
+    { label: "Open Source", href: "/open-source", icon: "code-xml", desc: "How we give back to the community" },
   ],
 };
 
@@ -82,11 +81,11 @@ const companyMenu: MegaItem = {
  * one source of truth shared by the nav and the pages.
  */
 export const megaMenu: MegaItem[] = [
-  { label: "Services", href: "/services", columns: serviceMenuColumns },
+  servicesMenu,
   {
     label: "Hire Expert",
-    href: CONTACT_HREF,
-    overview: "Talk to us about hiring",
+    href: "/hire",
+    overview: "Explore all roles",
     columns: hireMenuColumns,
   },
   { label: "Solutions", href: "/solutions", columns: solutionMenuColumns },
@@ -100,21 +99,21 @@ export const footerColumns: { title: string; links: NavLink[] }[] = [
   {
     title: "Services",
     links: [
-      { label: "Custom Web Applications", href: "/services" },
-      { label: "SaaS Product Development", href: "/services" },
-      { label: "Frontend Engineering", href: "/services" },
-      { label: "Backend Engineering", href: "/services" },
-      { label: "Software Modernization", href: "/services" },
+      { label: "AI Development", href: "/services/ai-development" },
+      { label: "Custom Software Development", href: "/services/custom-software-development" },
+      { label: "SaaS Development", href: "/services/saas-development" },
+      { label: "Web Development", href: "/services/web-development" },
+      { label: "Mobile Development", href: "/services/mobile-development" },
     ],
   },
   {
     title: "Solutions",
     links: [
-      { label: "AI Agents", href: "/solutions" },
-      { label: "Workflow Automation", href: "/solutions" },
+      { label: "AI Solutions", href: "/solutions" },
+      { label: "Digital Transformation", href: "/solutions" },
+      { label: "Enterprise Solutions", href: "/solutions" },
       { label: "Cloud Solutions", href: "/solutions" },
-      { label: "Data & Integrations", href: "/solutions" },
-      { label: "Hire an Expert", href: CONTACT_HREF },
+      { label: "Data & Analytics", href: "/solutions" },
     ],
   },
   {
@@ -131,10 +130,10 @@ export const footerColumns: { title: string; links: NavLink[] }[] = [
     title: "Company",
     links: [
       { label: "About", href: "/about" },
-      { label: "Case Studies", href: "/case-studies" },
-      { label: "Technologies", href: "/technologies" },
+      { label: "Careers", href: "/careers" },
+      { label: "Our Process", href: "/our-process" },
+      { label: "Open Source", href: "/open-source" },
       { label: "Contact", href: CONTACT_HREF },
-      { label: "Careers", href: "/about", soon: true },
     ],
   },
   {
@@ -165,10 +164,13 @@ export const legalLinks: NavLink[] = [
  */
 export const sitemapGroups: { title: string; links: NavLink[] }[] = [
   {
-    title: "Main",
+    title: "Company",
     links: [
       { label: "Home", href: "/" },
       { label: "About", href: "/about" },
+      { label: "Careers", href: "/careers" },
+      { label: "Our Process", href: "/our-process" },
+      { label: "Open Source", href: "/open-source" },
       { label: "Contact", href: CONTACT_HREF },
     ],
   },
@@ -177,6 +179,7 @@ export const sitemapGroups: { title: string; links: NavLink[] }[] = [
     links: [
       { label: "Services", href: "/services" },
       { label: "Solutions", href: "/solutions" },
+      { label: "Hire an Expert", href: "/hire" },
       { label: "Products", href: "/products" },
       { label: "Industries", href: "/industries" },
       { label: "Technologies", href: "/technologies" },
@@ -534,5 +537,147 @@ export const tailoredProcess = [
     icon: "05",
     title: "Launch & Support",
     body: "We deploy, monitor, and keep improving — an accountable partner well beyond go-live.",
+  },
+];
+
+/**
+ * "Our Process" page — the operating principles that sit behind the five-stage
+ * `tailoredProcess` timeline. Reused by `/our-process`.
+ */
+export const processPrinciples = [
+  {
+    icon: "eye",
+    title: "Transparent by default",
+    body: "Clear estimates, reviewable milestones, and open communication — you always know where things stand.",
+  },
+  {
+    icon: "refresh-cw",
+    title: "Iterative, not big-bang",
+    body: "We ship in small, working increments so you can see progress and steer early, instead of waiting for a reveal.",
+  },
+  {
+    icon: "shield-check",
+    title: "Quality built in",
+    body: "Testing, accessibility, and security are part of every sprint — not a phase we bolt on at the end.",
+  },
+  {
+    icon: "handshake",
+    title: "Outcomes over output",
+    body: "We measure success by the results you get, and stay accountable well beyond go-live.",
+  },
+];
+
+export const processFaqs = [
+  {
+    q: "How long does a typical engagement take?",
+    a: "It depends on scope, but most first releases land in weeks, not quarters. We start with a short discovery to size the work and agree on clear milestones before building.",
+  },
+  {
+    q: "How do you keep us involved during development?",
+    a: "You get reviewable increments, regular check-ins, and transparent progress. We work in short cycles so you can give feedback early and often.",
+  },
+  {
+    q: "What happens after launch?",
+    a: "We deploy, monitor, and keep improving. Support and iteration are part of how we work — we stay an accountable partner beyond go-live.",
+  },
+];
+
+/**
+ * Careers page content. Roles are representative of the disciplines we
+ * regularly hire for; applications go to the careers inbox via mailto. Update
+ * with live openings before launch.
+ */
+export const careerBenefits = [
+  {
+    icon: "globe",
+    title: "Remote-first",
+    body: "Work from anywhere. We collaborate asynchronously and value output over hours at a desk.",
+  },
+  {
+    icon: "sparkles",
+    title: "Work on modern problems",
+    body: "AI-native products, real engineering challenges, and a stack you'll be glad to work in.",
+  },
+  {
+    icon: "zap",
+    title: "Real ownership",
+    body: "Small, senior teams mean your work ships and matters — no busywork, no bottlenecks.",
+  },
+  {
+    icon: "gem",
+    title: "Craft over churn",
+    body: "We care about clean code and thoughtful design, and we give you the room to do it well.",
+  },
+];
+
+export const careerRoles = [
+  {
+    title: "Senior Full-Stack Engineer",
+    dept: "Engineering",
+    mode: "Remote",
+    type: "Full-time",
+    body: "Build products end to end with TypeScript, React, Next.js, and Node — from data model to polished UI.",
+  },
+  {
+    title: "AI / ML Engineer",
+    dept: "Engineering",
+    mode: "Remote",
+    type: "Full-time",
+    body: "Design agents, RAG pipelines, and LLM integrations that put real AI capability into production.",
+  },
+  {
+    title: "Product Designer (UI/UX)",
+    dept: "Design",
+    mode: "Remote",
+    type: "Full-time",
+    body: "Shape accessible, premium interfaces and turn complex problems into clear, usable products.",
+  },
+  {
+    title: "DevOps / Cloud Engineer",
+    dept: "Engineering",
+    mode: "Remote",
+    type: "Contract",
+    body: "Own CI/CD, infrastructure, and reliability across AWS, Docker, and modern cloud tooling.",
+  },
+];
+
+/**
+ * Open Source page content. We contribute to and maintain projects across the
+ * stack we build on; explore the org for the live list. Categories below are
+ * illustrative of where we invest, not a fixed catalogue.
+ */
+export const openSourcePrinciples = [
+  {
+    icon: "code-xml",
+    title: "Build in the open",
+    body: "Where it helps the wider community, we open-source the tooling and libraries we rely on internally.",
+  },
+  {
+    icon: "handshake",
+    title: "Contribute upstream",
+    body: "We report issues, send fixes, and improve the frameworks and libraries our work is built on.",
+  },
+  {
+    icon: "book-open",
+    title: "Share what we learn",
+    body: "Starters, examples, and write-ups that help other teams build faster and better.",
+  },
+];
+
+export const openSourceProjects = [
+  {
+    icon: "layout-dashboard",
+    title: "Starters & templates",
+    body: "Production-ready Next.js and TypeScript starters wired for static export, accessibility, and modern tooling.",
+  },
+  {
+    icon: "plug-zap",
+    title: "Integrations & utilities",
+    body: "Small, focused libraries for the APIs, AI tooling, and cloud services we integrate every day.",
+  },
+  {
+    icon: "bot",
+    title: "AI building blocks",
+    body: "Examples and helpers for agents, RAG, and MCP that make LLM features easier to ship safely.",
   },
 ];
