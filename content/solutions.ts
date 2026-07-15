@@ -599,13 +599,24 @@ export const solutionRecords: SolutionRecord[] = [
 ];
 
 /**
+ * The AI category's menu links, sourced from the canonical `/ai` collection so
+ * each capability keeps exactly one home on the site.
+ */
+const aiCategoryLinks: NavLink[] = aiCapabilities.map((c) => ({
+  label: c.label,
+  href: `/ai/${c.slug}`,
+  icon: c.icon,
+  desc: c.summary,
+}));
+
+/**
  * Ordered mega-menu categories for the Solutions panel, each with the icon and
  * featured-panel copy the showcase menu renders. AI leads deliberately — it is
  * the studio's differentiator, so it is the first thing the menu says.
  *
- * `records` is the collection filter for the category's cards. The AI category
- * has none: its cards come from `/ai` instead (see `aiCategoryLinks`), because
- * those capabilities are owned by `content/ai.ts`.
+ * A category's cards come from `solutionRecords` whose `category` matches its
+ * `title`, unless it sets `links` explicitly. The AI category does: its
+ * capabilities are owned by `content/ai.ts` and live at `/ai`.
  *
  * To add a category: append an entry here. The rail, cards, and featured panel
  * all derive from it — no component changes needed.
@@ -615,13 +626,16 @@ const solutionCategoryMeta: {
   icon: string;
   blurb: string;
   href: string;
+  /** Supplies the column's links directly, for categories not backed by `solutionRecords`. */
+  links?: NavLink[];
 }[] = [
   {
-    title: "AI & Intelligent Solutions",
+    title: "AI & Automation",
     icon: "brain-circuit",
     blurb:
       "Build intelligent products on generative AI, autonomous agents, and RAG architectures — engineered for production, not demos.",
     href: "/ai",
+    links: aiCategoryLinks,
   },
   {
     title: "Enterprise Solutions",
@@ -678,17 +692,6 @@ const solutionCategoryMeta: {
 export const solutionCategories = solutionCategoryMeta.map((c) => c.title);
 
 /**
- * The AI category's menu links, sourced from the canonical `/ai` collection so
- * each capability keeps exactly one home on the site.
- */
-const aiCategoryLinks: NavLink[] = aiCapabilities.map((c) => ({
-  label: c.label,
-  href: `/ai/${c.slug}`,
-  icon: c.icon,
-  desc: c.summary,
-}));
-
-/**
  * Solutions mega-menu columns, derived from the taxonomy — one column per
  * category, carrying its rail icon and featured-panel copy. Solution links
  * resolve to `/solutions/[slug]`; AI links resolve to `/ai/[slug]`.
@@ -700,16 +703,15 @@ export const solutionMenuColumns: MegaColumn[] = solutionCategoryMeta.map(
     blurb: category.blurb,
     href: category.href,
     links:
-      category.title === "AI & Intelligent Solutions"
-        ? aiCategoryLinks
-        : solutionRecords
-            .filter((s) => s.category === category.title)
-            .map((s) => ({
-              label: s.label,
-              href: `/solutions/${s.slug}`,
-              icon: s.icon,
-              desc: s.summary,
-            })),
+      category.links ??
+      solutionRecords
+        .filter((s) => s.category === category.title)
+        .map((s) => ({
+          label: s.label,
+          href: `/solutions/${s.slug}`,
+          icon: s.icon,
+          desc: s.summary,
+        })),
   }),
 );
 

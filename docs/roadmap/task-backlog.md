@@ -784,7 +784,7 @@ techalmas.com studied for menu *organisation* only — no layout, branding,
 icons, colours, imagery, or wording taken; the design and copy are original.
 
 - [x] **Taxonomy → 8 categories** (`content/solutions.ts`), AI-first per the
-      brief: AI & Intelligent Solutions, Enterprise, Business Automation, Cloud,
+      brief: AI & Automation, Enterprise, Business Automation, Cloud,
       Data & Analytics, Startup, Commerce, Digital Transformation. New
       `solutionCategoryMeta` drives rail icon + featured blurb + CTA target;
       adding a category is a single append, no component change (scalability
