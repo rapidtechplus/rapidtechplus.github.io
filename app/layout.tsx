@@ -5,6 +5,7 @@ import { Nav } from "@/components/layout/nav";
 import { Footer } from "@/components/layout/footer";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Background } from "@/components/background";
+import { PointerSheen } from "@/components/pointer-sheen";
 import { site } from "@/content/site";
 
 const inter = Inter({
@@ -102,6 +103,7 @@ export default function RootLayout({
       <body>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Background />
+          <PointerSheen />
           <Nav />
           <main>{children}</main>
           <Footer />

@@ -13,10 +13,18 @@ import { useReducedMotion } from "motion/react";
 export function TextReveal({
   text,
   className,
+  accent,
   step = 0.045,
 }: {
   text: string;
   className?: string;
+  /**
+   * A single word within `text` to render with the moving-gradient sheen. It is
+   * nested inside the word span rather than applied to it: `.grad-text` and
+   * `.tr-word` both set `animation`, so on one element the rise and the sheen
+   * would clobber each other.
+   */
+  accent?: string;
   /** Seconds of delay added per successive word. */
   step?: number;
 }) {
@@ -57,7 +65,11 @@ export function TextReveal({
           className="tr-word"
           style={{ "--tr-delay": `${i * step}s` } as React.CSSProperties}
         >
-          {word}
+          {accent && word === accent ? (
+            <span className="grad-text">{word}</span>
+          ) : (
+            word
+          )}
           {i < words.length - 1 ? " " : ""}
         </span>
       ))}

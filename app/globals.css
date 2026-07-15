@@ -86,6 +86,12 @@
   --nav-h: 74px;
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Expo-out: near-instant response, long luxurious settle. For elements that
+     arrive (menus, panels) — reads as "premium" where --ease reads as "brisk". */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  /* Exits should get out of the way, not perform. Paired with a shorter
+     duration so dismissal never feels like waiting. */
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
 
   /* =========================================================
      DARK THEME (default) — deep indigo ink, luminous iris
@@ -579,6 +585,12 @@ section {
 .nav-cta-desktop {
   display: inline-flex;
 }
+/* The magnetic wrapper around the desktop CTA must share its breakpoint
+   visibility. Hiding only the inner link would leave a zero-width flex child in
+   `.nav-right`, doubling its gap on mobile. */
+.nav-cta-magnet {
+  display: inline-flex;
+}
 .theme-toggle {
   flex: none;
   display: grid;
@@ -706,15 +718,21 @@ section {
   position: fixed;
   top: calc(var(--nav-h) + 10px);
   left: 50%;
-  transform: translate(-50%, 6px);
+  transform: translate(-50%, 10px) scale(0.985);
   width: 1020px;
   max-width: min(94vw, 1040px);
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
+  transform-origin: top center;
+  /* Closed state = the exit transition. `visibility` is delayed by the full
+     exit duration; without that it flips to `hidden` on frame 1 and the fade-out
+     is never seen at all (it cannot be a plain fade-in-only property, or the
+     panel would stay in the a11y tree and keep catching the pointer). */
   transition:
-    opacity 0.18s var(--ease),
-    transform 0.18s var(--ease);
+    opacity 0.14s var(--ease-exit),
+    transform 0.16s var(--ease-exit),
+    visibility 0s linear 0.16s;
   z-index: 60;
 }
 /* Hover bridge so the panel doesn't close in the gap between the trigger and
@@ -728,12 +746,18 @@ section {
   right: -60px;
   height: 20px;
 }
+/* Open state = the entry transition. Asymmetric by design: the panel takes its
+   time arriving (expo settle) and leaves quickly. */
 .nav-item:hover .mega,
 .nav-item:focus-within .mega {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
-  transform: translate(-50%, 0);
+  transform: translate(-50%, 0) scale(1);
+  transition:
+    opacity 0.22s var(--ease-out-expo),
+    transform 0.34s var(--ease-out-expo),
+    visibility 0s;
 }
 
 /* Anchored panels (compact menus) open directly under their own trigger,
@@ -748,13 +772,62 @@ section {
     top: calc(100% + 12px);
     left: auto;
     right: 0;
-    transform: translateY(6px);
+    /* Scales out of its own top-right corner (under the trigger) rather than
+       the viewport centre, so the panel appears to unfold from the item. */
+    transform-origin: top right;
+    transform: translateY(10px) scale(0.985);
   }
   .nav-item.mm-anchored:hover .mega,
   .nav-item.mm-anchored:focus-within .mega {
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
+/* Staggered card entry — links rise in behind the panel instead of arriving as
+   one solid block. Scoped to the open state on purpose: the panel is
+   visibility-hidden rather than display:none, so an unscoped animation would
+   play once at page load and never again. `backwards` holds the pre-animation
+   state through the delay. Desktop only — on mobile these are accordion
+   sections, not a panel that opens. */
+@media (min-width: 1025px) {
+  .nav-item:hover .mega-link,
+  .nav-item:focus-within .mega-link {
+    animation: mmLinkIn 0.3s var(--ease-out-expo) backwards;
+    animation-delay: var(--mm-stagger, 0.3s);
+  }
+  /* Panels run from 2 to ~9 links; 8 steps of 38ms covers the common case and
+     anything past it joins the tail rather than jumping the queue. */
+  .mega-link:nth-child(1) {
+    --mm-stagger: 0.03s;
+  }
+  .mega-link:nth-child(2) {
+    --mm-stagger: 0.068s;
+  }
+  .mega-link:nth-child(3) {
+    --mm-stagger: 0.106s;
+  }
+  .mega-link:nth-child(4) {
+    --mm-stagger: 0.144s;
+  }
+  .mega-link:nth-child(5) {
+    --mm-stagger: 0.182s;
+  }
+  .mega-link:nth-child(6) {
+    --mm-stagger: 0.22s;
+  }
+  .mega-link:nth-child(7) {
+    --mm-stagger: 0.258s;
+  }
+  .mega-link:nth-child(8) {
+    --mm-stagger: 0.296s;
+  }
+}
+@keyframes mmLinkIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
 .mega-inner {
   display: grid;
   grid-template-columns: 250px 1fr;
@@ -2890,6 +2963,35 @@ section {
   -webkit-mask-image: radial-gradient(70% 90% at 50% 0%, #000, transparent 70%);
   pointer-events: none;
 }
+/* Travelling accent seam — a light crosses the banner's top edge on a slow
+   loop, so the site's loudest conversion surface reads as live rather than
+   printed. A 1px decorative overlay: it sits on the border line and never
+   touches the text, so it cannot affect CTA contrast. */
+.cta-banner::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--accent) 45%,
+    var(--accent-2) 55%,
+    transparent
+  );
+  background-size: 55% 100%;
+  background-repeat: no-repeat;
+  animation: seam-travel 7s var(--ease) infinite;
+  pointer-events: none;
+}
+@keyframes seam-travel {
+  0% {
+    background-position: -60% 0;
+  }
+  100% {
+    background-position: 160% 0;
+  }
+}
 .cta-banner > * {
   position: relative;
 }
@@ -3384,7 +3486,8 @@ a.contact-method:hover .cm-value {
 .foot-news-row input:focus {
   border-color: var(--footer-accent);
   background: rgba(255, 255, 255, 0.06);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--footer-accent) 22%, transparent);
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--footer-accent) 22%, transparent);
 }
 .foot-news-row .btn {
   flex: none;
@@ -3700,7 +3803,8 @@ a.contact-method:hover .cm-value {
     margin: 8px 0 0;
     text-align: center;
   }
-  .nav-cta-desktop {
+  .nav-cta-desktop,
+  .nav-cta-magnet {
     display: none;
   }
   .nav-toggle {
@@ -3938,8 +4042,27 @@ a.contact-method:hover .cm-value {
   .mega {
     transition: none;
   }
+  /* The panel must still leave the a11y tree / stop catching the pointer when
+     closed, so `visibility` keeps working — only the travel and fade go. */
+  .mega,
+  .nav-item:hover .mega,
+  .nav-item:focus-within .mega,
+  .nav-item.mm-anchored .mega,
+  .nav-item.mm-anchored:hover .mega,
+  .nav-item.mm-anchored:focus-within .mega {
+    transform: translate(-50%, 0);
+    transition: none;
+  }
+  .nav-item.mm-anchored .mega,
+  .nav-item.mm-anchored:hover .mega,
+  .nav-item.mm-anchored:focus-within .mega {
+    transform: none;
+  }
   .mm-panel.is-active,
-  .mm-feature {
+  .mm-feature,
+  .nav-item:hover .mega-link,
+  .nav-item:focus-within .mega-link,
+  .cta-banner::after {
     animation: none;
   }
 }

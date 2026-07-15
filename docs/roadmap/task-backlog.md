@@ -1085,6 +1085,112 @@ template.
 - [ ] Design review on real devices + Lighthouse (not runnable in this
       environment) — call out as with prior phases
 
+### Phase 28 — Premium motion pass (Priority 12) ✅
+
+Owner-requested (Priority 12 — Animations): "current animations are okay, make
+them feel premium." Ideas raised: aurora, AI network, mouse interaction,
+magnetic buttons, number counters, text reveal, smooth mega menus, gradient
+movement.
+
+**Audit first — five of the eight already shipped** (Phase 6.5 + the `motion
+primitives` commit `b470ec4`): aurora (`components/background.tsx`, 3 drifting
+blobs), AI network (the hero console's graph pane), number counters
+(`components/counter.tsx`), text reveal (`components/text-reveal.tsx`), magnetic
+buttons (`components/magnetic.tsx`), and gradient movement (`.grad-text` sheen).
+So this phase is **not** "add eight effects" — it is: fix the one that is
+silently dead, upgrade the two the owner named as weak, and apply the ones that
+exist to the moments that earn them.
+
+- [x] **Card cursor spotlight revived** — `.card::before` drew a
+      `radial-gradient(… at var(--mx, 50%) var(--my, 0%) …)` but **nothing ever
+      wrote those variables**, so every card on the site fell back to a sheen
+      pinned to top-centre. New `components/pointer-sheen.tsx` (`PointerSheen`,
+      mounted once in `app/layout.tsx`) drives them from a single delegated,
+      passive `pointermove` listener on `document`, rAF-throttled. Delegation
+      over a wrapper component on purpose: cards are plain server-rendered markup
+      site-wide and a decoration must not force them into a client boundary. The
+      vars are only read while a card is hovered, so a stale value left on leave
+      is invisible and needs no reset.
+- [x] **Smooth mega menus** — replaced the symmetric `0.18s` fade with an
+      asymmetric open/close: entry `opacity 0.22s` + `transform 0.34s` on a new
+      `--ease-out-expo` with a `0.985 → 1` scale settle; exit `0.14s/0.16s` on a
+      new `--ease-exit`, with `visibility` **delayed the full exit duration** so
+      the fade-out is actually seen (it previously flipped to `hidden` on frame
+      1). Anchored (compact) panels scale from `top right` so they unfold from
+      their own trigger. Added a staggered `mmLinkIn` card entry (38ms steps,
+      `backwards` fill) scoped to the open state — unscoped it would play once at
+      page load and never again, since panels are `visibility`-hidden rather than
+      `display: none`.
+- [x] **Gradient movement beyond `.grad-text`** — a 7s travelling accent seam
+      (`seam-travel`) across the CTA banner's top edge. A 1px decorative overlay
+      that sits on the border line and never touches the text, so it cannot
+      affect CTA contrast.
+- [x] **Applied the existing primitives where they earn their keep** — the nav
+      "Get A Quote" CTA is now `Magnetic`-wrapped (was plain, and it is the
+      most-clicked button on the site); the hero `h1` now uses `TextReveal`, with
+      a new `accent` prop that nests `.grad-text` **inside** the word span rather
+      than on it (both set `animation`, so on one element the rise and the sheen
+      clobber each other).
+- [x] Reduced-motion rules for every new animation, verified present in the
+      **shipped** CSSOM (not just source): the seam, the `mega-link` stagger, the
+      mega open/close transitions, `.tr-word`, `.magnetic`, and `.mm-co-dot` are
+      all neutralised, while `visibility` is deliberately **not** forced visible
+      so the panel still leaves the a11y tree and stops catching the pointer.
+      `PointerSheen` additionally opts out on `prefers-reduced-motion` and on
+      `(pointer: coarse)`, where there is no cursor to track.
+
+**Fixed along the way (found by verification):**
+
+- **`.next-verify/` was never gitignored** — the separate build dir used to dodge
+  the documented `.next`/dev-server collision left ~3,400 lint problems (13
+  errors) on its own minified output. Added to `.gitignore` and the stale dir
+  removed; `npm run lint` is now clean. Root cause of a lint signal that would
+  have re-appeared after every verification build.
+- **Magnetic wrapper needed the CTA's breakpoint visibility** — `.nav-cta-magnet`
+  now shares `display: none` with `.nav-cta-desktop` at ≤1024px. Hiding only the
+  inner link would have left a zero-width flex child in `.nav-right`, doubling
+  its gap on mobile.
+
+**Design review** — lint + typecheck + clean static build all green. Verified
+in-browser against the static export (`out/`, port 3200) via DOM/computed-style
+and CSSOM metrics:
+
+- **Pointer sheen**: before a pointer move `--mx`/`--my` are unset (gradient
+  resolves to the `50% 0%` top-centre fallback — the exact reported bug); after a
+  move at 25%/75% of a card the vars read `25.0%`/`75.0%` and the computed
+  `::before` gradient is `radial-gradient(240px at 25% 75%, …)`. Live.
+- **Mega menus**: `getAnimations()` on the exit reports the intended asymmetry —
+  `opacity 140ms` / `transform 160ms` on `cubic-bezier(0.4, 0, 1, 1)`, with
+  `visibility` at `delay: 160ms`, so the fade-out is now seen. Open settles to
+  `opacity 1` / `scale(1)`, panel in-bounds (233→1033 at 1280), links settle to
+  `opacity 1`, stagger fires at 0.03/0.068/0.106/0.144/0.182s with `backwards`
+  fill.
+- **Hero + CTA**: `h1` renders 7 `.tr-word` spans with `.grad-text` on "ahead";
+  nav CTA is inside `.nav-cta-magnet`; seam is `seam-travel 7s` at `height: 1px`.
+- Both themes resolve (dark `#0a0a13`/`#8a8fff`, light `#fbfbfd`/`#4f46e5`).
+  Mobile 390: CTA + magnet both `display: none`, **zero** content-level
+  horizontal overflow.
+- The company mega scroller's slides extend past the viewport by design and are
+  clipped by their track (`overflow-x: auto`, in-bounds 513→1047, `scrollWidth`
+  1626 vs `clientWidth` 542) — not a page overflow.
+
+**Not verified / known:**
+
+- [ ] Pre-existing overflow at 1265 traced to `.nav-links` (1295) plus the
+      decorative aurora/bg-grid layers — **no Phase 28 element overflows**.
+      Already logged in **Phase Q** (nav 1024–1440, P2); left there rather than
+      folded in.
+- [ ] `prefers-reduced-motion` could not be **emulated** in this pane (unchanged
+      from Phase 26) — the rules were verified by reading the shipped CSSOM, and
+      `PointerSheen`'s JS opt-out by inspection, but not by observing the reduced
+      state.
+- [ ] This pane starves `requestAnimationFrame` (first callback landed at 934ms),
+      so frame-sampled animation values are unreliable here and read as their
+      settled state. Timing was verified with `getAnimations()` / transition
+      events instead — worth reusing in future motion phases.
+- [ ] Screenshots, Firefox/Safari, and Lighthouse not runnable in this
+      environment (unchanged from prior phases).
+
 ### Phase F — Product detail pages
 
 - [ ] Model named products (Planix, Rocket Intelligence Engine, WhatsApp
