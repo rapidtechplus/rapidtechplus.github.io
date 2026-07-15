@@ -4,11 +4,15 @@ import { Reveal } from "@/components/reveal";
 import { PageHero } from "@/components/sections/pieces";
 import { ContactForm } from "@/components/contact-form";
 import { site } from "@/content/site";
+import { JsonLd } from "@/components/seo/json-ld";
+import { webPageJsonLd } from "@/lib/structured-data";
+
+const description =
+  "Get in touch with Rapid Tech Plus. Email, call, or send us a message to discuss your software project, product idea, or engineering needs.";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description:
-    "Get in touch with Rapid Tech Plus. Email, call, or send us a message to discuss your software project, product idea, or engineering needs.",
+  description,
   alternates: { canonical: "/contact" },
 };
 
@@ -57,6 +61,15 @@ const methods: Method[] = [
 export default function ContactPage() {
   return (
     <>
+      <JsonLd
+        data={webPageJsonLd({
+          type: "ContactPage",
+          name: "Contact",
+          description,
+          path: "/contact",
+        })}
+      />
+
       <PageHero
         crumbs={[{ label: "Home", href: "/" }, { label: "Contact" }]}
         eyebrow="Contact"
@@ -77,9 +90,9 @@ export default function ContactPage() {
               <span className="eyebrow">Ways to reach us</span>
               <h2 className="contact-info-title">Start a conversation</h2>
               <p className="contact-info-lead">
-                Pick whichever channel suits you. Prefer to write? The form sends
-                straight to our inbox. However you reach out, we typically reply
-                within one business day.
+                Pick whichever channel suits you. Prefer to write? The form
+                sends straight to our inbox. However you reach out, we typically
+                reply within one business day.
               </p>
 
               <div className="contact-methods">

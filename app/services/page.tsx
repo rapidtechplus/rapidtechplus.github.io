@@ -6,17 +6,29 @@ import {
   CtaBanner,
 } from "@/components/sections/pieces";
 import { serviceOfferings, process } from "@/content/services";
+import { JsonLd } from "@/components/seo/json-ld";
+import { collectionPageJsonLd, toListItems } from "@/lib/structured-data";
+
+const description =
+  "Custom web applications, SaaS development, UI/UX implementation, frontend and backend engineering, API integration, software modernization, and business automation.";
 
 export const metadata: Metadata = {
   title: "Services",
-  description:
-    "Custom web applications, SaaS development, UI/UX implementation, frontend and backend engineering, API integration, software modernization, and business automation.",
+  description,
   alternates: { canonical: "/services" },
 };
 
 export default function ServicesPage() {
   return (
     <>
+      <JsonLd
+        data={collectionPageJsonLd({
+          name: "Services",
+          description,
+          path: "/services",
+          items: toListItems(serviceOfferings),
+        })}
+      />
       <PageHero
         crumbs={[{ label: "Home", href: "/" }, { label: "Services" }]}
         eyebrow="Services"

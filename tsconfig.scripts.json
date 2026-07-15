@@ -1,0 +1,14 @@
+{
+  // Next compiles the app with `jsx: "preserve"` and supplies the runtime itself.
+  // Standalone scripts have no such step, so they need a real JSX transform.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "noEmit": true
+  },
+  // Must cover everything the scripts pull in (the shared OG template lives in
+  // lib/), or those files fall back to the app's `preserve` transform.
+  "include": ["scripts/**/*", "lib/**/*", "config/**/*", "content/**/*"]
+}

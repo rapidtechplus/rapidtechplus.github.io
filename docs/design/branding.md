@@ -16,8 +16,11 @@ in [`design-system.md`](./design-system.md); brand facts live in
 
 - Current mark: the letter **"R"** (`logoLetter`) rendered with the brand
   gradient, paired with the wordmark.
-- Assets: `public/favicon.svg`, `public/og-image.svg`. Keep the gradient and
-  proportions consistent if the mark evolves.
+- Assets: `public/favicon.svg`, plus the generated social cards
+  `app/**/opengraph-image.png` (template: `lib/og-image.tsx`, rebuilt with
+  `npm run og:generate`). Keep the gradient and proportions consistent if the
+  mark evolves — the OG template hardcodes the brand colours as literals, since
+  Satori resolves no CSS variables.
 
 ## Voice & tone
 

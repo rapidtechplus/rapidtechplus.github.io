@@ -3,17 +3,30 @@ import { Reveal } from "@/components/reveal";
 import { PageHero, IconCard } from "@/components/sections/pieces";
 import { ButtonLink } from "@/components/ui/button";
 import { products } from "@/content/products";
+import { JsonLd } from "@/components/seo/json-ld";
+import { webPageJsonLd } from "@/lib/structured-data";
+
+const description =
+  "A look at the kinds of software products and platforms Rapid Tech Plus builds — web apps, SaaS platforms, and automation systems.";
 
 export const metadata: Metadata = {
   title: "Products & Work",
-  description:
-    "A look at the kinds of software products and platforms Rapid Tech Plus builds — web apps, SaaS platforms, and automation systems.",
+  description,
   alternates: { canonical: "/products" },
 };
 
 export default function ProductsPage() {
   return (
     <>
+      {/* No ItemList until Phase F gives products their own routes. */}
+      <JsonLd
+        data={webPageJsonLd({
+          name: "Products & Work",
+          description,
+          path: "/products",
+        })}
+      />
+
       <PageHero
         crumbs={[{ label: "Home", href: "/" }, { label: "Products" }]}
         eyebrow="Products & work"

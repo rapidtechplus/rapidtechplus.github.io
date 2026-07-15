@@ -16,17 +16,30 @@ import {
   qualityStandards,
 } from "@/content/site";
 import { engagementModels } from "@/content/hire";
+import { JsonLd } from "@/components/seo/json-ld";
+import { webPageJsonLd } from "@/lib/structured-data";
+
+const description =
+  "Rapid Tech Plus is a modern software studio building web platforms, SaaS products, and digital systems for growing businesses.";
 
 export const metadata: Metadata = {
   title: "About",
-  description:
-    "Rapid Tech Plus is a modern software studio building web platforms, SaaS products, and digital systems for growing businesses.",
+  description,
   alternates: { canonical: "/about" },
 };
 
 export default function AboutPage() {
   return (
     <>
+      <JsonLd
+        data={webPageJsonLd({
+          type: "AboutPage",
+          name: "About",
+          description,
+          path: "/about",
+        })}
+      />
+
       <PageHero
         crumbs={[{ label: "Home", href: "/" }, { label: "About" }]}
         eyebrow="About us"
@@ -121,16 +134,18 @@ export default function AboutPage() {
 
       <section>
         <div className="container-wide container">
-          <SectionHead
-            eyebrow="How we build"
-            title="Engineering principles"
-          >
+          <SectionHead eyebrow="How we build" title="Engineering principles">
             The technical standards behind every project — the same whether we
             ship a landing page or a platform.
           </SectionHead>
           <div className="grid-3 grid">
             {engineeringPrinciples.map((p) => (
-              <IconCard key={p.title} icon={p.icon} title={p.title} body={p.body} />
+              <IconCard
+                key={p.title}
+                icon={p.icon}
+                title={p.title}
+                body={p.body}
+              />
             ))}
           </div>
         </div>
@@ -143,18 +158,22 @@ export default function AboutPage() {
             title="What we hold ourselves to"
           >
             Commitments we apply on every engagement. We don&apos;t claim
-            certifications we haven&apos;t earned — these are practices, verified
-            in our workflow.
+            certifications we haven&apos;t earned — these are practices,
+            verified in our workflow.
           </SectionHead>
           <div className="grid-2 grid">
             {qualityStandards.map((q) => (
-              <IconCard key={q.title} icon={q.icon} title={q.title} body={q.body} />
+              <IconCard
+                key={q.title}
+                icon={q.icon}
+                title={q.title}
+                body={q.body}
+              />
             ))}
           </div>
           <p className="about-links">
-            See our{" "}
-            <Link href="/our-process">development process</Link> for how these
-            standards play out stage by stage, or our{" "}
+            See our <Link href="/our-process">development process</Link> for how
+            these standards play out stage by stage, or our{" "}
             <Link href="/open-source">open-source work</Link> and{" "}
             <a
               href="https://github.com/rapidtechplus"
@@ -179,7 +198,12 @@ export default function AboutPage() {
           </SectionHead>
           <div className="grid-3 grid">
             {engagementModels.map((m) => (
-              <IconCard key={m.title} icon={m.icon} title={m.title} body={m.body} />
+              <IconCard
+                key={m.title}
+                icon={m.icon}
+                title={m.title}
+                body={m.body}
+              />
             ))}
           </div>
         </div>

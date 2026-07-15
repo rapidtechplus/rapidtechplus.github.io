@@ -1191,6 +1191,70 @@ and CSSOM metrics:
 - [ ] Screenshots, Firefox/Safari, and Lighthouse not runnable in this
       environment (unchanged from prior phases).
 
+### Phase 29 — Micro-interactions pass (Priority 13) ✅
+
+Owner-requested (Priority 13 — Micro Interactions): review buttons, cards,
+forms, hover, focus, theme switcher, and navigation — "everything should feel
+alive." Audit found the hover layer already strong (Phase 28); the gaps are
+press feedback, focus companionship, and small state-change moments.
+
+- [x] Press (`:active`) states site-wide — none existed anywhere: buttons
+      (primary/ghost/nav CTA), hamburger, footer social icons, linked cards,
+      theme switch
+- [x] Hamburger (`.nav-toggle`) given hover/active/focus-visible + transition
+      (was completely inert)
+- [x] Form micro-interactions — label tints on `:focus-within`, input hover
+      border, accent `caret-color`, `.form-error` class (semantic `--error`
+      token + shake that replays per attempt, `role="alert"`)
+- [x] FAQ answer entrance — fade + rise when a `details` opens
+- [x] Theme switch — knob squash while pressed (iOS-style), dark-state travel
+      compensated so the knob never overflows the track
+- [x] Footer link hover slide; card icon responds with the card hover
+- [x] Removed dead `.theme-toggle` CSS (header toggle removed in Phase 13)
+- [x] Reduced-motion rules for the new animations
+- [x] lint + typecheck + clean static build all green.
+
+**Cascade order is the load-bearing detail** — every new `:active` rule ties on
+specificity with the `:hover` rule it must override (both `(0,2,0)`), so it only
+wins by being declared later. Verified by source order for all six pairs
+(`.btn-primary:hover` 407 → `.btn:active` 421; `.card:hover` 2644 →
+`.card-link:active` 2714; ghost, nav-CTA, footer-social likewise). Moving any
+`:hover` rule below its `:active` partner silently kills the press feedback —
+the pointer is always over the element while pressing it.
+
+**Design review** — verified in-browser against the **static export** via
+DOM/CSSOM metrics (the pane's known limits are unchanged: screenshots time out,
+Firefox/Safari and Lighthouse not runnable, `prefers-reduced-motion` not
+emulable — the RM rules were read from the shipped CSSOM instead):
+
+- All **15** new rules ship, and both `form-shake` + `faq-body-in` keyframes are
+  present in the exported CSS.
+- **Form error**: an empty submit renders `.form-error` with `role="alert"` and
+  the right copy; the element is **recreated** on a second attempt (the `key`
+  ={attempt} trick), which is what makes the shake replay rather than fire once.
+  `noValidate` is set, so the custom message is reachable at all (with `required`
+  alone the browser would intercept and this path would be dead).
+- **Themes**: `--error` resolves in both (dark `#f0625d`, light `#dc2626`);
+  the `role="switch"` toggle flips `light`/`dark` and back.
+- **Theme knob** geometry checked by hand: track 58px, knob pinned at its 3px
+  resting edge and stretching inward (light `3→31`, dark `27→55`) — the widened
+  knob never overflows the track in either state.
+- **Reduced motion** neutralises `.form-error` + `.faq-body` animations; the
+  dead `.theme-toggle` CSS is gone (**0** rules in the export).
+- Mobile 390: **zero** horizontal overflow, hamburger a full 44×44 tap target.
+- 1440: `scrollWidth` 2113 vs `clientWidth` 1425, entirely the **closed `.mega`
+  panels** — no Phase 29 element among the offenders, and
+  `canScrollHorizontally` is **false** (clipped by `body`). Matches the
+  documented baseline; the nav overflow stays logged in **Phase Q**.
+
+**Verification trap worth knowing (cost real time here):** with `NEXT_DIST_DIR`
+set, the static export lands in that dist dir — **not** in `out/`. Serving `out/`
+after such a build silently serves a **stale** export (it tested the pre-Phase-29
+form and reported a false failure). Serve the dist dir, or build without the
+override. CI is unaffected: it publishes `./out` and never sets the variable.
+Also note `serve -s` strips the trailing slash this site requires and 404s —
+serve without `-s`.
+
 ### Phase F — Product detail pages
 
 - [ ] Model named products (Planix, Rocket Intelligence Engine, WhatsApp
@@ -1322,10 +1386,109 @@ Our Process · Open Source, and build the missing pages (they had pointed at
 - [ ] `/disclaimer`, `/coming-soon`, and a `500`/global-error page. _Deps: none.
   Accept: routes render, linked where appropriate. Priority: P2. Complexity: S._
 
-### Phase L — SEO deepening
+### Phase L — SEO deepening (Priority 14) ✅
 
-- [ ] Per-template OG images, per-template structured data, canonical audit,
-  sitemap sync verified. _Deps: B–K. Priority: P1. Complexity: M._
+Owner-requested (Priority 14 — SEO): every page should have metadata, Open
+Graph, structured data, breadcrumbs, canonical, and internal linking.
+
+**Audit first — four of the six already shipped.** Metadata and canonical were
+on every route (the homepage inherits `canonical: "/"` from the root layout,
+which is correct); `crumbs` is a *required* prop of `PageHero`, so breadcrumbs +
+`BreadcrumbList` JSON-LD were already on all 26 inner pages (the homepage
+correctly has none — it is the root); internal linking is extensive (mega menus,
+footer hub, related grids, `/sitemap`). So this phase is **not** "add six
+things" — it is: fix the one that was silently broken, and fill the
+structured-data gap on the hubs.
+
+Scoped to shipped routes: Phase L's stated deps (B–K) are only partly done, and
+F/G/H/J/K pages do not exist yet. The work is wired into the shared templates
+and `config/og-templates.ts`, so those pages inherit it when they land.
+
+- [x] **Every social share preview on the site was broken** — the root layout
+      pinned `openGraph.images` / `twitter.images` to `public/og-image.svg`, and
+      **no major crawler (Facebook, LinkedIn, X, Slack, WhatsApp) renders SVG
+      Open Graph images**. Replaced with real 1200×630 PNGs.
+- [x] **Next's `opengraph-image.tsx` route convention is unusable on this host** —
+      it emits its image at an *extensionless* path (`/opengraph-image`), and
+      GitHub Pages derives Content-Type from the extension alone. **Measured
+      against the live host** (`curl -I https://rapidtechplus.github.io/.nojekyll`
+      → `application/octet-stream`, vs `/og-image.svg` → `image/svg+xml`): the
+      file would have been served as `application/octet-stream` and rejected as
+      an image. The in-tree untracked `app/opengraph-image.tsx` was replaced
+      rather than finished, for this reason.
+- [x] **Committed static PNGs instead** — `scripts/generate-og.tsx`
+      (`npm run og:generate`, `tsx` devDep) renders `lib/og-image.tsx` to
+      `app/**/opengraph-image.png` + `.alt.txt`. Static files keep the `.png`
+      extension (correct Content-Type) and are still picked up automatically by
+      Next's metadata cascade, so the wiring stays idiomatic and `next build`
+      pays no rendering cost.
+- [x] **Per-template, not per-page** (13 images, ~950KB) — the cascade means
+      `app/services/opengraph-image.png` also covers every `/services/[slug]`.
+      Per-slug images would have added ~8MB of PNGs to the repo for a marginally
+      better title.
+- [x] **Detail pages needed the image set explicitly** — declaring `openGraph` in
+      a page's `generateMetadata` *replaces* the inherited object instead of
+      merging, so all 6 `[slug]` templates were shipping
+      `twitter:card: summary_large_image` with **no image** (a broken card, worse
+      than none). Fixed via `ogImageFor(section)` in `config/og-templates.ts`.
+      Hub pages declare no `openGraph`, so the cascade still covers them.
+- [x] **Structured data on the hubs** — the detail templates already emitted
+      `Service`/`FAQPage`, but the ~20 hub/company pages had `BreadcrumbList`
+      alone. New `lib/structured-data.ts` builders + `components/seo/json-ld.tsx`:
+      enriched `Organization` (`sameAs` from the 7 real social profiles,
+      sales/HR `contactPoint`, referenced by `@id` rather than re-inlined),
+      `WebSite`, `CollectionPage`+`ItemList` on the 6 collection hubs (derived
+      from the same arrays the grids render, so they cannot drift),
+      `AboutPage`, `ContactPage`, and `WebPage` elsewhere.
+- [x] **FAQ markup gap closed** — `/ai`, `/why-us`, and `/our-process` rendered
+      `FaqAccordion` with no `FAQPage` markup at all. Added.
+- [x] **No SearchAction** (the site has no search endpoint), **no `ItemList` on
+      `/products`, `/case-studies`, `/blog`** (Phases F/G/H haven't given those
+      records routes — listing URLs that 404 helps nobody), and **no `JobPosting`
+      on `/careers`** (the roles are representative, not live vacancies).
+      Advertising any of these would be a structured-data violation.
+- [x] Removed the now-dead `public/og-image.svg`; updated `seo-strategy.md`,
+      `branding.md`, `project-structure.md`.
+
+**Fixed along the way (found by verification):**
+
+- **`npm run lint` was reporting 3,388 problems (13 errors) on build output** —
+  `eslint.config.mjs` ignored `.next/**` but not `.next-verify/**`, the separate
+  distDir used to build alongside a live dev server. Phase 28 hit this and
+  "fixed" it by adding the dir to `.gitignore`, but **ESLint does not read
+  `.gitignore`**, so it recurred on every verification build. Ignore pattern
+  widened to `.next*/**` — the actual root cause.
+- **OG template defects caught by looking at the rendered PNG**, not the byte
+  count: the accent seam stopped 80px short of each edge (absolutely positioned
+  children resolve against the *padded* box; restructured so the seam is a normal
+  flex child of an unpadded root), and the home card printed the slogan twice
+  (eyebrow + footer).
+
+**Design review** — lint + typecheck + clean static **build (119 pages)** all
+green. No UI/layout change: this phase touches `<head>` metadata and JSON-LD
+only, so the responsive/theme checklist has no surface to regress. Verified
+against the static export:
+
+- **Zero** `og-image.svg` references remain in any exported HTML.
+- Every page's `og:image` resolves to a real `.png` **file present in the export**
+  (13 cards, all `PNG 1200×630`); `/privacy` correctly falls back to the root
+  card, `/services/ai-development` → the services card, and so on.
+- **104 pages scanned: 0 invalid JSON-LD blocks, 0 pages missing a canonical.**
+- **Sitemap sync exact** — 101 entries, **0** pointing at routes that would 404;
+  the only exported route not listed is `/404`, which correctly should not be.
+- Canonicals absolute with trailing slash (matching `trailingSlash: true`);
+  `sameAs` correctly excludes the `mailto:` social entry.
+
+**Not verified / known:**
+
+- [ ] Share previews not validated against the **real** crawlers (Facebook
+      Sharing Debugger, LinkedIn Post Inspector, X Card Validator) — they need
+      the deployed URL, and this is unreleased. The Content-Type reasoning was
+      measured against live GitHub Pages, but the crawler round-trip was not.
+- [ ] `Organization.logo` still points at `favicon.svg`. Google's logo guidance
+      favours raster; worth re-pointing at a PNG. _Priority: P3. Complexity: S._
+- [ ] Lighthouse / Firefox / Safari not runnable in this environment (unchanged
+      from prior phases).
 
 ### Phase M — Performance
 
