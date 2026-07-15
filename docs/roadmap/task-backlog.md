@@ -922,7 +922,7 @@ pages. Each featured technology gets a dedicated landing page following the flow
   source of truth here.) Screenshots/Firefox/Safari/Lighthouse not runnable in
   this pane (unchanged from prior phases).
 
-### Phase 25 — Trust building: About page expansion (Priority 9)
+### Phase 25 — Trust building: About page expansion (Priority 9) ✅
 
 Owner-requested (Priority 9 — Trust Building): surface the studio's credibility
 signals on `/about` rather than scattering them. Certifications intentionally
@@ -943,14 +943,24 @@ omitted (no fake badges); quality framed as practices, per owner decision.
       ≤560px).
 - [x] `typecheck` clean (after removing an accidental duplicate
       `engineeringPrinciples` — reused the concurrent session's export instead).
-- [ ] **Full `npm run build` + browser verification blocked** by the shared
-      working tree: a concurrent session's incomplete `/hire/[slug]`
-      (`hire-landing.tsx`) fails prerender (`TypeError: a[d] is not a function`),
-      and the `.next` dir is corrupted by overlapping dev-server/build processes
-      (`routes-manifest.json` ENOENT). Re-run build + browser-verify `/about`
-      (both themes, 375/768/1440, timeline single-column at ≤560px) once the
-      concurrent work settles. Screenshots/Firefox/Safari/Lighthouse not runnable
-      here (unchanged from prior phases).
+- [x] **Build + browser verification unblocked and completed (2026-07-15)** — the
+      concurrent session's `hire-landing.tsx` prerender failure is gone; after an
+      `rm -rf .next`, lint + typecheck + clean static build are all green. The
+      static export carries all seven trust sections and 4 timeline milestones.
+      Browser-verified `/about`: h2 order is Journey → Values → Engineering
+      principles → Quality standards → Client engagement models → CTA; the three
+      cross-links resolve (`/our-process/`, `/open-source/`, the GitHub org); the
+      `.milestone` grid is `160px + auto` at 768/1440 and collapses to a single
+      335px column at 375; mono year labels render in JetBrains Mono; dark theme
+      tokens resolve (canvas `#0a0a13`, iris `#8a8fff`); zero console errors.
+- [ ] Pre-existing overflow at 1440 (`scrollWidth` 1463 vs `clientWidth` 1425)
+      reconfirmed on `/about` and traced by element to `.nav-right` /
+      `.nav-cta-desktop` + the decorative aurora/bg-grid layers — **no `/about`
+      content element overflows**. Already logged in **Phase Q** (nav 1024–1440,
+      P2); left there rather than folded in here.
+- [ ] Screenshots (capture times out on the continuous compositor),
+      Firefox/Safari, and Lighthouse not runnable in this environment (unchanged
+      from prior phases).
 
 ### Phase 26 — Better hero: cycling console panes (Priority 8) ✅
 
