@@ -8,17 +8,31 @@ import {
   DualCta,
 } from "@/components/sections/pieces";
 import { caseStudies } from "@/content/case-studies";
+import { JsonLd } from "@/components/seo/json-ld";
+import { webPageJsonLd } from "@/lib/structured-data";
+
+const description =
+  "Representative engagements from Rapid Tech Plus — FinTech, healthcare, retail, SaaS, and automation projects with measurable outcomes.";
 
 export const metadata: Metadata = {
   title: "Case Studies",
-  description:
-    "Representative engagements from Rapid Tech Plus — FinTech, healthcare, retail, SaaS, and automation projects with measurable outcomes.",
+  description,
   alternates: { canonical: "/case-studies" },
 };
 
 export default function CaseStudiesPage() {
   return (
     <>
+      {/* No ItemList until Phase G ships `/case-studies/[slug]`; listing items
+          that have no URL of their own would add nothing a crawler can follow. */}
+      <JsonLd
+        data={webPageJsonLd({
+          name: "Case Studies",
+          description,
+          path: "/case-studies",
+        })}
+      />
+
       <PageHero
         crumbs={[{ label: "Home", href: "/" }, { label: "Case Studies" }]}
         eyebrow="Case studies"

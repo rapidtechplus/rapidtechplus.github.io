@@ -6,17 +6,35 @@ import {
   CtaBanner,
 } from "@/components/sections/pieces";
 import { hireGroups, engagementModels } from "@/content/hire";
+import { JsonLd } from "@/components/seo/json-ld";
+import { collectionPageJsonLd } from "@/lib/structured-data";
+
+const description =
+  "Hire senior, vetted developers and engineers — React, Next.js, Node.js, AI engineers, mobile, DevOps, UI/UX, and QA — through staff augmentation, dedicated teams, or managed delivery.";
 
 export const metadata: Metadata = {
   title: "Hire Expert Developers & Engineers",
-  description:
-    "Hire senior, vetted developers and engineers — React, Next.js, Node.js, AI engineers, mobile, DevOps, UI/UX, and QA — through staff augmentation, dedicated teams, or managed delivery.",
+  description,
   alternates: { canonical: "/hire" },
 };
 
 export default function HirePage() {
   return (
     <>
+      <JsonLd
+        data={collectionPageJsonLd({
+          name: "Hire Expert Developers & Engineers",
+          description,
+          path: "/hire",
+          items: hireGroups.flatMap((g) =>
+            g.roles.map((r) => ({
+              name: r.label,
+              description: r.summary,
+              path: `/hire/${r.slug}`,
+            })),
+          ),
+        })}
+      />
       <PageHero
         crumbs={[{ label: "Home", href: "/" }, { label: "Hire Expert" }]}
         eyebrow="Hire Expert"

@@ -1,17 +1,29 @@
 import type { Metadata } from "next";
 import { PageHero, IconCard, CtaBanner } from "@/components/sections/pieces";
 import { solutions } from "@/content/solutions";
+import { JsonLd } from "@/components/seo/json-ld";
+import { collectionPageJsonLd, toListItems } from "@/lib/structured-data";
+
+const description =
+  "AI agents, workflow and business automation, cloud solutions, data integrations, and managed delivery — outcome-focused solutions from Rapid Tech Plus.";
 
 export const metadata: Metadata = {
   title: "Solutions",
-  description:
-    "AI agents, workflow and business automation, cloud solutions, data integrations, and managed delivery — outcome-focused solutions from Rapid Tech Plus.",
+  description,
   alternates: { canonical: "/solutions" },
 };
 
 export default function SolutionsPage() {
   return (
     <>
+      <JsonLd
+        data={collectionPageJsonLd({
+          name: "Solutions",
+          description,
+          path: "/solutions",
+          items: toListItems(solutions),
+        })}
+      />
       <PageHero
         crumbs={[{ label: "Home", href: "/" }, { label: "Solutions" }]}
         eyebrow="Solutions"

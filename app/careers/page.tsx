@@ -8,11 +8,15 @@ import {
   CtaBanner,
 } from "@/components/sections/pieces";
 import { site, careerBenefits, careerRoles } from "@/content/site";
+import { JsonLd } from "@/components/seo/json-ld";
+import { webPageJsonLd } from "@/lib/structured-data";
+
+const description =
+  "Join Rapid Tech Plus — a remote-first software studio building AI-native products. Explore open roles in engineering and design, and how to apply.";
 
 export const metadata: Metadata = {
   title: "Careers",
-  description:
-    "Join Rapid Tech Plus — a remote-first software studio building AI-native products. Explore open roles in engineering and design, and how to apply.",
+  description,
   alternates: { canonical: "/careers" },
 };
 
@@ -21,6 +25,12 @@ const careersEmail = site.contact.hrEmail;
 export default function CareersPage() {
   return (
     <>
+      {/* Deliberately not JobPosting: the listed roles are representative, not
+          live vacancies, and marking them up as real openings would be false. */}
+      <JsonLd
+        data={webPageJsonLd({ name: "Careers", description, path: "/careers" })}
+      />
+
       <PageHero
         crumbs={[{ label: "Home", href: "/" }, { label: "Careers" }]}
         eyebrow="Careers"
@@ -34,10 +44,18 @@ export default function CareersPage() {
 
       <section style={{ paddingTop: "clamp(24px,4vw,48px)" }}>
         <div className="container-wide container">
-          <SectionHead eyebrow="Why join us" title="What working here is like" />
+          <SectionHead
+            eyebrow="Why join us"
+            title="What working here is like"
+          />
           <div className="grid-2 grid">
             {careerBenefits.map((b) => (
-              <IconCard key={b.title} icon={b.icon} title={b.title} body={b.body} />
+              <IconCard
+                key={b.title}
+                icon={b.icon}
+                title={b.title}
+                body={b.body}
+              />
             ))}
           </div>
         </div>
@@ -45,10 +63,7 @@ export default function CareersPage() {
 
       <section style={{ background: "var(--bg-elev)" }}>
         <div className="container-wide container">
-          <SectionHead
-            eyebrow="Open roles"
-            title="Where we're hiring"
-          >
+          <SectionHead eyebrow="Open roles" title="Where we're hiring">
             Don&apos;t see a perfect match? We&apos;re always glad to hear from
             exceptional people — introduce yourself below.
           </SectionHead>

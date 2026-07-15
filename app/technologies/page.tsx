@@ -1,19 +1,40 @@
 import type { Metadata } from "next";
 import { Reveal } from "@/components/reveal";
-import { PageHero, SectionHead, IconCard, CtaBanner } from "@/components/sections/pieces";
+import {
+  PageHero,
+  SectionHead,
+  IconCard,
+  CtaBanner,
+} from "@/components/sections/pieces";
 import { techGroups } from "@/content/site";
 import { technologies } from "@/content/technologies";
+import { JsonLd } from "@/components/seo/json-ld";
+import { collectionPageJsonLd } from "@/lib/structured-data";
+
+const description =
+  "The modern stack Rapid Tech Plus builds with — TypeScript, React, Next.js, Node.js, PostgreSQL, AWS, Docker, and more across frameworks, data, and cloud.";
 
 export const metadata: Metadata = {
   title: "Technologies",
-  description:
-    "The modern stack Rapid Tech Plus builds with — TypeScript, React, Next.js, Node.js, PostgreSQL, AWS, Docker, and more across frameworks, data, and cloud.",
+  description,
   alternates: { canonical: "/technologies" },
 };
 
 export default function TechnologiesPage() {
   return (
     <>
+      <JsonLd
+        data={collectionPageJsonLd({
+          name: "Technologies",
+          description,
+          path: "/technologies",
+          items: technologies.map((t) => ({
+            name: t.title,
+            description: t.summary,
+            path: `/technologies/${t.slug}`,
+          })),
+        })}
+      />
       <PageHero
         crumbs={[{ label: "Home", href: "/" }, { label: "Technologies" }]}
         eyebrow="Technologies"
