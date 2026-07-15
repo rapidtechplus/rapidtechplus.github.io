@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
-import { PageHero, IconCard, CtaBanner } from "@/components/sections/pieces";
-import { industries } from "@/content/industries";
+import {
+  PageHero,
+  SectionHead,
+  IconCard,
+  CtaBanner,
+} from "@/components/sections/pieces";
+import { industries, industrySectors } from "@/content/industries";
 
 export const metadata: Metadata = {
   title: "Industries",
@@ -26,6 +31,37 @@ export default function IndustriesPage() {
 
       <section style={{ paddingTop: "clamp(24px,4vw,48px)" }}>
         <div className="container-wide container">
+          <SectionHead
+            eyebrow="Sectors"
+            title="Industries we build for"
+          >
+            Deep, sector-specific engineering — each with its own approach to
+            workflows, compliance, and integration.
+          </SectionHead>
+          <div className="grid-3 grid">
+            {industrySectors.map((s, idx) => (
+              <IconCard
+                key={s.slug}
+                icon={s.icon}
+                title={s.label}
+                body={s.summary}
+                href={`/industries/${s.slug}`}
+                delay={idx * 0.04}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section style={{ background: "var(--bg-elev)" }}>
+        <div className="container-wide container">
+          <SectionHead
+            eyebrow="Who we work with"
+            title="Teams we partner with"
+          >
+            Beyond specific sectors, we adapt to the goals and constraints of
+            businesses at every stage.
+          </SectionHead>
           <div className="grid-3 grid">
             {industries.map((i) => (
               <IconCard

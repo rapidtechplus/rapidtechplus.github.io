@@ -1,30 +1,8 @@
 "use client";
 
 import { useMemo } from "react";
-import { useReducedMotion } from "motion/react";
 
-/**
- * AI hero visual — a luminous "neural core": a pulsing central intelligence
- * ringed by three tilted orbital paths that rotate at different speeds, each
- * carrying satellite nodes, with signal spokes flowing outward from the core.
- * Pure SVG + CSS, fully decorative (aria-hidden) and reduced-motion safe —
- * under reduced motion nothing rotates, pulses, or flows; the static
- * composition still reads as an AI system diagram.
- *
- * Geometry is deterministic (fixed rings/angles) so server and client markup
- * match and there is no hydration drift.
- */
-const VW = 640;
-const VH = 360;
-const CX = VW / 2;
-const CY = VH / 2;
-
-/** Tilted orbital rings — rx/ry give the 3-D ellipse, dur drives spin speed. */
-const RINGS = [
-  { rx: 108, ry: 40, dur: 26, reverse: false, sats: [0, 128, 232] },
-  { rx: 176, ry: 66, dur: 40, reverse: true, sats: [40, 150, 262, 330] },
-  { rx: 246, ry: 94, dur: 58, reverse: false, sats: [18, 96, 200, 300] },
-];
+import { CHIPS, CX, CY, RINGS, VH, VW } from "./data";
 
 type Sat = { x: number; y: number; r: number; key: string };
 
@@ -44,17 +22,20 @@ function ringSats(rx: number, ry: number, angles: number[], ri: number): Sat[] {
   });
 }
 
-export function HeroVisual() {
-  const reduce = useReducedMotion();
-
+/**
+ * Graph pane — a luminous neural core: a pulsing central intelligence ringed by
+ * three tilted orbital paths carrying satellite nodes, with signal spokes
+ * flowing outward and technology cards drifting over the corners.
+ */
+export function GraphPane({ reduce }: { reduce: boolean }) {
   // Signal spokes radiate from the core toward evenly-spaced outer points.
   const spokes = useMemo(() => {
     const count = 10;
     return Array.from({ length: count }, (_, i) => {
       const t = (i / count) * Math.PI * 2;
       return {
-        x2: r2(CX + 300 * Math.cos(t)),
-        y2: r2(CY + 150 * Math.sin(t)),
+        x2: r2(CX + 290 * Math.cos(t)),
+        y2: r2(CY + 140 * Math.sin(t)),
         delay: (i % 5) * 0.5,
         key: `spoke-${i}`,
       };
@@ -62,20 +43,7 @@ export function HeroVisual() {
   }, []);
 
   return (
-    <div className="hero-visual" aria-hidden="true">
-      {/* Console chrome — frames the core as a running system, not an
-          illustration. Copy is decorative telemetry, hidden from AT. */}
-      <div className="hv-bar">
-        <span className="hv-bar-left">
-          <span className="hv-dots">
-            <i />
-            <i />
-            <i />
-          </span>
-          <span className="hv-title">rapidcore · agent orchestration</span>
-        </span>
-        <span className="hv-live">live</span>
-      </div>
+    <>
       <svg
         viewBox={`0 0 ${VW} ${VH}`}
         role="presentation"
@@ -85,11 +53,7 @@ export function HeroVisual() {
           <radialGradient id="hv-core" cx="50%" cy="50%" r="50%">
             <stop offset="0%" stopColor="var(--spark)" />
             <stop offset="55%" stopColor="var(--accent)" />
-            <stop
-              offset="100%"
-              stopColor="var(--accent-2)"
-              stopOpacity="0.15"
-            />
+            <stop offset="100%" stopColor="var(--accent-2)" stopOpacity="0.15" />
           </radialGradient>
           <radialGradient id="hv-sat" cx="50%" cy="50%" r="50%">
             <stop offset="0%" stopColor="var(--spark)" />
@@ -175,20 +139,20 @@ export function HeroVisual() {
           />
         </g>
       </svg>
-      <div className="hv-metrics">
-        <span className="hv-metric">
-          agents <b>04</b>
-        </span>
-        <span className="hv-metric">
-          uptime <b>99.98%</b>
-        </span>
-        <span className="hv-metric">
-          p95 latency <b>42ms</b>
-        </span>
-        <span className="hv-metric">
-          deploys <b>weekly</b>
-        </span>
+
+      {/* Floating technology cards */}
+      <div className="hv-chips">
+        {CHIPS.map((c) => (
+          <span
+            key={c.label}
+            className={`hv-chip hv-chip--${c.pos}`}
+            style={reduce ? undefined : { animationDelay: `${c.delay}s` }}
+          >
+            <span className="hv-chip-dot" />
+            {c.label}
+          </span>
+        ))}
       </div>
-    </div>
+    </>
   );
 }

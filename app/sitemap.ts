@@ -1,14 +1,27 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL, SITEMAP_CHANGE_FREQUENCY } from "@/config/site";
+import { aiSlugs } from "@/content/ai";
 import { serviceSlugs } from "@/content/services";
+import { hireSlugs } from "@/content/hire";
+import { industrySlugs } from "@/content/industries";
+import { solutionSlugs } from "@/content/solutions";
+import { techSlugs } from "@/content/technologies";
 
 export const dynamic = "force-static";
 
 /** Static hub/landing routes. */
 const staticRoutes = [
   "",
+  "/ai",
   "/about",
+  "/why-us",
+  "/culture",
+  "/engineering",
+  "/careers",
+  "/our-process",
+  "/open-source",
   "/services",
+  "/hire",
   "/solutions",
   "/products",
   "/case-studies",
@@ -27,7 +40,12 @@ const staticRoutes = [
  * collection adds its sitemap URL automatically, with no edit here.
  */
 const collectionRoutes = [
+  ...aiSlugs.map((slug) => `/ai/${slug}`),
   ...serviceSlugs.map((slug) => `/services/${slug}`),
+  ...hireSlugs.map((slug) => `/hire/${slug}`),
+  ...industrySlugs.map((slug) => `/industries/${slug}`),
+  ...solutionSlugs.map((slug) => `/solutions/${slug}`),
+  ...techSlugs.map((slug) => `/technologies/${slug}`),
 ];
 
 const routes = [...staticRoutes, ...collectionRoutes];

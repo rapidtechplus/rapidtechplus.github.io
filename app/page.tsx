@@ -4,6 +4,8 @@ import { Ico } from "@/components/icon";
 import { Reveal } from "@/components/reveal";
 import { Counter } from "@/components/counter";
 import { HeroVisual } from "@/components/hero-visual";
+import { Magnetic } from "@/components/magnetic";
+import { TextReveal } from "@/components/text-reveal";
 import {
   SectionHead,
   IconCard,
@@ -64,8 +66,10 @@ export default function HomePage() {
                   <span className="dot" /> AI-first software engineering studio
                 </span>
                 <h1>
-                  Software that thinks <span className="grad-text">ahead</span>{" "}
-                  of your roadmap
+                  <TextReveal
+                    text="Software that thinks ahead of your roadmap"
+                    accent="ahead"
+                  />
                 </h1>
                 <p className="lead">
                   Rapid Tech Plus designs and engineers production-grade
@@ -74,9 +78,11 @@ export default function HomePage() {
                   cutting corners.
                 </p>
                 <div className="hero-actions">
-                  <ButtonLink href="/contact" className="btn-lg">
-                    Get A Quote →
-                  </ButtonLink>
+                  <Magnetic>
+                    <ButtonLink href="/contact" className="btn-lg">
+                      Get A Quote →
+                    </ButtonLink>
+                  </Magnetic>
                   <ButtonLink
                     href="/contact"
                     variant="ghost"

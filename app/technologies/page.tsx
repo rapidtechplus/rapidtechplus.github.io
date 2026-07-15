@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Reveal } from "@/components/reveal";
-import { PageHero, CtaBanner } from "@/components/sections/pieces";
+import { PageHero, SectionHead, IconCard, CtaBanner } from "@/components/sections/pieces";
 import { techGroups } from "@/content/site";
+import { technologies } from "@/content/technologies";
 
 export const metadata: Metadata = {
   title: "Technologies",
@@ -26,6 +27,34 @@ export default function TechnologiesPage() {
 
       <section style={{ paddingTop: "clamp(24px,4vw,48px)" }}>
         <div className="container-wide container">
+          <SectionHead
+            eyebrow="Core stacks"
+            title="Technologies we specialise in"
+          >
+            Deep expertise in the frameworks and platforms that power modern
+            products — each with a dedicated engineering practice.
+          </SectionHead>
+          <div className="grid-3 grid">
+            {technologies.map((t, i) => (
+              <IconCard
+                key={t.slug}
+                icon={t.icon}
+                title={`${t.label} Development`}
+                body={t.summary}
+                href={`/technologies/${t.slug}`}
+                delay={i * 0.05}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="band">
+        <div className="container-wide container">
+          <SectionHead eyebrow="Full stack" title="The broader toolkit">
+            The wider set of languages, tools, and platforms we build and ship
+            with every day.
+          </SectionHead>
           <div className="grid-2 grid">
             {techGroups.map((group) => (
               <Reveal className="panel" key={group.title}>
