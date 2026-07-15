@@ -15,7 +15,6 @@ const staticRoutes = [
   "/ai",
   "/about",
   "/why-us",
-  "/culture",
   "/engineering",
   "/careers",
   "/our-process",

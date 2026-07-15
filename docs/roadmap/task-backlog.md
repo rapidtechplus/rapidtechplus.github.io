@@ -847,6 +847,87 @@ icons, colours, imagery, or wording taken; the design and copy are original.
   screenshots (capture times out on the continuous compositor), Firefox/Safari,
   Lighthouse.
 
+### Phase 27 — Company mega menu → two-column trust panel ✅
+
+Owner-requested: the Company menu was a plain compact dropdown that did not
+reflect the studio's depth. Rebuilt as a two-column panel. technource.com was
+studied for navigation *quality* only — no layout, colours, illustrations,
+wording, branding, or imagery taken; the design and copy are original.
+
+Scope note: an initial three-column build (nav + "What we build" highlights +
+"By the numbers" stats + story + banner) was reviewed as too busy and cut back
+mid-phase at the owner's direction. The middle column was dropped entirely and
+the right column became a mission/vision scroller.
+
+- [x] **New `company` panel variant** — `CompanyPanel` type in `content/types.ts`
+      (`navLabel`, `storyLabel`, `story`, `actions`, `banner`); `MegaItem.company`
+      renders it. Ignored by the flat/master-detail/showcase variants, so no
+      existing menu changed.
+- [x] **New `content/company.ts` collection** — the menu is the studio's own
+      story, not a slug collection, so it gets its own module and `site.ts` stays
+      cross-page content only. Company menu removed from `site.ts`.
+- [x] **Left sidebar** — 8 links (About, Why Choose Us, Our Engineering Process,
+      Engineering Practices, Engineering Culture, Open Source, Careers, Contact),
+      each icon + title with hover and a **current-page** state (lit rail edge +
+      `aria-current="page"`). Every link resolves to a real route — no `soon`
+      pills, no dead links.
+- [x] **Right column** — mission / vision / promise **scroller**: a native
+      scroll-snap track (touch swipe + arrow keys for free, readable with no JS)
+      with dots. Nothing auto-plays. Copy is intent, not unverifiable claims
+      about scale or history.
+- [x] **Bottom banner** — gradient strip + "Get a free consultation" CTA,
+      spanning both columns.
+- [x] **Refactor** — `ServiceCard` extracted from `nav.tsx` into the shared
+      `components/layout/mega-link.tsx` (`MegaLink`, now with an `active` prop)
+      and reused by every panel variant plus the company sidebar, rather than
+      duplicating the link card. `award` added to the icon registry.
+- [x] lint + typecheck + clean static **build (106 routes)** green.
+
+**Design review** — verified in-browser via DOM/computed-style metrics:
+
+- Desktop 1440: panel 880px, columns 300/578, centred and in-bounds
+  (279→1146), fits vertically (h 554). Current-page state resolves on `/about`.
+- Tablet 1100: in-bounds (117→983), fits vertically, no internal scroll.
+- Mobile 390: accordion expands to its full natural height (628px, **unclipped**),
+  8 sidebar links, scroller correctly hidden, banner kept, min tap target 44px,
+  **zero horizontal overflow**.
+- Both themes render from a fresh load with every token resolving. Light: slide
+  title 17.88:1, slide body 7.65:1, nav link 6.29:1 — all pass AA. CTA reuses the
+  primary button's fixed indigo gradient (not `var(--accent)`), per the Phase 26
+  contrast lesson.
+- Dot clicks drive the active dot + `aria-current` correctly; the scroll track
+  scrolls to the exact snap offsets (0 / 542 / 1084).
+- Zero console errors.
+
+**Fixed along the way (found by verification):**
+
+- **Panel overflowed the viewport vertically** — the first (three-column) build
+  measured 846px tall, running 30px past a 900px viewport and far worse on a
+  768px laptop. Fixed by dropping the 11 sidebar descriptions (the brief only
+  asks for icon + title there) and adding a **desktop-only** `max-height:
+  calc(100dvh - var(--nav-h) - 28px)` + internal scroll guard, so the panel can
+  never run off-screen as the sidebar grows. Scoped to ≥1025px — a cap on mobile
+  is exactly what silently clipped panels before Phase 26.
+- **Current-page state never matched** — compared `pathname` against the raw
+  content href, but the export sets `trailingSlash`, so `/about/` never equalled
+  `/about`. Added a `normalize()` helper.
+- **Four sidebar descriptions were ellipsis-clipped** at 296px (`.mega-link-desc`
+  is `nowrap` + ellipsis per Phase 16). Resolved by the same description drop.
+- **Dots depended solely on scroll events** — a click only highlighted once the
+  browser echoed a scroll back, losing the feedback if the scroll was
+  interrupted. `goTo` now sets the index directly; `onScroll` still corrects it
+  when the reader swipes.
+
+**Not verifiable in this environment** (worse than prior phases — this pane's
+rendering loop is stalled, not just screenshots): screenshots time out, CSS
+transitions never advance, smooth-scroll never runs, and **scroll events are not
+dispatched at all** (a native listener saw 0 events while `scrollLeft` went
+0→1084). Consequences: the mobile accordion and menu open/close read as stuck at
+their transition start-frames, and the swipe→dots sync could not be exercised.
+Both were confirmed correct by disabling the transition (the accordion snaps to
+its full 628px) and by instant-scroll measurement. Firefox/Safari + Lighthouse
+remain unrunnable here.
+
 ### Phase Q — Defects found during Phase 26 verification (deferred) 🐛
 
 Found while verifying the Solutions showcase menu; **all pre-existing and
@@ -889,6 +970,28 @@ estimated. Phase 26's own defects were fixed in-phase and are listed under
   change), or tighten nav padding/font at that tier. _Deps: none. Accept: no
   `nav-links` overflow at any width between 1024 and 1440. Priority: P2.
   Complexity: S._
+  - **Re-measured in Phase 27 — the range above is understated.** At **1366px**
+    (a very common laptop width) `.nav-right` spans 1322→1460 in a 1366 viewport,
+    so the **Get A Quote CTA is clipped off-screen entirely**; `.nav-links` ends
+    at 1298. This is not a Phase 27 regression — the company panel is
+    `position: fixed` and out of flow, and no trigger label changed — but it
+    raises the priority: the primary conversion CTA is unreachable at 1366px, not
+    just some nav items at 1085px. Suggested accept: no `nav-links`/`nav-right`
+    overflow at **any** width from 1025 to 1920.
+
+- [ ] **`--text-dim` eyebrows fail WCAG AA in light theme** — `--text-dim`
+  (`#8a89a0`) on the mega panel's `--bg-elev` (`#ffffff`) measures **3.41:1**,
+  where AA requires 4.5:1 (these are small mono labels, ~10–12.5px, so the 3:1
+  large-text allowance does not apply). Measured in Phase 27 on four selectors
+  that all resolve identically: `.mm-feature-eyebrow`, `.mm-panel-head`,
+  `.mega-link-desc` (all pre-existing) and `.mm-co-label` (added in Phase 27,
+  which deliberately follows the established eyebrow treatment rather than
+  diverging — fixing one selector would not fix the token). This is a
+  token-level issue affecting every mega menu, so the fix belongs at the token:
+  darken `--text-dim` in the light theme to ≥4.5:1 against `#ffffff` (roughly
+  `#6b6a80` or darker) and re-check the dark theme independently. _Deps: none.
+  Accept: every `--text-dim` text use ≥4.5:1 in both themes. Priority: P1 (a11y,
+  and `CLAUDE.md` requires accessible). Complexity: S. Folds into Phase N._
 
 ### Phase 24 — Technology landing pages (Priority 6) ✅
 
@@ -1345,6 +1448,40 @@ Our Process · Open Source, and build the missing pages (they had pointed at
 
 - [ ] Cross-browser (Chrome/Edge/Firefox/Safari), custom domain + HTTPS,
   deployed-URL render verification. _Deps: all. Priority: P0. Complexity: M._
+
+---
+
+## Phase 29 — Company menu: naming, IA merge, autoplay ✅
+
+- [x] Shorten two Company menu labels — "About Rapid Tech Plus" → **About Us**,
+      "Our Engineering Process" → **Our Process**. Content-only change in
+      `content/company.ts`; both routes unchanged.
+- [x] Merge `/culture` into `/engineering` as a single **Engineering & Culture**
+      page, renamed in the mega-menu, footer, and `/sitemap`. `app/culture/`
+      deleted and dropped from `app/sitemap.ts`. The merged page keeps the
+      engineering sections and appends `culturePrinciples` + `cultureRituals`;
+      culture's "Shared values" section was dropped because `aboutValues`
+      already renders on `/about`, so the merge adds no duplicate section.
+- [x] Auto-advance the Company mission/vision scroller (`.mm-co-dots`) every 5s.
+      Pauses while the pointer is over the slides or focus is inside them,
+      suppressed under `prefers-reduced-motion`, and rewinds to slide 1 while
+      the panel is closed so it always opens on "Our mission".
+
+Notes / follow-ups:
+
+- `/culture` is now a dead URL. The export is static, so there is no redirect —
+  no external inbound links are known, but if any surface, add a client-side
+  redirect stub at `app/culture/page.tsx`.
+- Verified: lint, typecheck, and build all pass; `/engineering` renders all six
+  sections with the correct title/canonical and zero console errors; autoplay
+  cycles 0→1→2→0, holds ~15s while hovered, resumes on leave, and rewinds when
+  closed; mobile (375px) drops the scroller per the existing accordion rules and
+  shows the renamed links.
+- **Not verified:** `prefers-reduced-motion` suppression (cannot emulate the
+  media query in this browser — code path asserted by inspection only), and
+  Safari/Firefox (Windows environment). Smooth scrolling is disabled in the
+  automation browser, so slide travel was confirmed by asserting the requested
+  `scrollTo` offsets rather than observing the animation.
 
 ---
 
