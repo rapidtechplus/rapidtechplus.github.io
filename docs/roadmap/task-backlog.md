@@ -952,6 +952,79 @@ omitted (no fake badges); quality framed as practices, per owner decision.
       concurrent work settles. Screenshots/Firefox/Safari/Lighthouse not runnable
       here (unchanged from prior phases).
 
+### Phase 26 — Better hero: cycling console panes (Priority 8) ✅
+
+Owner-requested (Priority 8 — Better Hero). Of the ideas raised (AI animation,
+product mockups, code snippets, neural network, terminal animation, floating
+technology cards) four were already shipped in the Phase 13/Phase Q hero motif;
+**code snippets** and **product mockups** were the genuine gaps. Rather than
+adding two more elements to an already-busy single composition, the console was
+reframed as a real product: a tab strip that auto-cycles Graph → Code → Deploy.
+
+- [x] Split `components/hero-visual.tsx` (single 234-line file) into
+      `components/hero-visual/` — `index.tsx` (console chrome, tab strip, pane
+      cycling, terminal), `graph-pane.tsx` (the existing neural core, moved
+      as-is), `code-pane.tsx`, `deploy-pane.tsx`, and `data.ts` (all
+      deterministic content/geometry). Import path `@/components/hero-visual` is
+      unchanged.
+- [x] **Code pane** — a hand-tokenised agent-orchestration snippet that types
+      itself in line by line (`clip-path` opened on `steps(chars)` so the reveal
+      lands on glyph boundaries). Tokenised by hand rather than shipping a
+      highlighter to re-derive a fixed answer.
+- [x] **Deploy pane** — product mockup of a release view: env/health row, three
+      metric tiles, a throughput bar chart that grows in, and a pipeline
+      checklist with the last stage still running.
+- [x] Tab strip is **decorative, not interactive** — the whole visual is
+      `aria-hidden`, so a clickable-looking control hidden from AT would be a
+      trap. It is a picture of tabs; the hero's meaning lives in the adjacent
+      copy.
+- [x] Panes stack in one grid cell (`grid-area: 1/1`) so the box never reflows
+      as content swaps; all three stay mounted, and the code/deploy panes are
+      keyed on visit so their animations replay each cycle.
+- [x] Pane content sizes off the pane via **container query units** (`cqw`), not
+      `vw` — the hero is two columns on desktop and one when stacked, so pane
+      width and viewport width do not track each other. Initial `vw`-based
+      sizing measured a 9.28px code font with clipped lines at 320px; now
+      10.88px with zero overflow.
+- [x] Snippet lines capped at ~32 chars for the same reason (documented in
+      `data.ts` — widening a line silently truncates it).
+- [x] Fixed a pre-existing bug found in passing: `.hv-orbit`'s
+      `transform-origin` was `320px 180px` against a 640×320 viewBox whose
+      centre is `320px 160px`, so the rings orbited 20px off-centre.
+- [x] Reduced-motion: nothing rotates, pulses, drifts, types, grows, or cycles;
+      the console holds on the Graph pane and every pane shows its settled
+      state. Rules added for the new `hv-tab*` / `hv-pane` / `hv-code-type` /
+      `hv-dep-*` animations.
+- [x] lint + typecheck + clean static **build** all green.
+- [x] Verified in browser (dark + light): all three panes render and cycle, ink
+      bar tracks the active tab, no console errors, no hydration warnings.
+      Measured pane geometry at 320 / 480 / 768 / 1440 / 1920 — ratio locks to
+      exactly 2.0 from 480 up, zero overflow inside the visual at every width.
+      At 320 the shared cell grows to 242×181 (ratio 1.34) because the code pane
+      is taller than a 2:1 box; panes are centred so the graph doesn't hang off
+      the top. Deliberately accepted over clipping the code, and it causes no
+      reflow since all panes share the cell.
+
+**Not verified / known:**
+
+- [ ] Below the 320px spec floor (~283px viewport) two code punctuation tokens
+      overflow by **2px**, clipped invisibly by `overflow: hidden`. Zero at the
+      320px minimum, so within spec — noted rather than chased.
+- [ ] `prefers-reduced-motion` could not be **emulated** in this browser pane;
+      the CSS rules and the `useReducedMotion` JS branch were verified by
+      inspection only, not by observing the reduced state.
+- [ ] Lighthouse / Firefox / Safari not runnable here (unchanged from prior
+      phases).
+- [ ] Pre-existing horizontal overflow at 1440 (`scrollWidth` 1463 vs
+      `clientWidth` 1425) traced to `.nav-right` / `.nav-cta-desktop`, **not**
+      the hero. Already logged in **Phase Q** as the nav-links 1024–1440
+      overflow (P2); left alone rather than silently folded into this change.
+
+_Note for future phases: running `npm run build` while `next dev` is live
+corrupts the shared `.next` and produces phantom failures (stale CSS, a
+`ServiceCard is not defined` error for a component that exists nowhere in the
+source). Same collision Phase 24 and Phase 25 hit. Stop the dev server first._
+
 ### Phase AI — Dedicated AI section (flagship differentiator) ✅
 
 Owner Priority 4: build AI into a standout section rather than a single line of
