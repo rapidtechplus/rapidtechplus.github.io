@@ -6,61 +6,14 @@ import { useEffect, useRef, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Ico } from "@/components/icon";
+import { MegaLink } from "@/components/layout/mega-link";
+import { CompanyMega } from "@/components/layout/company-mega";
 import {
   megaMenu,
   site,
   type MegaColumn,
   type MegaItem,
-  type NavLink,
 } from "@/content/site";
-
-/**
- * A single service inside a category panel. Renders as a card: icon, title,
- * one-line description, and a hover arrow. `soon` items render as a
- * non-clickable card with a "Soon" pill so intended IA shows without dead links.
- */
-function ServiceCard({
-  link,
-  onNavigate,
-}: {
-  link: NavLink;
-  onNavigate: () => void;
-}) {
-  const inner = (
-    <>
-      {link.icon && (
-        <span className="mega-ico" aria-hidden>
-          <Ico name={link.icon} />
-        </span>
-      )}
-      <span className="mega-link-text">
-        <span className="mega-link-label">
-          {link.label}
-          {link.soon && <span className="soon-pill">Soon</span>}
-        </span>
-        {link.desc && <span className="mega-link-desc">{link.desc}</span>}
-      </span>
-      {!link.soon && (
-        <span className="mega-link-arrow" aria-hidden>
-          →
-        </span>
-      )}
-    </>
-  );
-
-  if (link.soon) {
-    return (
-      <span className="mega-link is-soon" aria-disabled>
-        {inner}
-      </span>
-    );
-  }
-  return (
-    <Link className="mega-link" href={link.href} onClick={onNavigate}>
-      {inner}
-    </Link>
-  );
-}
 
 /**
  * Panel footer — the overview link plus a consultation CTA. Shared by every
@@ -199,6 +152,25 @@ function MegaMenuItem({
   const [active, setActive] = useState(0);
   const categories = item.columns ?? [];
 
+  // Company mode — sidebar + highlights/stats + story, closed by a banner.
+  if (item.company && item.links) {
+    return (
+      <div className={cn("nav-item", isOpen && "open")}>
+        <button
+          type="button"
+          className={cn("nav-trigger", isActive && "active")}
+          aria-expanded={isOpen}
+          onClick={onToggle}
+        >
+          {item.label}
+          <ChevronDown className="caret" size={14} aria-hidden />
+        </button>
+
+        <CompanyMega item={item} onNavigate={onNavigate} />
+      </div>
+    );
+  }
+
   // Flat mode — a single grid of items, no category rail.
   if (item.flat && item.links) {
     return (
@@ -218,7 +190,7 @@ function MegaMenuItem({
             <div className="mm-detail">
               <div className="mm-flat-cards">
                 {item.links.map((link) => (
-                  <ServiceCard
+                  <MegaLink
                     key={link.label}
                     link={link}
                     onNavigate={onNavigate}
@@ -268,7 +240,7 @@ function MegaMenuItem({
                 <h4 className="mm-panel-head">{cat.title}</h4>
                 <div className="mm-cards">
                   {cat.links.map((link) => (
-                    <ServiceCard
+                    <MegaLink
                       key={link.label}
                       link={link}
                       onNavigate={onNavigate}
@@ -370,7 +342,7 @@ export function Nav() {
           aria-label="Primary"
         >
           {megaMenu.map((item, i) =>
-            item.columns || (item.flat && item.links) ? (
+            item.columns || ((item.flat || item.company) && item.links) ? (
               <MegaMenuItem
                 key={item.label}
                 item={item}

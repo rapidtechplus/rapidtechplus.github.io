@@ -1090,6 +1090,360 @@ section {
   }
 }
 
+/* ---- Company mega: sidebar + highlights/stats + story, closed by a banner ----
+   The trust surface. Three columns at ≥1201px; the story column drops below
+   that; on mobile the shared accordion rules keep the sidebar (which *is* the
+   navigation) and the stats, and hide the rest. */
+.mega.is-company {
+  width: 1340px;
+  max-width: min(95vw, 1360px);
+}
+.mega.is-company .mega-inner {
+  grid-template-columns: 296px minmax(0, 1fr) 320px;
+}
+/* This is the tallest panel on the site, so it gets a viewport-height guard:
+   on a short laptop it scrolls internally instead of running off-screen, and it
+   stays correct as the sidebar grows rather than needing a re-tuned fixed
+   height. Desktop only — on mobile the accordion must expand to its natural
+   height (a cap there is what silently clipped panels before). */
+@media (min-width: 1025px) {
+  .mega.is-company .mega-inner {
+    max-height: calc(100dvh - var(--nav-h) - 28px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+}
+/* Mono eyebrow labelling each column. */
+.mm-co-label {
+  margin: 0 0 10px;
+  padding: 0 6px;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text-dim);
+}
+.mm-co-label-stats {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--hairline);
+}
+
+/* Left — company navigation. */
+.mm-co-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 16px 12px;
+  background: var(--surface);
+  border-right: 1px solid var(--hairline);
+}
+/* Current page — a lit rail edge, matching the category rail's active state. */
+.mega .mega-link.is-current {
+  background: var(--surface-2);
+  color: var(--text);
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+.mega .mega-link.is-current .mega-link-label {
+  color: var(--accent);
+}
+
+/* Middle — highlight cards over the derived stat grid. */
+.mm-co-mid {
+  padding: 18px;
+  min-width: 0;
+}
+.mm-co-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.mm-co-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 11px 12px;
+  border-radius: 11px;
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+  transition:
+    border-color 0.15s var(--ease),
+    background 0.15s var(--ease),
+    transform 0.15s var(--ease);
+}
+.mm-co-card:hover {
+  border-color: var(--accent-ring);
+  background: var(--surface-2);
+  transform: translateY(-2px);
+}
+/* Icon sits beside the title rather than above it — the panel is tall enough
+   already, and the row keeps each card to three lines. */
+.mm-co-card-head {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.mm-co-card-ico {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-ring);
+  color: var(--accent);
+}
+.mm-co-card-ico svg {
+  width: 14px;
+  height: 14px;
+}
+.mm-co-card-title {
+  font-size: 0.83rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--text);
+}
+.mm-co-card-body {
+  font-size: 0.76rem;
+  line-height: 1.45;
+  color: var(--text-dim);
+}
+.mm-co-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+}
+.mm-co-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+}
+/* Source order is label-then-value (a valid <dl> pair); `order` puts the number
+   on top visually without splitting the association. */
+.mm-co-stat-value {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--accent);
+  order: -1;
+}
+.mm-co-stat-label {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+}
+
+/* Right — the company story. */
+.mm-co-feature {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 20px 20px 22px;
+  border-left: 1px solid var(--hairline);
+  background:
+    radial-gradient(
+      120% 90% at 100% 0%,
+      var(--accent-soft) 0%,
+      transparent 62%
+    ),
+    var(--surface);
+}
+/* Abstract motif — concentric rings behind the glyph. Original to Rapid Tech
+   Plus: built from the design tokens, no imagery. */
+.mm-co-viz {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 104px;
+  border-radius: 12px;
+  border: 1px solid var(--hairline);
+  background:
+    radial-gradient(circle at 50% 50%, var(--accent-soft) 0%, transparent 70%),
+    var(--bg-elev);
+  overflow: hidden;
+}
+.mm-co-viz::before,
+.mm-co-viz::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid var(--accent-ring);
+  opacity: 0.6;
+}
+.mm-co-viz::before {
+  width: 72px;
+  height: 72px;
+}
+.mm-co-viz::after {
+  width: 108px;
+  height: 108px;
+  opacity: 0.32;
+}
+.mm-co-orb {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 13px;
+  background: var(--bg-elev);
+  border: 1px solid var(--accent-ring);
+  color: var(--accent);
+  box-shadow: 0 0 0 6px var(--accent-soft);
+}
+.mm-co-orb svg {
+  width: 20px;
+  height: 20px;
+}
+.mm-co-eyebrow {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text-dim);
+}
+.mm-co-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.02rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--text);
+}
+.mm-co-body {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: var(--text-dim);
+}
+.mm-co-actions {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 14px;
+}
+/* Reuses the primary button's fixed indigo gradient rather than var(--accent):
+   the accent is tuned for legibility *on* the canvas, so white text on it fails
+   contrast in dark. This gradient carries --on-accent at ~6:1 in both themes. */
+.mm-co-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 9px;
+  background: linear-gradient(180deg, #6366f1 0%, #4f46e5 100%);
+  color: var(--on-accent);
+  font-size: 0.82rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition:
+    background 0.15s var(--ease),
+    transform 0.15s var(--ease);
+}
+.mm-co-cta span {
+  transition: transform 0.2s var(--ease);
+}
+.mm-co-cta:hover {
+  background: linear-gradient(180deg, #6d70f4 0%, #574ee8 100%);
+  transform: translateY(-1px);
+}
+.mm-co-cta:hover span {
+  transform: translateX(3px);
+}
+.mm-co-cta:focus-visible,
+.mm-co-ghost:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.mm-co-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  border-radius: 9px;
+  border: 1px solid var(--border-strong);
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition:
+    border-color 0.15s var(--ease),
+    color 0.15s var(--ease);
+}
+.mm-co-ghost:hover {
+  border-color: var(--accent-ring);
+  color: var(--text);
+}
+
+/* Foot — promotional banner across every column. */
+.mm-co-banner {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 15px 22px;
+  border-top: 1px solid var(--hairline);
+  background:
+    radial-gradient(90% 300% at 0% 50%, var(--accent-soft) 0%, transparent 60%),
+    var(--surface);
+}
+.mm-co-banner-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.mm-co-banner-body {
+  margin: 2px 0 0;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+}
+.mm-co-banner-cta {
+  flex: none;
+}
+
+/* Tablet — the story column drops; its actions already live in the banner and
+   the sidebar, so nothing is lost. */
+@media (max-width: 1200px) {
+  .mm-co-feature {
+    display: none;
+  }
+  .mega.is-company {
+    width: 1000px;
+  }
+  .mega.is-company .mega-inner {
+    grid-template-columns: 296px minmax(0, 1fr);
+  }
+  .mm-co-cards {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .mm-co-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 /* ---- Flat mega (Industries): one grid, no category rail ---- */
 .mega.is-flat {
   width: 800px;
@@ -1627,6 +1981,26 @@ section {
 }
 .hv-pane {
   position: relative;
+  grid-area: 1 / 1;
+  min-width: 0;
+  /* On narrow screens the code pane is taller than the 2:1 box, so the shared
+     cell grows to fit it (clipping code would be worse). Centering keeps the
+     shorter panes — the graph especially — from hanging off the top edge. */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px) scale(0.985);
+  transition:
+    opacity 0.45s var(--ease),
+    transform 0.45s var(--ease),
+    visibility 0.45s;
+}
+.hv-pane.is-active {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
 }
 .hv-chips {
   position: absolute;
@@ -1818,380 +2192,6 @@ section {
   }
 }
 
-/* Testimonials */
-.quote-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: clamp(20px, 1.8vw, 30px);
-}
-.quote {
-  position: relative;
-  background: var(--bg-elev);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: clamp(28px, 2.4vw, 38px);
-  display: flex;
-  flex-direction: column;
-  gap: 22px;
-  transition:
-    border-color 0.25s var(--ease),
-    transform 0.25s var(--ease);
-}
-.quote:hover {
-  border-color: var(--accent-ring);
-  transform: translateY(-4px);
-}
-.quote .mark {
-  font-family: var(--font-display);
-  font-size: 2.4rem;
-  line-height: 0.6;
-  color: var(--accent);
-  height: 20px;
-}
-.quote p {
-  margin: 0;
-  color: var(--text);
-  font-size: 1.04rem;
-  line-height: 1.6;
-}
-.quote .who {
-  margin-top: auto;
-}
-.quote .who .name {
-  font-weight: 600;
-  color: var(--text);
-  font-size: 0.95rem;
-}
-.quote .who .role {
-  color: var(--text-dim);
-  font-size: 0.85rem;
-}
-
-/* Insights / blog cards */
-.post-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: clamp(20px, 1.8vw, 30px);
-}
-.post {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  background: var(--bg-elev);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: clamp(24px, 2.2vw, 32px);
-  transition:
-    border-color 0.25s var(--ease),
-    transform 0.25s var(--ease),
-    box-shadow 0.25s var(--ease);
-}
-.post:hover {
-  border-color: var(--accent-ring);
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
-}
-.post .post-meta {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 0.78rem;
-  color: var(--text-dim);
-}
-.post .post-cat {
-  font-family: var(--font-mono);
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--accent);
-}
-.post h3 {
-  margin: 0;
-  font-size: 1.16rem;
-  line-height: 1.25;
-}
-.post p {
-  margin: 0;
-  font-size: 0.96rem;
-}
-.post .post-more {
-  margin-top: auto;
-  color: var(--accent);
-  font-weight: 600;
-  font-size: 0.9rem;
-}
-.post-featured {
-  padding: clamp(30px, 3.4vw, 52px);
-  background:
-    radial-gradient(80% 120% at 100% 0%, var(--accent-soft), transparent 60%),
-    var(--bg-elev);
-}
-.post-featured h2 {
-  margin: 0;
-  font-size: clamp(1.5rem, 3vw, 2.2rem);
-  max-width: 22ch;
-}
-.post-featured p {
-  font-size: 1.08rem;
-  max-width: 68ch;
-}
-
-/* ---------- Cards / grids ---------- */
-.grid {
-  display: grid;
-  gap: clamp(20px, 1.8vw, 30px);
-}
-.grid-2 {
-  grid-template-columns: repeat(2, 1fr);
-}
-.grid-3 {
-  grid-template-columns: repeat(3, 1fr);
-}
-.grid-4 {
-  grid-template-columns: repeat(4, 1fr);
-}
-
-.card {
-  position: relative;
-  background: var(--bg-elev);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: clamp(28px, 2.4vw, 40px);
-  overflow: hidden;
-  transition:
-    transform 0.25s var(--ease),
-    border-color 0.25s var(--ease),
-    box-shadow 0.25s var(--ease);
-}
-/* Cursor-reactive sheen (progressive enhancement via --mx/--my) */
-.card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: radial-gradient(
-    240px circle at var(--mx, 50%) var(--my, 0%),
-    var(--accent-soft),
-    transparent 60%
-  );
-  opacity: 0;
-  transition: opacity 0.3s var(--ease);
-  pointer-events: none;
-}
-.card:hover {
-  transform: translateY(-5px);
-  border-color: var(--accent-ring);
-  grid-area: 1 / 1;
-  min-width: 0;
-  /* On narrow screens the code pane is taller than the 2:1 box, so the shared
-     cell grows to fit it (clipping code would be worse). Centering keeps the
-     shorter panes — the graph especially — from hanging off the top edge. */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(8px) scale(0.985);
-  transition:
-    opacity 0.45s var(--ease),
-    transform 0.45s var(--ease),
-    visibility 0.45s;
-}
-.hv-pane.is-active {
-  opacity: 1;
-  visibility: visible;
-  transform: none;
-  box-shadow: var(--shadow-md);
-}
-.card:hover::before {
-  opacity: 1;
-}
-.card > * {
-  position: relative;
-}
-.card .ico {
-  width: 46px;
-  height: 46px;
-  border-radius: 12px;
-  background: var(--accent-soft);
-  color: var(--accent);
-  display: grid;
-  place-items: center;
-  font-size: 1.2rem;
-  margin-bottom: 20px;
-  border: 1px solid var(--accent-ring);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
-}
-.card .ico svg {
-  width: 21px;
-  height: 21px;
-}
-.card h3 {
-  margin-bottom: 9px;
-}
-.card p {
-  margin: 0;
-  font-size: 0.98rem;
-}
-
-/* Linked card variant (RelatedGrid) — the whole card is a link with an arrow */
-.card-link {
-  padding: 0;
-}
-.card-link-a {
-  display: block;
-  padding: clamp(28px, 2.4vw, 40px);
-  color: inherit;
-  text-decoration: none;
-}
-.card-link .card-more {
-  display: inline-block;
-  margin-top: 16px;
-  color: var(--accent);
-  font-family: var(--font-mono);
-  font-size: 0.95rem;
-  transition: transform 0.2s var(--ease);
-}
-.card-link:hover .card-more {
-  transform: translateX(4px);
-}
-.card-link:focus-within {
-  border-color: var(--accent-ring);
-}
-.card-link-a:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
-  border-radius: var(--radius-lg);
-}
-
-/* Feature list rows */
-.feature {
-  display: flex;
-  gap: 16px;
-  align-items: flex-start;
-}
-.feature .check {
-  flex: none;
-  width: 28px;
-  height: 28px;
-  border-radius: 9px;
-  background: var(--success-soft);
-  color: var(--success);
-  display: grid;
-  place-items: center;
-  font-size: 0.8rem;
-  margin-top: 2px;
-  border: 1px solid color-mix(in oklab, var(--success) 32%, transparent);
-}
-.feature .check svg {
-  width: 14px;
-  height: 14px;
-}
-.feature h3 {
-  font-size: 1.1rem;
-  margin-bottom: 5px;
-}
-.feature p {
-  margin: 0;
-  font-size: 0.96rem;
-}
-
-/* Stats */
-.stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: clamp(20px, 1.8vw, 30px);
-  text-align: center;
-}
-.stat {
-  padding: 28px 20px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--surface);
-}
-.stat .num {
-  font-family: var(--font-display);
-  font-size: clamp(2.2rem, 4.5vw, 3.2rem);
-  font-weight: 700;
-  letter-spacing: -0.04em;
-  line-height: 1;
-  background: var(--grad-text);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-.stat .label {
-  font-family: var(--font-mono);
-  color: var(--text-dim);
-  font-size: 0.76rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  margin-top: 12px;
-}
-
-/* Tech chips (interactive) */
-.chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  justify-content: center;
-}
-.chip {
-  padding: 10px 16px;
-  border-radius: 9px;
-  background: var(--bg-elev);
-  border: 1px solid var(--border);
-  font-family: var(--font-mono);
-  font-size: 0.84rem;
-  color: var(--text-muted);
-  font-weight: 500;
-  cursor: default;
-  transition:
-    border-color 0.18s var(--ease),
-    color 0.18s var(--ease),
-    transform 0.18s var(--ease),
-    box-shadow 0.18s var(--ease);
-}
-.chip:hover {
-  border-color: var(--accent);
-  color: var(--text);
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px var(--accent-soft);
-}
-
-/* Split section */
-.split {
-  display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-  gap: clamp(32px, 5vw, 72px);
-  align-items: center;
-}
-.panel {
-  position: relative;
-  background: var(--bg-elev);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: clamp(26px, 4vw, 42px);
-  box-shadow: var(--shadow-md);
-}
-
-/* Process timeline (numbered, connected) */
-.timeline {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: clamp(20px, 1.8vw, 30px);
-  counter-reset: step;
-}
-.timeline.timeline-5 {
-  grid-template-columns: repeat(5, 1fr);
-}
-.timeline .step {
-  position: relative;
-  padding: 30px 26px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  background: var(--bg-elev);
-  transition:
 /* ── Code pane ─────────────────────────────────────────────────────────────
    The snippet types itself in: each line's clip-path opens left-to-right on
    character steps, so the reveal lands on glyph boundaries like a real editor. */
@@ -2391,6 +2391,360 @@ section {
   animation: pulse 1.8s var(--ease) infinite;
 }
 
+/* Testimonials */
+.quote-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(20px, 1.8vw, 30px);
+}
+.quote {
+  position: relative;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: clamp(28px, 2.4vw, 38px);
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  transition:
+    border-color 0.25s var(--ease),
+    transform 0.25s var(--ease);
+}
+.quote:hover {
+  border-color: var(--accent-ring);
+  transform: translateY(-4px);
+}
+.quote .mark {
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+  line-height: 0.6;
+  color: var(--accent);
+  height: 20px;
+}
+.quote p {
+  margin: 0;
+  color: var(--text);
+  font-size: 1.04rem;
+  line-height: 1.6;
+}
+.quote .who {
+  margin-top: auto;
+}
+.quote .who .name {
+  font-weight: 600;
+  color: var(--text);
+  font-size: 0.95rem;
+}
+.quote .who .role {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+
+/* Insights / blog cards */
+.post-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(20px, 1.8vw, 30px);
+}
+.post {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: clamp(24px, 2.2vw, 32px);
+  transition:
+    border-color 0.25s var(--ease),
+    transform 0.25s var(--ease),
+    box-shadow 0.25s var(--ease);
+}
+.post:hover {
+  border-color: var(--accent-ring);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+.post .post-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+}
+.post .post-cat {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.post h3 {
+  margin: 0;
+  font-size: 1.16rem;
+  line-height: 1.25;
+}
+.post p {
+  margin: 0;
+  font-size: 0.96rem;
+}
+.post .post-more {
+  margin-top: auto;
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+.post-featured {
+  padding: clamp(30px, 3.4vw, 52px);
+  background:
+    radial-gradient(80% 120% at 100% 0%, var(--accent-soft), transparent 60%),
+    var(--bg-elev);
+}
+.post-featured h2 {
+  margin: 0;
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  max-width: 22ch;
+}
+.post-featured p {
+  font-size: 1.08rem;
+  max-width: 68ch;
+}
+
+/* ---------- Cards / grids ---------- */
+.grid {
+  display: grid;
+  gap: clamp(20px, 1.8vw, 30px);
+}
+.grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+.grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+.grid-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.card {
+  position: relative;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: clamp(28px, 2.4vw, 40px);
+  overflow: hidden;
+  transition:
+    transform 0.25s var(--ease),
+    border-color 0.25s var(--ease),
+    box-shadow 0.25s var(--ease);
+}
+/* Cursor-reactive sheen (progressive enhancement via --mx/--my) */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    240px circle at var(--mx, 50%) var(--my, 0%),
+    var(--accent-soft),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.3s var(--ease);
+  pointer-events: none;
+}
+.card:hover {
+  transform: translateY(-5px);
+  border-color: var(--accent-ring);
+  box-shadow: var(--shadow-md);
+}
+.card:hover::before {
+  opacity: 1;
+}
+.card > * {
+  position: relative;
+}
+.card .ico {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  display: grid;
+  place-items: center;
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  border: 1px solid var(--accent-ring);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+.card .ico svg {
+  width: 21px;
+  height: 21px;
+}
+.card h3 {
+  margin-bottom: 9px;
+}
+.card p {
+  margin: 0;
+  font-size: 0.98rem;
+}
+
+/* Linked card variant (RelatedGrid) — the whole card is a link with an arrow */
+.card-link {
+  padding: 0;
+}
+.card-link-a {
+  display: block;
+  padding: clamp(28px, 2.4vw, 40px);
+  color: inherit;
+  text-decoration: none;
+}
+.card-link .card-more {
+  display: inline-block;
+  margin-top: 16px;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  transition: transform 0.2s var(--ease);
+}
+.card-link:hover .card-more {
+  transform: translateX(4px);
+}
+.card-link:focus-within {
+  border-color: var(--accent-ring);
+}
+.card-link-a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: var(--radius-lg);
+}
+
+/* Feature list rows */
+.feature {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+.feature .check {
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 9px;
+  background: var(--success-soft);
+  color: var(--success);
+  display: grid;
+  place-items: center;
+  font-size: 0.8rem;
+  margin-top: 2px;
+  border: 1px solid color-mix(in oklab, var(--success) 32%, transparent);
+}
+.feature .check svg {
+  width: 14px;
+  height: 14px;
+}
+.feature h3 {
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+}
+.feature p {
+  margin: 0;
+  font-size: 0.96rem;
+}
+
+/* Stats */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(20px, 1.8vw, 30px);
+  text-align: center;
+}
+.stat {
+  padding: 28px 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.stat .num {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  background: var(--grad-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.stat .label {
+  font-family: var(--font-mono);
+  color: var(--text-dim);
+  font-size: 0.76rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-top: 12px;
+}
+
+/* Tech chips (interactive) */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+.chip {
+  padding: 10px 16px;
+  border-radius: 9px;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  cursor: default;
+  transition:
+    border-color 0.18s var(--ease),
+    color 0.18s var(--ease),
+    transform 0.18s var(--ease),
+    box-shadow 0.18s var(--ease);
+}
+.chip:hover {
+  border-color: var(--accent);
+  color: var(--text);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px var(--accent-soft);
+}
+
+/* Split section */
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
+}
+.panel {
+  position: relative;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: clamp(26px, 4vw, 42px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Process timeline (numbered, connected) */
+.timeline {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(20px, 1.8vw, 30px);
+  counter-reset: step;
+}
+.timeline.timeline-5 {
+  grid-template-columns: repeat(5, 1fr);
+}
+.timeline .step {
+  position: relative;
+  padding: 30px 26px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg-elev);
+  transition:
     border-color 0.25s var(--ease),
     transform 0.25s var(--ease);
 }
@@ -3422,9 +3776,50 @@ a.contact-method:hover .cm-value {
   }
   .mega,
   .mega.is-flat,
-  .mega.is-showcase {
+  .mega.is-showcase,
+  .mega.is-company {
     width: auto;
     max-width: none;
+  }
+
+  /* Company panel — the sidebar is the navigation, so it stays; the highlight
+     cards and story would make the sheet unusably long, so the trust signal
+     narrows to the stat strip above the banner. */
+  .mm-co-nav {
+    padding: 2px 6px 10px;
+    background: none;
+    border-right: 0;
+  }
+  .mm-co-cards,
+  .mm-co-feature {
+    display: none;
+  }
+  /* The sidebar/highlights eyebrows label columns that no longer exist here;
+     the stats eyebrow still heads a real section, so it stays. */
+  .mm-co-label:not(.mm-co-label-stats) {
+    display: none;
+  }
+  .mm-co-mid {
+    padding: 0 6px 10px;
+  }
+  .mm-co-label-stats {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+  }
+  .mm-co-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .mm-co-banner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    margin-top: 10px;
+    padding: 14px 6px 4px;
+    background: none;
+  }
+  .mm-co-banner-cta {
+    min-height: 44px;
   }
   /* Accordion sections own their spacing; drop the showcase's desktop padding. */
   .mega.is-showcase .mm-detail {
@@ -3492,13 +3887,36 @@ a.contact-method:hover .cm-value {
   .hv-chip,
   .hv-term-caret,
   .grad-text,
+  .hv-dep-grow,
+  .hv-dep-step--active .hv-dep-tick,
   .hv-live::before {
     animation: none !important;
+  }
+  /* The console holds on the Graph pane; the ink bar and pane swap stop moving,
+     and the code snippet shows fully typed. */
+  .hv-tab,
+  .hv-tab-ink,
+  .hv-pane {
+    transition: none !important;
+  }
+  .hv-code-type {
+    clip-path: none;
+    animation: none !important;
+  }
+  .hv-dep-bar {
+    transform: none;
+    opacity: 1;
   }
   .bg-parallax,
   .magnetic {
     transform: none !important;
     transition: none;
+  }
+  /* Company mega — keep the hover feedback as colour only, no travel. */
+  .mm-co-card:hover,
+  .mm-co-cta:hover,
+  .mm-co-cta:hover span {
+    transform: none;
   }
   .text-reveal .tr-word {
     transform: none;
@@ -3525,20 +3943,3 @@ a.contact-method:hover .cm-value {
     animation: none;
   }
 }
-  .hv-dep-grow,
-  .hv-dep-step--active .hv-dep-tick,
-  /* The console holds on the Graph pane; the ink bar and pane swap stop moving,
-     and the code snippet shows fully typed. */
-  .hv-tab,
-  .hv-tab-ink,
-  .hv-pane {
-    transition: none !important;
-  }
-  .hv-code-type {
-    clip-path: none;
-    animation: none !important;
-  }
-  .hv-dep-bar {
-    transform: none;
-    opacity: 1;
-  }

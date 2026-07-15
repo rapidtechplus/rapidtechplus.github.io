@@ -15,6 +15,7 @@ import { hireMenuColumns } from "@/content/hire";
 import { solutionMenuColumns } from "@/content/solutions";
 import { industriesMenu } from "@/content/industries";
 import { caseStudiesMenu } from "@/content/case-studies";
+import { companyMenu } from "@/content/company";
 
 // Re-export shared content types so existing `@/content/site` importers keep
 // working without reaching into `content/types` directly.
@@ -61,28 +62,10 @@ export const site = {
 
 export type NavItem = { label: string; href: string };
 
-/** Company mega-menu (compact, single-column). Not backed by a collection. */
-const companyMenu: MegaItem = {
-  label: "Company",
-  href: "/about",
-  flat: true,
-  compact: true,
-  links: [
-    { label: "About", href: "/about", icon: "building-2", desc: "Who we are and how we work" },
-    { label: "Why Us", href: "/why-us", icon: "sparkles", desc: "Reasons teams build with us" },
-    { label: "Culture", href: "/culture", icon: "heart", desc: "How we work as a team" },
-    { label: "Engineering", href: "/engineering", icon: "code-xml", desc: "How we build software" },
-    { label: "Careers", href: "/careers", icon: "star", desc: "Build your career with us" },
-    { label: "Contact", href: CONTACT_HREF, icon: "mail", desc: "Start a conversation" },
-    { label: "Our Process", href: "/our-process", icon: "workflow", desc: "Discover, design, build, launch" },
-    { label: "Open Source", href: "/open-source", icon: "book-open", desc: "How we give back to the community" },
-  ],
-};
-
 /**
  * Top-level navigation, composed from the content collections. Every entry's
- * copy comes from a collection (or, for Company, the literal above) so there is
- * one source of truth shared by the nav and the pages.
+ * copy comes from a collection so there is one source of truth shared by the
+ * nav and the pages.
  */
 export const megaMenu: MegaItem[] = [
   aiMenu,
@@ -160,6 +143,7 @@ export const footerColumns: { title: string; links: NavLink[] }[] = [
     links: [
       { label: "About", href: "/about" },
       { label: "Why Us", href: "/why-us" },
+      { label: "Culture", href: "/culture" },
       { label: "Engineering", href: "/engineering" },
       { label: "Careers", href: "/careers" },
       { label: "Our Process", href: "/our-process" },

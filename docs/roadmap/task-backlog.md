@@ -1107,10 +1107,13 @@ template.
 
 ### Phase I — Company pages
 
-- [~] `/careers` shipped (Phase 22) and the `soon` flag retired from the Company
-  menu. `/about/story`, `/about/leadership` still to come.
-  _Deps: A + copy. Accept: Company menu items resolve to real pages. Priority:
-  P2. Complexity: M._
+- [x] **Closed by Phase 27.** The Company section is now scoped to the seven
+  owner-defined pages (About, Why Us, Culture, Careers, Engineering,
+  `/our-process`, Contact) and every menu item resolves to a real page — the
+  acceptance criterion is met. `/about/story` and `/about/leadership` are
+  **deliberately out of scope**: the Leadership/Partners/Certifications pills
+  were removed in Phase 27 rather than built. Reopen only if the owner widens
+  the Company set. _Deps: A + copy._
 
 ### Phase 25 — Company pages: Why Us · Culture · Engineering ✅
 
@@ -1138,6 +1141,46 @@ Contact already shipped; this phase adds the three missing pages.
       concurrent dev server in the same folder, not a code issue.)
       Screenshots/Firefox/Safari/Lighthouse not runnable in this pane (unchanged
       from prior phases).
+
+### Phase 27 — Company section scoped to the seven defined pages ✅
+
+Owner-requested (Priority 10 follow-up): constrain the Company section to the
+seven defined pages — About, Why Us, Culture, Careers, Engineering, Development
+Process (`/our-process`), Contact — and remove the rest. All seven already
+existed (Phases 3/22/25), so this was a scoping pass, not new page work.
+
+- [x] `content/company.ts` — Company mega-menu trimmed 11 → **7** links.
+      Removed the **Open Source** link and the three `soon` pills (Leadership
+      Team, Partners, Certifications). Every remaining link resolves to a real
+      route; zero `soon` pills.
+- [x] **`/open-source` page deliberately kept live** (owner decision) — only its
+      Company-menu entry was dropped. It stays reachable via the `/about` prose
+      link and the human `/sitemap` index, and remains in `app/sitemap.ts`.
+      Deleting it would have meant rewriting the About cross-link and discarding
+      its `content/site.ts` copy.
+- [x] Footer Company column — added the **missing Culture** link (was 6 items,
+      inconsistent with the defined set); now matches the menu's seven.
+- [x] `/sitemap` index left listing Open Source: it is the index of *every*
+      public route, and the route is still live.
+- [x] lint + typecheck + clean static **build** all green. Verified in browser
+      (dev) — Company panel renders exactly 7 links (`/about`, `/why-us`,
+      `/our-process`, `/engineering`, `/culture`, `/careers`, `/contact`), no
+      soon pills; footer column shows the 7 incl. Culture; `/open-source` still
+      200s and `/about` still links it. Verified against the static export —
+      "Leadership Team" and "Certifications" have **zero** occurrences, all 7
+      company routes emit `index.html`, and `out/open-source` still exports.
+
+**Newly discovered:**
+
+- [ ] **`soon` support is now entirely unused** — no `soon: true` exists anywhere
+      in the content collections, leaving the `NavLink["soon"]` type field, the
+      `MegaLink` `is-soon` branch (`components/layout/mega-link.tsx`), and the
+      `.soon-pill` / `.mega-link.is-soon` CSS as dead paths (confirmed in the
+      export: `soon-pill` appears only in the layout chunk + CSS, never in page
+      HTML). Kept deliberately — it is a documented general-purpose nav
+      affordance (Phase 7) likely wanted again for Leadership/Partners, and
+      stripping it is unrelated to this scoping change. Either use it or remove
+      all three pieces together. _Deps: none. Priority: P3. Complexity: S._
 
 ### Phase 22 — Company nav restructure + new pages ✅
 
