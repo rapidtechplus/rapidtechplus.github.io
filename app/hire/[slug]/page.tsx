@@ -1,10 +1,14 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { DetailLayout } from "@/components/sections/detail-layout";
+import { HireLanding } from "@/components/sections/hire-landing";
 import {
   getHireRole,
+  getRoleTech,
   hireSlugs,
   relatedRoles,
+  engagementModels,
+  whyRapidTechPlus,
+  hireProcess,
   hireFaqs,
 } from "@/content/hire";
 import { SITE_URL } from "@/config/site";
@@ -42,6 +46,7 @@ export default async function HireRolePage({ params }: Params) {
   if (!role) notFound();
 
   const title = `Hire ${role.label}`;
+  const technologies = getRoleTech(role.slug);
   const related = relatedRoles(role.slug).map((r) => ({
     icon: r.icon,
     title: r.label,
@@ -49,7 +54,7 @@ export default async function HireRolePage({ params }: Params) {
     href: `/hire/${r.slug}`,
   }));
 
-  const jsonLd = {
+  const serviceLd = {
     "@context": "https://schema.org",
     "@type": "Service",
     name: title,
@@ -63,13 +68,27 @@ export default async function HireRolePage({ params }: Params) {
     },
   };
 
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: hireFaqs.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  };
+
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceLd) }}
       />
-      <DetailLayout
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
+      />
+      <HireLanding
         crumbs={[
           { label: "Home", href: "/" },
           { label: "Hire Expert", href: "/hire" },
@@ -79,11 +98,15 @@ export default async function HireRolePage({ params }: Params) {
         title={title}
         lead={role.intro}
         overview={role.overview}
-        capabilities={role.capabilities}
-        capabilitiesTitle="What they bring"
+        overviewTitle={`Why teams hire ${role.label.toLowerCase()}`}
+        reasons={whyRapidTechPlus}
+        skills={role.capabilities}
+        skillsTitle="What they bring"
+        models={engagementModels}
+        technologies={technologies}
+        process={hireProcess}
         faqs={hireFaqs}
         related={related}
-        relatedEyebrow="Related roles"
         relatedTitle={`More ${role.category.toLowerCase()}`}
         cta={{
           title: `Ready to hire ${role.label.toLowerCase()}?`,

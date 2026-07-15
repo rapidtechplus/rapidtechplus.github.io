@@ -5,14 +5,23 @@
  * (menu) and a longer `body` (hub card), plus the `intro`, `overview`, and
  * `capabilities` its detail page renders, so there is no duplicated copy.
  *
- * The taxonomy is a master–detail set of six outcome-focused categories, each
- * grouping the individual solutions it contains. The mega menu renders the
- * categories as a left rail; hovering one reveals its solutions, each linking
- * to its own `/solutions/[slug]` detail page.
+ * The taxonomy is a set of eight outcome-focused categories. The mega menu
+ * renders them as a three-column showcase: a category rail, the category's
+ * solutions, and a featured panel. AI leads the taxonomy — but its links
+ * resolve to the canonical `/ai/[slug]` pages rather than to solution records
+ * of their own, so the site keeps a single home per AI capability (see the
+ * Phase AI de-duplication note in the backlog).
  */
 
 import { CONTACT_HREF } from "@/config/site";
-import type { MegaColumn, DetailRecord, Feature, Faq } from "@/content/types";
+import { aiCapabilities } from "@/content/ai";
+import type {
+  MegaColumn,
+  NavLink,
+  DetailRecord,
+  Feature,
+  Faq,
+} from "@/content/types";
 
 export type SolutionRecord = DetailRecord & {
   /** Mega-menu category grouping. */
@@ -28,220 +37,14 @@ export type SolutionRecord = DetailRecord & {
 };
 
 export const solutionRecords: SolutionRecord[] = [
-  // ── AI & Automation ────────────────────────────────────────────────────
-  {
-    slug: "ai-solutions",
-    category: "AI & Automation",
-    label: "AI Solutions",
-    title: "AI Solutions",
-    icon: "brain-circuit",
-    summary: "Production AI, end to end",
-    body: "Production-grade AI built for real work — from strategy and data to models, guardrails, and evaluation, shipped with the reliability your business needs.",
-    intro:
-      "Production-grade AI built for real work — from strategy and data to models, guardrails, and evaluation, shipped with the reliability your business needs.",
-    overview:
-      "We take AI from idea to production without the science-project detour: a clear use case, the right data foundation, models chosen for the job, and the guardrails and evaluation that keep them trustworthy once real users depend on them.",
-    capabilities: [
-      {
-        icon: "target",
-        title: "Strategy & use cases",
-        body: "We identify where AI creates real value and scope the work so the first release earns its keep.",
-      },
-      {
-        icon: "shield-check",
-        title: "Guardrails & evaluation",
-        body: "Safety rails, testing, and monitoring so outputs stay accurate and on-policy in production.",
-      },
-      {
-        icon: "gauge",
-        title: "Built to scale",
-        body: "Architecture and cost controls that keep AI fast and affordable as usage grows.",
-      },
-    ],
-  },
-  {
-    slug: "ai-agents",
-    category: "AI & Automation",
-    label: "AI Agents",
-    title: "AI Agents",
-    icon: "bot",
-    summary: "Autonomous assistants in your stack",
-    body: "Autonomous assistants wired into your data and tools — answering questions, triaging work, and taking action under your rules.",
-    intro:
-      "Autonomous assistants wired into your data and tools — answering questions, triaging work, and taking action under your rules.",
-    overview:
-      "We build tool-using agents that plan and act inside your systems, not just chat. They read your data, call your APIs, and complete multi-step tasks — always within permissions and policy you define, with a full audit trail.",
-    capabilities: [
-      {
-        icon: "workflow",
-        title: "Plan & act",
-        body: "Agents that break a goal into steps and use your tools to complete real work end to end.",
-      },
-      {
-        icon: "plug-zap",
-        title: "Tool & data access",
-        body: "Secure, governed connections to your APIs, databases, and third-party services.",
-      },
-      {
-        icon: "shield-check",
-        title: "Guardrails & oversight",
-        body: "Permission boundaries, approvals, and logging so autonomy stays safe and reviewable.",
-      },
-    ],
-  },
-  {
-    slug: "generative-ai",
-    category: "AI & Automation",
-    label: "Generative AI",
-    title: "Generative AI",
-    icon: "sparkles",
-    summary: "Content, code & creative at scale",
-    body: "Generative features that draft, summarise, and create — text, code, and media — grounded in your context and safe to ship.",
-    intro:
-      "Generative features that draft, summarise, and create — text, code, and media — grounded in your context and safe to ship.",
-    overview:
-      "We embed generation where it saves your team time: drafting copy, summarising documents, producing code and media — always grounded in your context and guarded against the failure modes that make generative features risky.",
-    capabilities: [
-      {
-        icon: "sparkles",
-        title: "Grounded generation",
-        body: "Outputs anchored to your data and brand voice, not generic model defaults.",
-      },
-      {
-        icon: "layout-dashboard",
-        title: "In-product features",
-        body: "Draft, summarise, and rewrite flows built directly into your app's UX.",
-      },
-      {
-        icon: "shield-check",
-        title: "Safe to ship",
-        body: "Content filters, review steps, and evaluation so what you release stays on-brand and on-policy.",
-      },
-    ],
-  },
-  {
-    slug: "llm-integration",
-    category: "AI & Automation",
-    label: "LLM Integration",
-    title: "LLM Integration",
-    icon: "plug-zap",
-    summary: "Language models in your product",
-    body: "Securely wire large language models into your product and workflows, with prompt design, evaluation, and cost controls built in.",
-    intro:
-      "Securely wire large language models into your product and workflows, with prompt design, evaluation, and cost controls built in.",
-    overview:
-      "We integrate LLMs into real products the right way: robust prompt and context design, structured outputs your code can trust, evaluation to catch regressions, and cost controls so quality and spend stay predictable.",
-    capabilities: [
-      {
-        icon: "plug-zap",
-        title: "Robust integration",
-        body: "Structured outputs, retries, and fallbacks so language models behave reliably in production code.",
-      },
-      {
-        icon: "target",
-        title: "Prompt & context design",
-        body: "Prompts and context pipelines engineered and versioned for accuracy and consistency.",
-      },
-      {
-        icon: "gauge",
-        title: "Cost & quality controls",
-        body: "Caching, model routing, and evaluation to keep spend down and quality measurable.",
-      },
-    ],
-  },
-  {
-    slug: "rag-solutions",
-    category: "AI & Automation",
-    label: "RAG Solutions",
-    title: "RAG Solutions",
-    icon: "database",
-    summary: "Answers grounded in your data",
-    body: "Retrieval-augmented pipelines that ground every answer in your own content — accurate, current, and citable.",
-    intro:
-      "Retrieval-augmented pipelines that ground every answer in your own content — accurate, current, and citable.",
-    overview:
-      "We build retrieval-augmented systems that answer from your own knowledge base — documents, wikis, tickets, code — so responses stay accurate, current, and citable instead of hallucinated. Ingestion, indexing, and retrieval are tuned for your content.",
-    capabilities: [
-      {
-        icon: "database",
-        title: "Ingestion & indexing",
-        body: "Pipelines that turn your documents and data into clean, searchable, up-to-date knowledge.",
-      },
-      {
-        icon: "target",
-        title: "Accurate retrieval",
-        body: "Tuned search and ranking so the model sees the right context for every question.",
-      },
-      {
-        icon: "shield-check",
-        title: "Citable & governed",
-        body: "Answers link back to sources, with access controls that respect who can see what.",
-      },
-    ],
-  },
-  {
-    slug: "mcp-server-development",
-    category: "AI & Automation",
-    label: "MCP Server Development",
-    title: "MCP Server Development",
-    icon: "server",
-    summary: "Connect AI to your systems",
-    body: "Custom Model Context Protocol servers that give AI assistants secure, governed access to your tools and data.",
-    intro:
-      "Custom Model Context Protocol servers that give AI assistants secure, governed access to your tools and data.",
-    overview:
-      "We build Model Context Protocol servers that expose your tools and data to AI assistants through a clean, governed interface — so any MCP-capable client can act on your systems safely, with authentication and permissions handled properly.",
-    capabilities: [
-      {
-        icon: "server",
-        title: "Custom MCP servers",
-        body: "Well-designed tools and resources that expose your systems to AI clients over MCP.",
-      },
-      {
-        icon: "shield-check",
-        title: "Secure & governed",
-        body: "Authentication, scoping, and permission boundaries so access stays controlled and auditable.",
-      },
-      {
-        icon: "plug-zap",
-        title: "Broad compatibility",
-        body: "Standards-based servers that work with any MCP-capable assistant or agent.",
-      },
-    ],
-  },
-  {
-    slug: "intelligent-automation",
-    category: "AI & Automation",
-    label: "Intelligent Automation",
-    title: "Intelligent Automation",
-    icon: "cpu",
-    summary: "AI-driven decisions in pipelines",
-    body: "Combine automation with AI judgement to handle work that used to need a human in the loop — reliably and at scale.",
-    intro:
-      "Combine automation with AI judgement to handle work that used to need a human in the loop — reliably and at scale.",
-    overview:
-      "We blend dependable automation with AI judgement to handle the grey-area work rules alone can't: classifying, extracting, and deciding — with confidence thresholds and human review where it matters, so throughput rises without losing control.",
-    capabilities: [
-      {
-        icon: "cpu",
-        title: "AI-driven decisions",
-        body: "Classification, extraction, and routing that used to need a person, handled automatically.",
-      },
-      {
-        icon: "workflow",
-        title: "Reliable pipelines",
-        body: "Automation with retries and monitoring so processes run correctly around the clock.",
-      },
-      {
-        icon: "shield-check",
-        title: "Human-in-the-loop",
-        body: "Confidence thresholds and review queues so people handle the edge cases that need them.",
-      },
-    ],
-  },
+  // ── Business Automation ────────────────────────────────────────────────
+  // AI-led automation (agents, LLM, RAG, MCP, AI-driven decisions) lives in
+  // `content/ai.ts` and is the canonical `/ai` section. Only rules-and-
+  // integration automation belongs here, so the same capability is never
+  // advertised from two places.
   {
     slug: "workflow-automation",
-    category: "AI & Automation",
+    category: "Business Automation",
     label: "Workflow Automation",
     title: "Workflow Automation",
     icon: "workflow",
@@ -271,7 +74,7 @@ export const solutionRecords: SolutionRecord[] = [
   },
   {
     slug: "business-process-automation",
-    category: "AI & Automation",
+    category: "Business Automation",
     label: "Business Process Automation",
     title: "Business Process Automation",
     icon: "settings",
@@ -296,6 +99,37 @@ export const solutionRecords: SolutionRecord[] = [
         icon: "gauge",
         title: "Visibility & control",
         body: "Dashboards and audit trails so you can see and improve how each process performs.",
+      },
+    ],
+  },
+
+  {
+    slug: "document-automation",
+    category: "Business Automation",
+    label: "Document Automation",
+    title: "Document Automation",
+    icon: "file-text",
+    summary: "Generate and route paperwork",
+    body: "Generate, route, and file the documents your business runs on — contracts, quotes, invoices, and reports — without manual assembly.",
+    intro:
+      "Generate, route, and file the documents your business runs on — without manual assembly.",
+    overview:
+      "Contracts, quotes, invoices, and reports still eat hours of copy-paste in most businesses. We automate the whole path: documents generated from your real data, routed for approval, signed, and filed where they belong — consistent every time, and searchable afterwards.",
+    capabilities: [
+      {
+        icon: "file-text",
+        title: "Templated generation",
+        body: "Documents built from live data, so every quote and contract is consistent and current.",
+      },
+      {
+        icon: "workflow",
+        title: "Approval & signing flows",
+        body: "Review, sign-off, and e-signature routed automatically to the right people in the right order.",
+      },
+      {
+        icon: "database",
+        title: "Filed & findable",
+        body: "Finished documents stored, indexed, and searchable instead of scattered across inboxes.",
       },
     ],
   },
@@ -361,9 +195,10 @@ export const solutionRecords: SolutionRecord[] = [
       },
     ],
   },
+  // ── Enterprise Solutions ───────────────────────────────────────────────
   {
     slug: "custom-business-solutions",
-    category: "Digital Transformation",
+    category: "Enterprise Solutions",
     label: "Custom Business Solutions",
     title: "Custom Business Solutions",
     icon: "blocks",
@@ -392,7 +227,6 @@ export const solutionRecords: SolutionRecord[] = [
     ],
   },
 
-  // ── Enterprise Solutions ───────────────────────────────────────────────
   {
     slug: "enterprise-software",
     category: "Enterprise Solutions",
@@ -516,10 +350,10 @@ export const solutionRecords: SolutionRecord[] = [
     ],
   },
 
-  // ── Business Applications ──────────────────────────────────────────────
+  // ── Startup Solutions ──────────────────────────────────────────────────
   {
     slug: "saas-product-solutions",
-    category: "Business Applications",
+    category: "Startup Solutions",
     label: "SaaS Product Solutions",
     title: "SaaS Product Solutions",
     icon: "layout-dashboard",
@@ -549,7 +383,7 @@ export const solutionRecords: SolutionRecord[] = [
   },
   {
     slug: "startup-mvp-solutions",
-    category: "Business Applications",
+    category: "Startup Solutions",
     label: "Startup MVP Solutions",
     title: "Startup MVP Solutions",
     icon: "rocket",
@@ -578,8 +412,40 @@ export const solutionRecords: SolutionRecord[] = [
     ],
   },
   {
+    slug: "product-discovery",
+    category: "Startup Solutions",
+    label: "Product Discovery",
+    title: "Product Discovery",
+    icon: "target",
+    summary: "Decide what to build first",
+    body: "A short, structured engagement that turns an idea into a scoped, costed plan — before you commit a budget to building it.",
+    intro:
+      "Turn an idea into a scoped, costed plan — before you commit a budget to building it.",
+    overview:
+      "Most wasted budget is spent building the wrong thing well. Discovery is a short, structured engagement that pressure-tests the idea against real users and real constraints, then hands you a prioritised scope, an architecture direction, and a credible estimate — so the build starts with the arguments already settled.",
+    capabilities: [
+      {
+        icon: "target",
+        title: "Problem framing",
+        body: "Who it's for and what success looks like, agreed before a line of code is written.",
+      },
+      {
+        icon: "layout-dashboard",
+        title: "Scope & prototype",
+        body: "A prioritised feature set and a clickable prototype you can put in front of real users.",
+      },
+      {
+        icon: "gauge",
+        title: "Plan & estimate",
+        body: "Architecture direction, delivery phases, and a costed plan you can actually decide on.",
+      },
+    ],
+  },
+
+  // ── Commerce Solutions ─────────────────────────────────────────────────
+  {
     slug: "ecommerce-solutions",
-    category: "Business Applications",
+    category: "Commerce Solutions",
     label: "E-commerce Solutions",
     title: "E-commerce Solutions",
     icon: "shopping-cart",
@@ -604,6 +470,67 @@ export const solutionRecords: SolutionRecord[] = [
         icon: "gauge",
         title: "Analytics & growth",
         body: "Tracking and insight so you can measure and lift conversion over time.",
+      },
+    ],
+  },
+
+  {
+    slug: "marketplace-platforms",
+    category: "Commerce Solutions",
+    label: "Marketplace Platforms",
+    title: "Marketplace Platforms",
+    icon: "blocks",
+    summary: "Connect buyers and sellers",
+    body: "Multi-vendor platforms with onboarding, listings, payouts, and trust built in — engineered for both sides of the market.",
+    intro:
+      "Multi-vendor platforms with onboarding, listings, payouts, and trust built in.",
+    overview:
+      "A marketplace is two products at once: one for buyers, one for sellers, joined by money and trust. We build both sides — vendor onboarding and listings, search and matching, split payments and payouts, ratings and dispute handling — on architecture that stays fast as supply and demand grow.",
+    capabilities: [
+      {
+        icon: "users",
+        title: "Multi-vendor onboarding",
+        body: "Seller sign-up, verification, and self-serve listing management that scales without your ops team.",
+      },
+      {
+        icon: "arrow-left-right",
+        title: "Payments & payouts",
+        body: "Split payments, commissions, and scheduled seller payouts handled correctly and auditably.",
+      },
+      {
+        icon: "shield-check",
+        title: "Trust & safety",
+        body: "Ratings, moderation, and dispute flows that keep both sides of the market confident.",
+      },
+    ],
+  },
+  {
+    slug: "subscription-platforms",
+    category: "Commerce Solutions",
+    label: "Subscription Platforms",
+    title: "Subscription Platforms",
+    icon: "refresh-cw",
+    summary: "Recurring revenue, done right",
+    body: "Plans, trials, upgrades, dunning, and revenue reporting — the billing machinery recurring businesses live or die by.",
+    intro:
+      "Plans, trials, upgrades, dunning, and revenue reporting — billing that holds up as you grow.",
+    overview:
+      "Recurring revenue lives or dies on billing details: proration on upgrades, failed-payment recovery, tax, and numbers finance can trust. We build subscription platforms where those edges are handled deliberately rather than discovered in production.",
+    capabilities: [
+      {
+        icon: "layout-dashboard",
+        title: "Plans & lifecycle",
+        body: "Trials, upgrades, downgrades, and proration that behave correctly at every edge.",
+      },
+      {
+        icon: "shield-check",
+        title: "Dunning & recovery",
+        body: "Failed-payment retries and recovery flows that protect revenue you've already earned.",
+      },
+      {
+        icon: "gauge",
+        title: "Revenue reporting",
+        body: "MRR, churn, and cohort reporting your finance team can reconcile and trust.",
       },
     ],
   },
@@ -671,46 +598,139 @@ export const solutionRecords: SolutionRecord[] = [
   },
 ];
 
-/** Ordered mega-menu categories for the Solutions panel. */
-export const solutionCategories = [
-  "AI & Automation",
-  "Digital Transformation",
-  "Enterprise Solutions",
-  "Cloud Solutions",
-  "Business Applications",
-  "Data & Analytics",
-] as const;
+/**
+ * Ordered mega-menu categories for the Solutions panel, each with the icon and
+ * featured-panel copy the showcase menu renders. AI leads deliberately — it is
+ * the studio's differentiator, so it is the first thing the menu says.
+ *
+ * `records` is the collection filter for the category's cards. The AI category
+ * has none: its cards come from `/ai` instead (see `aiCategoryLinks`), because
+ * those capabilities are owned by `content/ai.ts`.
+ *
+ * To add a category: append an entry here. The rail, cards, and featured panel
+ * all derive from it — no component changes needed.
+ */
+const solutionCategoryMeta: {
+  title: string;
+  icon: string;
+  blurb: string;
+  href: string;
+}[] = [
+  {
+    title: "AI & Intelligent Solutions",
+    icon: "brain-circuit",
+    blurb:
+      "Build intelligent products on generative AI, autonomous agents, and RAG architectures — engineered for production, not demos.",
+    href: "/ai",
+  },
+  {
+    title: "Enterprise Solutions",
+    icon: "building-2",
+    blurb:
+      "Well-architected systems your organisation can depend on, with security, auditability, and scale designed in from the start.",
+    href: "/solutions",
+  },
+  {
+    title: "Business Automation",
+    icon: "workflow",
+    blurb:
+      "Replace the manual, repetitive work between your systems with reliable automated pipelines that run unattended.",
+    href: "/solutions",
+  },
+  {
+    title: "Cloud Solutions",
+    icon: "cloud",
+    blurb:
+      "Secure, cost-aware cloud infrastructure and delivery — architecture, migration, and the observability to run it confidently.",
+    href: "/solutions",
+  },
+  {
+    title: "Data & Analytics",
+    icon: "gauge",
+    blurb:
+      "Turn scattered data into decisions your teams trust — pipelines, dashboards, and models built on one source of truth.",
+    href: "/solutions",
+  },
+  {
+    title: "Startup Solutions",
+    icon: "rocket",
+    blurb:
+      "From discovery to a launched MVP — sharp scope, fast delivery, and a clean foundation that grows when traction arrives.",
+    href: "/solutions",
+  },
+  {
+    title: "Commerce Solutions",
+    icon: "shopping-cart",
+    blurb:
+      "Storefronts, marketplaces, and subscription platforms engineered to load fast, convert, and bill correctly.",
+    href: "/solutions",
+  },
+  {
+    title: "Digital Transformation",
+    icon: "refresh-cw",
+    blurb:
+      "Modernise the digital core of your business in increments — real, measurable change instead of a multi-year gamble.",
+    href: "/solutions",
+  },
+];
+
+/** Ordered category names — the taxonomy other modules read. */
+export const solutionCategories = solutionCategoryMeta.map((c) => c.title);
 
 /**
- * Solutions mega-menu columns, derived from the collection — one column per
- * category (rendered as the master–detail rail). Each link resolves to its own
- * `/solutions/[slug]` detail page.
+ * The AI category's menu links, sourced from the canonical `/ai` collection so
+ * each capability keeps exactly one home on the site.
  */
-export const solutionMenuColumns: MegaColumn[] = solutionCategories.map(
+const aiCategoryLinks: NavLink[] = aiCapabilities.map((c) => ({
+  label: c.label,
+  href: `/ai/${c.slug}`,
+  icon: c.icon,
+  desc: c.summary,
+}));
+
+/**
+ * Solutions mega-menu columns, derived from the taxonomy — one column per
+ * category, carrying its rail icon and featured-panel copy. Solution links
+ * resolve to `/solutions/[slug]`; AI links resolve to `/ai/[slug]`.
+ */
+export const solutionMenuColumns: MegaColumn[] = solutionCategoryMeta.map(
   (category) => ({
-    title: category,
-    links: solutionRecords
-      .filter((s) => s.category === category)
-      .map((s) => ({
-        label: s.label,
-        href: `/solutions/${s.slug}`,
-        icon: s.icon,
-        desc: s.summary,
-      })),
+    title: category.title,
+    icon: category.icon,
+    blurb: category.blurb,
+    href: category.href,
+    links:
+      category.title === "AI & Intelligent Solutions"
+        ? aiCategoryLinks
+        : solutionRecords
+            .filter((s) => s.category === category.title)
+            .map((s) => ({
+              label: s.label,
+              href: `/solutions/${s.slug}`,
+              icon: s.icon,
+              desc: s.summary,
+            })),
   }),
 );
 
 /**
  * Cards shown on the `/solutions` hub — every solution, in taxonomy order, so
  * the hub is the full catalogue behind the mega menu. Each card links to its
- * detail page.
+ * detail page. (AI capabilities are not solution records; the hub links to `/ai`
+ * for those.)
  */
-export const solutions = solutionRecords.map((s) => ({
-  icon: s.icon,
-  title: s.title,
-  body: s.body,
-  href: `/solutions/${s.slug}`,
-}));
+export const solutions = [...solutionRecords]
+  .sort(
+    (a, b) =>
+      solutionCategories.indexOf(a.category) -
+      solutionCategories.indexOf(b.category),
+  )
+  .map((s) => ({
+    icon: s.icon,
+    title: s.title,
+    body: s.body,
+    href: `/solutions/${s.slug}`,
+  }));
 
 /** Slug list for `generateStaticParams` and the sitemap. */
 export const solutionSlugs = solutionRecords.map((s) => s.slug);

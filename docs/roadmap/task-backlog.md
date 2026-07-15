@@ -234,7 +234,7 @@ copied); original Rapid Tech Plus design and copy throughout.
       focus; Escape closes; `aria-expanded`; visible focus; reduced motion
 - [x] lint + typecheck + static build (17 routes) all green; verified in browser
       at 1440px — panel 780px (26% rail / 74% detail), category hover swaps the
-      detail panel (e.g. AI Development → 5 cards), last-two menus right-anchored,
+      detail panel (e.g. Artificial Intelligence → 5 cards), last-two menus right-anchored,
       no nav-induced overflow, zero console errors; mobile accordion rules
       (rail hidden, category heads shown, single-column cards ≤1024px) confirmed
 
@@ -253,13 +253,13 @@ Second polish pass toward AI-first premium-SaaS feel (Vercel/Stripe/Linear).
       readability, consistent weights/tracking
 - [x] Brand lockup — slogan "The Way to Web Presence" under the wordmark in the
       header (both themes, no added header height)
-- [x] AI-first ordering — Services now leads with AI Development
+- [x] AI-first ordering — Services now leads with Artificial Intelligence
 - [x] Industries converted to a single flat mega menu (10 industries, icon +
       name + one-line desc, no second-level rail)
 - [x] Header polish — alignment, spacing, hover/focus, radius, shadow, blur
 - [x] lint + typecheck + static build (17 routes) green; verified in browser —
       nav order Services→Hire Expert→Solutions→Industries→Products→Company→
-      Insights→Contact; Services leads with AI Development; Hire Expert leads
+      Insights→Contact; Services leads with Artificial Intelligence; Hire Expert leads
       with AI Engineers (8 categories); Industries flat (10 cards); rail 250px
       with single-line labels (no wrap); CTA 144×34 (down from taller); brand
       slogan legible both themes; nav-h still 74px; header + footer both 1680;
@@ -520,7 +520,7 @@ Owner-requested: replace the tech-stack Services taxonomy (5 categories → ~23
 technology-specific pages like React/Node/AWS) with a flat set of **8 core
 service offerings**.
 
-- [x] Rewrote `content/services.ts` — 8 flat `ServiceRecord`s (AI Development,
+- [x] Rewrote `content/services.ts` — 8 flat `ServiceRecord`s (Artificial Intelligence,
       Custom Software Development, SaaS Development, Web Development, Mobile
       Development, UI/UX Design, Cloud & DevOps, QA & Testing), each with
       intro/overview/3 capabilities and its own `/services/[slug]` page
@@ -690,6 +690,29 @@ verified via DOM/computed-style metrics.
   zero console errors; no horizontal overflow at 375px. Screenshots/Firefox/
   Safari/Lighthouse not runnable in this pane (unchanged from prior phases).
 
+### Phase C.1 — Hire role pages rebuilt as full landing pages ✅
+
+Owner-requested (highest-converting "Hire Experts" flow): rebuild every
+`/hire/[slug]` role page from the compact `DetailLayout` into a full landing
+page, mirroring the Phase B service-landing rebuild.
+
+- [x] Enriched `content/hire.ts` with shared landing data — `whyRapidTechPlus`
+      (6 reasons), `hireProcess` (5-stage hire→ship timeline), and a per-role
+      `roleTech` technology-stack map (all 29 roles) + `getRoleTech` resolver
+- [x] New `components/sections/hire-landing.tsx` (`HireLanding`) composes the
+      high-converting flow: Hero → dual CTA → Overview → **Why Rapid Tech Plus** →
+      **Developer skills** → **Hiring models** → **Technology stack** (chips) →
+      **Development process** (5-step timeline) → **FAQs** → Related roles →
+      contact CTA; every optional section hides when its data is absent
+- [x] `app/hire/[slug]/page.tsx` now renders `HireLanding` and emits Service +
+      **FAQPage** JSON-LD alongside the existing metadata/breadcrumb
+- [x] lint + typecheck + clean static **build (91 routes)** all green; verified
+      in browser — `/hire/react-developers` and `/hire/kubernetes-engineers`
+      render all sections in the requested order with per-role tech stacks
+      (React 8 chips / Kubernetes 7 chips), zero console errors, zero horizontal
+      overflow at 1280 and 375. Screenshots/Firefox/Safari/Lighthouse not
+      runnable in this pane (unchanged from prior phases)
+
 ### Phase D — Industry detail pages ✅
 
 - [x] `/industries/[slug]` for all 10 industries. _Deps: A._ Enriched
@@ -753,6 +776,232 @@ Solutions mega menu into six outcome-focused categories.
       horizontal overflow, zero console errors. Screenshots/Firefox/Safari/
       Lighthouse not runnable in this pane (unchanged from prior phases)
 
+### Phase 26 — Solutions mega menu → three-column showcase ✅
+
+Owner-requested: the Solutions menu was too simple. Rebuilt as a premium
+three-column showcase (category rail → solutions → featured panel).
+techalmas.com studied for menu *organisation* only — no layout, branding,
+icons, colours, imagery, or wording taken; the design and copy are original.
+
+- [x] **Taxonomy → 8 categories** (`content/solutions.ts`), AI-first per the
+      brief: AI & Intelligent Solutions, Enterprise, Business Automation, Cloud,
+      Data & Analytics, Startup, Commerce, Digital Transformation. New
+      `solutionCategoryMeta` drives rail icon + featured blurb + CTA target;
+      adding a category is a single append, no component change (scalability
+      requirement).
+- [x] **AI-first without duplication** — the AI category's links resolve to the
+      canonical `/ai/[slug]` pages rather than re-adding the solution records
+      retired by the Phase AI de-dup. The menu leads with AI; each capability
+      still has exactly one home.
+- [x] **4 new solution records** so no requested category is threadbare:
+      `document-automation`, `product-discovery`, `marketplace-platforms`,
+      `subscription-platforms` — each a real `/solutions/[slug]` page (only
+      destinations that exist are advertised, per the audit rule). Moved
+      `custom-business-solutions` → Enterprise.
+- [x] **Content model** — `MegaColumn` gains optional `icon`/`blurb`/`href`;
+      `MegaItem` gains `showcase`. Ignored by the other panel variants.
+- [x] **`nav.tsx` refactor** — extracted `MenuFoot`, `CategoryRail`, and
+      `FeaturePanel`; the flat/master-detail/showcase variants now share the
+      footer and rail instead of duplicating them.
+- [x] **Featured panel** — original CSS motif (concentric accent rings + the
+      category glyph, no imagery), mono eyebrow, blurb, and the two CTAs
+      (Explore Solutions / Book Consultation). Re-keys on the active category so
+      the fade replays; reduced-motion safe.
+- [x] `file-text` + `target` added to the icon registry; footer Solutions column
+      repointed to real detail routes (was 5× `/solutions`).
+- [x] lint + typecheck + clean static **build (106 routes, +4)** green; 18
+      `/solutions/[slug]` dirs in `out/`.
+
+**Design review** — verified in-browser via DOM/computed-style metrics:
+
+- Desktop 1440: panel 1320px, columns 292/698/328, centred and in-bounds
+  (53→1373), featured column shown, footer strip suppressed. All 8 categories
+  cycled — **zero** truncated rail labels and **zero** ellipsised descriptions.
+- Category switching drives rail + cards + featured panel together (verified by
+  invoking the real React handlers; synthetic DOM mouse events don't reach
+  React's delegated enter/leave synthesis).
+- Tablet 1085: featured column drops, two columns (292 + 706), cards go
+  single-column so descriptions keep their full text, footer CTAs return.
+- Mobile 390: rail + featured hidden, all 8 categories as labelled accordion
+  sections, 25 links single-column, all tap targets ≥44px, zero horizontal
+  overflow.
+- Both themes: all tokens resolve; light and dark independently checked.
+
+**Fixed along the way (found by verification):**
+
+- **Mobile accordion clipping** — the shared `max-height: 1400px` cap silently
+  truncated tall panels. Solutions needs 2167px, and **Hire Expert (2339px) was
+  already broken before this change**. Replaced with a `0fr→1fr` row-track
+  animation that expands to natural height, so no panel can ever be clipped as
+  content grows. All 7 menus verified unclipped.
+- **Featured CTA contrast** — white on `var(--accent)` was ~2.8:1 in dark
+  (fails AA). Repointed to the primary button's fixed indigo gradient +
+  `--on-accent`, now at parity with every other CTA on the site (4.47 at the
+  lightest gradient stop, 6.29 at the darkest).
+- Shortened one AI summary ("…into your product" → "…into your app") — the only
+  description that still ellipsised at desktop (Phase 16 precedent).
+
+**Newly discovered — deferred, see Phase Q below.**
+
+- [ ] Not verifiable in this environment (unchanged from prior phases):
+  screenshots (capture times out on the continuous compositor), Firefox/Safari,
+  Lighthouse.
+
+### Phase Q — Defects found during Phase 26 verification (deferred) 🐛
+
+Found while verifying the Solutions showcase menu; **all pre-existing and
+unrelated to that redesign**, so they were logged rather than folded into it.
+Numbers below were measured in-browser (dev server, computed styles), not
+estimated. Phase 26's own defects were fixed in-phase and are listed under
+"Fixed along the way" above — nothing in this section is a Phase 26 regression.
+
+- [ ] **`.mm-foot-cta:hover` fails WCAG AA in dark theme** — the rule
+  (`app/globals.css`, `.mm-foot-cta:hover`) sets `background: var(--accent);
+  color: #fff`. In dark, `--accent` is `#8a8fff`, giving white text a measured
+  **2.82:1** at 12.48px/600 weight, where AA requires 4.5:1 (the text is not
+  "large" by WCAG's definition, so the 3:1 allowance does not apply). **Light
+  theme passes** at 6.29:1 (`--accent` is `#4f46e5` there), so this is
+  dark-only. Affects the "Book a consultation" CTA in **all 7 mega menus** —
+  visible on every non-showcase menu at all widths, and on Solutions at ≤1200px
+  where the footer strip returns. This is the same defect class already fixed on
+  `.mm-feature-cta` in Phase 26; the fix is the same — swap `var(--accent)` +
+  `#fff` for the primary button's fixed indigo gradient + `var(--on-accent)`.
+  Root cause worth noting: `--accent` is tuned for legibility *on* the dark
+  canvas, so it is never a safe *background* for white text; only the fixed
+  gradient is. _Deps: none. Accept: ≥4.5:1 in both themes; audit for other
+  text-on-`--accent` uses. Priority: **P1** (a11y, and `CLAUDE.md` requires
+  accessible). Complexity: S. Folds into Phase N._
+- [ ] **`.btn-primary` marginally under AA at its lightest gradient stop** — the
+  site-wide primary button (`linear-gradient(180deg, #6366f1, #4f46e5)` +
+  `--on-accent`) measures **4.47:1** against white at the `#6366f1` top stop vs
+  the 4.5:1 requirement; the `#4f46e5` bottom stop is 6.29:1. A ~0.03 shortfall
+  affecting only the topmost pixel rows, but it is the button used everywhere
+  (nav CTA, hero, CTA banner, and now `.mm-feature-cta`). Nudging the top stop
+  slightly darker (e.g. `#6165f0`) clears it globally with no visible change.
+  _Deps: none. Accept: both gradient stops ≥4.5:1. Priority: P2. Complexity: S.
+  Folds into Phase N._
+- [ ] **Primary nav overflows between ~1025–1150px** — the 8 top-level items +
+  the Get A Quote CTA do not fit before the hamburger collapses at ≤1024px.
+  Measured at 1085px: `nav.nav-links` spans 285→1288 in a 1085px viewport and is
+  clipped by `body { overflow-x: hidden }`, so the last items are unreachable at
+  those widths. Predates this phase (the nav has grown to 8 items over Phases
+  10–AI). Fix options: raise the collapse breakpoint to ~1150px (smallest
+  change), or tighten nav padding/font at that tier. _Deps: none. Accept: no
+  `nav-links` overflow at any width between 1024 and 1440. Priority: P2.
+  Complexity: S._
+
+### Phase 24 — Technology landing pages (Priority 6) ✅
+
+Owner-requested (Priority 6): replace the "logo wall" idea with real technology
+pages. Each featured technology gets a dedicated landing page following the flow
+**[Tech] Development → Why [Tech] → Why Rapid Tech Plus → Projects → FAQs**.
+
+- [x] New `content/technologies.ts` collection — 7 slug-keyed `TechRecord`s
+  (React, Next.js, Angular, Node.js, NestJS, Laravel, Flutter), each with
+  `intro`, `overview`, `reasons` (Why [Tech]), illustrative `projects` (metric
+  cards), and per-tech `faqs`; shared `whyRapidTechPlus` reasons + `technologyCta`;
+  `techSlugs` / `getTechnology` / `relatedTechnologies` helpers and a flat
+  `technologiesMenu` mega-panel derived from the collection
+- [x] New `components/sections/technology-landing.tsx` — composes hero → overview
+  → Why [Tech] → Why Rapid Tech Plus → Projects → FAQs → related → CTA; optional
+  sections hide when data is absent
+- [x] New `app/technologies/[slug]/page.tsx` — `generateStaticParams` +
+  `dynamicParams = false`, per-page metadata (canonical + OG), Service + FAQPage
+  JSON-LD
+- [x] Wired **Technologies** into the mega menu (flat panel, after Industries),
+  the machine `app/sitemap.ts` (7 routes via `techSlugs`), and the `/technologies`
+  hub (new linked "Technologies we specialise in" grid above the broader toolkit)
+- [x] lint + typecheck + clean static **build** all green; the 7
+  `/technologies/[slug]` pages prerender. Verified against the static export
+  (`out/`) — the React and NestJS pages render the full flow in order
+  ([Tech] Development hero → Why build with [Tech] → Why Rapid Tech Plus →
+  [Tech] in action / Projects → FAQs), the nav shows **Technologies** linking to
+  the detail routes, and all 7 slug directories are emitted. (An earlier
+  transient dev-server 500 was a `.next` collision from running the production
+  build against a shared dev server, not a code fault — the static export is the
+  source of truth here.) Screenshots/Firefox/Safari/Lighthouse not runnable in
+  this pane (unchanged from prior phases).
+
+### Phase 25 — Trust building: About page expansion (Priority 9)
+
+Owner-requested (Priority 9 — Trust Building): surface the studio's credibility
+signals on `/about` rather than scattering them. Certifications intentionally
+omitted (no fake badges); quality framed as practices, per owner decision.
+
+- [x] New content in `content/site.ts` — `companyTimeline` (illustrative,
+      clearly-framed milestones), `qualityStandards` (practice cards, not
+      certifications). Reuses the existing `engineeringPrinciples` (added by the
+      concurrent engineering-page work) and `engagementModels` (from
+      `content/hire.ts`) — no duplication.
+- [x] Expanded `app/about/page.tsx` — added four trust sections after the
+      existing story/values: **Our journey** (vertical milestone timeline),
+      **Engineering principles**, **Quality standards** (+ cross-links to
+      `/our-process`, `/open-source`, and the GitHub org), and **Client
+      engagement models**.
+- [x] New `.milestones` / `.milestone` / `.about-links` styles in
+      `app/globals.css` (vertical timeline, mono year labels, single-column on
+      ≤560px).
+- [x] `typecheck` clean (after removing an accidental duplicate
+      `engineeringPrinciples` — reused the concurrent session's export instead).
+- [ ] **Full `npm run build` + browser verification blocked** by the shared
+      working tree: a concurrent session's incomplete `/hire/[slug]`
+      (`hire-landing.tsx`) fails prerender (`TypeError: a[d] is not a function`),
+      and the `.next` dir is corrupted by overlapping dev-server/build processes
+      (`routes-manifest.json` ENOENT). Re-run build + browser-verify `/about`
+      (both themes, 375/768/1440, timeline single-column at ≤560px) once the
+      concurrent work settles. Screenshots/Firefox/Safari/Lighthouse not runnable
+      here (unchanged from prior phases).
+
+### Phase AI — Dedicated AI section (flagship differentiator) ✅
+
+Owner Priority 4: build AI into a standout section rather than a single line of
+copy. New top-level **AI** nav (placed first — AI-first differentiator) with a
+`/ai` hub and eight deep capability pages built on the rich `ServiceLanding`
+template.
+
+- [x] New `content/ai.ts` collection — `AiCapability` (reuses the rich
+      `ServiceRecord` shape) with seven slug-keyed records: **AI Agents,
+      LLM Integration, RAG, MCP Servers, Automation, Enterprise AI, AI
+      Consulting**, each with intro/overview/capabilities/problems/technologies/
+      benefits/industries/case-studies/FAQs. Shared `aiProcess` (5-stage),
+      `aiChain` funnel, `aiMenu` (flat panel), `aiOfferings` (hub cards), and
+      `aiSlugs`/`getAiCapability`/`relatedAiCapabilities`/`aiIndustries`/
+      `aiCaseStudies` helpers (unknown slugs skipped → no dead links)
+- [x] `/ai` hub (`app/ai/page.tsx`) — hero + dual CTA + overview/differentiators
+      split + capability grid + the AI capability chain + how-we-build-AI
+      timeline + hub FAQ + CTA; Service JSON-LD
+- [x] `/ai/[slug]` (`app/ai/[slug]/page.tsx`) — reuses `ServiceLanding` with
+      `generateStaticParams` + `dynamicParams = false`, per-page metadata
+      (canonical + OG), Service + FAQPage JSON-LD; `serviceType: "Artificial
+      Intelligence"`
+- [x] Nav: **AI** added as the first `megaMenu` item; footer gains an **AI**
+      column; `/ai` added to the human `/sitemap` "What We Do" group; machine
+      `app/sitemap.ts` adds `/ai` + `aiSlugs.map(/ai/[slug])`
+- [x] **De-dup follow-up** — retired the seven overlapping `/solutions/*` AI
+      records (`ai-solutions`, `ai-agents`, `generative-ai`, `llm-integration`,
+      `rag-solutions`, `mcp-server-development`, `intelligent-automation`) from
+      `content/solutions.ts`, so `/ai` is the single canonical home for every AI
+      concept and none is advertised twice. The category's two rules-based
+      records (`workflow-automation`, `business-process-automation`) have no
+      `/ai` counterpart and were kept, so the category survives — renamed
+      **AI & Automation → Automation** to reflect what's left, with a comment
+      recording the boundary. Footer Solutions column "AI Solutions" → "Automation"
+      (its only AI pointer). Build 109 → **102 routes** (exactly −7); verified
+      against the static export that all seven directories are gone, zero stale
+      references remain in any exported HTML, and `/ai` still emits the hub + all
+      7 capability pages. Browser-verified: nav leads with Artificial
+      Intelligence (8 `/ai/*` links), the Solutions rail now opens on Automation
+      with all 6 categories intact, `/ai/rag` renders all 10 sections with
+      Service + FAQPage + BreadcrumbList JSON-LD, zero console errors, zero
+      horizontal overflow. lint + typecheck + build green.
+- [ ] **Generative AI has no `/ai` home** — the retired `generative-ai` record
+      was the only place the site named generative/creative work; the closest
+      surviving page is `/ai/llm-integration`. Either fold that framing into the
+      LLM Integration copy or add an eighth AI capability record. _Deps: none.
+      Priority: P2. Complexity: S._
+- [ ] Design review on real devices + Lighthouse (not runnable in this
+      environment) — call out as with prior phases
+
 ### Phase F — Product detail pages
 
 - [ ] Model named products (Planix, Rocket Intelligence Engine, WhatsApp
@@ -776,9 +1025,36 @@ Solutions mega menu into six outcome-focused categories.
 ### Phase I — Company pages
 
 - [~] `/careers` shipped (Phase 22) and the `soon` flag retired from the Company
-  menu. `/about/story`, `/about/leadership`, `/about/culture` still to come.
+  menu. `/about/story`, `/about/leadership` still to come.
   _Deps: A + copy. Accept: Company menu items resolve to real pages. Priority:
   P2. Complexity: M._
+
+### Phase 25 — Company pages: Why Us · Culture · Engineering ✅
+
+Owner-requested (Priority 10 — Company Pages): fill the remaining gaps in the
+Company section. About, Careers, Development Process (`/our-process`), and
+Contact already shipped; this phase adds the three missing pages.
+
+- [x] New `/why-us` — differentiator pillars (`whyUsPillars`), illustrative
+      proof stats (`whyUsStats`, `MetricStat`), an "us vs. typical agency"
+      comparison panel (`whyUsDifference`), and a contact FAQ (`whyUsFaqs`,
+      `FaqAccordion`) + CTA
+- [x] New `/culture` — how-we-work principles (`culturePrinciples`), everyday
+      rituals (`cultureRituals`), and shared values (reuses `aboutValues`) + CTA
+- [x] New `/engineering` — engineering practices (`engineeringPractices`),
+      decision principles (`engineeringPrinciples`), a "definition of done"
+      quality-bar checklist (`engineeringStandards`), and the shared stack
+      (`techGroups`) + CTA
+- [x] Wired all three into the Company mega-menu, footer Company column, the
+      human `/sitemap` page groups, and machine `app/sitemap.ts`
+- [x] lint + typecheck + clean static **build** all green; the three routes
+      export as prerendered static pages (`○ /why-us`, `/culture`,
+      `/engineering`). Verified in browser — `/why-us` and `/engineering` render
+      every section with zero console errors; `/culture` compiled and served 200.
+      (Intermittent 404s during verification were a shared-`.next` race with a
+      concurrent dev server in the same folder, not a code issue.)
+      Screenshots/Firefox/Safari/Lighthouse not runnable in this pane (unchanged
+      from prior phases).
 
 ### Phase 22 — Company nav restructure + new pages ✅
 
@@ -828,6 +1104,10 @@ Our Process · Open Source, and build the missing pages (they had pointed at
 
 - [ ] Full a11y pass across all new pages (focus order, contrast, landmarks,
   keyboard). _Deps: B–K. Priority: P0. Complexity: M._
+- [ ] Fold in the two measured contrast failures logged in **Phase Q** —
+  `.mm-foot-cta:hover` (2.82:1, dark only, P1) and `.btn-primary`'s lightest
+  gradient stop (4.47:1, P2). Both have a known fix and exact numbers already
+  recorded, so they need no re-investigation. _Deps: none._
 
 ### Phase O — Production readiness
 

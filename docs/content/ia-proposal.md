@@ -52,7 +52,7 @@ lands · **○** coming-soon (rendered as non-clickable `soon` pill, no dead lin
 ```
 /                              ● Home
 /services                      ● Services (hub; grouped Development/Engineering/Experience)
-  /services/ai-development     ◐   AI Development
+  /services/ai-development     ◐   Artificial Intelligence
   /services/saas-development   ◐   SaaS Development
   /services/custom-software    ◐   Custom Software
   /services/enterprise         ◐   Enterprise Software
@@ -115,7 +115,7 @@ Technologies ▾ · Company ▾ · Resources ▾ · **Contact** (button)
 
 **Services ▾** (3 columns, each with an "All services" overview link → `/services`)
 
-- **Development** — AI Development · SaaS Development · Custom Software · Enterprise Software
+- **Development** — Artificial Intelligence · SaaS Development · Custom Software · Enterprise Software
 - **Engineering** — Web Applications · Mobile Applications · API Development · Cloud & DevOps
 - **Experience** — UI/UX Design · Product Design · Design Systems
 
@@ -153,7 +153,7 @@ Comprehensive multi-column hub so the whole site is reachable from the footer.
 
 | Company          | Services            | Solutions           | Products                   | Technologies | Resources              | Legal                  |
 | ---------------- | ------------------- | ------------------- | -------------------------- | ------------ | ---------------------- | ---------------------- |
-| About            | AI Development      | AI Agents           | Planix                     | Next.js      | Blog _(soon)_          | Privacy Policy         |
+| About            | Artificial Intelligence      | AI Agents           | Planix                     | Next.js      | Blog _(soon)_          | Privacy Policy         |
 | Our Process      | SaaS Development    | Workflow Automation | Rocket Intelligence Engine | React        | Case Studies _(soon)_  | Terms of Service       |
 | Careers _(soon)_ | Enterprise Software | RAG Solutions       | WhatsApp Business OS       | TypeScript   | Documentation _(soon)_ | Cookie Policy _(soon)_ |
 | Culture _(soon)_ | Web Development     | Cloud Solutions     | KidzoRides                 | Node.js      | FAQs                   |                        |
@@ -176,7 +176,7 @@ Services & Products. No wording/layout borrowed from any reference.
 ## 6. What changes vs. the current build
 
 - **New top-level pillar: Solutions** (AI Agents, RAG, LLM, automation).
-- **Services** re-grouped Development / Engineering / Experience; **AI Development**
+- **Services** re-grouped Development / Engineering / Experience; **Artificial Intelligence**
   promoted to the lead offering.
 - **Products** become named/real (Planix, RIE, WhatsApp Business OS, KidzoRides)
   with per-product hub routes; owner supplies copy.

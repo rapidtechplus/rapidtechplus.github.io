@@ -6,7 +6,13 @@ import { useEffect, useRef, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Ico } from "@/components/icon";
-import { megaMenu, site, type MegaItem, type NavLink } from "@/content/site";
+import {
+  megaMenu,
+  site,
+  type MegaColumn,
+  type MegaItem,
+  type NavLink,
+} from "@/content/site";
 
 /**
  * A single service inside a category panel. Renders as a card: icon, title,
@@ -57,6 +63,120 @@ function ServiceCard({
 }
 
 /**
+ * Panel footer — the overview link plus a consultation CTA. Shared by every
+ * panel variant. In showcase panels the featured column carries these actions
+ * at desktop widths, so CSS hides this strip there and shows it again once the
+ * featured column drops away.
+ */
+function MenuFoot({
+  item,
+  onNavigate,
+}: {
+  item: MegaItem;
+  onNavigate: () => void;
+}) {
+  return (
+    <div className="mm-foot">
+      <Link className="mm-foot-overview" href={item.href} onClick={onNavigate}>
+        {item.overview ?? `Explore all ${item.label}`}
+        <span aria-hidden>→</span>
+      </Link>
+      <Link className="mm-foot-cta" href="/contact" onClick={onNavigate}>
+        Book a consultation
+      </Link>
+    </div>
+  );
+}
+
+/**
+ * Category rail — the master column. Each category is a tab that swaps the
+ * detail (and, in showcase panels, the featured) column on hover or focus.
+ * Hidden on mobile, where categories become accordion section headings.
+ */
+function CategoryRail({
+  label,
+  categories,
+  active,
+  onActivate,
+}: {
+  label: string;
+  categories: MegaColumn[];
+  active: number;
+  onActivate: (index: number) => void;
+}) {
+  return (
+    <div className="mm-rail" role="tablist" aria-label={`${label} categories`}>
+      {categories.map((cat, ci) => (
+        <button
+          key={cat.title}
+          type="button"
+          role="tab"
+          aria-selected={active === ci}
+          className={cn("mm-rail-item", active === ci && "is-active")}
+          onMouseEnter={() => onActivate(ci)}
+          onFocus={() => onActivate(ci)}
+        >
+          {cat.icon && (
+            <span className="mm-rail-ico" aria-hidden>
+              <Ico name={cat.icon} />
+            </span>
+          )}
+          <span className="mm-rail-label">{cat.title}</span>
+          <span className="mm-rail-arrow" aria-hidden>
+            →
+          </span>
+        </button>
+      ))}
+    </div>
+  );
+}
+
+/**
+ * Featured column of a showcase panel — an original abstract motif keyed to the
+ * category's icon, its introduction, and the two conversion actions. Re-keyed
+ * on the active category so the fade/slide replays on every switch.
+ */
+function FeaturePanel({
+  item,
+  category,
+  onNavigate,
+}: {
+  item: MegaItem;
+  category: MegaColumn;
+  onNavigate: () => void;
+}) {
+  return (
+    <aside className="mm-feature" key={category.title}>
+      <div className="mm-feature-viz" aria-hidden>
+        <span className="mm-feature-orb">
+          {category.icon && <Ico name={category.icon} />}
+        </span>
+      </div>
+      <p className="mm-feature-eyebrow">Featured</p>
+      <h4 className="mm-feature-title">{category.title}</h4>
+      {category.blurb && <p className="mm-feature-blurb">{category.blurb}</p>}
+      <div className="mm-feature-actions">
+        <Link
+          className="mm-feature-cta"
+          href={category.href ?? item.href}
+          onClick={onNavigate}
+        >
+          Explore {item.label}
+          <span aria-hidden>→</span>
+        </Link>
+        <Link
+          className="mm-feature-ghost"
+          href="/contact"
+          onClick={onNavigate}
+        >
+          Book Consultation
+        </Link>
+      </div>
+    </aside>
+  );
+}
+
+/**
  * A top-level mega-menu entry with a master–detail panel: a left rail of
  * categories drives the right-hand detail panel. Hovering or focusing a
  * category swaps the panel. Holds its own active-category state (defaults to
@@ -78,7 +198,6 @@ function MegaMenuItem({
 }) {
   const [active, setActive] = useState(0);
   const categories = item.columns ?? [];
-  const overviewLabel = item.overview ?? `Explore all ${item.label}`;
 
   // Flat mode — a single grid of items, no category rail.
   if (item.flat && item.links) {
@@ -106,23 +225,7 @@ function MegaMenuItem({
                   />
                 ))}
               </div>
-              <div className="mm-foot">
-                <Link
-                  className="mm-foot-overview"
-                  href={item.href}
-                  onClick={onNavigate}
-                >
-                  {overviewLabel}
-                  <span aria-hidden>→</span>
-                </Link>
-                <Link
-                  className="mm-foot-cta"
-                  href="/contact"
-                  onClick={onNavigate}
-                >
-                  Book a consultation
-                </Link>
-              </div>
+              <MenuFoot item={item} onNavigate={onNavigate} />
             </div>
           </div>
         </div>
@@ -145,33 +248,17 @@ function MegaMenuItem({
         <ChevronDown className="caret" size={14} aria-hidden />
       </button>
 
-      <div className="mega">
+      <div className={cn("mega", item.showcase && "is-showcase")}>
         <div className="mega-inner">
-          {/* Left rail — category selector (desktop). Hidden on mobile. */}
-          <div
-            className="mm-rail"
-            role="tablist"
-            aria-label={`${item.label} categories`}
-          >
-            {categories.map((cat, ci) => (
-              <button
-                key={cat.title}
-                type="button"
-                role="tab"
-                aria-selected={active === ci}
-                className={cn("mm-rail-item", active === ci && "is-active")}
-                onMouseEnter={() => setActive(ci)}
-                onFocus={() => setActive(ci)}
-              >
-                <span>{cat.title}</span>
-                <span className="mm-rail-arrow" aria-hidden>
-                  →
-                </span>
-              </button>
-            ))}
-          </div>
+          <CategoryRail
+            label={item.label}
+            categories={categories}
+            active={active}
+            onActivate={setActive}
+          />
 
-          {/* Right detail — service cards for the active category. */}
+          {/* Middle — the active category's cards. On mobile every category
+              renders as its own labelled accordion section. */}
           <div className="mm-detail">
             {categories.map((cat, ci) => (
               <div
@@ -191,24 +278,16 @@ function MegaMenuItem({
               </div>
             ))}
 
-            <div className="mm-foot">
-              <Link
-                className="mm-foot-overview"
-                href={item.href}
-                onClick={onNavigate}
-              >
-                {overviewLabel}
-                <span aria-hidden>→</span>
-              </Link>
-              <Link
-                className="mm-foot-cta"
-                href="/contact"
-                onClick={onNavigate}
-              >
-                Book a consultation
-              </Link>
-            </div>
+            <MenuFoot item={item} onNavigate={onNavigate} />
           </div>
+
+          {item.showcase && categories[active] && (
+            <FeaturePanel
+              item={item}
+              category={categories[active]}
+              onNavigate={onNavigate}
+            />
+          )}
         </div>
       </div>
     </div>

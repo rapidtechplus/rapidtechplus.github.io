@@ -17,8 +17,8 @@ export const services: ServiceRecord[] = [
   {
     slug: "ai-development",
     category: "Services",
-    label: "AI Development",
-    title: "AI Development",
+    label: "Artificial Intelligence",
+    title: "Artificial Intelligence",
     icon: "brain-circuit",
     summary: "Agents, LLMs, RAG & automation",
     intro:

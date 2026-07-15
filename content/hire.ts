@@ -558,6 +558,127 @@ export const hireFaqs: Faq[] = [
   },
 ];
 
+/**
+ * Why teams hire through Rapid Tech Plus — shared across every role landing
+ * page (the "Why Rapid Tech Plus" section).
+ */
+export const whyRapidTechPlus: Feature[] = [
+  {
+    icon: "users",
+    title: "Senior, vetted engineers",
+    body: "Every developer is senior, rigorously vetted, and proven on production systems — no juniors billed as experts.",
+  },
+  {
+    icon: "zap",
+    title: "Matched in days, not months",
+    body: "Skip the hiring overhead. We introduce the right talent within days and have them contributing in the first week.",
+  },
+  {
+    icon: "arrow-left-right",
+    title: "Flexible engagement",
+    body: "Scale up or down as your roadmap shifts — staff augmentation, a dedicated team, or fully managed delivery.",
+  },
+  {
+    icon: "shield-check",
+    title: "Quality built in",
+    body: "TypeScript-first engineering, code review, and testing standards baked into every engagement.",
+  },
+  {
+    icon: "clock",
+    title: "Time-zone overlap",
+    body: "Working hours aligned to your team for real-time stand-ups, collaboration, and fast turnarounds.",
+  },
+  {
+    icon: "eye",
+    title: "Transparent progress",
+    body: "Reviewable, incremental delivery and direct communication — you always see how the work is going.",
+  },
+];
+
+/**
+ * How hiring a specialist works, end to end — shared across every role landing
+ * page (the "Development process" / how-we-work section). Numeric icons render
+ * as step markers in the timeline.
+ */
+export const hireProcess = [
+  {
+    icon: "1",
+    title: "Share your needs",
+    body: "Tell us the role, skills, and goals. We scope the engagement and the right engagement model with you.",
+  },
+  {
+    icon: "2",
+    title: "Get matched",
+    body: "We shortlist senior, vetted specialists who fit your stack, domain, and ways of working — within days.",
+  },
+  {
+    icon: "3",
+    title: "Interview & select",
+    body: "You interview the shortlist and pick who joins. No obligation until you're confident in the fit.",
+  },
+  {
+    icon: "4",
+    title: "Onboard",
+    body: "Your specialist plugs into your tools, stand-ups, and workflow and is productive from the first sprint.",
+  },
+  {
+    icon: "5",
+    title: "Deliver & scale",
+    body: "You get reviewable, incremental progress — and can scale the team up or down as your roadmap changes.",
+  },
+] as const;
+
+/**
+ * Representative technology stack per role, keyed by slug. Rendered as the
+ * "Technology stack" chip cloud on each role landing page. Kept as a map (not a
+ * field on every record) so the stacks read as one maintainable block; the
+ * resolver falls back to an empty list so a new role never breaks the page.
+ */
+const roleTech: Record<string, string[]> = {
+  // AI Engineers
+  "ai-agent-engineers": ["Anthropic Claude", "OpenAI", "LangChain", "LangGraph", "MCP", "Python", "TypeScript", "Vector DBs"],
+  "llm-rag-engineers": ["OpenAI", "Anthropic Claude", "LlamaIndex", "LangChain", "Pinecone", "pgvector", "Python"],
+  "ml-engineers": ["Python", "PyTorch", "TensorFlow", "scikit-learn", "MLflow", "Pandas", "SageMaker"],
+  "mcp-integration-engineers": ["MCP", "TypeScript", "Node.js", "Python", "OpenAI", "Anthropic Claude", "OAuth"],
+  // Frontend Developers
+  "react-developers": ["React", "TypeScript", "Next.js", "Redux", "Tailwind CSS", "Vite", "Jest", "Testing Library"],
+  "nextjs-developers": ["Next.js", "React", "TypeScript", "Tailwind CSS", "Vercel", "tRPC", "Prisma"],
+  "angular-developers": ["Angular", "TypeScript", "RxJS", "NgRx", "Jasmine", "Karma", "SCSS"],
+  "vue-developers": ["Vue.js", "TypeScript", "Nuxt", "Pinia", "Vite", "Vitest", "Tailwind CSS"],
+  // Backend Developers
+  "nodejs-developers": ["Node.js", "TypeScript", "Express", "NestJS", "GraphQL", "PostgreSQL", "Redis", "Prisma"],
+  "python-developers": ["Python", "FastAPI", "Django", "PostgreSQL", "Celery", "SQLAlchemy", "Docker"],
+  "dotnet-developers": ["C#", "ASP.NET Core", "Entity Framework", "SQL Server", "Azure", "xUnit"],
+  "laravel-developers": ["PHP", "Laravel", "MySQL", "Eloquent", "Redis", "Livewire", "PHPUnit"],
+  // Mobile Developers
+  "react-native-developers": ["React Native", "TypeScript", "Expo", "Redux", "Firebase", "Jest"],
+  "flutter-developers": ["Flutter", "Dart", "Bloc", "Riverpod", "Firebase", "GetX"],
+  "ios-developers": ["Swift", "SwiftUI", "UIKit", "Combine", "Core Data", "XCTest"],
+  "android-developers": ["Kotlin", "Jetpack Compose", "Coroutines", "Room", "Hilt", "JUnit"],
+  // DevOps Engineers
+  "cloud-engineers": ["AWS", "Azure", "GCP", "Terraform", "CloudFormation", "Docker", "Kubernetes"],
+  "kubernetes-engineers": ["Kubernetes", "Docker", "Helm", "Istio", "ArgoCD", "Prometheus", "Terraform"],
+  "cicd-engineers": ["GitHub Actions", "GitLab CI", "Jenkins", "Docker", "ArgoCD", "Terraform"],
+  sre: ["Prometheus", "Grafana", "Datadog", "PagerDuty", "Kubernetes", "OpenTelemetry", "Terraform"],
+  // UI/UX Designers
+  "product-designers": ["Figma", "FigJam", "Framer", "Prototyping", "Design Systems"],
+  "ux-researchers": ["Figma", "Maze", "Dovetail", "UserTesting", "Hotjar"],
+  "design-systems": ["Figma", "Storybook", "Design Tokens", "Style Dictionary", "Tailwind CSS"],
+  // QA Engineers
+  "automation-qa": ["Playwright", "Cypress", "Selenium", "Appium", "Jest", "GitHub Actions"],
+  "manual-qa": ["TestRail", "Jira", "Postman", "BrowserStack", "Charles Proxy"],
+  "performance-qa": ["k6", "JMeter", "Gatling", "Grafana", "Lighthouse"],
+  // Dedicated Teams
+  "full-product-team": ["React", "Node.js", "TypeScript", "PostgreSQL", "AWS", "Figma"],
+  "staff-augmentation": ["React", "Node.js", "Python", "TypeScript", "AWS", "Docker"],
+  "managed-delivery": ["React", "Node.js", "TypeScript", "AWS", "Kubernetes", "Figma"],
+};
+
+/** Representative technology stack for a role (empty if none is mapped). */
+export function getRoleTech(slug: string): string[] {
+  return roleTech[slug] ?? [];
+}
+
 /** Fast slug → record lookup for the detail route. */
 const bySlug = new Map(hireRoles.map((r) => [r.slug, r]));
 

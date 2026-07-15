@@ -19,7 +19,22 @@ export type NavLink = {
   icon?: string;
 };
 
-export type MegaColumn = { title: string; links: NavLink[] };
+/**
+ * A category of links inside a mega-menu panel. `icon`, `blurb`, and `href` are
+ * only read by the three-column showcase panel (see `MegaItem.showcase`), which
+ * renders them as the category's rail icon and its featured right-hand panel;
+ * master–detail and flat panels ignore them.
+ */
+export type MegaColumn = {
+  title: string;
+  links: NavLink[];
+  /** Icon key resolved by `components/icon.tsx`. */
+  icon?: string;
+  /** Short paragraph introducing the category in the featured panel. */
+  blurb?: string;
+  /** Where the featured panel's primary CTA points. */
+  href?: string;
+};
 
 /** Top-level navigation entry — a plain link, or a mega-menu panel. */
 export type MegaItem = {
@@ -29,6 +44,13 @@ export type MegaItem = {
   links?: NavLink[];
   flat?: boolean;
   compact?: boolean;
+  /**
+   * Renders `columns` as a three-column showcase: category rail, solution
+   * cards, and a featured panel driven by the active category's `icon`,
+   * `blurb`, and `href`. Falls back to the two-column master–detail layout
+   * below 1200px, and to the shared accordion on mobile.
+   */
+  showcase?: boolean;
   overview?: string;
 };
 

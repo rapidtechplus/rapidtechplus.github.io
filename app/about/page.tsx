@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Ico } from "@/components/icon";
 import { Reveal } from "@/components/reveal";
 import {
@@ -7,7 +8,14 @@ import {
   IconCard,
   CtaBanner,
 } from "@/components/sections/pieces";
-import { aboutValues, aboutGlance } from "@/content/site";
+import {
+  aboutValues,
+  aboutGlance,
+  companyTimeline,
+  engineeringPrinciples,
+  qualityStandards,
+} from "@/content/site";
+import { engagementModels } from "@/content/hire";
 
 export const metadata: Metadata = {
   title: "About",
@@ -72,6 +80,29 @@ export default function AboutPage() {
         </div>
       </section>
 
+      <section>
+        <div className="container">
+          <SectionHead
+            eyebrow="Our journey"
+            title="From first commit to AI-native engineering"
+          >
+            An honest look at where we&apos;ve come from and where we&apos;re
+            headed — milestones, not marketing.
+          </SectionHead>
+          <div className="milestones">
+            {companyTimeline.map((m, i) => (
+              <Reveal className="milestone" key={m.title} delay={i * 0.05}>
+                <span className="milestone-year">{m.year}</span>
+                <div className="milestone-body">
+                  <h3>{m.title}</h3>
+                  <p>{m.body}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section style={{ background: "var(--bg-elev)" }}>
         <div className="container-wide container">
           <SectionHead eyebrow="What drives us" title="Our values" />
@@ -83,6 +114,72 @@ export default function AboutPage() {
                 title={v.title}
                 body={v.body}
               />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div className="container-wide container">
+          <SectionHead
+            eyebrow="How we build"
+            title="Engineering principles"
+          >
+            The technical standards behind every project — the same whether we
+            ship a landing page or a platform.
+          </SectionHead>
+          <div className="grid-3 grid">
+            {engineeringPrinciples.map((p) => (
+              <IconCard key={p.title} icon={p.icon} title={p.title} body={p.body} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section style={{ background: "var(--bg-elev)" }}>
+        <div className="container-wide container">
+          <SectionHead
+            eyebrow="Quality standards"
+            title="What we hold ourselves to"
+          >
+            Commitments we apply on every engagement. We don&apos;t claim
+            certifications we haven&apos;t earned — these are practices, verified
+            in our workflow.
+          </SectionHead>
+          <div className="grid-2 grid">
+            {qualityStandards.map((q) => (
+              <IconCard key={q.title} icon={q.icon} title={q.title} body={q.body} />
+            ))}
+          </div>
+          <p className="about-links">
+            See our{" "}
+            <Link href="/our-process">development process</Link> for how these
+            standards play out stage by stage, or our{" "}
+            <Link href="/open-source">open-source work</Link> and{" "}
+            <a
+              href="https://github.com/rapidtechplus"
+              target="_blank"
+              rel="noreferrer"
+            >
+              GitHub organization
+            </a>
+            .
+          </p>
+        </div>
+      </section>
+
+      <section>
+        <div className="container-wide container">
+          <SectionHead
+            eyebrow="Ways to work with us"
+            title="Client engagement models"
+          >
+            Flexible ways to bring us in — from extending your team to owning a
+            defined outcome end to end.
+          </SectionHead>
+          <div className="grid-3 grid">
+            {engagementModels.map((m) => (
+              <IconCard key={m.title} icon={m.icon} title={m.title} body={m.body} />
             ))}
           </div>
         </div>

@@ -10,6 +10,16 @@ not bolted on — every task is accountable to this document.
 - Maintain **AA contrast** (4.5:1 body text, 3:1 large text / UI) in both themes.
   Accent colors are pre-tuned and darkened in light mode for this reason — don't
   introduce raw colors that break it.
+- **`--accent` is a foreground color, not a button background.** It is tuned to
+  be legible *on* the canvas, which in dark makes it light (`#8a8fff`) — white
+  text on it measures **2.82:1** and fails AA. (Light theme's `#4f46e5` happens
+  to pass at 6.29:1, so a dark-only failure is easy to ship unnoticed.) For any
+  filled control carrying text, use the primary button's fixed gradient
+  (`linear-gradient(180deg, #6366f1, #4f46e5)`) with `var(--on-accent)`, which
+  holds up in both themes. `background: var(--accent); color: #fff` has caused
+  this bug twice — see Phase Q in the task backlog.
+- Accent as a *background* is fine for decorative, text-free elements (rules,
+  dots, indicator bars) and for tinted surfaces via `--accent-soft`.
 - Never convey information by color alone; pair with text, icon, or shape.
 
 ## Semantic structure

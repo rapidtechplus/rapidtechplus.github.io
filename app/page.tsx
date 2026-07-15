@@ -4,6 +4,7 @@ import { Ico } from "@/components/icon";
 import { Reveal } from "@/components/reveal";
 import { Counter } from "@/components/counter";
 import { HeroVisual } from "@/components/hero-visual";
+import { Magnetic } from "@/components/magnetic";
 import {
   SectionHead,
   IconCard,
@@ -74,9 +75,11 @@ export default function HomePage() {
                   cutting corners.
                 </p>
                 <div className="hero-actions">
-                  <ButtonLink href="/contact" className="btn-lg">
-                    Get A Quote →
-                  </ButtonLink>
+                  <Magnetic>
+                    <ButtonLink href="/contact" className="btn-lg">
+                      Get A Quote →
+                    </ButtonLink>
+                  </Magnetic>
                   <ButtonLink
                     href="/contact"
                     variant="ghost"

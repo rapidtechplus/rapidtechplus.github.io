@@ -9,6 +9,7 @@
 
 import { CONTACT_HREF, SITE_URL } from "@/config/site";
 import type { MegaItem, NavLink } from "@/content/types";
+import { aiMenu } from "@/content/ai";
 import { servicesMenu } from "@/content/services";
 import { hireMenuColumns } from "@/content/hire";
 import { solutionMenuColumns } from "@/content/solutions";
@@ -68,10 +69,13 @@ const companyMenu: MegaItem = {
   compact: true,
   links: [
     { label: "About", href: "/about", icon: "building-2", desc: "Who we are and how we work" },
+    { label: "Why Us", href: "/why-us", icon: "sparkles", desc: "Reasons teams build with us" },
+    { label: "Culture", href: "/culture", icon: "heart", desc: "How we work as a team" },
+    { label: "Engineering", href: "/engineering", icon: "code-xml", desc: "How we build software" },
     { label: "Careers", href: "/careers", icon: "star", desc: "Build your career with us" },
     { label: "Contact", href: CONTACT_HREF, icon: "mail", desc: "Start a conversation" },
     { label: "Our Process", href: "/our-process", icon: "workflow", desc: "Discover, design, build, launch" },
-    { label: "Open Source", href: "/open-source", icon: "code-xml", desc: "How we give back to the community" },
+    { label: "Open Source", href: "/open-source", icon: "book-open", desc: "How we give back to the community" },
   ],
 };
 
@@ -81,6 +85,7 @@ const companyMenu: MegaItem = {
  * one source of truth shared by the nav and the pages.
  */
 export const megaMenu: MegaItem[] = [
+  aiMenu,
   servicesMenu,
   {
     label: "Hire Expert",
@@ -88,7 +93,13 @@ export const megaMenu: MegaItem[] = [
     overview: "Explore all roles",
     columns: hireMenuColumns,
   },
-  { label: "Solutions", href: "/solutions", columns: solutionMenuColumns },
+  {
+    label: "Solutions",
+    href: "/solutions",
+    overview: "Explore all solutions",
+    showcase: true,
+    columns: solutionMenuColumns,
+  },
   industriesMenu,
   caseStudiesMenu,
   companyMenu,
@@ -97,9 +108,20 @@ export const megaMenu: MegaItem[] = [
 
 export const footerColumns: { title: string; links: NavLink[] }[] = [
   {
+    title: "Artificial Intelligence",
+    links: [
+      { label: "Artificial Intelligence", href: "/ai" },
+      { label: "AI Agents", href: "/ai/ai-agents" },
+      { label: "LLM Integration", href: "/ai/llm-integration" },
+      { label: "RAG", href: "/ai/rag" },
+      { label: "MCP Servers", href: "/ai/mcp-servers" },
+      { label: "AI Consulting", href: "/ai/ai-consulting" },
+    ],
+  },
+  {
     title: "Services",
     links: [
-      { label: "AI Development", href: "/services/ai-development" },
+      { label: "Artificial Intelligence", href: "/services/ai-development" },
       { label: "Custom Software Development", href: "/services/custom-software-development" },
       { label: "SaaS Development", href: "/services/saas-development" },
       { label: "Web Development", href: "/services/web-development" },
@@ -109,11 +131,18 @@ export const footerColumns: { title: string; links: NavLink[] }[] = [
   {
     title: "Solutions",
     links: [
-      { label: "AI Solutions", href: "/solutions" },
-      { label: "Digital Transformation", href: "/solutions" },
-      { label: "Enterprise Solutions", href: "/solutions" },
-      { label: "Cloud Solutions", href: "/solutions" },
-      { label: "Data & Analytics", href: "/solutions" },
+      { label: "Enterprise Solutions", href: "/solutions/enterprise-software" },
+      { label: "Business Automation", href: "/solutions/workflow-automation" },
+      { label: "Cloud Solutions", href: "/solutions/cloud-solutions" },
+      {
+        label: "Data & Analytics",
+        href: "/solutions/data-analytics-solutions",
+      },
+      { label: "Commerce Solutions", href: "/solutions/ecommerce-solutions" },
+      {
+        label: "Digital Transformation",
+        href: "/solutions/digital-transformation",
+      },
     ],
   },
   {
@@ -130,9 +159,10 @@ export const footerColumns: { title: string; links: NavLink[] }[] = [
     title: "Company",
     links: [
       { label: "About", href: "/about" },
+      { label: "Why Us", href: "/why-us" },
+      { label: "Engineering", href: "/engineering" },
       { label: "Careers", href: "/careers" },
       { label: "Our Process", href: "/our-process" },
-      { label: "Open Source", href: "/open-source" },
       { label: "Contact", href: CONTACT_HREF },
     ],
   },
@@ -168,6 +198,9 @@ export const sitemapGroups: { title: string; links: NavLink[] }[] = [
     links: [
       { label: "Home", href: "/" },
       { label: "About", href: "/about" },
+      { label: "Why Us", href: "/why-us" },
+      { label: "Culture", href: "/culture" },
+      { label: "Engineering", href: "/engineering" },
       { label: "Careers", href: "/careers" },
       { label: "Our Process", href: "/our-process" },
       { label: "Open Source", href: "/open-source" },
@@ -177,6 +210,7 @@ export const sitemapGroups: { title: string; links: NavLink[] }[] = [
   {
     title: "What We Do",
     links: [
+      { label: "Artificial Intelligence", href: "/ai" },
       { label: "Services", href: "/services" },
       { label: "Solutions", href: "/solutions" },
       { label: "Hire an Expert", href: "/hire" },
@@ -207,14 +241,14 @@ export type SocialLink = {
   href: string;
   /** Icon key resolved to an inline SVG in the footer. */
   icon:
-    | "github"
-    | "linkedin"
-    | "x"
-    | "email"
-    | "instagram"
-    | "facebook"
-    | "youtube"
-    | "whatsapp";
+  | "github"
+  | "linkedin"
+  | "x"
+  | "email"
+  | "instagram"
+  | "facebook"
+  | "youtube"
+  | "whatsapp";
 };
 
 export const socialLinks: SocialLink[] = [
@@ -431,6 +465,63 @@ export const aboutGlance = [
   {
     title: "Client-first delivery",
     body: "Transparent, reviewable progress in logical milestones.",
+  },
+];
+
+/**
+ * Company milestones for the About-page timeline. These are illustrative
+ * markers of the studio's direction rather than audited historical records —
+ * the copy is written so nothing reads as a fabricated, specific claim. Swap in
+ * confirmed dates and events as they are finalised.
+ */
+export const companyTimeline = [
+  {
+    year: "Founded",
+    title: "A studio built on engineering discipline",
+    body: "Rapid Tech Plus started with a simple conviction: durable software comes from strong engineering paired with genuine care for the people who use it.",
+  },
+  {
+    year: "Early work",
+    title: "Web platforms & custom applications",
+    body: "We honed a full-stack practice — design, frontend, backend, and infrastructure under one roof — delivering reviewable progress in clear milestones.",
+  },
+  {
+    year: "Growth",
+    title: "SaaS products & dedicated teams",
+    body: "Engagements grew from single builds into long-running partnerships, with dedicated teams operating as an extension of our clients' own.",
+  },
+  {
+    year: "Today",
+    title: "AI-native engineering",
+    body: "AI is woven through how we scope, build, and review — an accelerant on top of the same engineering standards, not a bolt-on demo.",
+  },
+];
+
+/**
+ * Quality standards — the practices we hold ourselves to on every engagement.
+ * Framed as commitments (not certifications), per an intentional decision to
+ * avoid implying credentials the studio does not yet hold.
+ */
+export const qualityStandards = [
+  {
+    icon: "search-check",
+    title: "Code review on every change",
+    body: "No change reaches production without a second set of eyes and passing automated checks.",
+  },
+  {
+    icon: "gauge",
+    title: "Performance budgets",
+    body: "We target Lighthouse ≥95 and treat speed as a feature, measuring it rather than assuming it.",
+  },
+  {
+    icon: "eye",
+    title: "Accessibility to WCAG guidelines",
+    body: "Keyboard support, focus management, contrast, and semantic markup are verified, not hoped for.",
+  },
+  {
+    icon: "refresh-cw",
+    title: "Continuous integration",
+    body: "Lint, type-check, and build run on every push so the main branch stays releasable at all times.",
   },
 ];
 
@@ -680,4 +771,225 @@ export const openSourceProjects = [
     title: "AI building blocks",
     body: "Examples and helpers for agents, RAG, and MCP that make LLM features easier to ship safely.",
   },
+];
+
+/* -------------------------------------------------------------------------- */
+/* Why Us — differentiators, proof, and how we're different                    */
+/* -------------------------------------------------------------------------- */
+
+/** Headline reasons to choose Rapid Tech Plus (Why Us page hero grid). */
+export const whyUsPillars = [
+  {
+    icon: "sparkles",
+    title: "AI-native, not AI-labelled",
+    body: "AI is woven into how we scope, build, and review — from agents and RAG to LLM-assisted delivery — instead of bolted on as a demo.",
+  },
+  {
+    icon: "zap",
+    title: "Weeks, not quarters",
+    body: "A lean, senior team and an accelerated workflow move you from idea to production fast, without cutting engineering corners.",
+  },
+  {
+    icon: "shield-check",
+    title: "Engineering you can trust",
+    body: "TypeScript everywhere, tested and reviewed, with security and accessibility built into every increment — not bolted on at the end.",
+  },
+  {
+    icon: "handshake",
+    title: "A partner, not a vendor",
+    body: "We own outcomes, communicate openly, and stay accountable well beyond go-live — your goals drive the roadmap.",
+  },
+  {
+    icon: "users",
+    title: "Senior people on your work",
+    body: "You work directly with the engineers and designers building your product — no hand-offs to junior teams behind the scenes.",
+  },
+  {
+    icon: "gem",
+    title: "Craft over churn",
+    body: "Clean code, thoughtful design, and durable systems you can build on — not throwaway work that becomes someone else's problem.",
+  },
+];
+
+/** Illustrative proof stats shown on the Why Us page (MetricStat cards). */
+export const whyUsStats = [
+  { value: "10+", label: "Years combined senior experience per team" },
+  { value: "100%", label: "TypeScript, tested and reviewed" },
+  { value: "Weeks", label: "Typical time to first production release" },
+  { value: "AI-first", label: "Built into every engagement by default" },
+];
+
+/** "The difference" — typical agency vs. Rapid Tech Plus. */
+export const whyUsDifference = [
+  {
+    them: "Work handed off to rotating junior teams",
+    us: "Senior engineers and designers on your product start to finish",
+  },
+  {
+    them: "Big-bang delivery with a reveal at the end",
+    us: "Reviewable increments you can steer every week",
+  },
+  {
+    them: "AI treated as a bolt-on feature",
+    us: "AI woven through delivery and into what we build",
+  },
+  {
+    them: "Quality and accessibility as an afterthought",
+    us: "Testing, security, and a11y built into every sprint",
+  },
+  {
+    them: "Code you can't maintain after launch",
+    us: "Clean, documented systems your team can own",
+  },
+];
+
+export const whyUsFaqs = [
+  {
+    q: "What makes you different from a typical agency?",
+    a: "Senior people do the work, we ship in reviewable increments instead of a big reveal, and AI is part of how we build — not a marketing label. You get engineering you can maintain and a partner accountable for outcomes.",
+  },
+  {
+    q: "Do you only work with startups, or enterprises too?",
+    a: "Both. Our process scales from a first product release for a growing business to modernizing an established platform. We size the engagement and team to fit the problem.",
+  },
+  {
+    q: "How do you keep quality high while moving fast?",
+    a: "Speed comes from a lean senior team, a strong stack, and AI-assisted delivery — not from skipping tests or review. Quality, accessibility, and security are built into every increment.",
+  },
+];
+
+/* -------------------------------------------------------------------------- */
+/* Culture — how we work and what we value as a team                           */
+/* -------------------------------------------------------------------------- */
+
+/** The principles that shape how the team works day to day (Culture page). */
+export const culturePrinciples = [
+  {
+    icon: "globe",
+    title: "Remote-first, async by default",
+    body: "We collaborate across time zones and value clear writing and output over hours at a desk. Deep work is protected.",
+  },
+  {
+    icon: "eye",
+    title: "Default to transparency",
+    body: "Decisions, trade-offs, and progress are shared openly — internally and with clients. No surprises, no politics.",
+  },
+  {
+    icon: "user-plus",
+    title: "Ownership, not tickets",
+    body: "Small, senior teams mean people own outcomes end to end. Your work ships and matters, and you have the room to do it well.",
+  },
+  {
+    icon: "graduation-cap",
+    title: "Always learning",
+    body: "New tools, better patterns, and shared write-ups keep us sharp. We invest in growth because the field never stands still.",
+  },
+  {
+    icon: "heart",
+    title: "Respect and low ego",
+    body: "The best idea wins, feedback is kind and direct, and we assume good intent. We build software and each other up.",
+  },
+  {
+    icon: "gem",
+    title: "Craft as a habit",
+    body: "We care about the details — clean code, thoughtful design, and durable systems — because craft compounds over time.",
+  },
+];
+
+/** Everyday practices and rituals that make the culture real. */
+export const cultureRituals = [
+  {
+    icon: "refresh-cw",
+    title: "Short, reviewable cycles",
+    body: "We plan in small increments and review often, so progress is visible and course-corrections are cheap.",
+  },
+  {
+    icon: "messages-square",
+    title: "Written over verbal",
+    body: "Proposals, decisions, and context live in writing — so anyone can catch up without needing to be in the room.",
+  },
+  {
+    icon: "search-check",
+    title: "Everything gets reviewed",
+    body: "Code, design, and copy go through review. It's how we keep quality high and share knowledge across the team.",
+  },
+  {
+    icon: "sparkles",
+    title: "Space to explore",
+    body: "We make room to try new tools and AI approaches, then bring what works back into how we deliver.",
+  },
+];
+
+/* -------------------------------------------------------------------------- */
+/* Engineering — how we build, our stack, and our quality bar                  */
+/* -------------------------------------------------------------------------- */
+
+/** Core engineering practices (Engineering page). */
+export const engineeringPractices = [
+  {
+    icon: "code-xml",
+    title: "TypeScript everywhere",
+    body: "Strict, end-to-end type safety across frontend, backend, and shared code catches whole classes of bugs before they ship.",
+  },
+  {
+    icon: "search-check",
+    title: "Reviewed and tested",
+    body: "Every change is peer-reviewed and covered by tests appropriate to the risk — from unit to end-to-end — so regressions surface early.",
+  },
+  {
+    icon: "git-branch",
+    title: "Continuous integration",
+    body: "Automated lint, type-check, test, and build gates run on every change, so what merges is always releasable.",
+  },
+  {
+    icon: "shield-check",
+    title: "Secure by design",
+    body: "Least-privilege access, dependency hygiene, and secure defaults are part of the design — not a late-stage audit.",
+  },
+  {
+    icon: "gauge",
+    title: "Built for performance",
+    body: "We budget for speed — fast loads, lean bundles, and efficient data access — and measure it, so performance doesn't drift.",
+  },
+  {
+    icon: "life-buoy",
+    title: "Accessible by default",
+    body: "Semantic markup, keyboard support, and WCAG-minded contrast are baked into components, so accessibility is the default state.",
+  },
+];
+
+/** Engineering principles — how we make technical decisions. */
+export const engineeringPrinciples = [
+  {
+    icon: "layers",
+    title: "Simple over clever",
+    body: "We favour readable, maintainable solutions over premature abstraction. Code is read far more often than it's written.",
+  },
+  {
+    icon: "refresh-cw",
+    title: "Ship small, ship often",
+    body: "Incremental delivery keeps risk low and feedback fast. Big-bang releases hide problems until they're expensive.",
+  },
+  {
+    icon: "bot",
+    title: "AI-assisted delivery",
+    body: "We use AI to accelerate scaffolding, review, and testing — freeing senior engineers to focus on judgment and design.",
+  },
+  {
+    icon: "book-open",
+    title: "Document the why",
+    body: "Decisions and trade-offs are written down, so systems stay understandable long after the original authors move on.",
+  },
+];
+
+/** The quality bar every release clears (Engineering page checklist). */
+export const engineeringStandards = [
+  "Passes strict TypeScript type-checking",
+  "Linted and formatted to a shared standard",
+  "Peer-reviewed before it merges",
+  "Covered by tests proportional to the risk",
+  "Responsive across mobile, tablet, and desktop",
+  "Accessible — keyboard, semantics, and contrast",
+  "Performance-budgeted and measured",
+  "Deployed through automated CI/CD",
 ];
