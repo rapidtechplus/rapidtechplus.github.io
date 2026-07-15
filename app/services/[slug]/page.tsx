@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { DetailLayout } from "@/components/sections/detail-layout";
+import { ServiceLanding } from "@/components/sections/service-landing";
 import {
   getService,
   serviceSlugs,
   relatedServices,
+  serviceIndustries,
+  serviceCaseStudies,
+  serviceProcess,
 } from "@/content/services";
 import { SITE_URL } from "@/config/site";
 
@@ -45,6 +48,8 @@ export default async function ServiceDetailPage({ params }: Params) {
     body: s.summary,
     href: `/services/${s.slug}`,
   }));
+  const industries = serviceIndustries(service);
+  const caseStudies = serviceCaseStudies(service);
 
   const serviceJsonLd = {
     "@context": "https://schema.org",
@@ -58,15 +63,34 @@ export default async function ServiceDetailPage({ params }: Params) {
       name: "Rapid Tech Plus",
       url: SITE_URL,
     },
+    ...(service.industries && service.industries.length > 0
+      ? { areaServed: industries.map((i) => i.title) }
+      : {}),
   };
+
+  const jsonLd: Record<string, unknown>[] = [serviceJsonLd];
+  if (service.faqs && service.faqs.length > 0) {
+    jsonLd.push({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: service.faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    });
+  }
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }}
-      />
-      <DetailLayout
+      {jsonLd.map((data, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+        />
+      ))}
+      <ServiceLanding
         crumbs={[
           { label: "Home", href: "/" },
           { label: "Services", href: "/services" },
@@ -76,12 +100,17 @@ export default async function ServiceDetailPage({ params }: Params) {
         title={service.title}
         lead={service.intro}
         overview={service.overview}
+        overviewTitle="What we deliver"
         capabilities={service.capabilities}
-        capabilitiesTitle="What we deliver"
+        problems={service.problems}
+        technologies={service.technologies}
+        process={serviceProcess}
+        benefits={service.benefits}
+        industries={industries}
+        caseStudies={caseStudies}
         faqs={service.faqs}
         related={related}
-        relatedEyebrow="Related services"
-        relatedTitle={`More ${service.category.toLowerCase()}`}
+        relatedTitle="More services"
         cta={{
           title: "Ready to build with us?",
           body: `Tell us about your ${service.label} project and we'll help you plan the right approach.`,

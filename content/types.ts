@@ -19,7 +19,56 @@ export type NavLink = {
   icon?: string;
 };
 
-export type MegaColumn = { title: string; links: NavLink[] };
+/**
+ * A category of links inside a mega-menu panel. `icon`, `blurb`, and `href` are
+ * only read by the three-column showcase panel (see `MegaItem.showcase`), which
+ * renders them as the category's rail icon and its featured right-hand panel;
+ * master–detail and flat panels ignore them.
+ */
+export type MegaColumn = {
+  title: string;
+  links: NavLink[];
+  /** Icon key resolved by `components/icon.tsx`. */
+  icon?: string;
+  /** Short paragraph introducing the category in the featured panel. */
+  blurb?: string;
+  /** Where the featured panel's primary CTA points. */
+  href?: string;
+};
+
+/**
+ * Payload for the three-column company panel (see `MegaItem.company`). The
+ * panel's left sidebar is the `MegaItem`'s own `links`; this type carries the
+ * two trust-building columns beside it plus the closing banner.
+ */
+export type CompanyPanel = {
+  /** Mono eyebrow above the sidebar. */
+  navLabel: string;
+  /** Mono eyebrow above the highlight cards. */
+  highlightsLabel: string;
+  /** What we build / how we work, as interactive cards. */
+  highlights: Feature[];
+  /** Mono eyebrow above the stat grid. */
+  statsLabel: string;
+  /**
+   * Trust indicators. Every value must be independently verifiable — derive
+   * counts from the content collections rather than asserting a number no page
+   * can back up.
+   */
+  stats: Metric[];
+  /** Right-hand company story panel. */
+  feature: {
+    eyebrow: string;
+    title: string;
+    body: string;
+    /** Icon key for the panel's motif. */
+    icon: string;
+    /** Filled CTA, then two quieter ones. */
+    actions: NavLink[];
+  };
+  /** Closing promotional strip across the panel's foot. */
+  banner: { title: string; body: string; cta: NavLink };
+};
 
 /** Top-level navigation entry — a plain link, or a mega-menu panel. */
 export type MegaItem = {
@@ -29,6 +78,21 @@ export type MegaItem = {
   links?: NavLink[];
   flat?: boolean;
   compact?: boolean;
+  /**
+   * Renders `links` as the left sidebar of a three-column company panel —
+   * sidebar, highlights + stats, featured story — closed by a full-width
+   * banner. Falls back to two columns below 1200px (the featured column drops)
+   * and to the shared accordion on mobile, where only the sidebar and stats
+   * remain. Ignored unless `links` is present.
+   */
+  company?: CompanyPanel;
+  /**
+   * Renders `columns` as a three-column showcase: category rail, solution
+   * cards, and a featured panel driven by the active category's `icon`,
+   * `blurb`, and `href`. Falls back to the two-column master–detail layout
+   * below 1200px, and to the shared accordion on mobile.
+   */
+  showcase?: boolean;
   overview?: string;
 };
 
@@ -68,6 +132,16 @@ export type ServiceRecord = DetailRecord & {
   overview: string;
   /** What the service includes — rendered as a capability card grid. */
   capabilities: Feature[];
+  /** Business problems this service solves — rendered as a card grid. */
+  problems?: Feature[];
+  /** Technology names rendered as a chip cloud. */
+  technologies?: string[];
+  /** Business benefits / outcomes — rendered as a card grid. */
+  benefits?: Feature[];
+  /** Industry slugs this service commonly serves (links to `/industries/[slug]`). */
+  industries?: string[];
+  /** Case-study slugs to feature (links to `/case-studies`). */
+  caseStudies?: string[];
   /** Optional per-service FAQs. */
   faqs?: Faq[];
 };

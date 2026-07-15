@@ -2,6 +2,8 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import { Ico } from "@/components/icon";
 import { Reveal } from "@/components/reveal";
+import { TextReveal } from "@/components/text-reveal";
+import { Magnetic } from "@/components/magnetic";
 import { ButtonLink } from "@/components/ui/button";
 import { Breadcrumbs, type Crumb } from "@/components/sections/breadcrumbs";
 import { CONTACT_HREF } from "@/config/site";
@@ -19,7 +21,9 @@ export function SectionHead({
   return (
     <Reveal className="section-head">
       <span className="eyebrow">{eyebrow}</span>
-      <h2>{title}</h2>
+      <h2>
+        <TextReveal text={title} />
+      </h2>
       {children ? <p>{children}</p> : null}
     </Reveal>
   );
@@ -237,7 +241,9 @@ export function TimelineStep({
 export function CtaActions({ className }: { className?: string }) {
   return (
     <div className={["cta-actions", className].filter(Boolean).join(" ")}>
-      <ButtonLink href={CONTACT_HREF}>Get A Quote →</ButtonLink>
+      <Magnetic>
+        <ButtonLink href={CONTACT_HREF}>Get A Quote →</ButtonLink>
+      </Magnetic>
       <ButtonLink href={CONTACT_HREF} variant="ghost">
         Hire Us
       </ButtonLink>
