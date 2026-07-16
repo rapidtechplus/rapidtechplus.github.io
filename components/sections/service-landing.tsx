@@ -3,16 +3,16 @@ import { Reveal } from "@/components/reveal";
 import { Ico } from "@/components/icon";
 import type { Crumb } from "@/components/sections/breadcrumbs";
 import type { Feature, Faq } from "@/content/types";
-import type { CaseStudy } from "@/content/case-studies";
+import { caseStudyHref, type CaseStudy } from "@/content/case-studies";
 import {
   PageHero,
   SectionHead,
   IconCard,
   RelatedGrid,
   FaqAccordion,
+  CaseCard,
   CtaBanner,
   CtaActions,
-  MetricStat,
   Tag,
   TimelineStep,
 } from "@/components/sections/pieces";
@@ -210,30 +210,17 @@ export function ServiceLanding({
             </SectionHead>
             <div className="grid-3 grid">
               {caseStudies.map((c, i) => (
-                <Reveal
-                  className="card case-card"
+                <CaseCard
                   key={c.slug}
+                  icon={c.icon}
+                  title={c.title}
+                  client={c.client}
+                  category={c.category}
+                  summary={c.summary}
+                  metrics={c.metrics}
+                  href={caseStudyHref(c.slug)}
                   delay={i * 0.05}
-                >
-                  <div className="case-top">
-                    <span className="ico">
-                      <Ico name={c.icon} />
-                    </span>
-                    <Tag className="case-cat">{c.category}</Tag>
-                  </div>
-                  <h3>{c.title}</h3>
-                  <p className="case-client">{c.client}</p>
-                  <p>{c.summary}</p>
-                  <div className="case-metrics">
-                    {c.metrics.map((m) => (
-                      <MetricStat
-                        key={m.label}
-                        value={m.value}
-                        label={m.label}
-                      />
-                    ))}
-                  </div>
-                </Reveal>
+                />
               ))}
             </div>
           </div>
