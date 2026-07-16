@@ -140,7 +140,7 @@ export type ServiceRecord = DetailRecord & {
   benefits?: Feature[];
   /** Industry slugs this service commonly serves (links to `/industries/[slug]`). */
   industries?: string[];
-  /** Case-study slugs to feature (links to `/case-studies`). */
+  /** Case-study slugs to feature (links to `/case-studies/[slug]`). */
   caseStudies?: string[];
   /** Optional per-service FAQs. */
   faqs?: Faq[];

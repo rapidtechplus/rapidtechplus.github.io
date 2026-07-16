@@ -1,15 +1,12 @@
 import type { Metadata } from "next";
-import { Ico } from "@/components/icon";
-import { Reveal } from "@/components/reveal";
+import { PageHero, CaseCard, DualCta } from "@/components/sections/pieces";
 import {
-  PageHero,
-  MetricStat,
-  Tag,
-  DualCta,
-} from "@/components/sections/pieces";
-import { caseStudies } from "@/content/case-studies";
+  caseStudies,
+  caseStudyCards,
+  caseStudyHref,
+} from "@/content/case-studies";
 import { JsonLd } from "@/components/seo/json-ld";
-import { webPageJsonLd } from "@/lib/structured-data";
+import { collectionPageJsonLd, toListItems } from "@/lib/structured-data";
 
 const description =
   "Representative engagements from Rapid Tech Plus — FinTech, healthcare, retail, SaaS, and automation projects with measurable outcomes.";
@@ -23,13 +20,15 @@ export const metadata: Metadata = {
 export default function CaseStudiesPage() {
   return (
     <>
-      {/* No ItemList until Phase G ships `/case-studies/[slug]`; listing items
-          that have no URL of their own would add nothing a crawler can follow. */}
+      {/* Phase G gave every study its own route, so the ItemList withheld in
+          Phase L is now real: each entry resolves to a page a crawler can
+          follow. Derived from the same array as the grid, so it cannot drift. */}
       <JsonLd
-        data={webPageJsonLd({
+        data={collectionPageJsonLd({
           name: "Case Studies",
           description,
           path: "/case-studies",
+          items: toListItems(caseStudyCards),
         })}
       />
 
@@ -48,22 +47,17 @@ export default function CaseStudiesPage() {
         <div className="container-wide container">
           <div className="grid-3 grid">
             {caseStudies.map((c, i) => (
-              <Reveal className="card case-card" key={c.title} delay={i * 0.05}>
-                <div className="case-top">
-                  <span className="ico">
-                    <Ico name={c.icon} />
-                  </span>
-                  <Tag className="case-cat">{c.category}</Tag>
-                </div>
-                <h3>{c.title}</h3>
-                <p className="case-client">{c.client}</p>
-                <p>{c.summary}</p>
-                <div className="case-metrics">
-                  {c.metrics.map((m) => (
-                    <MetricStat key={m.label} value={m.value} label={m.label} />
-                  ))}
-                </div>
-              </Reveal>
+              <CaseCard
+                key={c.slug}
+                icon={c.icon}
+                title={c.title}
+                client={c.client}
+                category={c.category}
+                summary={c.summary}
+                metrics={c.metrics}
+                href={caseStudyHref(c.slug)}
+                delay={i * 0.05}
+              />
             ))}
           </div>
 

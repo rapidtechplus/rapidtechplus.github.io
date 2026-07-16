@@ -3059,6 +3059,15 @@ section {
   display: flex;
   flex-direction: column;
 }
+/* Linkable variant: `.card-link` moves the padding onto the inner anchor, so the
+   anchor — not the card — has to be the flex column that pins `.case-metrics`
+   to the bottom via `margin-top: auto`. Without this the metrics float up and
+   cards in a row stop aligning. */
+.case-card.card-link .card-link-a {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
 .case-top {
   display: flex;
   align-items: center;
@@ -3108,6 +3117,58 @@ section {
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--text-muted);
+}
+
+/* Case study detail — summary strip, disclosure, chapter prose */
+.case-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(20px, 3vw, 40px);
+  padding: clamp(22px, 2.6vw, 32px);
+}
+.case-summary-who {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.case-summary-who .eyebrow {
+  margin-bottom: 2px;
+}
+.case-summary-who .case-client {
+  margin: 0;
+}
+/* The strip's metrics sit inline, not pinned to a card's foot. */
+.case-summary .case-metrics {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+  gap: clamp(24px, 3vw, 40px);
+}
+/* `--text-muted`, not `--text-dim`: at 0.86rem this is body-size prose, and
+   `--text-dim` measures 3.78:1 on the dark canvas — below the 4.5:1 AA floor.
+   This text states the studies are representative, so it has to be readable. */
+.case-disclosure {
+  margin: 18px 0 0;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  max-width: 78ch;
+}
+.case-chapter-body {
+  max-width: 72ch;
+  margin: 0 auto clamp(28px, 3.5vw, 44px);
+  text-align: center;
+}
+@media (max-width: 640px) {
+  .case-summary {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .case-chapter-body {
+    text-align: left;
+  }
 }
 
 /* Breadcrumbs — inner-page trail above the page title. */

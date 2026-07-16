@@ -634,14 +634,15 @@ verified via DOM/computed-style metrics.
 
 **Newly discovered / carried tasks:**
 
-- [~] Detail-page richness for later collections — **hire done (Phase C)**;
-  solution/industry/product/case-study/blog records still carry `summary`/`body`
-  only; add per-record detail bodies (capabilities, FAQs) when their `[slug]`
-  phases land.
+- [~] Detail-page richness for later collections — **hire done (Phase C)**,
+  **case studies done (Phase G)**; product/blog records still carry
+  `summary`/`body` only; add per-record detail bodies (capabilities, FAQs) when
+  their `[slug]` phases land.
 - [~] Repoint mega-menu links from hubs to real routes as `[slug]` phases land —
-  **Hire Expert done (Phase C) + Industries done (Phase D): links +
-  `collectionRoutes` now resolve to `/hire/[slug]` and `/industries/[slug]`**;
-  `/solutions/[slug]`, `/products/[slug]`, etc. still pending their phases.
+  **Hire Expert done (Phase C), Industries done (Phase D), Case Studies done
+  (Phase G): links + `collectionRoutes` now resolve to `/hire/[slug]`,
+  `/industries/[slug]`, and `/case-studies/[slug]`**; `/products/[slug]` and
+  `/blog/[slug]` still pending their phases.
 
 ### Phase B — Service detail pages ✅
 
@@ -1262,11 +1263,82 @@ serve without `-s`.
   product copy. Accept: footer product links resolve; each has overview,
   features, CTA. Priority: P2. Complexity: M._
 
-### Phase G — Case study detail pages
+### Phase G — Case study detail pages ✅
 
-- [ ] `/case-studies/[slug]` for each study. _Deps: A. Accept: study cards link
-  to full pages (challenge/approach/outcome/metrics); CaseStudy/BreadcrumbList
-  JSON-LD. Priority: P1. Complexity: M._
+- [x] `/case-studies/[slug]` for each study. _Deps: A._ Enriched
+  `content/case-studies.ts` — each of the **6** records (the collection had six,
+  not seven) now carries `intro` plus `challenge` / `approach` / `outcome`
+  chapters (a prose `body` + three supporting `points` each), `technologies`,
+  `services` / `industries` slug refs, and per-study `faqs`; added
+  `caseStudySlugs` / `getCaseStudy` / `relatedCaseStudies` (same-category-first)
+  / `caseStudyHref` / `caseStudyCards` helpers, mirroring the Phase B services
+  pattern.
+- [x] New `components/sections/case-study-layout.tsx` (`CaseStudyLanding`) —
+  Hero → client + outcome-metric strip → **disclosure** → dual CTA → **Challenge**
+  → **Approach** → **Outcome** (alternating bands) → **Technologies** (chips) →
+  **Services this engagement drew on** → **Where this work applies** → FAQs →
+  Related studies → CTA. Optional sections hide when their data is absent.
+- [x] `app/case-studies/[slug]/page.tsx` — `generateStaticParams` +
+  `dynamicParams = false`, per-page metadata with `ogImageFor("case-studies")`
+  set **explicitly** (declaring `openGraph` replaces rather than merges the
+  inherited object, so omitting it would ship an imageless card), and
+  `CaseStudy` + `FAQPage` JSON-LD. `BreadcrumbList` comes from the shared
+  `Breadcrumbs` component via `PageHero`, as on every other detail route —
+  re-declaring it in the page would emit two conflicting trails.
+- [x] **Integrity** — the studies are representative, not named clients. A
+  `CASE_STUDY_DISCLOSURE` strip states this on every detail page (the hub's
+  promise now travels with the record), `client` stays a generalised descriptor,
+  and the JSON-LD names no organisation. The "HIPAA aligned by design" FAQ says
+  plainly that a formal determination is the provider's to make.
+- [x] Repointed the **Case Studies mega-menu** from 8 category links that all
+  resolved to the hub → the 6 real studies (label = title, desc = client), so
+  every entry reaches a page that exists. Hub cards, and the "proof" cards on the
+  service/AI landings, now link to the detail routes.
+- [x] Extracted `CaseCard` into `components/sections/pieces.tsx` — the hub, the
+  service landing, and the related grid rendered the same markup three times.
+  Added the one CSS rule the linkable variant needs (`.card-link` moves padding
+  onto the inner anchor, so the anchor must be the flex column that pins
+  `.case-metrics` to the card foot).
+- [x] `app/sitemap.ts` derives the 6 study URLs from `caseStudySlugs`.
+- [x] **Phase L's withheld `ItemList` is now real** — `/case-studies` upgraded
+  from `WebPage` to `CollectionPage` + `ItemList` (6 items), derived from
+  `caseStudyCards` so the markup cannot drift from the visible grid.
+- [x] lint + typecheck + clean static **build (125 routes) all green**.
+
+**Design review** — verified in-browser (dev server; built into `.next-verify`
+so the live dev server's `.next` stayed intact — note `out/` is stale and must
+not be used to verify):
+
+- `/case-studies/payments-platform-rebuilt-for-scale` renders all nine sections
+  in order, 8 tech chips, 2 FAQs, breadcrumb trail Home > Case Studies > study.
+- Built HTML confirms `canonical`, explicit `og:image`
+  (`/case-studies/opengraph-image.png`), `summary_large_image`, and exactly one
+  each of `CaseStudy` / `BreadcrumbList` / `FAQPage`. Hub emits
+  `CollectionPage` + `ItemList` (6). `sitemap.xml` carries the 6 study URLs.
+- Clicking a real hub card navigates to the detail page; unknown slug → 404
+  (`dynamicParams = false`).
+- **Zero content-level horizontal overflow at 1440 and 375** (the only offenders
+  are the pre-existing decorative aurora/grid and closed mega panels, clipped by
+  `body` — the documented baseline). Mobile ≤640px collapses the summary strip
+  to a column and left-aligns the chapter prose.
+- Both themes verified via a real theme switch (`localStorage` + reload, not a
+  synthetic class swap — that silently leaves the canvas unrepainted and gives
+  false readings): dark canvas `#0a0a13`, light `#fbfbfd`, all tokens resolve.
+- Mega-menu: all 6 labels and descriptions render **untruncated** (the Phase 16
+  `.mega-link-desc` nowrap+ellipsis constraint holds — client descriptors are
+  short). Zero console errors.
+
+**Fixed along the way (found by verification):**
+
+- **`.case-disclosure` failed WCAG AA** — first drafted with `--text-dim`, which
+  measured **3.78:1** at 13.76px against the dark canvas (AA needs 4.5:1, and the
+  text is not "large"). Switched to `--text-muted` → **7.84:1** dark / **7.41:1**
+  light. Same root cause as the Phase Q findings: `--text-dim` is tuned for
+  decorative micro-labels, not body-size prose.
+
+- [ ] Not verifiable in this environment (unchanged from prior phases):
+  screenshots (capture times out on the continuous compositor; the pane also
+  reports `innerWidth: 0` until an explicit resize), Firefox/Safari, Lighthouse.
 
 ### Phase H — Blog / Insights
 
@@ -1447,6 +1519,9 @@ and `config/og-templates.ts`, so those pages inherit it when they land.
       records routes — listing URLs that 404 helps nobody), and **no `JobPosting`
       on `/careers`** (the roles are representative, not live vacancies).
       Advertising any of these would be a structured-data violation.
+      _Update: **Phase G shipped `/case-studies/[slug]`, so that hub's `ItemList`
+      is now real and has been added** (`CollectionPage` + 6 items). `/products`
+      and `/blog` remain correctly withheld pending Phases F/H._
 - [x] Removed the now-dead `public/og-image.svg`; updated `seo-strategy.md`,
       `branding.md`, `project-structure.md`.
 
@@ -1519,7 +1594,9 @@ against the static export:
 - [~] Blog / insights — static `/blog` index shipped (Phase 10); per-post
   routes still to come
 - [x] Case studies — `/case-studies` index shipped (Phase 11) with illustrative
-  studies + metrics; per-industry/per-study detail routes still to come
+  studies + metrics; per-study detail routes shipped (Phase G). Per-industry
+  filter views not built: with six studies a filter adds navigation without
+  adding information — revisit if the collection grows
 - [ ] Open source page
 - [ ] Press kit
 - [~] Testimonials / trust section — homepage placeholders shipped (Phase 10);
