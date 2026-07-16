@@ -1180,28 +1180,17 @@ section {
   }
 }
 
-/* ---- Company mega: sidebar + highlights/stats + story, closed by a banner ----
-   The trust surface. Three columns at ≥1201px; the story column drops below
-   that; on mobile the shared accordion rules keep the sidebar (which *is* the
-   navigation) and the stats, and hide the rest. */
+/* ---- Company mega: nav sidebar + mission/vision scroller ----
+   Two columns, closed by a promotional banner. Deliberately the lightest of the
+   wide panels: the sidebar is the navigation, and the scroller carries the
+   story rather than a wall of cards. On mobile the shared accordion rules leave
+   the sidebar and banner. */
 .mega.is-company {
-  width: 1340px;
-  max-width: min(95vw, 1360px);
+  width: 880px;
+  max-width: min(94vw, 900px);
 }
 .mega.is-company .mega-inner {
-  grid-template-columns: 296px minmax(0, 1fr) 320px;
-}
-/* This is the tallest panel on the site, so it gets a viewport-height guard:
-   on a short laptop it scrolls internally instead of running off-screen, and it
-   stays correct as the sidebar grows rather than needing a re-tuned fixed
-   height. Desktop only — on mobile the accordion must expand to its natural
-   height (a cap there is what silently clipped panels before). */
-@media (min-width: 1025px) {
-  .mega.is-company .mega-inner {
-    max-height: calc(100dvh - var(--nav-h) - 28px);
-    overflow-y: auto;
-    overscroll-behavior: contain;
-  }
+  grid-template-columns: 300px minmax(0, 1fr);
 }
 /* Mono eyebrow labelling each column. */
 .mm-co-label {
@@ -1213,11 +1202,6 @@ section {
   text-transform: uppercase;
   letter-spacing: 0.14em;
   color: var(--text-dim);
-}
-.mm-co-label-stats {
-  margin-top: 18px;
-  padding-top: 16px;
-  border-top: 1px solid var(--hairline);
 }
 
 /* Left — company navigation. */
@@ -1239,113 +1223,11 @@ section {
   color: var(--accent);
 }
 
-/* Middle — highlight cards over the derived stat grid. */
-.mm-co-mid {
-  padding: 18px;
-  min-width: 0;
-}
-.mm-co-cards {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.mm-co-card {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 6px;
-  padding: 11px 12px;
-  border-radius: 11px;
-  border: 1px solid var(--hairline);
-  background: var(--surface);
-  transition:
-    border-color 0.15s var(--ease),
-    background 0.15s var(--ease),
-    transform 0.15s var(--ease);
-}
-.mm-co-card:hover {
-  border-color: var(--accent-ring);
-  background: var(--surface-2);
-  transform: translateY(-2px);
-}
-/* Icon sits beside the title rather than above it — the panel is tall enough
-   already, and the row keeps each card to three lines. */
-.mm-co-card-head {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-}
-.mm-co-card-ico {
-  flex: none;
-  display: grid;
-  place-items: center;
-  width: 26px;
-  height: 26px;
-  border-radius: 8px;
-  background: var(--accent-soft);
-  border: 1px solid var(--accent-ring);
-  color: var(--accent);
-}
-.mm-co-card-ico svg {
-  width: 14px;
-  height: 14px;
-}
-.mm-co-card-title {
-  font-size: 0.83rem;
-  font-weight: 600;
-  line-height: 1.25;
-  color: var(--text);
-}
-.mm-co-card-body {
-  font-size: 0.76rem;
-  line-height: 1.45;
-  color: var(--text-dim);
-}
-.mm-co-stats {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
-  margin: 0;
-}
-.mm-co-stat {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding: 10px 12px;
-  border-radius: 10px;
-  border: 1px solid var(--hairline);
-  background: var(--surface);
-}
-/* Source order is label-then-value (a valid <dl> pair); `order` puts the number
-   on top visually without splitting the association. */
-.mm-co-stat-value {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: 1.15rem;
-  font-weight: 700;
-  line-height: 1.2;
-  color: var(--accent);
-  order: -1;
-}
-.mm-co-stat-label {
-  font-family: var(--font-mono);
-  font-size: 0.58rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--text-dim);
-}
-
-/* Right — the company story. */
+/* Right — the mission/vision scroller and the conversion actions. */
 .mm-co-feature {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 9px;
-  padding: 20px 20px 22px;
-  border-left: 1px solid var(--hairline);
+  padding: 16px 18px 18px;
   background:
     radial-gradient(
       120% 90% at 100% 0%,
@@ -1354,61 +1236,61 @@ section {
     ),
     var(--surface);
 }
-/* Abstract motif — concentric rings behind the glyph. Original to Rapid Tech
-   Plus: built from the design tokens, no imagery. */
-.mm-co-viz {
-  position: relative;
+.mm-co-story {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+/* Native scroll-snap track: swipe and trackpad scrolling work without JS, and
+   the dots only mirror the scroll position. */
+.mm-co-track {
   display: grid;
-  place-items: center;
-  width: 100%;
-  height: 104px;
+  grid-auto-flow: column;
+  grid-auto-columns: 100%;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  border-radius: 12px;
+}
+.mm-co-track::-webkit-scrollbar {
+  display: none;
+}
+.mm-co-track:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.mm-co-slide {
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 20px;
   border-radius: 12px;
   border: 1px solid var(--hairline);
   background:
-    radial-gradient(circle at 50% 50%, var(--accent-soft) 0%, transparent 70%),
+    radial-gradient(circle at 12% 0%, var(--accent-soft) 0%, transparent 60%),
     var(--bg-elev);
-  overflow: hidden;
-}
-.mm-co-viz::before,
-.mm-co-viz::after {
-  content: "";
-  position: absolute;
-  border-radius: 50%;
-  border: 1px solid var(--accent-ring);
-  opacity: 0.6;
-}
-.mm-co-viz::before {
-  width: 72px;
-  height: 72px;
-}
-.mm-co-viz::after {
-  width: 108px;
-  height: 108px;
-  opacity: 0.32;
 }
 .mm-co-orb {
-  position: relative;
   display: grid;
   place-items: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 13px;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
   background: var(--bg-elev);
   border: 1px solid var(--accent-ring);
   color: var(--accent);
-  box-shadow: 0 0 0 6px var(--accent-soft);
+  box-shadow: 0 0 0 5px var(--accent-soft);
 }
 .mm-co-orb svg {
-  width: 20px;
-  height: 20px;
-}
-.mm-co-eyebrow {
-  margin: 0;
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: var(--text-dim);
+  width: 19px;
+  height: 19px;
 }
 .mm-co-title {
   margin: 0;
@@ -1420,17 +1302,45 @@ section {
 }
 .mm-co-body {
   margin: 0;
-  font-size: 0.8rem;
-  line-height: 1.55;
+  font-size: 0.84rem;
+  line-height: 1.6;
   color: var(--text-dim);
+}
+/* Scroller position indicator. */
+.mm-co-dots {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 2px;
+}
+.mm-co-dot {
+  width: 22px;
+  height: 4px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: var(--border-strong);
+  cursor: pointer;
+  transition:
+    background 0.18s var(--ease),
+    width 0.18s var(--ease);
+}
+.mm-co-dot:hover {
+  background: var(--text-dim);
+}
+.mm-co-dot.is-active {
+  width: 30px;
+  background: var(--accent);
+}
+.mm-co-dot:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 .mm-co-actions {
   display: flex;
-  flex-direction: column;
-  align-self: stretch;
+  align-items: center;
   gap: 8px;
-  margin-top: auto;
-  padding-top: 14px;
+  margin-top: 16px;
 }
 /* Reuses the primary button's fixed indigo gradient rather than var(--accent):
    the accent is tuned for legibility *on* the canvas, so white text on it fails
@@ -1485,14 +1395,14 @@ section {
   color: var(--text);
 }
 
-/* Foot — promotional banner across every column. */
+/* Foot — promotional banner across both columns. */
 .mm-co-banner {
   grid-column: 1 / -1;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  padding: 15px 22px;
+  padding: 14px 20px;
   border-top: 1px solid var(--hairline);
   background:
     radial-gradient(90% 300% at 0% 50%, var(--accent-soft) 0%, transparent 60%),
@@ -1512,26 +1422,6 @@ section {
 }
 .mm-co-banner-cta {
   flex: none;
-}
-
-/* Tablet — the story column drops; its actions already live in the banner and
-   the sidebar, so nothing is lost. */
-@media (max-width: 1200px) {
-  .mm-co-feature {
-    display: none;
-  }
-  .mega.is-company {
-    width: 1000px;
-  }
-  .mega.is-company .mega-inner {
-    grid-template-columns: 296px minmax(0, 1fr);
-  }
-  .mm-co-cards {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  .mm-co-stats {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 }
 
 /* ---- Flat mega (Industries): one grid, no category rail ---- */
@@ -3730,9 +3620,16 @@ a.contact-method:hover .cm-value {
   color: var(--footer-text-dim);
   font-size: 0.88rem;
 }
+/* The copyright and theme flanks flex equally so the legal nav between them
+   lands on the true centre of the bar rather than the centre of the gap. */
+.foot-copy,
+.foot-theme {
+  flex: 1;
+}
 .foot-theme {
   display: inline-flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 12px;
 }
 .foot-theme-label {
@@ -3746,6 +3643,7 @@ a.contact-method:hover .cm-value {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
   gap: 8px 20px;
 }
 .footer .foot-legal a {
@@ -4036,33 +3934,17 @@ a.contact-method:hover .cm-value {
     max-width: none;
   }
 
-  /* Company panel — the sidebar is the navigation, so it stays; the highlight
-     cards and story would make the sheet unusably long, so the trust signal
-     narrows to the stat strip above the banner. */
+  /* Company panel — the sidebar is the navigation, so it stays. The story
+     scroller is a hover/pointer affordance that would only lengthen the sheet,
+     so the accordion narrows to the links plus the banner CTA. */
   .mm-co-nav {
     padding: 2px 6px 10px;
     background: none;
     border-right: 0;
   }
-  .mm-co-cards,
-  .mm-co-feature {
+  .mm-co-feature,
+  .mm-co-label {
     display: none;
-  }
-  /* The sidebar/highlights eyebrows label columns that no longer exist here;
-     the stats eyebrow still heads a real section, so it stays. */
-  .mm-co-label:not(.mm-co-label-stats) {
-    display: none;
-  }
-  .mm-co-mid {
-    padding: 0 6px 10px;
-  }
-  .mm-co-label-stats {
-    margin-top: 0;
-    padding-top: 0;
-    border-top: 0;
-  }
-  .mm-co-stats {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .mm-co-banner {
     flex-direction: column;
@@ -4124,6 +4006,17 @@ a.contact-method:hover .cm-value {
     flex-direction: column;
     align-items: flex-start;
   }
+  /* Stacked: each item is its own row, so drop the single-row centring. */
+  .foot-copy,
+  .foot-theme {
+    flex: none;
+  }
+  .foot-legal {
+    justify-content: flex-start;
+  }
+  .foot-theme {
+    justify-content: flex-start;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -4166,11 +4059,14 @@ a.contact-method:hover .cm-value {
     transform: none !important;
     transition: none;
   }
-  /* Company mega — keep the hover feedback as colour only, no travel. */
-  .mm-co-card:hover,
+  /* Company mega — hover feedback as colour only. (The scroller's smooth jump
+     is a JS scrollTo, so it is disabled in the component, not here.) */
   .mm-co-cta:hover,
   .mm-co-cta:hover span {
     transform: none;
+  }
+  .mm-co-dot {
+    transition: none;
   }
   .text-reveal .tr-word {
     transform: none;

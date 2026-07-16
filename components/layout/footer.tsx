@@ -122,7 +122,7 @@ export function Footer() {
         </div>
 
         <div className="footer-bottom">
-          <span>
+          <span className="foot-copy">
             © {year} {site.name}. {site.footerNote}
           </span>
           <nav className="foot-legal" aria-label="Legal and sitemap">

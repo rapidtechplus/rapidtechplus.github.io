@@ -37,35 +37,22 @@ export type MegaColumn = {
 };
 
 /**
- * Payload for the three-column company panel (see `MegaItem.company`). The
+ * Payload for the two-column company panel (see `MegaItem.company`). The
  * panel's left sidebar is the `MegaItem`'s own `links`; this type carries the
- * two trust-building columns beside it plus the closing banner.
+ * story column beside it plus the closing banner.
  */
 export type CompanyPanel = {
   /** Mono eyebrow above the sidebar. */
   navLabel: string;
-  /** Mono eyebrow above the highlight cards. */
-  highlightsLabel: string;
-  /** What we build / how we work, as interactive cards. */
-  highlights: Feature[];
-  /** Mono eyebrow above the stat grid. */
-  statsLabel: string;
+  /** Mono eyebrow above the story scroller. */
+  storyLabel: string;
   /**
-   * Trust indicators. Every value must be independently verifiable — derive
-   * counts from the content collections rather than asserting a number no page
-   * can back up.
+   * Mission / vision slides, shown one at a time in the story scroller, in the
+   * order they are swiped through. Two or more slides enable the dots.
    */
-  stats: Metric[];
-  /** Right-hand company story panel. */
-  feature: {
-    eyebrow: string;
-    title: string;
-    body: string;
-    /** Icon key for the panel's motif. */
-    icon: string;
-    /** Filled CTA, then two quieter ones. */
-    actions: NavLink[];
-  };
+  story: Feature[];
+  /** Filled CTA first, then quieter ones, beneath the scroller. */
+  actions: NavLink[];
   /** Closing promotional strip across the panel's foot. */
   banner: { title: string; body: string; cta: NavLink };
 };
@@ -79,11 +66,11 @@ export type MegaItem = {
   flat?: boolean;
   compact?: boolean;
   /**
-   * Renders `links` as the left sidebar of a three-column company panel —
-   * sidebar, highlights + stats, featured story — closed by a full-width
-   * banner. Falls back to two columns below 1200px (the featured column drops)
-   * and to the shared accordion on mobile, where only the sidebar and stats
-   * remain. Ignored unless `links` is present.
+   * Renders `links` as the left sidebar of a two-column company panel —
+   * sidebar plus a mission/vision story scroller — closed by a full-width
+   * banner. On mobile the shared accordion rules keep the sidebar and banner
+   * and drop the scroller, since the sidebar *is* the navigation. Ignored
+   * unless `links` is present.
    */
   company?: CompanyPanel;
   /**
