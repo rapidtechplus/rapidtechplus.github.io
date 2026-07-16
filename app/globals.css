@@ -107,7 +107,7 @@
 
   --text: #ededf6;
   --text-muted: #a2a1bc;
-  --text-dim: #6b6a85;
+  --text-dim: #85849e;
 
   --accent: #8a8fff;
   --accent-2: #a78bfa;
@@ -156,7 +156,7 @@
 
   --text: #16152a;
   --text-muted: #52516a;
-  --text-dim: #8a89a0;
+  --text-dim: #6b6a80;
 
   --accent: #4f46e5;
   --accent-2: #7c3aed;
@@ -396,7 +396,7 @@ section {
   white-space: nowrap;
 }
 .btn-primary {
-  background: linear-gradient(180deg, #6366f1 0%, #4f46e5 100%);
+  background: linear-gradient(180deg, #6165f0 0%, #4f46e5 100%);
   color: var(--on-accent);
   border-color: rgba(255, 255, 255, 0.12);
   box-shadow:
@@ -406,7 +406,7 @@ section {
 }
 .btn-primary:hover {
   transform: translateY(-1px);
-  background: linear-gradient(180deg, #6d70f4 0%, #574ee8 100%);
+  background: linear-gradient(180deg, #6165f0 0%, #574ee8 100%);
   box-shadow:
     0 2px 4px rgba(10, 10, 19, 0.3),
     0 12px 30px var(--cta-glow),
@@ -1114,7 +1114,7 @@ section {
   gap: 8px;
   padding: 10px 16px;
   border-radius: 9px;
-  background: linear-gradient(180deg, #6366f1 0%, #4f46e5 100%);
+  background: linear-gradient(180deg, #6165f0 0%, #4f46e5 100%);
   color: var(--on-accent);
   font-size: 0.82rem;
   font-weight: 600;
@@ -1126,7 +1126,7 @@ section {
   transition: transform 0.2s var(--ease);
 }
 .mm-feature-cta:hover {
-  background: linear-gradient(180deg, #6d70f4 0%, #574ee8 100%);
+  background: linear-gradient(180deg, #6165f0 0%, #574ee8 100%);
   transform: translateY(-1px);
 }
 .mm-feature-cta:focus-visible,
@@ -1352,7 +1352,7 @@ section {
   gap: 8px;
   padding: 10px 16px;
   border-radius: 9px;
-  background: linear-gradient(180deg, #6366f1 0%, #4f46e5 100%);
+  background: linear-gradient(180deg, #6165f0 0%, #4f46e5 100%);
   color: var(--on-accent);
   font-size: 0.82rem;
   font-weight: 600;
@@ -1365,7 +1365,7 @@ section {
   transition: transform 0.2s var(--ease);
 }
 .mm-co-cta:hover {
-  background: linear-gradient(180deg, #6d70f4 0%, #574ee8 100%);
+  background: linear-gradient(180deg, #6165f0 0%, #574ee8 100%);
   transform: translateY(-1px);
 }
 .mm-co-cta:hover span {
@@ -1495,9 +1495,13 @@ section {
     background 0.15s var(--ease),
     color 0.15s var(--ease);
 }
+/* Fixed indigo gradient (not var(--accent)): the accent is tuned for legibility
+   *on* the canvas, so white text on it fails AA in dark (measured 2.82:1). This
+   gradient carries --on-accent at ≥4.5:1 in both themes, matching .mm-feature-cta. */
 .mm-foot-cta:hover {
-  background: var(--accent);
-  color: #fff;
+  background: linear-gradient(180deg, #6165f0 0%, #4f46e5 100%);
+  color: var(--on-accent);
+  border-color: transparent;
 }
 .mega .mega-link {
   display: flex;
