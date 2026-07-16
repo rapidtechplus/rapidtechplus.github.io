@@ -13,6 +13,13 @@ import {
 } from "@/components/sections/pieces";
 import { aiOfferings, aiProcess, aiChain } from "@/content/ai";
 import { SITE_URL } from "@/config/site";
+import { JsonLd } from "@/components/seo/json-ld";
+import {
+  ORGANIZATION_ID,
+  collectionPageJsonLd,
+  faqPageJsonLd,
+  toListItems,
+} from "@/lib/structured-data";
 
 export const metadata: Metadata = {
   title: "Artificial Intelligence",
@@ -75,22 +82,29 @@ export default function AiHubPage() {
       "Production AI — agents, LLM integration, RAG, MCP servers, automation, enterprise AI, and AI consulting.",
     serviceType: "Artificial Intelligence",
     url: `${SITE_URL}/ai`,
-    provider: {
-      "@type": "Organization",
-      name: "Rapid Tech Plus",
-      url: SITE_URL,
-    },
+    provider: { "@id": ORGANIZATION_ID },
   };
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      <JsonLd data={jsonLd} />
+      <JsonLd
+        data={collectionPageJsonLd({
+          name: "Artificial Intelligence",
+          description:
+            "Production AI — agents, LLM integration, RAG, MCP servers, automation, enterprise AI, and AI consulting.",
+          path: "/ai",
+          items: toListItems(aiOfferings),
+        })}
       />
+      {/* The hub renders these answers, so they are eligible for FAQ markup. */}
+      <JsonLd data={faqPageJsonLd(aiHubFaqs)} />
 
       <PageHero
-        crumbs={[{ label: "Home", href: "/" }, { label: "Artificial Intelligence" }]}
+        crumbs={[
+          { label: "Home", href: "/" },
+          { label: "Artificial Intelligence" },
+        ]}
         eyebrow="Artificial Intelligence"
         title={
           <>

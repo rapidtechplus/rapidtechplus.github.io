@@ -156,6 +156,68 @@ export function MetricStat({ value, label }: { value: string; label: string }) {
   );
 }
 
+/**
+ * A case-study card — icon + category, title, client, summary, and the outcome
+ * metrics. Shared by the `/case-studies` hub, the service/AI landing "proof"
+ * sections, and the related grid on a study's own page, so the card has one
+ * definition rather than three copies. Supplying `href` makes the whole card a
+ * link to the study's detail page.
+ */
+export function CaseCard({
+  icon,
+  title,
+  client,
+  category,
+  summary,
+  metrics,
+  href,
+  delay = 0,
+}: {
+  icon: string;
+  title: string;
+  client: string;
+  category: string;
+  summary: string;
+  metrics: readonly { value: string; label: string }[];
+  href?: string;
+  delay?: number;
+}) {
+  const inner = (
+    <>
+      <div className="case-top">
+        <span className="ico">
+          <Ico name={icon} />
+        </span>
+        <Tag className="case-cat">{category}</Tag>
+      </div>
+      <h3>{title}</h3>
+      <p className="case-client">{client}</p>
+      <p>{summary}</p>
+      <div className="case-metrics">
+        {metrics.map((m) => (
+          <MetricStat key={m.label} value={m.value} label={m.label} />
+        ))}
+      </div>
+    </>
+  );
+
+  if (href) {
+    return (
+      <Reveal className="card case-card card-link" delay={delay}>
+        <Link href={href} className="card-link-a">
+          {inner}
+        </Link>
+      </Reveal>
+    );
+  }
+
+  return (
+    <Reveal className="card case-card" delay={delay}>
+      {inner}
+    </Reveal>
+  );
+}
+
 /** A short pill/tag label (categories, chips). Defaults to the `.chip` style. */
 export function Tag({
   children,

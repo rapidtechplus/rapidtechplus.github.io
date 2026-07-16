@@ -10,6 +10,9 @@ import { site } from "@/content/site";
  */
 export function ContactForm() {
   const [error, setError] = useState<string | null>(null);
+  // Keys the error element so its shake animation replays on every failed
+  // attempt, not just the first.
+  const [attempt, setAttempt] = useState(0);
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -21,6 +24,7 @@ export function ContactForm() {
 
     if (!name || !email || !message) {
       setError("Please fill in your name, email, and message.");
+      setAttempt((n) => n + 1);
       return;
     }
     setError(null);
@@ -66,7 +70,7 @@ export function ContactForm() {
         />
       </div>
       {error ? (
-        <p style={{ color: "#ff9aa2", fontSize: ".9rem", margin: "0 0 12px" }}>
+        <p key={attempt} className="form-error" role="alert">
           {error}
         </p>
       ) : null}

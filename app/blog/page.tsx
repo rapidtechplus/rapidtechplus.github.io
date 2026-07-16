@@ -3,11 +3,15 @@ import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 import { PageHero, CtaBanner } from "@/components/sections/pieces";
 import { blogPosts } from "@/content/blog";
+import { JsonLd } from "@/components/seo/json-ld";
+import { webPageJsonLd } from "@/lib/structured-data";
+
+const description =
+  "Engineering notes from Rapid Tech Plus on AI, web development, and product engineering — how we build reliable, modern software.";
 
 export const metadata: Metadata = {
   title: "Insights",
-  description:
-    "Engineering notes from Rapid Tech Plus on AI, web development, and product engineering — how we build reliable, modern software.",
+  description,
   alternates: { canonical: "/blog" },
 };
 
@@ -22,6 +26,10 @@ export default function BlogPage() {
 
   return (
     <>
+      {/* Blog/Article markup waits for Phase H — posts have no routes yet. */}
+      <JsonLd
+        data={webPageJsonLd({ name: "Insights", description, path: "/blog" })}
+      />
       <PageHero
         crumbs={[{ label: "Home", href: "/" }, { label: "Blog" }]}
         eyebrow="Insights"

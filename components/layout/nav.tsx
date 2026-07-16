@@ -153,7 +153,7 @@ function MegaMenuItem({
   const [active, setActive] = useState(0);
   const categories = item.columns ?? [];
 
-  // Company mode — sidebar + highlights/stats + story, closed by a banner.
+  // Company mode — nav sidebar + mission/vision scroller, closed by a banner.
   if (item.company && item.links) {
     return (
       <div className={cn("nav-item", isOpen && "open")}>

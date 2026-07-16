@@ -10,6 +10,7 @@ import {
   serviceProcess,
 } from "@/content/services";
 import { SITE_URL } from "@/config/site";
+import { ogImageFor } from "@/config/og-templates";
 
 /** Static export: pre-render one page per service, 404 on anything else. */
 export const dynamicParams = false;
@@ -33,6 +34,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
       title: `${service.title} — Rapid Tech Plus`,
       description: service.intro,
       url,
+      images: [ogImageFor("services")],
     },
   };
 }

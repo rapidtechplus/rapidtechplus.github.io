@@ -37,12 +37,17 @@ content/                  Typed static content — single source of truth for co
 
 lib/                      Shared, framework-agnostic helpers
   utils.ts                cn() (clsx + tailwind-merge)
+  og-image.tsx            Shared Open Graph card template (Satori)
+  structured-data.ts      schema.org JSON-LD builders
 
 public/                   Static assets served at the root
-  favicon.svg  og-image.svg  .nojekyll
+  favicon.svg  logo.svg  .nojekyll
+
+scripts/                  Build-time generators (not run by `next build`)
+  generate-og.tsx         `npm run og:generate` → app/**/opengraph-image.png
 
 docs/                     Project docs (this folder)
-config/                   (reserved) shared constants when they outgrow content/
+config/                   Shared constants (site.ts, og-templates.ts)
 ```
 
 ---

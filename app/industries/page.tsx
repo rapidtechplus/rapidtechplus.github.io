@@ -6,17 +6,34 @@ import {
   CtaBanner,
 } from "@/components/sections/pieces";
 import { industries, industrySectors } from "@/content/industries";
+import { JsonLd } from "@/components/seo/json-ld";
+import { collectionPageJsonLd } from "@/lib/structured-data";
+
+const description =
+  "Rapid Tech Plus builds software for startups, SaaS companies, e-commerce, fintech, logistics, and professional services — tailored to each industry's needs.";
 
 export const metadata: Metadata = {
   title: "Industries",
-  description:
-    "Rapid Tech Plus builds software for startups, SaaS companies, e-commerce, fintech, logistics, and professional services — tailored to each industry's needs.",
+  description,
   alternates: { canonical: "/industries" },
 };
 
 export default function IndustriesPage() {
   return (
     <>
+      {/* The sector grid, not the audience segments below it — only sectors have pages. */}
+      <JsonLd
+        data={collectionPageJsonLd({
+          name: "Industries",
+          description,
+          path: "/industries",
+          items: industrySectors.map((s) => ({
+            name: s.label,
+            description: s.summary,
+            path: `/industries/${s.slug}`,
+          })),
+        })}
+      />
       <PageHero
         crumbs={[{ label: "Home", href: "/" }, { label: "Industries" }]}
         eyebrow="Industries"
@@ -31,10 +48,7 @@ export default function IndustriesPage() {
 
       <section style={{ paddingTop: "clamp(24px,4vw,48px)" }}>
         <div className="container-wide container">
-          <SectionHead
-            eyebrow="Sectors"
-            title="Industries we build for"
-          >
+          <SectionHead eyebrow="Sectors" title="Industries we build for">
             Deep, sector-specific engineering — each with its own approach to
             workflows, compliance, and integration.
           </SectionHead>
@@ -55,10 +69,7 @@ export default function IndustriesPage() {
 
       <section style={{ background: "var(--bg-elev)" }}>
         <div className="container-wide container">
-          <SectionHead
-            eyebrow="Who we work with"
-            title="Teams we partner with"
-          >
+          <SectionHead eyebrow="Who we work with" title="Teams we partner with">
             Beyond specific sectors, we adapt to the goals and constraints of
             businesses at every stage.
           </SectionHead>

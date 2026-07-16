@@ -16,8 +16,8 @@ How the site is made discoverable and shareable. Targets live in
 | Twitter card     | `metadata.twitter`                        |
 | Sitemap          | `app/sitemap.ts` → `/sitemap.xml`         |
 | Robots           | `app/robots.ts` → `/robots.txt`           |
-| Structured data  | Organization JSON-LD in root `layout.tsx` |
-| Social image     | `public/og-image.svg`                     |
+| Structured data  | `lib/structured-data.ts` + `components/seo/json-ld.tsx` |
+| Social image     | Per-template `app/**/opengraph-image.png` |
 
 `site.url` (`https://rapidtechplus.github.io`) is the base for canonical URLs,
 sitemap entries, robots, and JSON-LD — change it in one place when the domain

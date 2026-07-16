@@ -9,18 +9,32 @@ import {
   FaqAccordion,
   CtaBanner,
 } from "@/components/sections/pieces";
-import { whyUsPillars, whyUsStats, whyUsDifference, whyUsFaqs } from "@/content/site";
+import {
+  whyUsPillars,
+  whyUsStats,
+  whyUsDifference,
+  whyUsFaqs,
+} from "@/content/site";
+import { JsonLd } from "@/components/seo/json-ld";
+import { faqPageJsonLd, webPageJsonLd } from "@/lib/structured-data";
+
+const description =
+  "Why growing businesses choose Rapid Tech Plus — an AI-native, senior team that ships in weeks, builds engineering you can trust, and stays accountable well beyond launch.";
 
 export const metadata: Metadata = {
   title: "Why Us",
-  description:
-    "Why growing businesses choose Rapid Tech Plus — an AI-native, senior team that ships in weeks, builds engineering you can trust, and stays accountable well beyond launch.",
+  description,
   alternates: { canonical: "/why-us" },
 };
 
 export default function WhyUsPage() {
   return (
     <>
+      <JsonLd
+        data={webPageJsonLd({ name: "Why Us", description, path: "/why-us" })}
+      />
+      <JsonLd data={faqPageJsonLd(whyUsFaqs)} />
+
       <PageHero
         crumbs={[{ label: "Home", href: "/" }, { label: "Why Us" }]}
         eyebrow="Why us"
@@ -41,7 +55,12 @@ export default function WhyUsPage() {
           />
           <div className="grid-3 grid">
             {whyUsPillars.map((p) => (
-              <IconCard key={p.title} icon={p.icon} title={p.title} body={p.body} />
+              <IconCard
+                key={p.title}
+                icon={p.icon}
+                title={p.title}
+                body={p.body}
+              />
             ))}
           </div>
         </div>

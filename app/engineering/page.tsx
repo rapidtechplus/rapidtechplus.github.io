@@ -9,6 +9,8 @@ import {
   CtaBanner,
 } from "@/components/sections/pieces";
 import {
+  culturePrinciples,
+  cultureRituals,
   engineeringPractices,
   engineeringPrinciples,
   engineeringStandards,
@@ -16,9 +18,9 @@ import {
 } from "@/content/site";
 
 export const metadata: Metadata = {
-  title: "Engineering",
+  title: "Engineering & Culture",
   description:
-    "How Rapid Tech Plus builds software — strict TypeScript, tested and reviewed code, CI/CD, security and accessibility by default, on a modern, proven stack.",
+    "How Rapid Tech Plus builds software and how the team behind it works — strict TypeScript, tested and reviewed code, CI/CD, security and accessibility by default, built by a senior, remote-first team.",
   alternates: { canonical: "/engineering" },
 };
 
@@ -26,15 +28,18 @@ export default function EngineeringPage() {
   return (
     <>
       <PageHero
-        crumbs={[{ label: "Home", href: "/" }, { label: "Engineering" }]}
-        eyebrow="Engineering"
+        crumbs={[
+          { label: "Home", href: "/" },
+          { label: "Engineering & Culture" },
+        ]}
+        eyebrow="Engineering & Culture"
         title={
           <>
             Software built with{" "}
             <span className="grad-text">discipline and care</span>
           </>
         }
-        lead="Our engineering culture is simple: type-safe, tested, reviewed, and shipped in small increments. Quality, security, and accessibility are built in from the first commit."
+        lead="Type-safe, tested, reviewed, and shipped in small increments — by a small, senior, remote-first team that moves fast without cutting corners."
       />
 
       <section style={{ paddingTop: "clamp(24px,4vw,48px)" }}>
@@ -121,6 +126,39 @@ export default function EngineeringPage() {
                   ))}
                 </div>
               </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div className="container-wide container">
+          <SectionHead
+            eyebrow="How we work"
+            title="The principles behind the team"
+          >
+            The same care we put into the code goes into how the team runs.
+          </SectionHead>
+          <div className="grid-3 grid">
+            {culturePrinciples.map((p) => (
+              <IconCard key={p.title} icon={p.icon} title={p.title} body={p.body} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section style={{ background: "var(--bg-elev)" }}>
+        <div className="container-wide container">
+          <SectionHead
+            eyebrow="In practice"
+            title="Everyday habits that make it real"
+          >
+            Culture isn&apos;t a poster on a wall — it&apos;s the small rituals we
+            repeat every week.
+          </SectionHead>
+          <div className="grid-2 grid">
+            {cultureRituals.map((r) => (
+              <IconCard key={r.title} icon={r.icon} title={r.title} body={r.body} />
             ))}
           </div>
         </div>

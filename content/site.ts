@@ -19,7 +19,12 @@ import { companyMenu } from "@/content/company";
 
 // Re-export shared content types so existing `@/content/site` importers keep
 // working without reaching into `content/types` directly.
-export type { NavLink, MegaColumn, MegaItem } from "@/content/types";
+export type {
+  NavLink,
+  MegaColumn,
+  MegaItem,
+  CompanyPanel,
+} from "@/content/types";
 
 // Re-export the collections' page-facing data so pages can continue importing
 // from `@/content/site` (single source of truth, transitively).
@@ -143,8 +148,7 @@ export const footerColumns: { title: string; links: NavLink[] }[] = [
     links: [
       { label: "About", href: "/about" },
       { label: "Why Us", href: "/why-us" },
-      { label: "Culture", href: "/culture" },
-      { label: "Engineering", href: "/engineering" },
+      { label: "Engineering & Culture", href: "/engineering" },
       { label: "Careers", href: "/careers" },
       { label: "Our Process", href: "/our-process" },
       { label: "Contact", href: CONTACT_HREF },
@@ -183,8 +187,7 @@ export const sitemapGroups: { title: string; links: NavLink[] }[] = [
       { label: "Home", href: "/" },
       { label: "About", href: "/about" },
       { label: "Why Us", href: "/why-us" },
-      { label: "Culture", href: "/culture" },
-      { label: "Engineering", href: "/engineering" },
+      { label: "Engineering & Culture", href: "/engineering" },
       { label: "Careers", href: "/careers" },
       { label: "Our Process", href: "/our-process" },
       { label: "Open Source", href: "/open-source" },

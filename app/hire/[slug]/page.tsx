@@ -12,6 +12,7 @@ import {
   hireFaqs,
 } from "@/content/hire";
 import { SITE_URL } from "@/config/site";
+import { ogImageFor } from "@/config/og-templates";
 
 /** Static export: pre-render one page per role, 404 on anything else. */
 export const dynamicParams = false;
@@ -36,6 +37,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
       title: `${title} — Rapid Tech Plus`,
       description: role.intro,
       url,
+      images: [ogImageFor("hire")],
     },
   };
 }

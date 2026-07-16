@@ -8,24 +8,42 @@ import {
   FaqAccordion,
   CtaBanner,
 } from "@/components/sections/pieces";
-import { tailoredProcess, processPrinciples, processFaqs } from "@/content/site";
+import {
+  tailoredProcess,
+  processPrinciples,
+  processFaqs,
+} from "@/content/site";
+import { JsonLd } from "@/components/seo/json-ld";
+import { faqPageJsonLd, webPageJsonLd } from "@/lib/structured-data";
+
+const description =
+  "How Rapid Tech Plus works — a transparent, iterative five-stage process from discovery and design through agile development, QA, launch, and ongoing support.";
 
 export const metadata: Metadata = {
   title: "Our Process",
-  description:
-    "How Rapid Tech Plus works — a transparent, iterative five-stage process from discovery and design through agile development, QA, launch, and ongoing support.",
+  description,
   alternates: { canonical: "/our-process" },
 };
 
 export default function OurProcessPage() {
   return (
     <>
+      <JsonLd
+        data={webPageJsonLd({
+          name: "Our Process",
+          description,
+          path: "/our-process",
+        })}
+      />
+      <JsonLd data={faqPageJsonLd(processFaqs)} />
+
       <PageHero
         crumbs={[{ label: "Home", href: "/" }, { label: "Our Process" }]}
         eyebrow="Our process"
         title={
           <>
-            From idea to launch, <span className="grad-text">without surprises</span>
+            From idea to launch,{" "}
+            <span className="grad-text">without surprises</span>
           </>
         }
         lead="We work in clear, reviewable stages so you can see progress, steer early, and trust what ships."
@@ -37,8 +55,8 @@ export default function OurProcessPage() {
             eyebrow="How we work"
             title="Five stages, one accountable partner"
           >
-            A tailored engagement, not a template — each stage builds on the last
-            with quality and communication built in.
+            A tailored engagement, not a template — each stage builds on the
+            last with quality and communication built in.
           </SectionHead>
           <div className="timeline timeline-5">
             {tailoredProcess.map((step, i) => (
@@ -62,7 +80,12 @@ export default function OurProcessPage() {
           />
           <div className="grid-2 grid">
             {processPrinciples.map((p) => (
-              <IconCard key={p.title} icon={p.icon} title={p.title} body={p.body} />
+              <IconCard
+                key={p.title}
+                icon={p.icon}
+                title={p.title}
+                body={p.body}
+              />
             ))}
           </div>
         </div>

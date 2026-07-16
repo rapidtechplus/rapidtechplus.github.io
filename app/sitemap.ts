@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL, SITEMAP_CHANGE_FREQUENCY } from "@/config/site";
 import { aiSlugs } from "@/content/ai";
+import { caseStudySlugs } from "@/content/case-studies";
 import { serviceSlugs } from "@/content/services";
 import { hireSlugs } from "@/content/hire";
 import { industrySlugs } from "@/content/industries";
@@ -15,7 +16,6 @@ const staticRoutes = [
   "/ai",
   "/about",
   "/why-us",
-  "/culture",
   "/engineering",
   "/careers",
   "/our-process",
@@ -46,6 +46,7 @@ const collectionRoutes = [
   ...industrySlugs.map((slug) => `/industries/${slug}`),
   ...solutionSlugs.map((slug) => `/solutions/${slug}`),
   ...techSlugs.map((slug) => `/technologies/${slug}`),
+  ...caseStudySlugs.map((slug) => `/case-studies/${slug}`),
 ];
 
 const routes = [...staticRoutes, ...collectionRoutes];

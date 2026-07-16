@@ -6,6 +6,8 @@ import { Footer } from "@/components/layout/footer";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Background } from "@/components/background";
 import { PointerSheen } from "@/components/pointer-sheen";
+import { JsonLd } from "@/components/seo/json-ld";
+import { organizationJsonLd, websiteJsonLd } from "@/lib/structured-data";
 import { site } from "@/content/site";
 
 const inter = Inter({
@@ -51,27 +53,20 @@ export const metadata: Metadata = {
     description:
       "We build modern software products, web platforms, and digital systems for growing businesses.",
     url: site.url,
-    images: [{ url: "/og-image.svg", width: 1200, height: 630 }],
+    // `images` is deliberately not set here. The `opengraph-image.png` metadata
+    // files cascade per segment, giving each template its own card; an explicit
+    // entry would pin every page to one image. X falls back to og:image when
+    // twitter:image is absent, so both are covered by the same asset.
   },
   twitter: {
     card: "summary_large_image",
     title: `${site.name} — Modern Software Studio`,
     description:
       "We build modern software products, web platforms, and digital systems for growing businesses.",
-    images: ["/og-image.svg"],
   },
   icons: { icon: "/favicon.svg" },
 };
 
-const organizationJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: site.name,
-  url: site.url,
-  description: site.description,
-  email: site.email,
-  logo: `${site.url}/favicon.svg`,
-};
 
 export default function RootLayout({
   children,
@@ -93,12 +88,9 @@ export default function RootLayout({
           content="#fbfbfd"
           media="(prefers-color-scheme: light)"
         />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(organizationJsonLd),
-          }}
-        />
+        {/* Site-wide nodes. Pages reference these by `@id` instead of repeating them. */}
+        <JsonLd data={organizationJsonLd} />
+        <JsonLd data={websiteJsonLd} />
       </head>
       <body>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
