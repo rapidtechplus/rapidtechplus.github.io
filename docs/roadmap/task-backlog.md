@@ -931,11 +931,11 @@ remain unrunnable here.
 
 ### Phase Q — Defects found during Phase 26 verification (deferred) 🐛
 
-**Status (Phase N, 2026-07-16):** the three contrast/token defects (items 1, 2,
-and 4 below) are **fixed and merged as Phase N** — see the Phase N entry for the
-in-browser measured numbers. The nav-overflow defect (item 3) is intentionally
-**left open and carried to its own PR** (layout/responsive change, distinct root
-cause from the colour work — see Phase N note).
+**Status:** ALL four Phase Q defects are now cleared. The three contrast/token
+defects (items 1, 2, 4) were **fixed and merged as Phase N (2026-07-16)** — see
+the Phase N entry for the in-browser measured numbers. The nav-overflow defect
+(item 3) was **fixed as Phase N.2 (2026-07-29)** in its own PR (layout/responsive
+change, distinct root cause from the colour work) — see the Phase N.2 entry.
 
 Found while verifying the Solutions showcase menu; **all pre-existing and
 unrelated to that redesign**, so they were logged rather than folded into it.
@@ -968,7 +968,8 @@ estimated. Phase 26's own defects were fixed in-phase and are listed under
   slightly darker (e.g. `#6165f0`) clears it globally with no visible change.
   _Deps: none. Accept: both gradient stops ≥4.5:1. Priority: P2. Complexity: S.
   Folds into Phase N._
-- [ ] **Primary nav overflows between ~1025–1150px** — the 8 top-level items +
+- [x] **Primary nav overflows between ~1025–1150px** — **FIXED in Phase N.2
+  (2026-07-29), see the Phase N.2 entry below.** The 8 top-level items +
   the Get A Quote CTA do not fit before the hamburger collapses at ≤1024px.
   Measured at 1085px: `nav.nav-links` spans 285→1288 in a 1085px viewport and is
   clipped by `body { overflow-x: hidden }`, so the last items are unreachable at
@@ -1715,13 +1716,58 @@ against the static export:
     dependency ticks, active scroller dot) are **decorative, carry no text**, so
     `.mm-foot-cta:hover` was the only text-on-`--accent` background. `--grad-vivid`
     is defined but unused. lint + typecheck + build (all routes) green.
-- [ ] **Nav overflow (Phase Q item 3) — deliberately NOT in this PR.** Kept
-  separate because it is a **layout/responsive** change (raise the hamburger
-  breakpoint to ~1150px or tighten nav padding/font), a different root cause and
-  risk profile from the colour/token work above, and it needs its own
-  breakpoint-by-breakpoint verification matrix (1025→1920). Folding it in would
-  mix unrelated work (CLAUDE.md Step 4). Re-measured worse than first logged: at
-  1366px the Get A Quote CTA clips off-screen entirely. _Its own PR next._
+- [x] **Nav overflow (Phase Q item 3) — done in its own PR as Phase N.2
+  (2026-07-29).** See the Phase N.2 entry below.
+
+### Phase N.2 — Primary nav overflow fix (Phase Q item 3) ✅
+
+Owner-approved approach (asked in-session): **collapse ≤1400px, keep premium
+item padding, no label/brand-wording edits.** Ships the nav-overflow fix that
+Phase N deliberately deferred.
+
+- [x] **Diagnosed by in-browser measurement (dev server, computed rects).** The
+  8 top-level items intrinsically need ~890px of bar; with the brand lockup
+  (217px), the Get A Quote CTA (134px), and the two flex gaps, the full nav
+  needs a **~1273px** content box. Content width ≈ `vw − 2×(4vw gutter) =
+  vw×0.92`, so the full nav only fits from **~1384px** up — i.e. it overflowed
+  even at 1440 before this change, not just the 1025–1150 originally logged.
+  Confirmed the Phase 27 finding: at 1366px `.nav-right` ran to 1460 (CTA clipped
+  off-screen).
+- [x] **Fix = light tightening + raise the collapse breakpoint to 1400px.**
+  Tightening (premium-preserving, per the owner's choice): nav-item padding
+  `8×14 → 8×10`, font `0.94 → 0.9rem`, item gap `5 → 4`, `.nav-inner` gap
+  `24 → 16`, `.nav-cta` padding `16 → 14` (underline `::after` inset tracked to
+  10px). This drops the footprint 1391 → 1273 so the 1401–1440 band fits at all.
+  The collapse `@media` moved `1024px → 1400px`; the two desktop-only mega blocks
+  (`min-width: 1025px` anchoring + link stagger) moved to `1401px` so they don't
+  leak into the new sheet range.
+- [x] **Sheet-range transform guard** — in the accordion range panels are
+  `position: static`, so the desktop `transform: translate(-50%, …)` (which
+  centres a *fixed* panel) would shift a static panel by half its width on mouse
+  hover/focus — a latent bug that only surfaces now that 1025–1400 is a
+  mouse-driven sheet. Added a last-in-source `@media (max-width: 1400px)` block
+  pinning every panel variant (base, hover, focus, `mm-anchored`) to
+  `transform: none`, so it wins over both the desktop hover rule and the
+  reduced-motion block.
+- [x] **Verified in-browser at every checkpoint** (viewport resized, computed
+  rects, real theme not needed — layout only): **1025 / 1085 / 1200 / 1280 /
+  1366 / 1400** → sheet mode (hamburger + in-sheet CTA), and at 1025 all 7
+  accordion panels are `transform: none`, static, left 20 → right 990, **zero**
+  panel overflow and **zero** page horizontal scroll. **1401** → desktop nav,
+  CTA fully on-screen (right 1343, 58px margin). **1440** → 73px margin. **1920**
+  → 204px margin. **375** → sheet, `scrollWidth == 375`, no overflow. Desktop
+  mega panels still `position: fixed` and open on hover at ≥1401 (unchanged).
+  lint + typecheck + `NEXT_DIST_DIR=.next-verify` build (all routes) green.
+- [x] **Tradeoff recorded:** the common 1280 and 1366 laptop widths now use the
+  hamburger sheet rather than the horizontal bar. This is the direct cost of 8
+  wide top-level items (the ~190px "Artificial Intelligence" label alone). The
+  owner chose this over a denser bar or a shorter "AI" trigger label. If keeping
+  the desktop bar on 1280/1366 later becomes desirable, shortening the top-level
+  trigger to "AI" (panel + `/ai` page keep the full name) reclaims ~150px and
+  lets all 8 fit to ~1150px — left as a future option, not done here.
+- [ ] Not verifiable in this environment (unchanged from prior phases):
+  Firefox/Safari, Lighthouse, and screenshot capture (times out on the
+  continuous background compositor) — verified via DOM/computed-rect metrics.
 
 ### Phase O — Production readiness
 
