@@ -5,6 +5,7 @@ import { ButtonLink } from "@/components/ui/button";
 import { products } from "@/content/products";
 import { JsonLd } from "@/components/seo/json-ld";
 import { webPageJsonLd } from "@/lib/structured-data";
+import { SITE_URL } from "@/config/site";
 
 const description =
   "A look at the kinds of software products and platforms Rapid Tech Plus builds — web apps, SaaS platforms, and automation systems.";
@@ -16,9 +17,20 @@ export const metadata: Metadata = {
 };
 
 export default function ProductsPage() {
+  const itemListJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Products & Work",
+    itemListElement: products.map((p, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: p.title,
+      url: `${SITE_URL}/products/${p.slug}`,
+    })),
+  };
+
   return (
     <>
-      {/* No ItemList until Phase F gives products their own routes. */}
       <JsonLd
         data={webPageJsonLd({
           name: "Products & Work",
@@ -26,6 +38,7 @@ export default function ProductsPage() {
           path: "/products",
         })}
       />
+      <JsonLd data={itemListJsonLd} />
 
       <PageHero
         crumbs={[{ label: "Home", href: "/" }, { label: "Products" }]}
@@ -47,6 +60,7 @@ export default function ProductsPage() {
                 icon={p.icon}
                 title={p.title}
                 body={p.body}
+                href={`/products/${p.slug}`}
               />
             ))}
           </div>
