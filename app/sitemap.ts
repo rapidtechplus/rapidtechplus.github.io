@@ -33,6 +33,7 @@ const staticRoutes = [
   "/privacy",
   "/terms",
   "/cookies",
+  "/disclaimer",
   "/sitemap",
 ];
 

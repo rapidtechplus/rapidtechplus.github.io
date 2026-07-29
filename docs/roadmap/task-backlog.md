@@ -1494,12 +1494,21 @@ not be used to verify):
   screenshots (capture times out on the continuous compositor; the pane also
   reports `innerWidth: 0` until an explicit resize), Firefox/Safari, Lighthouse.
 
-### Phase H — Blog / Insights
+### Phase H — Blog / Insights ⏸️ Deferred (needs real post bodies)
 
 - [ ] `/blog/[slug]` post pages + `/blog/category/[slug]` + `/blog/tag/[slug]` +
   client-side search + author bylines. _Deps: A + post bodies (MDX or typed).
   Accept: posts render, archives filter, Article JSON-LD. Priority: P1.
-  Complexity: L._
+  Complexity: L._ **Deferred — same integrity rule as the deferred
+  testimonials/flagship products: `content/blog.ts` holds only
+  title/excerpt/category/date/reading-time placeholders with **no real article
+  bodies** (the file's own comment: "real posts replace these as they are
+  written"). Writing full `/blog/[slug]` bodies would mean publishing fabricated
+  thought-leadership under the studio's name — and unlike case studies (which
+  ship with a "representative, not real clients" disclosure), a blog post can't
+  carry an analogous disclaimer without defeating its purpose. Owner confirmed
+  in-session (2026-07-29): defer until real post copy is supplied, do not
+  fabricate. Reopen when bodies exist.**
 
 ### Phase I — Company pages
 
@@ -1607,10 +1616,40 @@ Our Process · Open Source, and build the missing pages (they had pointed at
   `/why-rapid-tech-plus`. _Deps: A. Accept: standalone FAQ reuses
   `FaqAccordion` + FAQPage JSON-LD. Priority: P2. Complexity: M._
 
-### Phase K — Legal & system
+### Phase K — Legal & system ✅
 
-- [ ] `/disclaimer`, `/coming-soon`, and a `500`/global-error page. _Deps: none.
+- [x] `/disclaimer`, `/coming-soon`, and a `500`/global-error page. _Deps: none.
   Accept: routes render, linked where appropriate. Priority: P2. Complexity: S._
+  - **`/disclaimer`** — real legal prose page reusing the `PageHero` + `.prose`
+    template (matching `/privacy`, `/terms`, `/cookies`): 8 sections (no
+    professional advice, representative content, external links, forward-looking
+    statements, trademarks, limitation of liability, changes, contact) + `WebPage`
+    JSON-LD via `webPageJsonLd`. Wired into `legalLinks` (footer bottom bar), the
+    `sitemapGroups` Legal group (human `/sitemap`), and machine `app/sitemap.ts`.
+  - **`/coming-soon`** — a system placeholder for not-yet-launched content:
+    eyebrow + h1 + copy + Home/Contact CTAs, `robots: { index: false, follow:
+    true }`, and **deliberately excluded from both sitemaps** (advertising an
+    empty placeholder helps nobody — same rule the SEO phase applied to withheld
+    `ItemList`s). Canonical set for when it is linked directly.
+  - **`app/global-error.tsx`** — root-level (HTTP 500) error boundary. Because
+    Next renders it *in place of* the root layout, it supplies its own
+    `<html>`/`<body>` and cannot use `globals.css`, the font variables, or the
+    theme provider; everything is inlined and made theme-aware via a scoped
+    `prefers-color-scheme` block (light/dark tokens). Offers **Try again**
+    (`reset()`) + **Back to home** (`next/link`, satisfying
+    `no-html-link-for-pages`) and surfaces `error.digest` when present.
+- [x] lint + typecheck + clean static **build** all green (`NEXT_DIST_DIR=
+  .next-verify`). Verified in-browser (dev): `/disclaimer` renders breadcrumb
+  (Home › Disclaimer), Legal eyebrow, title, all 8 sections; real theme switch
+  (`localStorage` + reload) flips `light`↔`dark` with the page rendering in both
+  and **zero horizontal overflow**; `/coming-soon` renders with both CTAs; the
+  footer legal bar surfaces **Disclaimer → `/disclaimer/`**. Verified against the
+  export: `/disclaimer` + `/coming-soon` prerender as static, `/disclaimer` is in
+  `sitemap.xml` (1×), `/coming-soon` is **not** (0×) and ships `noindex, follow`.
+  `global-error` only surfaces on a runtime root error (not reachable from a
+  static browse) — verified by clean compile/build rather than by observing the
+  error state. Screenshots/Firefox/Safari/Lighthouse not runnable in this pane
+  (unchanged from prior phases).
 
 ### Phase L — SEO deepening (Priority 14) ✅
 
