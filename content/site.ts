@@ -388,6 +388,34 @@ export const faqs = [
   },
 ];
 
+/**
+ * Contact-stage FAQ — the practical questions a prospect asks before reaching
+ * out (response time, demos, support, pricing, NDAs). Kept separate from the
+ * homepage `faqs` (which are about the work itself) and rendered on /contact.
+ */
+export const contactFaqs = [
+  {
+    q: "How quickly will I hear back?",
+    a: "We reply to every enquiry within one business day (Monday–Friday, 9:00–18:00 IST). Most first responses go out the same working day.",
+  },
+  {
+    q: "Can we book a call or a demo?",
+    a: "Yes. Tell us a little about what you're building and we'll set up a free consultation to walk through your goals and, where relevant, demo how we'd approach it.",
+  },
+  {
+    q: "Do you offer a free consultation?",
+    a: "We do. The first call is a no-obligation conversation to understand your problem, sketch an approach, and see whether we're a good fit — no cost, no pressure.",
+  },
+  {
+    q: "I'm an existing client and need support — where do I go?",
+    a: `For help with a live product or ongoing engagement, email ${site.supportEmail} and our support team will pick it up during business hours.`,
+  },
+  {
+    q: "Do you sign NDAs before discussing a project?",
+    a: "Yes. If your idea is sensitive, we're happy to sign a mutual NDA before we get into the details — just mention it in your message.",
+  },
+];
+
 export const techGroups = [
   {
     title: "Languages & Frameworks",

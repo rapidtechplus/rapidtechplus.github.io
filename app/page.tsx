@@ -88,7 +88,7 @@ export default function HomePage() {
                     variant="ghost"
                     className="btn-lg"
                   >
-                    Hire Us
+                    Book a free consultation
                   </ButtonLink>
                 </div>
                 <div className="trust-row">

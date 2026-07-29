@@ -3234,7 +3234,35 @@ section {
 .contact-info-lead {
   color: var(--text-muted);
   max-width: 46ch;
+  margin-bottom: 18px;
+}
+
+/* Response-time + free-consultation promise chip */
+.contact-promise {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 46ch;
   margin-bottom: 28px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--success-soft, var(--surface));
+  color: var(--text);
+  font-size: 0.92rem;
+  line-height: 1.4;
+}
+.contact-promise strong {
+  color: var(--accent);
+  font-weight: 600;
+}
+.contact-promise .cp-dot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--success, var(--accent));
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--success, var(--accent)) 22%, transparent);
 }
 
 /* Ways-to-reach-us cards */
@@ -3474,6 +3502,20 @@ a.contact-method:hover .cm-value {
   font-size: 0.95rem;
   max-width: 40ch;
   color: var(--footer-text-muted);
+}
+.foot-hours {
+  margin-top: 14px;
+  font-size: 0.9rem;
+  color: var(--footer-text-muted);
+}
+.foot-hours-label {
+  display: block;
+  font-family: var(--font-mono, inherit);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--footer-accent, var(--footer-text));
+  margin-bottom: 3px;
 }
 .foot-news-label {
   font-size: 0.9rem;
