@@ -174,6 +174,7 @@ export const legalLinks: NavLink[] = [
   { label: "Privacy Policy", href: "/privacy" },
   { label: "Terms of Service", href: "/terms" },
   { label: "Cookie Policy", href: "/cookies" },
+  { label: "Disclaimer", href: "/disclaimer" },
 ];
 
 /**
@@ -219,6 +220,7 @@ export const sitemapGroups: { title: string; links: NavLink[] }[] = [
       { label: "Privacy Policy", href: "/privacy" },
       { label: "Terms of Service", href: "/terms" },
       { label: "Cookie Policy", href: "/cookies" },
+      { label: "Disclaimer", href: "/disclaimer" },
     ],
   },
 ];
