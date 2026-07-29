@@ -1385,12 +1385,37 @@ override. CI is unaffected: it publishes `./out` and never sets the variable.
 Also note `serve -s` strips the trailing slash this site requires and 404s —
 serve without `-s`.
 
-### Phase F — Product detail pages
+### Phase F — Product detail pages ✅
 
-- [ ] Model named products (Planix, Rocket Intelligence Engine, WhatsApp
-  Business OS, KidzoRides) in content + `/products/[slug]`. _Deps: A + real
-  product copy. Accept: footer product links resolve; each has overview,
-  features, CTA. Priority: P2. Complexity: M._
+- [x] `/products/[slug]` for all 6 product categories (Web Platforms, SaaS
+  Applications, Internal Tools, Integration Systems, Landing & Marketing Sites,
+  Automation Solutions). _Deps: A._ Enriched `content/products.ts` — each
+  `ProductRecord` now carries `intro`, `overview`, and a 3-card `capabilities`
+  grid; added shared `productFaqs` (5 questions) and `productSlugs` /
+  `getProduct` / `relatedProducts` helpers, mirroring the services / industries
+  collection pattern. New `app/products/[slug]/page.tsx` reuses `DetailLayout`
+  (overview + 3 capabilities + shared FAQs + related-product grid + CTA) with
+  `generateStaticParams` + `dynamicParams = false`, per-page metadata (canonical
+  + OG via the existing `products` template), and Service + BreadcrumbList
+  JSON-LD. The `/products` hub grid cards now link to the real `/products/[slug]`
+  routes (previously non-clickable) and the page emits `ItemList` JSON-LD;
+  `app/sitemap.ts` derives the 6 product URLs from `productSlugs`.
+- [x] lint + typecheck + clean static **build** (6 pages under
+  `/products/[slug]` exported to `.next-verify/products/*`) all green; verified
+  in browser (dev) — `/products/web-platforms` and `/products/saas-applications`
+  render breadcrumb, hero, overview split (3 capabilities), 5-question FAQ, 3
+  related products (linked), and CTA; `/products` hub cards all link to
+  `/products/[slug]` and carry `ItemList` JSON-LD; zero console errors. Real
+  theme switch via the footer toggle flips `dark`→`light` and all tokens resolve
+  in both themes (success check `rgb(61,214,140)` dark → `rgb(14,159,110)` light;
+  `--bg` `#0a0a13` → `#fbfbfd`). Screenshots/Firefox/Safari/Lighthouse not
+  runnable in this pane (0×0 viewport; unchanged from prior phases) — verified
+  via DOM/computed-style metrics.
+
+**Deferred — named flagship products** (Planix, Rocket Intelligence Engine,
+WhatsApp Business OS, KidzoRides): needs real, non-fabricated product copy
+before shipping dedicated `/products/[slug]` pages for them, the same principle
+as the deferred real testimonials. Left out until that copy exists.
 
 ### Phase G — Case study detail pages ✅
 
