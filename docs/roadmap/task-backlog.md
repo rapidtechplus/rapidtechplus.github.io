@@ -931,13 +931,19 @@ remain unrunnable here.
 
 ### Phase Q — Defects found during Phase 26 verification (deferred) 🐛
 
+**Status (Phase N, 2026-07-16):** the three contrast/token defects (items 1, 2,
+and 4 below) are **fixed and merged as Phase N** — see the Phase N entry for the
+in-browser measured numbers. The nav-overflow defect (item 3) is intentionally
+**left open and carried to its own PR** (layout/responsive change, distinct root
+cause from the colour work — see Phase N note).
+
 Found while verifying the Solutions showcase menu; **all pre-existing and
 unrelated to that redesign**, so they were logged rather than folded into it.
 Numbers below were measured in-browser (dev server, computed styles), not
 estimated. Phase 26's own defects were fixed in-phase and are listed under
 "Fixed along the way" above — nothing in this section is a Phase 26 regression.
 
-- [ ] **`.mm-foot-cta:hover` fails WCAG AA in dark theme** — the rule
+- [x] **`.mm-foot-cta:hover` fails WCAG AA in dark theme** — the rule
   (`app/globals.css`, `.mm-foot-cta:hover`) sets `background: var(--accent);
   color: #fff`. In dark, `--accent` is `#8a8fff`, giving white text a measured
   **2.82:1** at 12.48px/600 weight, where AA requires 4.5:1 (the text is not
@@ -953,7 +959,7 @@ estimated. Phase 26's own defects were fixed in-phase and are listed under
   gradient is. _Deps: none. Accept: ≥4.5:1 in both themes; audit for other
   text-on-`--accent` uses. Priority: **P1** (a11y, and `CLAUDE.md` requires
   accessible). Complexity: S. Folds into Phase N._
-- [ ] **`.btn-primary` marginally under AA at its lightest gradient stop** — the
+- [x] **`.btn-primary` marginally under AA at its lightest gradient stop** — the
   site-wide primary button (`linear-gradient(180deg, #6366f1, #4f46e5)` +
   `--on-accent`) measures **4.47:1** against white at the `#6366f1` top stop vs
   the 4.5:1 requirement; the `#4f46e5` bottom stop is 6.29:1. A ~0.03 shortfall
@@ -980,7 +986,7 @@ estimated. Phase 26's own defects were fixed in-phase and are listed under
     just some nav items at 1085px. Suggested accept: no `nav-links`/`nav-right`
     overflow at **any** width from 1025 to 1920.
 
-- [ ] **`--text-dim` eyebrows fail WCAG AA in light theme** — `--text-dim`
+- [x] **`--text-dim` eyebrows fail WCAG AA in light theme** — `--text-dim`
   (`#8a89a0`) on the mega panel's `--bg-elev` (`#ffffff`) measures **3.41:1**,
   where AA requires 4.5:1 (these are small mono labels, ~10–12.5px, so the 3:1
   large-text allowance does not apply). Measured in Phase 27 on four selectors
@@ -1677,10 +1683,45 @@ against the static export:
 
 - [ ] Full a11y pass across all new pages (focus order, contrast, landmarks,
   keyboard). _Deps: B–K. Priority: P0. Complexity: M._
-- [ ] Fold in the two measured contrast failures logged in **Phase Q** —
-  `.mm-foot-cta:hover` (2.82:1, dark only, P1) and `.btn-primary`'s lightest
-  gradient stop (4.47:1, P2). Both have a known fix and exact numbers already
-  recorded, so they need no re-investigation. _Deps: none._
+- [x] **Contrast & token fixes — Phase Q items 1, 2, 4 cleared (2026-07-16).**
+  Fixed at the token/rule level in `app/globals.css`; every ratio below was
+  **measured in-browser** (dev server, WCAG 2.1 relative-luminance function fed
+  the resolved computed tokens) after a **real theme switch**
+  (`localStorage.setItem('theme', …)` + reload — not a synthetic class swap,
+  which leaves the canvas unrepainted and reports false ratios). Built and
+  verified against a fresh `NEXT_DIST_DIR=.next-verify` build, never `out/`.
+  - **`.mm-foot-cta:hover`** (item 1, P1) — swapped `background: var(--accent);
+    color: #fff` for the primary button's fixed indigo gradient
+    (`#6165f0 → #4f46e5`) + `var(--on-accent)`, matching `.mm-feature-cta`.
+    The old white-on-`--accent` measured **2.82:1** in dark; the gradient now
+    carries white at **4.54:1** (top stop) / **6.29:1** (bottom) in both themes.
+    Fixes the "Book a consultation" CTA hover in all 7 mega menus.
+  - **`.btn-primary`** (item 2, P2) — nudged the top gradient stop `#6366f1 →
+    #6165f0`; measured **4.47 → 4.54:1** against white (bottom stop unchanged at
+    6.29:1). Applied to every sibling that reuses the same fixed gradient
+    (`.btn-primary`, `.mm-feature-cta`, `.mm-co-cta`, `.mm-foot-cta:hover`),
+    resting **and** hover states — the hover top stop `#6d70f4` measured only
+    **3.98:1** (worse than resting), so it was darkened to `#6165f0` too (bottom
+    stop still brightens + lift/shadow keep the hover feedback). Active state
+    (`#5a5eee`, 4.92:1) left as-is.
+  - **`--text-dim`** (item 4, P1) — a token-level fix in **both** themes, since
+    the same token failed at body size in dark (Phase G measured 3.78:1) and as
+    light eyebrows (Phase Q measured 3.41:1). Light `#8a89a0 → #6b6a80`
+    (measured **5.08 / 5.25 / 4.75:1** vs `--bg` / `--bg-elev` / `--bg-elev-2`);
+    dark `#6b6a85 → #85849e` (measured **5.43 / 5.20 / 4.88:1**). Every
+    `--text-dim` text use is now ≥4.5:1 in both themes.
+  - **Audit (task item 3):** swept every `background: … var(--accent)` in
+    `globals.css` — all others (underline bars, badge/chip dots, term caret,
+    dependency ticks, active scroller dot) are **decorative, carry no text**, so
+    `.mm-foot-cta:hover` was the only text-on-`--accent` background. `--grad-vivid`
+    is defined but unused. lint + typecheck + build (all routes) green.
+- [ ] **Nav overflow (Phase Q item 3) — deliberately NOT in this PR.** Kept
+  separate because it is a **layout/responsive** change (raise the hamburger
+  breakpoint to ~1150px or tighten nav padding/font), a different root cause and
+  risk profile from the colour/token work above, and it needs its own
+  breakpoint-by-breakpoint verification matrix (1025→1920). Folding it in would
+  mix unrelated work (CLAUDE.md Step 4). Re-measured worse than first logged: at
+  1366px the Get A Quote CTA clips off-screen entirely. _Its own PR next._
 
 ### Phase O — Production readiness
 
