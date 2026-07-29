@@ -300,14 +300,22 @@ export function TimelineStep({
  * and "Hire Us" (dedicated talent/teams). Rendered as a compact action row so
  * it can drop into any section's closing "desire" moment.
  */
-export function CtaActions({ className }: { className?: string }) {
+export function CtaActions({
+  className,
+  consult = false,
+}: {
+  className?: string;
+  /** Frame the secondary action as a lower-friction "Book a free consultation"
+   * instead of "Hire Us" — used on the CTA banner and hero. */
+  consult?: boolean;
+}) {
   return (
     <div className={["cta-actions", className].filter(Boolean).join(" ")}>
       <Magnetic>
         <ButtonLink href={CONTACT_HREF}>Get A Quote →</ButtonLink>
       </Magnetic>
       <ButtonLink href={CONTACT_HREF} variant="ghost">
-        Hire Us
+        {consult ? "Book a free consultation" : "Hire Us"}
       </ButtonLink>
     </div>
   );
@@ -337,7 +345,7 @@ export function CtaBanner({ title, body }: { title: string; body: string }) {
         <Reveal className="cta-banner">
           <h2>{title}</h2>
           <p>{body}</p>
-          <CtaActions className="cta-actions-center" />
+          <CtaActions className="cta-actions-center" consult />
         </Reveal>
       </div>
     </section>

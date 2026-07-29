@@ -77,6 +77,10 @@ export function Footer() {
               </span>
             </Link>
             <p className="foot-tagline">{site.tagline}</p>
+            <p className="foot-hours">
+              <span className="foot-hours-label">Business hours</span>
+              {site.hours}
+            </p>
             <div className="foot-social">
               {socialLinks.map((s) => (
                 <a

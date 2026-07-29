@@ -564,18 +564,37 @@ nav breadth but most links resolve to hub pages. The gap is **follow-through**,
 not breadth. This confirms the priority order of Phases A–O below and adds a
 few quick wins + a Careers page. Planning only — **no UI built until approved**.
 
-### Phase P — ACKPlus quick wins (copy/UX, no new architecture)
+### Phase P — ACKPlus quick wins (copy/UX, no new architecture) ✅ (testimonials deferred)
 
-- [ ] **Contact response promise + FAQ** — add an explicit "we reply within 1
-  business day" promise and a short contact-stage FAQ (demos, response time,
-  support) to `/contact`. _Deps: none. Priority: P1. Complexity: S._
-- [ ] **"Free Consultation" CTA framing** — introduce/test a lower-friction
-  "Book a free consultation" CTA alongside "Get A Quote" in hero + CTA banner.
-  _Deps: none. Priority: P2. Complexity: S._
-- [ ] **Business hours** stated on Contact + footer. _Deps: none. P2. S._
+- [x] **Contact response promise + FAQ** — added an explicit "we reply within
+  one business day — and the first consultation is free" promise chip
+  (`.contact-promise`, success-token styling) and a 5-question contact-stage
+  FAQ (`contactFaqs`: response time, demos/calls, free consultation, support
+  routing, NDAs) rendered via `FaqAccordion` on `/contact`, with `FAQPage`
+  JSON-LD. _Deps: none. Priority: P1. Complexity: S._
+- [x] **"Free Consultation" CTA framing** — the secondary action now reads
+  **"Book a free consultation"** alongside the primary **Get A Quote** in the
+  homepage hero and in the shared `CtaBanner` (new `consult` prop on
+  `CtaActions`; `DualCta`/section CtaActions keep "Hire Us"). _Deps: none.
+  Priority: P2. Complexity: S._
+- [x] **Business hours** — now stated in the footer masthead (`.foot-hours`,
+  mono "Business hours" label + `site.hours`) as well as the existing Contact
+  location card. _Deps: none. P2. S._
 - [ ] **Real testimonials** — replace homepage testimonial placeholders with
   3–4 real, attributed client quotes when available (never fabricate). _Deps:
-  real quotes. Priority: P1. Complexity: S._
+  real quotes. Priority: P1. Complexity: S._ **Deferred — needs real client
+  quotes; never fabricated.**
+
+**Design review** — lint + typecheck + clean static build (`NEXT_DIST_DIR=.next-verify`)
+all green. Verified in-browser (dev): `/contact` shows the promise chip, working
+hours, and the 5-question contact FAQ; homepage hero + CTA banner both show
+Get A Quote + Book a free consultation; footer shows business hours; zero
+console errors. Real theme switch via the footer toggle flips `dark`→`light` and
+all new tokens resolve in both themes (dark success-soft `rgba(61,214,140,.12)`;
+light `rgba(14,159,110,.1)` with indigo `#4f46e5` accent). Screenshots/Firefox/
+Safari/Lighthouse not runnable in this pane (unchanged from prior phases; the
+preview reports a 0×0 viewport so capture/coordinate tools are unavailable —
+verified via DOM/computed-style metrics).
 
 ### Phase I+ — Careers (direct ACKPlus gap, folds into Phase I)
 

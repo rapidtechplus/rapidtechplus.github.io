@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { Ico } from "@/components/icon";
 import { Reveal } from "@/components/reveal";
-import { PageHero } from "@/components/sections/pieces";
+import { PageHero, FaqAccordion, SectionHead } from "@/components/sections/pieces";
 import { ContactForm } from "@/components/contact-form";
-import { site } from "@/content/site";
+import { site, contactFaqs } from "@/content/site";
 import { JsonLd } from "@/components/seo/json-ld";
-import { webPageJsonLd } from "@/lib/structured-data";
+import { webPageJsonLd, faqPageJsonLd } from "@/lib/structured-data";
 
 const description =
   "Get in touch with Rapid Tech Plus. Email, call, or send us a message to discuss your software project, product idea, or engineering needs.";
@@ -69,6 +69,7 @@ export default function ContactPage() {
           path: "/contact",
         })}
       />
+      <JsonLd data={faqPageJsonLd(contactFaqs)} />
 
       <PageHero
         crumbs={[{ label: "Home", href: "/" }, { label: "Contact" }]}
@@ -91,8 +92,13 @@ export default function ContactPage() {
               <h2 className="contact-info-title">Start a conversation</h2>
               <p className="contact-info-lead">
                 Pick whichever channel suits you. Prefer to write? The form
-                sends straight to our inbox. However you reach out, we typically
-                reply within one business day.
+                sends straight to our inbox — every message reaches a real
+                engineer, not a ticket queue.
+              </p>
+              <p className="contact-promise">
+                <span className="cp-dot" aria-hidden />
+                We reply within <strong>one business day</strong> — and the
+                first consultation is free.
               </p>
 
               <div className="contact-methods">
@@ -157,6 +163,16 @@ export default function ContactPage() {
               <ContactForm />
             </Reveal>
           </div>
+        </div>
+      </section>
+
+      {/* Contact-stage FAQ — response time, demos, support, NDAs. */}
+      <section>
+        <div className="container">
+          <SectionHead eyebrow="Before you reach out" title="Contact questions">
+            The practical questions we hear most before a first conversation.
+          </SectionHead>
+          <FaqAccordion items={contactFaqs} />
         </div>
       </section>
     </>
