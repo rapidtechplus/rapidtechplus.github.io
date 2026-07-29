@@ -517,7 +517,7 @@ section {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
+  gap: 16px;
 }
 .brand {
   display: flex;
@@ -586,7 +586,7 @@ section {
 /* Header CTA — deliberately more compact than the base .btn so it reads as the
    primary action without dominating the bar. */
 .nav-cta {
-  padding: 10px 16px;
+  padding: 10px 14px;
   font-size: 0.88rem;
   gap: 6px;
   border-radius: 9px;
@@ -656,14 +656,14 @@ section {
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  padding: 8px 14px;
+  gap: 4px;
+  padding: 8px 10px;
   border: 0;
   background: none;
   border-radius: 10px;
   color: var(--text-muted);
   font-family: inherit;
-  font-size: 0.94rem;
+  font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
   white-space: nowrap;
@@ -674,8 +674,8 @@ section {
 .nav-plain::after {
   content: "";
   position: absolute;
-  left: 14px;
-  right: 14px;
+  left: 10px;
+  right: 10px;
   bottom: 4px;
   height: 2px;
   border-radius: 2px;
@@ -780,7 +780,7 @@ section {
 /* Anchored panels (compact menus) open directly under their own trigger,
    right-aligned, instead of centring on the viewport — so the pointer has
    only a short, direct path from the trigger into the panel. */
-@media (min-width: 1025px) {
+@media (min-width: 1401px) {
   .nav-item.mm-anchored {
     position: relative;
   }
@@ -805,7 +805,7 @@ section {
    play once at page load and never again. `backwards` holds the pre-animation
    state through the delay. Desktop only — on mobile these are accordion
    sections, not a panel that opens. */
-@media (min-width: 1025px) {
+@media (min-width: 1401px) {
   .nav-item:hover .mega-link,
   .nav-item:focus-within .mega-link {
     animation: mmLinkIn 0.3s var(--ease-out-expo) backwards;
@@ -3818,8 +3818,13 @@ a.contact-method:hover .cm-value {
     margin-left: 0;
   }
 }
-/* Collapse the primary nav to a sheet before the 8 links can overflow. */
-@media (max-width: 1024px) {
+/* Collapse the primary nav to a sheet before the 8 links can overflow. The
+   eight top-level items (led by the wide "Artificial Intelligence") need
+   ~1273px of bar; with brand + CTA + gutters the full nav only fits from
+   ~1401px up, so the desktop nav is shown at >=1401px and everything below
+   uses the sheet. Raised from 1024px (Phase Q item 3: at 1024–1400 the last
+   items — and at 1366 the Get A Quote CTA — were clipped by body overflow). */
+@media (max-width: 1400px) {
   .nav-links {
     position: fixed;
     top: var(--nav-h);
@@ -4120,5 +4125,21 @@ a.contact-method:hover .cm-value {
   .form-error,
   .faq-item details[open] .faq-body {
     animation: none;
+  }
+}
+
+/* Sheet-range guard (last in source so it wins over the desktop hover rule and
+   the reduced-motion block alike). In the accordion range the panels are
+   position:static, so the desktop `transform: translate(-50%, …)` — meant to
+   centre a fixed panel — would instead shift a static panel off by half its own
+   width on mouse hover/focus. Pin every panel variant to no transform here. */
+@media (max-width: 1400px) {
+  .mega,
+  .nav-item:hover .mega,
+  .nav-item:focus-within .mega,
+  .nav-item.mm-anchored .mega,
+  .nav-item.mm-anchored:hover .mega,
+  .nav-item.mm-anchored:focus-within .mega {
+    transform: none;
   }
 }
