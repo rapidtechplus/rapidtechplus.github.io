@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useReducedMotion } from "motion/react";
+import { cn } from "@/lib/utils";
+import { useReducedMotionSafe } from "@/lib/use-motion-preference";
 
 import { CodePane } from "./code-pane";
 import { DeployPane } from "./deploy-pane";
@@ -35,7 +36,7 @@ const LOG = [
  * shown in its final, settled state.
  */
 export function HeroVisual() {
-  const reduce = useReducedMotion();
+  const reduce = useReducedMotionSafe();
   const [active, setActive] = useState(0);
 
   useEffect(() => {
@@ -68,28 +69,25 @@ export function HeroVisual() {
         {PANES.map((p, i) => (
           <span
             key={p.id}
-            className={`hv-tab${i === active ? " is-active" : ""}`}
+            className={cn("hv-tab", i === active && "is-active")}
           >
             {p.label}
           </span>
         ))}
-        <span
-          className="hv-tab-ink"
-          style={{ ["--i" as string]: active }}
-        />
+        <span className="hv-tab-ink" style={{ ["--i" as string]: active }} />
       </div>
 
       {/* Panes — all three stay mounted so their CSS animations restart on each
           visit and the box never reflows as content swaps. */}
       <div className="hv-panes">
-        <div className={`hv-pane${active === 0 ? " is-active" : ""}`}>
+        <div className={cn("hv-pane", active === 0 && "is-active")}>
           <GraphPane reduce={!!reduce} />
         </div>
-        <div className={`hv-pane${active === 1 ? " is-active" : ""}`}>
+        <div className={cn("hv-pane", active === 1 && "is-active")}>
           {/* Keyed on visit so the typing animation replays each cycle. */}
           <CodePane key={`code-${active === 1}`} reduce={!!reduce} />
         </div>
-        <div className={`hv-pane${active === 2 ? " is-active" : ""}`}>
+        <div className={cn("hv-pane", active === 2 && "is-active")}>
           <DeployPane key={`deploy-${active === 2}`} reduce={!!reduce} />
         </div>
       </div>
@@ -102,7 +100,9 @@ export function HeroVisual() {
             className="hv-term-line"
             style={reduce ? undefined : { animationDelay: `${0.4 + i * 1.1}s` }}
           >
-            <b className={`hv-term-glyph hv-term-glyph--${l.tone}`}>{l.glyph}</b>
+            <b className={`hv-term-glyph hv-term-glyph--${l.tone}`}>
+              {l.glyph}
+            </b>
             {l.text}
           </span>
         ))}

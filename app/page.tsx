@@ -61,7 +61,9 @@ export default function HomePage() {
         <div className="container-wide container">
           <div className="hero-grid">
             <div className="hero-copy">
-              <Reveal>
+              {/* `eager`: this block holds the LCP text — it must paint with
+                  the first frame, not after hydration. */}
+              <Reveal eager>
                 <span className="badge">
                   <span className="dot" /> AI-first software engineering studio
                 </span>
@@ -88,7 +90,7 @@ export default function HomePage() {
                     variant="ghost"
                     className="btn-lg"
                   >
-                    Hire Us
+                    Book a free consultation
                   </ButtonLink>
                 </div>
                 <div className="trust-row">

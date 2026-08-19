@@ -536,7 +536,7 @@ service offerings**.
       hub + `[slug]` detail route unchanged and working
 - [x] lint + typecheck + static **build (27 routes)** all green; verified in
       browser — flat menu lists all 8 services + overview link, `/services/
-      ai-development` renders (breadcrumb, overview, 3 capabilities, 3 related,
+  ai-development` renders (breadcrumb, overview, 3 capabilities, 3 related,
       CTA), zero console errors. Screenshots/Firefox/Safari/Lighthouse not
       runnable in this pane (unchanged from prior phases)
 
@@ -564,18 +564,37 @@ nav breadth but most links resolve to hub pages. The gap is **follow-through**,
 not breadth. This confirms the priority order of Phases A–O below and adds a
 few quick wins + a Careers page. Planning only — **no UI built until approved**.
 
-### Phase P — ACKPlus quick wins (copy/UX, no new architecture)
+### Phase P — ACKPlus quick wins (copy/UX, no new architecture) ✅ (testimonials deferred)
 
-- [ ] **Contact response promise + FAQ** — add an explicit "we reply within 1
-  business day" promise and a short contact-stage FAQ (demos, response time,
-  support) to `/contact`. _Deps: none. Priority: P1. Complexity: S._
-- [ ] **"Free Consultation" CTA framing** — introduce/test a lower-friction
-  "Book a free consultation" CTA alongside "Get A Quote" in hero + CTA banner.
-  _Deps: none. Priority: P2. Complexity: S._
-- [ ] **Business hours** stated on Contact + footer. _Deps: none. P2. S._
+- [x] **Contact response promise + FAQ** — added an explicit "we reply within
+      one business day — and the first consultation is free" promise chip
+      (`.contact-promise`, success-token styling) and a 5-question contact-stage
+      FAQ (`contactFaqs`: response time, demos/calls, free consultation, support
+      routing, NDAs) rendered via `FaqAccordion` on `/contact`, with `FAQPage`
+      JSON-LD. _Deps: none. Priority: P1. Complexity: S._
+- [x] **"Free Consultation" CTA framing** — the secondary action now reads
+      **"Book a free consultation"** alongside the primary **Get A Quote** in the
+      homepage hero and in the shared `CtaBanner` (new `consult` prop on
+      `CtaActions`; `DualCta`/section CtaActions keep "Hire Us"). _Deps: none.
+      Priority: P2. Complexity: S._
+- [x] **Business hours** — now stated in the footer masthead (`.foot-hours`,
+      mono "Business hours" label + `site.hours`) as well as the existing Contact
+      location card. _Deps: none. P2. S._
 - [ ] **Real testimonials** — replace homepage testimonial placeholders with
-  3–4 real, attributed client quotes when available (never fabricate). _Deps:
-  real quotes. Priority: P1. Complexity: S._
+      3–4 real, attributed client quotes when available (never fabricate). _Deps:
+      real quotes. Priority: P1. Complexity: S._ **Deferred — needs real client
+      quotes; never fabricated.**
+
+**Design review** — lint + typecheck + clean static build (`NEXT_DIST_DIR=.next-verify`)
+all green. Verified in-browser (dev): `/contact` shows the promise chip, working
+hours, and the 5-question contact FAQ; homepage hero + CTA banner both show
+Get A Quote + Book a free consultation; footer shows business hours; zero
+console errors. Real theme switch via the footer toggle flips `dark`→`light` and
+all new tokens resolve in both themes (dark success-soft `rgba(61,214,140,.12)`;
+light `rgba(14,159,110,.1)` with indigo `#4f46e5` accent). Screenshots/Firefox/
+Safari/Lighthouse not runnable in this pane (unchanged from prior phases; the
+preview reports a 0×0 viewport so capture/coordinate tools are unavailable —
+verified via DOM/computed-style metrics).
 
 ### Phase I+ — Careers (direct ACKPlus gap, folds into Phase I)
 
@@ -597,31 +616,31 @@ Checklist in `CLAUDE.md`.
 _Foundation. Blocks B–H. Done first, as required._
 
 - [x] **Split content collections** — broke `content/site.ts` into typed,
-  slug-keyed collections: `content/types.ts` (shared types) plus
-  `content/{services,hire,solutions,industries,products,case-studies,blog}.ts`.
-  Every record has a `slug`; the mega menu is composed in `site.ts` from those
-  collections (`serviceMenuColumns`, `hireMenuColumns`, `solutionMenuColumns`,
-  `industriesMenu`, `caseStudiesMenu`) so nav + pages read from one source;
-  `site.ts` re-exports page-facing arrays so existing imports keep working. No
-  copy lost. typecheck + lint + build green.
+      slug-keyed collections: `content/types.ts` (shared types) plus
+      `content/{services,hire,solutions,industries,products,case-studies,blog}.ts`.
+      Every record has a `slug`; the mega menu is composed in `site.ts` from those
+      collections (`serviceMenuColumns`, `hireMenuColumns`, `solutionMenuColumns`,
+      `industriesMenu`, `caseStudiesMenu`) so nav + pages read from one source;
+      `site.ts` re-exports page-facing arrays so existing imports keep working. No
+      copy lost. typecheck + lint + build green.
 - [x] **Reusable detail template** — `components/sections/detail-layout.tsx`
-  (`DetailLayout`: hero + breadcrumb + overview split + capability grid +
-  optional FAQ + related grid + CTA). Proven on Services:
-  `app/services/[slug]/page.tsx` with `generateStaticParams` + `dynamicParams
-  = false`, per-page metadata (canonical + OG), and Service + BreadcrumbList
-  JSON-LD. Verified: 23 pages render statically, unknown slug → 404. Services
-  mega-menu links now point at real `/services/[slug]` routes.
+      (`DetailLayout`: hero + breadcrumb + overview split + capability grid +
+      optional FAQ + related grid + CTA). Proven on Services:
+      `app/services/[slug]/page.tsx` with `generateStaticParams` + `dynamicParams
+= false`, per-page metadata (canonical + OG), and Service + BreadcrumbList
+      JSON-LD. Verified: 23 pages render statically, unknown slug → 404. Services
+      mega-menu links now point at real `/services/[slug]` routes.
 - [x] **Extract shared primitives** — `PageHero`, `RelatedGrid`, `MetricStat`,
-  `Quote`, `Tag` (pill), `FaqAccordion` added to `components/sections/pieces.tsx`
-  (+ linkable `IconCard`). Refactored every inner page to `PageHero`, the
-  homepage to `FaqAccordion`/`Quote`, and Case Studies to `MetricStat`/`Tag`.
-  No duplication; verified no visual regression (both themes, breakpoints).
+      `Quote`, `Tag` (pill), `FaqAccordion` added to `components/sections/pieces.tsx`
+      (+ linkable `IconCard`). Refactored every inner page to `PageHero`, the
+      homepage to `FaqAccordion`/`Quote`, and Case Studies to `MetricStat`/`Tag`.
+      No duplication; verified no visual regression (both themes, breakpoints).
 - [x] **Sitemap-from-collections** — `app/sitemap.ts` now derives
-  `/services/[slug]` from `serviceSlugs`, so adding a service record adds its
-  sitemap URL automatically.
+      `/services/[slug]` from `serviceSlugs`, so adding a service record adds its
+      sitemap URL automatically.
 - [x] **Create `config/`** — `config/site.ts` holds `SITE_URL`, `CONTACT_HREF`,
-  and `SITEMAP_CHANGE_FREQUENCY`; consumed by breadcrumbs, sitemap, the detail
-  route, and content modules.
+      and `SITEMAP_CHANGE_FREQUENCY`; consumed by breadcrumbs, sitemap, the detail
+      route, and content modules.
 
 **Design Review** — verified in-browser (dev) on `/services/ai-agents`: h1,
 breadcrumbs, overview split (3 capability checks), related grid (3 same-category
@@ -647,49 +666,49 @@ verified via DOM/computed-style metrics.
 ### Phase B — Service detail pages ✅
 
 - [x] `/services/[slug]` for all 8 core offerings, each rebuilt as a full
-  landing page. _Deps: A._ Enriched `content/services.ts` — every
-  `ServiceRecord` now carries `problems`, `technologies`, `benefits`,
-  `industries` (slug refs) and `caseStudies` (slug refs) plus per-service
-  `faqs`; added a shared 5-stage `serviceProcess` and
-  `serviceIndustries` / `serviceCaseStudies` resolver helpers (unknown slugs are
-  skipped, so no dead links). New `components/sections/service-landing.tsx`
-  composes the landing template: Hero → dual CTA → Overview → **Business
-  problems** → **Technologies** (chip cloud) → **Development process**
-  (5-step timeline) → **Benefits** → **Industries** (links to
-  `/industries/[slug]`) → **Case studies** (metric cards) → **FAQs** → Related
-  services → CTA; every optional section hides when its data is absent.
-  `app/services/[slug]/page.tsx` now renders `ServiceLanding` and emits Service
-  (+ `areaServed`) and FAQPage JSON-LD alongside the existing BreadcrumbList.
+      landing page. _Deps: A._ Enriched `content/services.ts` — every
+      `ServiceRecord` now carries `problems`, `technologies`, `benefits`,
+      `industries` (slug refs) and `caseStudies` (slug refs) plus per-service
+      `faqs`; added a shared 5-stage `serviceProcess` and
+      `serviceIndustries` / `serviceCaseStudies` resolver helpers (unknown slugs are
+      skipped, so no dead links). New `components/sections/service-landing.tsx`
+      composes the landing template: Hero → dual CTA → Overview → **Business
+      problems** → **Technologies** (chip cloud) → **Development process**
+      (5-step timeline) → **Benefits** → **Industries** (links to
+      `/industries/[slug]`) → **Case studies** (metric cards) → **FAQs** → Related
+      services → CTA; every optional section hides when its data is absent.
+      `app/services/[slug]/page.tsx` now renders `ServiceLanding` and emits Service
+      (+ `areaServed`) and FAQPage JSON-LD alongside the existing BreadcrumbList.
 - [x] lint + typecheck + clean static **build** all green; verified in browser —
-  `/services/ai-development` and `/services/cloud-devops` render all nine
-  sections in order (Overview, Business problems, Technologies × 8 chips, How we
-  work × 5 steps, Benefits, Industries × 3 linked, Proof × 2 case cards, FAQ,
-  Related services), zero console errors, zero content-level horizontal overflow
-  at 375 and 1280 (only the pre-existing decorative aurora/mega layers extend
-  past the viewport and are clipped by `body`, matching the documented
-  baseline). Screenshots/Firefox/Safari/Lighthouse not runnable in this pane
-  (unchanged from prior phases).
+      `/services/ai-development` and `/services/cloud-devops` render all nine
+      sections in order (Overview, Business problems, Technologies × 8 chips, How we
+      work × 5 steps, Benefits, Industries × 3 linked, Proof × 2 case cards, FAQ,
+      Related services), zero console errors, zero content-level horizontal overflow
+      at 375 and 1280 (only the pre-existing decorative aurora/mega layers extend
+      past the viewport and are clipped by `body`, matching the documented
+      baseline). Screenshots/Firefox/Safari/Lighthouse not runnable in this pane
+      (unchanged from prior phases).
 
 ### Phase C — Hire Expert landing + role pages ✅
 
 - [x] `/hire` hub + `/hire/[slug]` for all 29 roles across 8 disciplines. _Deps:
-  A._ Enriched `content/hire.ts` — each `HireRole` now carries `intro`,
-  `overview`, and role-specific `capabilities`; added shared `engagementModels`
-  + `hireFaqs`, and `hireSlugs` / `getHireRole` / `relatedRoles` / `hireGroups`
-  helpers. `/hire` hub (`app/hire/page.tsx`) = hero + 3 engagement models +
-  discipline-grouped role cards + CTA. `/hire/[slug]` reuses `DetailLayout`
-  (overview + capabilities + shared engagement FAQs + same-discipline related
-  grid + CTA) with `generateStaticParams` + `dynamicParams = false` and
-  Service/BreadcrumbList JSON-LD. Repointed the **Hire Expert** mega-menu (and
-  footer/sitemap "Hire an Expert") from `/contact` to the real `/hire/[slug]`
-  routes; `megaMenu` "Hire Expert" href → `/hire`. `app/sitemap.ts` derives the
-  role URLs from `hireSlugs`; `/hire` added to the human `/sitemap` page.
+      A._ Enriched `content/hire.ts` — each `HireRole` now carries `intro`,
+      `overview`, and role-specific `capabilities`; added shared `engagementModels`
+  - `hireFaqs`, and `hireSlugs` / `getHireRole` / `relatedRoles` / `hireGroups`
+    helpers. `/hire` hub (`app/hire/page.tsx`) = hero + 3 engagement models +
+    discipline-grouped role cards + CTA. `/hire/[slug]` reuses `DetailLayout`
+    (overview + capabilities + shared engagement FAQs + same-discipline related
+    grid + CTA) with `generateStaticParams` + `dynamicParams = false` and
+    Service/BreadcrumbList JSON-LD. Repointed the **Hire Expert** mega-menu (and
+    footer/sitemap "Hire an Expert") from `/contact` to the real `/hire/[slug]`
+    routes; `megaMenu` "Hire Expert" href → `/hire`. `app/sitemap.ts` derives the
+    role URLs from `hireSlugs`; `/hire` added to the human `/sitemap` page.
 - [x] lint + typecheck + clean static **build (57 routes, +30)** all green;
-  verified in browser — `/hire` hub (engagement models + all 8 discipline
-  groups, cards link to detail pages) and `/hire/react-developers` (breadcrumb,
-  overview + 3 capabilities, shared FAQ, related frontend roles, CTA) render;
-  zero console errors; no horizontal overflow at 375px. Screenshots/Firefox/
-  Safari/Lighthouse not runnable in this pane (unchanged from prior phases).
+      verified in browser — `/hire` hub (engagement models + all 8 discipline
+      groups, cards link to detail pages) and `/hire/react-developers` (breadcrumb,
+      overview + 3 capabilities, shared FAQ, related frontend roles, CTA) render;
+      zero console errors; no horizontal overflow at 375px. Screenshots/Firefox/
+      Safari/Lighthouse not runnable in this pane (unchanged from prior phases).
 
 ### Phase C.1 — Hire role pages rebuilt as full landing pages ✅
 
@@ -717,28 +736,28 @@ page, mirroring the Phase B service-landing rebuild.
 ### Phase D — Industry detail pages ✅
 
 - [x] `/industries/[slug]` for all 10 industries. _Deps: A._ Enriched
-  `content/industries.ts` — `IndustrySector` now carries `intro`, `overview`,
-  and sector-specific `capabilities`; added shared `industryFaqs` and
-  `industrySlugs` / `getIndustry` / `relatedIndustries` helpers. New
-  `app/industries/[slug]/page.tsx` reuses `DetailLayout` (overview + 3
-  capabilities + shared FAQs + related-sector grid + dual CTA) with
-  `generateStaticParams` + `dynamicParams = false`, per-page metadata
-  (canonical + OG), and Service/BreadcrumbList JSON-LD (`areaServed` = sector).
-  Repointed the flat **Industries** mega-menu links from `/industries` to the
-  real `/industries/[slug]` routes. `/industries` hub now leads with a linked
-  10-sector grid (cards → detail pages) above the broader audience-segment grid.
-  `app/sitemap.ts` derives the sector URLs from `industrySlugs`.
+      `content/industries.ts` — `IndustrySector` now carries `intro`, `overview`,
+      and sector-specific `capabilities`; added shared `industryFaqs` and
+      `industrySlugs` / `getIndustry` / `relatedIndustries` helpers. New
+      `app/industries/[slug]/page.tsx` reuses `DetailLayout` (overview + 3
+      capabilities + shared FAQs + related-sector grid + dual CTA) with
+      `generateStaticParams` + `dynamicParams = false`, per-page metadata
+      (canonical + OG), and Service/BreadcrumbList JSON-LD (`areaServed` = sector).
+      Repointed the flat **Industries** mega-menu links from `/industries` to the
+      real `/industries/[slug]` routes. `/industries` hub now leads with a linked
+      10-sector grid (cards → detail pages) above the broader audience-segment grid.
+      `app/sitemap.ts` derives the sector URLs from `industrySlugs`.
 - [x] lint + typecheck + clean static **build (67 routes, +10)** all green;
-  verified in browser — `/industries/healthcare` and `/industries/fintech`
-  render (breadcrumb, overview + 3 capabilities, shared FAQ, 3 related sectors,
-  dual CTA); `/industries` hub links all 10 sector pages; zero console errors;
-  zero horizontal overflow at 375px and desktop. Screenshots/Firefox/Safari/
-  Lighthouse not runnable in this pane (unchanged from prior phases).
+      verified in browser — `/industries/healthcare` and `/industries/fintech`
+      render (breadcrumb, overview + 3 capabilities, shared FAQ, 3 related sectors,
+      dual CTA); `/industries` hub links all 10 sector pages; zero console errors;
+      zero horizontal overflow at 375px and desktop. Screenshots/Firefox/Safari/
+      Lighthouse not runnable in this pane (unchanged from prior phases).
 
 ### Phase E — Solution detail pages ✅
 
 - [x] `/solutions/[slug]` for all 21 solutions across the six categories. _Deps: A.
-  Accept: each Solutions link resolves to its own page. Priority: P1. Complexity: M._
+      Accept: each Solutions link resolves to its own page. Priority: P1. Complexity: M._
 - [x] Enriched `content/solutions.ts` — each `SolutionRecord` gains `intro`,
       `overview`, and a 3-card `capabilities` grid; added shared `solutionFaqs`
       and `getSolution` / `solutionSlugs` / `relatedSolutions` (same-category-first)
@@ -781,7 +800,7 @@ Solutions mega menu into six outcome-focused categories.
 
 Owner-requested: the Solutions menu was too simple. Rebuilt as a premium
 three-column showcase (category rail → solutions → featured panel).
-techalmas.com studied for menu *organisation* only — no layout, branding,
+techalmas.com studied for menu _organisation_ only — no layout, branding,
 icons, colours, imagery, or wording taken; the design and copy are original.
 
 - [x] **Taxonomy → 8 categories** (`content/solutions.ts`), AI-first per the
@@ -845,14 +864,14 @@ icons, colours, imagery, or wording taken; the design and copy are original.
 **Newly discovered — deferred, see Phase Q below.**
 
 - [ ] Not verifiable in this environment (unchanged from prior phases):
-  screenshots (capture times out on the continuous compositor), Firefox/Safari,
-  Lighthouse.
+      screenshots (capture times out on the continuous compositor), Firefox/Safari,
+      Lighthouse.
 
 ### Phase 27 — Company mega menu → two-column trust panel ✅
 
 Owner-requested: the Company menu was a plain compact dropdown that did not
 reflect the studio's depth. Rebuilt as a two-column panel. technource.com was
-studied for navigation *quality* only — no layout, colours, illustrations,
+studied for navigation _quality_ only — no layout, colours, illustrations,
 wording, branding, or imagery taken; the design and copy are original.
 
 Scope note: an initial three-column build (nav + "What we build" highlights +
@@ -906,7 +925,7 @@ the right column became a mission/vision scroller.
   measured 846px tall, running 30px past a 900px viewport and far worse on a
   768px laptop. Fixed by dropping the 11 sidebar descriptions (the brief only
   asks for icon + title there) and adding a **desktop-only** `max-height:
-  calc(100dvh - var(--nav-h) - 28px)` + internal scroll guard, so the panel can
+calc(100dvh - var(--nav-h) - 28px)` + internal scroll guard, so the panel can
   never run off-screen as the sidebar grows. Scoped to ≥1025px — a cap on mobile
   is exactly what silently clipped panels before Phase 26.
 - **Current-page state never matched** — compared `pathname` against the raw
@@ -931,46 +950,53 @@ remain unrunnable here.
 
 ### Phase Q — Defects found during Phase 26 verification (deferred) 🐛
 
+**Status:** ALL four Phase Q defects are now cleared. The three contrast/token
+defects (items 1, 2, 4) were **fixed and merged as Phase N (2026-07-16)** — see
+the Phase N entry for the in-browser measured numbers. The nav-overflow defect
+(item 3) was **fixed as Phase N.2 (2026-07-29)** in its own PR (layout/responsive
+change, distinct root cause from the colour work) — see the Phase N.2 entry.
+
 Found while verifying the Solutions showcase menu; **all pre-existing and
 unrelated to that redesign**, so they were logged rather than folded into it.
 Numbers below were measured in-browser (dev server, computed styles), not
 estimated. Phase 26's own defects were fixed in-phase and are listed under
 "Fixed along the way" above — nothing in this section is a Phase 26 regression.
 
-- [ ] **`.mm-foot-cta:hover` fails WCAG AA in dark theme** — the rule
-  (`app/globals.css`, `.mm-foot-cta:hover`) sets `background: var(--accent);
-  color: #fff`. In dark, `--accent` is `#8a8fff`, giving white text a measured
-  **2.82:1** at 12.48px/600 weight, where AA requires 4.5:1 (the text is not
-  "large" by WCAG's definition, so the 3:1 allowance does not apply). **Light
-  theme passes** at 6.29:1 (`--accent` is `#4f46e5` there), so this is
-  dark-only. Affects the "Book a consultation" CTA in **all 7 mega menus** —
-  visible on every non-showcase menu at all widths, and on Solutions at ≤1200px
-  where the footer strip returns. This is the same defect class already fixed on
-  `.mm-feature-cta` in Phase 26; the fix is the same — swap `var(--accent)` +
-  `#fff` for the primary button's fixed indigo gradient + `var(--on-accent)`.
-  Root cause worth noting: `--accent` is tuned for legibility *on* the dark
-  canvas, so it is never a safe *background* for white text; only the fixed
-  gradient is. _Deps: none. Accept: ≥4.5:1 in both themes; audit for other
-  text-on-`--accent` uses. Priority: **P1** (a11y, and `CLAUDE.md` requires
-  accessible). Complexity: S. Folds into Phase N._
-- [ ] **`.btn-primary` marginally under AA at its lightest gradient stop** — the
-  site-wide primary button (`linear-gradient(180deg, #6366f1, #4f46e5)` +
-  `--on-accent`) measures **4.47:1** against white at the `#6366f1` top stop vs
-  the 4.5:1 requirement; the `#4f46e5` bottom stop is 6.29:1. A ~0.03 shortfall
-  affecting only the topmost pixel rows, but it is the button used everywhere
-  (nav CTA, hero, CTA banner, and now `.mm-feature-cta`). Nudging the top stop
-  slightly darker (e.g. `#6165f0`) clears it globally with no visible change.
-  _Deps: none. Accept: both gradient stops ≥4.5:1. Priority: P2. Complexity: S.
-  Folds into Phase N._
-- [ ] **Primary nav overflows between ~1025–1150px** — the 8 top-level items +
-  the Get A Quote CTA do not fit before the hamburger collapses at ≤1024px.
-  Measured at 1085px: `nav.nav-links` spans 285→1288 in a 1085px viewport and is
-  clipped by `body { overflow-x: hidden }`, so the last items are unreachable at
-  those widths. Predates this phase (the nav has grown to 8 items over Phases
-  10–AI). Fix options: raise the collapse breakpoint to ~1150px (smallest
-  change), or tighten nav padding/font at that tier. _Deps: none. Accept: no
-  `nav-links` overflow at any width between 1024 and 1440. Priority: P2.
-  Complexity: S._
+- [x] **`.mm-foot-cta:hover` fails WCAG AA in dark theme** — the rule
+      (`app/globals.css`, `.mm-foot-cta:hover`) sets `background: var(--accent);
+color: #fff`. In dark, `--accent` is `#8a8fff`, giving white text a measured
+      **2.82:1** at 12.48px/600 weight, where AA requires 4.5:1 (the text is not
+      "large" by WCAG's definition, so the 3:1 allowance does not apply). **Light
+      theme passes** at 6.29:1 (`--accent` is `#4f46e5` there), so this is
+      dark-only. Affects the "Book a consultation" CTA in **all 7 mega menus** —
+      visible on every non-showcase menu at all widths, and on Solutions at ≤1200px
+      where the footer strip returns. This is the same defect class already fixed on
+      `.mm-feature-cta` in Phase 26; the fix is the same — swap `var(--accent)` +
+      `#fff` for the primary button's fixed indigo gradient + `var(--on-accent)`.
+      Root cause worth noting: `--accent` is tuned for legibility _on_ the dark
+      canvas, so it is never a safe _background_ for white text; only the fixed
+      gradient is. _Deps: none. Accept: ≥4.5:1 in both themes; audit for other
+      text-on-`--accent` uses. Priority: **P1** (a11y, and `CLAUDE.md` requires
+      accessible). Complexity: S. Folds into Phase N._
+- [x] **`.btn-primary` marginally under AA at its lightest gradient stop** — the
+      site-wide primary button (`linear-gradient(180deg, #6366f1, #4f46e5)` +
+      `--on-accent`) measures **4.47:1** against white at the `#6366f1` top stop vs
+      the 4.5:1 requirement; the `#4f46e5` bottom stop is 6.29:1. A ~0.03 shortfall
+      affecting only the topmost pixel rows, but it is the button used everywhere
+      (nav CTA, hero, CTA banner, and now `.mm-feature-cta`). Nudging the top stop
+      slightly darker (e.g. `#6165f0`) clears it globally with no visible change.
+      _Deps: none. Accept: both gradient stops ≥4.5:1. Priority: P2. Complexity: S.
+      Folds into Phase N._
+- [x] **Primary nav overflows between ~1025–1150px** — **FIXED in Phase N.2
+      (2026-07-29), see the Phase N.2 entry below.** The 8 top-level items +
+      the Get A Quote CTA do not fit before the hamburger collapses at ≤1024px.
+      Measured at 1085px: `nav.nav-links` spans 285→1288 in a 1085px viewport and is
+      clipped by `body { overflow-x: hidden }`, so the last items are unreachable at
+      those widths. Predates this phase (the nav has grown to 8 items over Phases
+      10–AI). Fix options: raise the collapse breakpoint to ~1150px (smallest
+      change), or tighten nav padding/font at that tier. _Deps: none. Accept: no
+      `nav-links` overflow at any width between 1024 and 1440. Priority: P2.
+      Complexity: S._
   - **Re-measured in Phase 27 — the range above is understated.** At **1366px**
     (a very common laptop width) `.nav-right` spans 1322→1460 in a 1366 viewport,
     so the **Get A Quote CTA is clipped off-screen entirely**; `.nav-links` ends
@@ -980,19 +1006,19 @@ estimated. Phase 26's own defects were fixed in-phase and are listed under
     just some nav items at 1085px. Suggested accept: no `nav-links`/`nav-right`
     overflow at **any** width from 1025 to 1920.
 
-- [ ] **`--text-dim` eyebrows fail WCAG AA in light theme** — `--text-dim`
-  (`#8a89a0`) on the mega panel's `--bg-elev` (`#ffffff`) measures **3.41:1**,
-  where AA requires 4.5:1 (these are small mono labels, ~10–12.5px, so the 3:1
-  large-text allowance does not apply). Measured in Phase 27 on four selectors
-  that all resolve identically: `.mm-feature-eyebrow`, `.mm-panel-head`,
-  `.mega-link-desc` (all pre-existing) and `.mm-co-label` (added in Phase 27,
-  which deliberately follows the established eyebrow treatment rather than
-  diverging — fixing one selector would not fix the token). This is a
-  token-level issue affecting every mega menu, so the fix belongs at the token:
-  darken `--text-dim` in the light theme to ≥4.5:1 against `#ffffff` (roughly
-  `#6b6a80` or darker) and re-check the dark theme independently. _Deps: none.
-  Accept: every `--text-dim` text use ≥4.5:1 in both themes. Priority: P1 (a11y,
-  and `CLAUDE.md` requires accessible). Complexity: S. Folds into Phase N._
+- [x] **`--text-dim` eyebrows fail WCAG AA in light theme** — `--text-dim`
+      (`#8a89a0`) on the mega panel's `--bg-elev` (`#ffffff`) measures **3.41:1**,
+      where AA requires 4.5:1 (these are small mono labels, ~10–12.5px, so the 3:1
+      large-text allowance does not apply). Measured in Phase 27 on four selectors
+      that all resolve identically: `.mm-feature-eyebrow`, `.mm-panel-head`,
+      `.mega-link-desc` (all pre-existing) and `.mm-co-label` (added in Phase 27,
+      which deliberately follows the established eyebrow treatment rather than
+      diverging — fixing one selector would not fix the token). This is a
+      token-level issue affecting every mega menu, so the fix belongs at the token:
+      darken `--text-dim` in the light theme to ≥4.5:1 against `#ffffff` (roughly
+      `#6b6a80` or darker) and re-check the dark theme independently. _Deps: none.
+      Accept: every `--text-dim` text use ≥4.5:1 in both themes. Priority: P1 (a11y,
+      and `CLAUDE.md` requires accessible). Complexity: S. Folds into Phase N._
 
 ### Phase 24 — Technology landing pages (Priority 6) ✅
 
@@ -1001,30 +1027,30 @@ pages. Each featured technology gets a dedicated landing page following the flow
 **[Tech] Development → Why [Tech] → Why Rapid Tech Plus → Projects → FAQs**.
 
 - [x] New `content/technologies.ts` collection — 7 slug-keyed `TechRecord`s
-  (React, Next.js, Angular, Node.js, NestJS, Laravel, Flutter), each with
-  `intro`, `overview`, `reasons` (Why [Tech]), illustrative `projects` (metric
-  cards), and per-tech `faqs`; shared `whyRapidTechPlus` reasons + `technologyCta`;
-  `techSlugs` / `getTechnology` / `relatedTechnologies` helpers and a flat
-  `technologiesMenu` mega-panel derived from the collection
+      (React, Next.js, Angular, Node.js, NestJS, Laravel, Flutter), each with
+      `intro`, `overview`, `reasons` (Why [Tech]), illustrative `projects` (metric
+      cards), and per-tech `faqs`; shared `whyRapidTechPlus` reasons + `technologyCta`;
+      `techSlugs` / `getTechnology` / `relatedTechnologies` helpers and a flat
+      `technologiesMenu` mega-panel derived from the collection
 - [x] New `components/sections/technology-landing.tsx` — composes hero → overview
-  → Why [Tech] → Why Rapid Tech Plus → Projects → FAQs → related → CTA; optional
-  sections hide when data is absent
+      → Why [Tech] → Why Rapid Tech Plus → Projects → FAQs → related → CTA; optional
+      sections hide when data is absent
 - [x] New `app/technologies/[slug]/page.tsx` — `generateStaticParams` +
-  `dynamicParams = false`, per-page metadata (canonical + OG), Service + FAQPage
-  JSON-LD
+      `dynamicParams = false`, per-page metadata (canonical + OG), Service + FAQPage
+      JSON-LD
 - [x] Wired **Technologies** into the mega menu (flat panel, after Industries),
-  the machine `app/sitemap.ts` (7 routes via `techSlugs`), and the `/technologies`
-  hub (new linked "Technologies we specialise in" grid above the broader toolkit)
+      the machine `app/sitemap.ts` (7 routes via `techSlugs`), and the `/technologies`
+      hub (new linked "Technologies we specialise in" grid above the broader toolkit)
 - [x] lint + typecheck + clean static **build** all green; the 7
-  `/technologies/[slug]` pages prerender. Verified against the static export
-  (`out/`) — the React and NestJS pages render the full flow in order
-  ([Tech] Development hero → Why build with [Tech] → Why Rapid Tech Plus →
-  [Tech] in action / Projects → FAQs), the nav shows **Technologies** linking to
-  the detail routes, and all 7 slug directories are emitted. (An earlier
-  transient dev-server 500 was a `.next` collision from running the production
-  build against a shared dev server, not a code fault — the static export is the
-  source of truth here.) Screenshots/Firefox/Safari/Lighthouse not runnable in
-  this pane (unchanged from prior phases).
+      `/technologies/[slug]` pages prerender. Verified against the static export
+      (`out/`) — the React and NestJS pages render the full flow in order
+      ([Tech] Development hero → Why build with [Tech] → Why Rapid Tech Plus →
+      [Tech] in action / Projects → FAQs), the nav shows **Technologies** linking to
+      the detail routes, and all 7 slug directories are emitted. (An earlier
+      transient dev-server 500 was a `.next` collision from running the production
+      build against a shared dev server, not a code fault — the static export is the
+      source of truth here.) Screenshots/Firefox/Safari/Lighthouse not runnable in
+      this pane (unchanged from prior phases).
 
 ### Phase 25 — Trust building: About page expansion (Priority 9) ✅
 
@@ -1160,7 +1186,7 @@ template.
 - [x] `/ai/[slug]` (`app/ai/[slug]/page.tsx`) — reuses `ServiceLanding` with
       `generateStaticParams` + `dynamicParams = false`, per-page metadata
       (canonical + OG), Service + FAQPage JSON-LD; `serviceType: "Artificial
-      Intelligence"`
+  Intelligence"`
 - [x] Nav: **AI** added as the first `megaMenu` item; footer gains an **AI**
       column; `/ai` added to the human `/sitemap` "What We Do" group; machine
       `app/sitemap.ts` adds `/ai` + `aiSlugs.map(/ai/[slug])`
@@ -1359,53 +1385,78 @@ override. CI is unaffected: it publishes `./out` and never sets the variable.
 Also note `serve -s` strips the trailing slash this site requires and 404s —
 serve without `-s`.
 
-### Phase F — Product detail pages
+### Phase F — Product detail pages ✅
 
-- [ ] Model named products (Planix, Rocket Intelligence Engine, WhatsApp
-  Business OS, KidzoRides) in content + `/products/[slug]`. _Deps: A + real
-  product copy. Accept: footer product links resolve; each has overview,
-  features, CTA. Priority: P2. Complexity: M._
+- [x] `/products/[slug]` for all 6 product categories (Web Platforms, SaaS
+      Applications, Internal Tools, Integration Systems, Landing & Marketing Sites,
+      Automation Solutions). _Deps: A._ Enriched `content/products.ts` — each
+      `ProductRecord` now carries `intro`, `overview`, and a 3-card `capabilities`
+      grid; added shared `productFaqs` (5 questions) and `productSlugs` /
+      `getProduct` / `relatedProducts` helpers, mirroring the services / industries
+      collection pattern. New `app/products/[slug]/page.tsx` reuses `DetailLayout`
+      (overview + 3 capabilities + shared FAQs + related-product grid + CTA) with
+      `generateStaticParams` + `dynamicParams = false`, per-page metadata (canonical
+  - OG via the existing `products` template), and Service + BreadcrumbList
+    JSON-LD. The `/products` hub grid cards now link to the real `/products/[slug]`
+    routes (previously non-clickable) and the page emits `ItemList` JSON-LD;
+    `app/sitemap.ts` derives the 6 product URLs from `productSlugs`.
+- [x] lint + typecheck + clean static **build** (6 pages under
+      `/products/[slug]` exported to `.next-verify/products/*`) all green; verified
+      in browser (dev) — `/products/web-platforms` and `/products/saas-applications`
+      render breadcrumb, hero, overview split (3 capabilities), 5-question FAQ, 3
+      related products (linked), and CTA; `/products` hub cards all link to
+      `/products/[slug]` and carry `ItemList` JSON-LD; zero console errors. Real
+      theme switch via the footer toggle flips `dark`→`light` and all tokens resolve
+      in both themes (success check `rgb(61,214,140)` dark → `rgb(14,159,110)` light;
+      `--bg` `#0a0a13` → `#fbfbfd`). Screenshots/Firefox/Safari/Lighthouse not
+      runnable in this pane (0×0 viewport; unchanged from prior phases) — verified
+      via DOM/computed-style metrics.
+
+**Deferred — named flagship products** (Planix, Rocket Intelligence Engine,
+WhatsApp Business OS, KidzoRides): needs real, non-fabricated product copy
+before shipping dedicated `/products/[slug]` pages for them, the same principle
+as the deferred real testimonials. Left out until that copy exists.
 
 ### Phase G — Case study detail pages ✅
 
 - [x] `/case-studies/[slug]` for each study. _Deps: A._ Enriched
-  `content/case-studies.ts` — each of the **6** records (the collection had six,
-  not seven) now carries `intro` plus `challenge` / `approach` / `outcome`
-  chapters (a prose `body` + three supporting `points` each), `technologies`,
-  `services` / `industries` slug refs, and per-study `faqs`; added
-  `caseStudySlugs` / `getCaseStudy` / `relatedCaseStudies` (same-category-first)
-  / `caseStudyHref` / `caseStudyCards` helpers, mirroring the Phase B services
-  pattern.
+      `content/case-studies.ts` — each of the **6** records (the collection had six,
+      not seven) now carries `intro` plus `challenge` / `approach` / `outcome`
+      chapters (a prose `body` + three supporting `points` each), `technologies`,
+      `services` / `industries` slug refs, and per-study `faqs`; added
+      `caseStudySlugs` / `getCaseStudy` / `relatedCaseStudies` (same-category-first)
+      / `caseStudyHref` / `caseStudyCards` helpers, mirroring the Phase B services
+      pattern.
 - [x] New `components/sections/case-study-layout.tsx` (`CaseStudyLanding`) —
-  Hero → client + outcome-metric strip → **disclosure** → dual CTA → **Challenge**
-  → **Approach** → **Outcome** (alternating bands) → **Technologies** (chips) →
-  **Services this engagement drew on** → **Where this work applies** → FAQs →
-  Related studies → CTA. Optional sections hide when their data is absent.
+      Hero → client + outcome-metric strip → **disclosure** → dual CTA → **Challenge**
+      → **Approach** → **Outcome** (alternating bands) → **Technologies** (chips) →
+      **Services this engagement drew on** → **Where this work applies** → FAQs →
+      Related studies → CTA. Optional sections hide when their data is absent.
 - [x] `app/case-studies/[slug]/page.tsx` — `generateStaticParams` +
-  `dynamicParams = false`, per-page metadata with `ogImageFor("case-studies")`
-  set **explicitly** (declaring `openGraph` replaces rather than merges the
-  inherited object, so omitting it would ship an imageless card), and
-  `CaseStudy` + `FAQPage` JSON-LD. `BreadcrumbList` comes from the shared
-  `Breadcrumbs` component via `PageHero`, as on every other detail route —
-  re-declaring it in the page would emit two conflicting trails.
+      `dynamicParams = false`, per-page metadata with `ogImageFor("case-studies")`
+      set **explicitly** (declaring `openGraph` replaces rather than merges the
+      inherited object, so omitting it would ship an imageless card), and
+      `CaseStudy` + `FAQPage` JSON-LD. `BreadcrumbList` comes from the shared
+      `Breadcrumbs` component via `PageHero`, as on every other detail route —
+      re-declaring it in the page would emit two conflicting trails.
 - [x] **Integrity** — the studies are representative, not named clients. A
-  `CASE_STUDY_DISCLOSURE` strip states this on every detail page (the hub's
-  promise now travels with the record), `client` stays a generalised descriptor,
-  and the JSON-LD names no organisation. The "HIPAA aligned by design" FAQ says
-  plainly that a formal determination is the provider's to make.
+      `CASE_STUDY_DISCLOSURE` strip states this on every detail page (the hub's
+      promise now travels with the record), `client` stays a generalised descriptor,
+      and the JSON-LD names no organisation. The "HIPAA aligned by design" FAQ says
+      plainly that a formal determination is the provider's to make.
 - [x] Repointed the **Case Studies mega-menu** from 8 category links that all
-  resolved to the hub → the 6 real studies (label = title, desc = client), so
-  every entry reaches a page that exists. Hub cards, and the "proof" cards on the
-  service/AI landings, now link to the detail routes.
+      resolved to the hub → the 6 real studies (label = title, desc = client), so
+      every entry reaches a page that exists. Hub cards, and the "proof" cards on the
+      service/AI landings, now link to the detail routes.
 - [x] Extracted `CaseCard` into `components/sections/pieces.tsx` — the hub, the
-  service landing, and the related grid rendered the same markup three times.
-  Added the one CSS rule the linkable variant needs (`.card-link` moves padding
-  onto the inner anchor, so the anchor must be the flex column that pins
-  `.case-metrics` to the card foot).
+      service landing, and the related grid rendered the same markup three times.
+      Added the one CSS rule the linkable variant needs (`.card-link` moves padding
+      onto the inner anchor, so the anchor must be the flex column that pins
+      `.case-metrics` to the card foot).
 - [x] `app/sitemap.ts` derives the 6 study URLs from `caseStudySlugs`.
 - [x] **Phase L's withheld `ItemList` is now real** — `/case-studies` upgraded
-  from `WebPage` to `CollectionPage` + `ItemList` (6 items), derived from
-  `caseStudyCards` so the markup cannot drift from the visible grid.
+      from `WebPage` to `CollectionPage` + `ItemList` (6 items), derived from
+      `caseStudyCards` so the markup cannot drift from the visible grid.
 - [x] lint + typecheck + clean static **build (125 routes) all green**.
 
 **Design review** — verified in-browser (dev server; built into `.next-verify`
@@ -1440,25 +1491,34 @@ not be used to verify):
   decorative micro-labels, not body-size prose.
 
 - [ ] Not verifiable in this environment (unchanged from prior phases):
-  screenshots (capture times out on the continuous compositor; the pane also
-  reports `innerWidth: 0` until an explicit resize), Firefox/Safari, Lighthouse.
+      screenshots (capture times out on the continuous compositor; the pane also
+      reports `innerWidth: 0` until an explicit resize), Firefox/Safari, Lighthouse.
 
-### Phase H — Blog / Insights
+### Phase H — Blog / Insights ⏸️ Deferred (needs real post bodies)
 
 - [ ] `/blog/[slug]` post pages + `/blog/category/[slug]` + `/blog/tag/[slug]` +
-  client-side search + author bylines. _Deps: A + post bodies (MDX or typed).
-  Accept: posts render, archives filter, Article JSON-LD. Priority: P1.
-  Complexity: L._
+      client-side search + author bylines. _Deps: A + post bodies (MDX or typed).
+      Accept: posts render, archives filter, Article JSON-LD. Priority: P1.
+      Complexity: L._ **Deferred — same integrity rule as the deferred
+      testimonials/flagship products: `content/blog.ts` holds only
+      title/excerpt/category/date/reading-time placeholders with **no real article
+      bodies** (the file's own comment: "real posts replace these as they are
+      written"). Writing full `/blog/[slug]` bodies would mean publishing fabricated
+      thought-leadership under the studio's name — and unlike case studies (which
+      ship with a "representative, not real clients" disclosure), a blog post can't
+      carry an analogous disclaimer without defeating its purpose. Owner confirmed
+      in-session (2026-07-29): defer until real post copy is supplied, do not
+      fabricate. Reopen when bodies exist.**
 
 ### Phase I — Company pages
 
 - [x] **Closed by Phase 27.** The Company section is now scoped to the seven
-  owner-defined pages (About, Why Us, Culture, Careers, Engineering,
-  `/our-process`, Contact) and every menu item resolves to a real page — the
-  acceptance criterion is met. `/about/story` and `/about/leadership` are
-  **deliberately out of scope**: the Leadership/Partners/Certifications pills
-  were removed in Phase 27 rather than built. Reopen only if the owner widens
-  the Company set. _Deps: A + copy._
+      owner-defined pages (About, Why Us, Culture, Careers, Engineering,
+      `/our-process`, Contact) and every menu item resolves to a real page — the
+      acceptance criterion is met. `/about/story` and `/about/leadership` are
+      **deliberately out of scope**: the Leadership/Partners/Certifications pills
+      were removed in Phase 27 rather than built. Reopen only if the owner widens
+      the Company set. _Deps: A + copy._
 
 ### Phase 25 — Company pages: Why Us · Culture · Engineering ✅
 
@@ -1505,7 +1565,7 @@ existed (Phases 3/22/25), so this was a scoping pass, not new page work.
       its `content/site.ts` copy.
 - [x] Footer Company column — added the **missing Culture** link (was 6 items,
       inconsistent with the defined set); now matches the menu's seven.
-- [x] `/sitemap` index left listing Open Source: it is the index of *every*
+- [x] `/sitemap` index left listing Open Source: it is the index of _every_
       public route, and the route is still live.
 - [x] lint + typecheck + clean static **build** all green. Verified in browser
       (dev) — Company panel renders exactly 7 links (`/about`, `/why-us`,
@@ -1553,13 +1613,43 @@ Our Process · Open Source, and build the missing pages (they had pointed at
 ### Phase J — Resources
 
 - [ ] `/resources/faq`, `/resources/open-source`, `/resources/process`,
-  `/why-rapid-tech-plus`. _Deps: A. Accept: standalone FAQ reuses
-  `FaqAccordion` + FAQPage JSON-LD. Priority: P2. Complexity: M._
+      `/why-rapid-tech-plus`. _Deps: A. Accept: standalone FAQ reuses
+      `FaqAccordion` + FAQPage JSON-LD. Priority: P2. Complexity: M._
 
-### Phase K — Legal & system
+### Phase K — Legal & system ✅
 
-- [ ] `/disclaimer`, `/coming-soon`, and a `500`/global-error page. _Deps: none.
-  Accept: routes render, linked where appropriate. Priority: P2. Complexity: S._
+- [x] `/disclaimer`, `/coming-soon`, and a `500`/global-error page. _Deps: none.
+      Accept: routes render, linked where appropriate. Priority: P2. Complexity: S._
+  - **`/disclaimer`** — real legal prose page reusing the `PageHero` + `.prose`
+    template (matching `/privacy`, `/terms`, `/cookies`): 8 sections (no
+    professional advice, representative content, external links, forward-looking
+    statements, trademarks, limitation of liability, changes, contact) + `WebPage`
+    JSON-LD via `webPageJsonLd`. Wired into `legalLinks` (footer bottom bar), the
+    `sitemapGroups` Legal group (human `/sitemap`), and machine `app/sitemap.ts`.
+  - **`/coming-soon`** — a system placeholder for not-yet-launched content:
+    eyebrow + h1 + copy + Home/Contact CTAs, `robots: { index: false, follow:
+true }`, and **deliberately excluded from both sitemaps** (advertising an
+    empty placeholder helps nobody — same rule the SEO phase applied to withheld
+    `ItemList`s). Canonical set for when it is linked directly.
+  - **`app/global-error.tsx`** — root-level (HTTP 500) error boundary. Because
+    Next renders it _in place of_ the root layout, it supplies its own
+    `<html>`/`<body>` and cannot use `globals.css`, the font variables, or the
+    theme provider; everything is inlined and made theme-aware via a scoped
+    `prefers-color-scheme` block (light/dark tokens). Offers **Try again**
+    (`reset()`) + **Back to home** (`next/link`, satisfying
+    `no-html-link-for-pages`) and surfaces `error.digest` when present.
+- [x] lint + typecheck + clean static **build** all green (`NEXT_DIST_DIR=
+.next-verify`). Verified in-browser (dev): `/disclaimer` renders breadcrumb
+      (Home › Disclaimer), Legal eyebrow, title, all 8 sections; real theme switch
+      (`localStorage` + reload) flips `light`↔`dark` with the page rendering in both
+      and **zero horizontal overflow**; `/coming-soon` renders with both CTAs; the
+      footer legal bar surfaces **Disclaimer → `/disclaimer/`**. Verified against the
+      export: `/disclaimer` + `/coming-soon` prerender as static, `/disclaimer` is in
+      `sitemap.xml` (1×), `/coming-soon` is **not** (0×) and ships `noindex, follow`.
+      `global-error` only surfaces on a runtime root error (not reachable from a
+      static browse) — verified by clean compile/build rather than by observing the
+      error state. Screenshots/Firefox/Safari/Lighthouse not runnable in this pane
+      (unchanged from prior phases).
 
 ### Phase L — SEO deepening (Priority 14) ✅
 
@@ -1568,7 +1658,7 @@ Graph, structured data, breadcrumbs, canonical, and internal linking.
 
 **Audit first — four of the six already shipped.** Metadata and canonical were
 on every route (the homepage inherits `canonical: "/"` from the root layout,
-which is correct); `crumbs` is a *required* prop of `PageHero`, so breadcrumbs +
+which is correct); `crumbs` is a _required_ prop of `PageHero`, so breadcrumbs +
 `BreadcrumbList` JSON-LD were already on all 26 inner pages (the homepage
 correctly has none — it is the root); internal linking is extensive (mega menus,
 footer hub, related grids, `/sitemap`). So this phase is **not** "add six
@@ -1584,7 +1674,7 @@ and `config/og-templates.ts`, so those pages inherit it when they land.
       **no major crawler (Facebook, LinkedIn, X, Slack, WhatsApp) renders SVG
       Open Graph images**. Replaced with real 1200×630 PNGs.
 - [x] **Next's `opengraph-image.tsx` route convention is unusable on this host** —
-      it emits its image at an *extensionless* path (`/opengraph-image`), and
+      it emits its image at an _extensionless_ path (`/opengraph-image`), and
       GitHub Pages derives Content-Type from the extension alone. **Measured
       against the live host** (`curl -I https://rapidtechplus.github.io/.nojekyll`
       → `application/octet-stream`, vs `/og-image.svg` → `image/svg+xml`): the
@@ -1602,7 +1692,7 @@ and `config/og-templates.ts`, so those pages inherit it when they land.
       Per-slug images would have added ~8MB of PNGs to the repo for a marginally
       better title.
 - [x] **Detail pages needed the image set explicitly** — declaring `openGraph` in
-      a page's `generateMetadata` *replaces* the inherited object instead of
+      a page's `generateMetadata` _replaces_ the inherited object instead of
       merging, so all 6 `[slug]` templates were shipping
       `twitter:card: summary_large_image` with **no image** (a broken card, worse
       than none). Fixed via `ogImageFor(section)` in `config/og-templates.ts`.
@@ -1638,7 +1728,7 @@ and `config/og-templates.ts`, so those pages inherit it when they land.
   widened to `.next*/**` — the actual root cause.
 - **OG template defects caught by looking at the rendered PNG**, not the byte
   count: the accent seam stopped 80px short of each edge (absolutely positioned
-  children resolve against the *padded* box; restructured so the seam is a normal
+  children resolve against the _padded_ box; restructured so the seam is a normal
   flex child of an unpadded root), and the home card printed the slogan twice
   (eyebrow + footer).
 
@@ -1671,21 +1761,101 @@ against the static export:
 ### Phase M — Performance
 
 - [ ] Lighthouse CI guarding ≥95 (mobile), asset/font budget. _Deps: pages
-  exist. Priority: P1. Complexity: M._
+      exist. Priority: P1. Complexity: M._
 
 ### Phase N — Accessibility hardening
 
 - [ ] Full a11y pass across all new pages (focus order, contrast, landmarks,
-  keyboard). _Deps: B–K. Priority: P0. Complexity: M._
-- [ ] Fold in the two measured contrast failures logged in **Phase Q** —
-  `.mm-foot-cta:hover` (2.82:1, dark only, P1) and `.btn-primary`'s lightest
-  gradient stop (4.47:1, P2). Both have a known fix and exact numbers already
-  recorded, so they need no re-investigation. _Deps: none._
+      keyboard). _Deps: B–K. Priority: P0. Complexity: M._
+- [x] **Contrast & token fixes — Phase Q items 1, 2, 4 cleared (2026-07-16).**
+      Fixed at the token/rule level in `app/globals.css`; every ratio below was
+      **measured in-browser** (dev server, WCAG 2.1 relative-luminance function fed
+      the resolved computed tokens) after a **real theme switch**
+      (`localStorage.setItem('theme', …)` + reload — not a synthetic class swap,
+      which leaves the canvas unrepainted and reports false ratios). Built and
+      verified against a fresh `NEXT_DIST_DIR=.next-verify` build, never `out/`.
+  - **`.mm-foot-cta:hover`** (item 1, P1) — swapped `background: var(--accent);
+color: #fff` for the primary button's fixed indigo gradient
+    (`#6165f0 → #4f46e5`) + `var(--on-accent)`, matching `.mm-feature-cta`.
+    The old white-on-`--accent` measured **2.82:1** in dark; the gradient now
+    carries white at **4.54:1** (top stop) / **6.29:1** (bottom) in both themes.
+    Fixes the "Book a consultation" CTA hover in all 7 mega menus.
+  - **`.btn-primary`** (item 2, P2) — nudged the top gradient stop `#6366f1 →
+#6165f0`; measured **4.47 → 4.54:1** against white (bottom stop unchanged at
+    6.29:1). Applied to every sibling that reuses the same fixed gradient
+    (`.btn-primary`, `.mm-feature-cta`, `.mm-co-cta`, `.mm-foot-cta:hover`),
+    resting **and** hover states — the hover top stop `#6d70f4` measured only
+    **3.98:1** (worse than resting), so it was darkened to `#6165f0` too (bottom
+    stop still brightens + lift/shadow keep the hover feedback). Active state
+    (`#5a5eee`, 4.92:1) left as-is.
+  - **`--text-dim`** (item 4, P1) — a token-level fix in **both** themes, since
+    the same token failed at body size in dark (Phase G measured 3.78:1) and as
+    light eyebrows (Phase Q measured 3.41:1). Light `#8a89a0 → #6b6a80`
+    (measured **5.08 / 5.25 / 4.75:1** vs `--bg` / `--bg-elev` / `--bg-elev-2`);
+    dark `#6b6a85 → #85849e` (measured **5.43 / 5.20 / 4.88:1**). Every
+    `--text-dim` text use is now ≥4.5:1 in both themes.
+  - **Audit (task item 3):** swept every `background: … var(--accent)` in
+    `globals.css` — all others (underline bars, badge/chip dots, term caret,
+    dependency ticks, active scroller dot) are **decorative, carry no text**, so
+    `.mm-foot-cta:hover` was the only text-on-`--accent` background. `--grad-vivid`
+    is defined but unused. lint + typecheck + build (all routes) green.
+- [x] **Nav overflow (Phase Q item 3) — done in its own PR as Phase N.2
+      (2026-07-29).** See the Phase N.2 entry below.
+
+### Phase N.2 — Primary nav overflow fix (Phase Q item 3) ✅
+
+Owner-approved approach (asked in-session): **collapse ≤1400px, keep premium
+item padding, no label/brand-wording edits.** Ships the nav-overflow fix that
+Phase N deliberately deferred.
+
+- [x] **Diagnosed by in-browser measurement (dev server, computed rects).** The
+      8 top-level items intrinsically need ~890px of bar; with the brand lockup
+      (217px), the Get A Quote CTA (134px), and the two flex gaps, the full nav
+      needs a **~1273px** content box. Content width ≈ `vw − 2×(4vw gutter) =
+vw×0.92`, so the full nav only fits from **~1384px** up — i.e. it overflowed
+      even at 1440 before this change, not just the 1025–1150 originally logged.
+      Confirmed the Phase 27 finding: at 1366px `.nav-right` ran to 1460 (CTA clipped
+      off-screen).
+- [x] **Fix = light tightening + raise the collapse breakpoint to 1400px.**
+      Tightening (premium-preserving, per the owner's choice): nav-item padding
+      `8×14 → 8×10`, font `0.94 → 0.9rem`, item gap `5 → 4`, `.nav-inner` gap
+      `24 → 16`, `.nav-cta` padding `16 → 14` (underline `::after` inset tracked to
+      10px). This drops the footprint 1391 → 1273 so the 1401–1440 band fits at all.
+      The collapse `@media` moved `1024px → 1400px`; the two desktop-only mega blocks
+      (`min-width: 1025px` anchoring + link stagger) moved to `1401px` so they don't
+      leak into the new sheet range.
+- [x] **Sheet-range transform guard** — in the accordion range panels are
+      `position: static`, so the desktop `transform: translate(-50%, …)` (which
+      centres a _fixed_ panel) would shift a static panel by half its width on mouse
+      hover/focus — a latent bug that only surfaces now that 1025–1400 is a
+      mouse-driven sheet. Added a last-in-source `@media (max-width: 1400px)` block
+      pinning every panel variant (base, hover, focus, `mm-anchored`) to
+      `transform: none`, so it wins over both the desktop hover rule and the
+      reduced-motion block.
+- [x] **Verified in-browser at every checkpoint** (viewport resized, computed
+      rects, real theme not needed — layout only): **1025 / 1085 / 1200 / 1280 /
+      1366 / 1400** → sheet mode (hamburger + in-sheet CTA), and at 1025 all 7
+      accordion panels are `transform: none`, static, left 20 → right 990, **zero**
+      panel overflow and **zero** page horizontal scroll. **1401** → desktop nav,
+      CTA fully on-screen (right 1343, 58px margin). **1440** → 73px margin. **1920**
+      → 204px margin. **375** → sheet, `scrollWidth == 375`, no overflow. Desktop
+      mega panels still `position: fixed` and open on hover at ≥1401 (unchanged).
+      lint + typecheck + `NEXT_DIST_DIR=.next-verify` build (all routes) green.
+- [x] **Tradeoff recorded:** the common 1280 and 1366 laptop widths now use the
+      hamburger sheet rather than the horizontal bar. This is the direct cost of 8
+      wide top-level items (the ~190px "Artificial Intelligence" label alone). The
+      owner chose this over a denser bar or a shorter "AI" trigger label. If keeping
+      the desktop bar on 1280/1366 later becomes desirable, shortening the top-level
+      trigger to "AI" (panel + `/ai` page keep the full name) reclaims ~150px and
+      lets all 8 fit to ~1150px — left as a future option, not done here.
+- [ ] Not verifiable in this environment (unchanged from prior phases):
+      Firefox/Safari, Lighthouse, and screenshot capture (times out on the
+      continuous background compositor) — verified via DOM/computed-rect metrics.
 
 ### Phase O — Production readiness
 
 - [ ] Cross-browser (Chrome/Edge/Firefox/Safari), custom domain + HTTPS,
-  deployed-URL render verification. _Deps: all. Priority: P0. Complexity: M._
+      deployed-URL render verification. _Deps: all. Priority: P0. Complexity: M._
 
 ---
 
@@ -1723,6 +1893,202 @@ Notes / follow-ups:
 
 ---
 
+## Phase 30 — Mobile-first hardening & measured performance ✅
+
+Owner-requested: make the site mobile-friendly (desktop was already fine) and
+review the whole project for improvements. Full write-up →
+[`docs/audit/mobile-audit-2026-08.md`](../audit/mobile-audit-2026-08.md).
+
+This is the first phase whose Design Review Checklist was **measured rather
+than reasoned about** — headless Chromium, touch emulation, and Lighthouse 12
+all run here against the static export. The "screenshots / Lighthouse / device
+breakpoints not runnable in this environment" caveat carried since Phase 10 no
+longer applies. Two measurement traps that produced false results are recorded
+in the audit so the next phase does not repeat them.
+
+**Fixed — horizontal overflow (P0)**
+
+- [x] **Every page overflowed by 37px at ≤360px** — `.foot-news-label` is
+      `white-space: nowrap` (Phase 20, so the label and input row share one
+      measure) and its 334px natural width pushed the document sideways. It
+      wraps below 640px now. Prior phases logged "zero overflow at 375" — true,
+      but 375 was the narrowest width ever checked.
+- [x] `/careers/` overflowed a further 30px on the long
+      `Email careers@rapidtechplus.com →` button; `.btn` may wrap its label and
+      is capped at `max-width: 100%` on phones.
+- [x] Verified **0 overflow across 176 route × width combinations**
+      (22 routes × 320/360/375/390/414/768/1024/1280) on the production export.
+
+**Fixed — mobile performance (P0/P1)**
+
+- [x] **The hero was the LCP element and did not paint until hydration.**
+      `<Reveal>` server-renders `opacity: 0`; the hero lead is the largest text
+      on screen, so Lighthouse measured a **2,976ms render delay** against a
+      0.9s FCP. New `eager` prop renders plain markup; the homepage hero uses
+      it. Verified structurally — the lead is in the exported HTML with no
+      `opacity: 0` ancestor, and FCP and LCP land on the same timestamp in most
+      runs. **Not** verified as a score change; see the Design Review note.
+- [x] **Dropped the mono font's preload** — it only sets eyebrows, chips, and
+      stat labels, and its 25–48KB competed on a throttled connection with the
+      bandwidth the LCP text was waiting for.
+- [x] **Hydration mismatch for every reduced-motion visitor** — `Reveal`,
+      `Background`, `Counter`, and `HeroVisual` branched their markup on
+      `useReducedMotion()`, which is `false` on the server but reads
+      `matchMedia` on the first client render, so React discarded and
+      re-rendered the whole tree. New `lib/use-motion-preference.ts`
+      (`useReducedMotionSafe`) gates the read on mount: the first client render
+      matches the server, then swaps to the static variant, so the animation
+      still never plays. Effect-only consumers keep the raw hook.
+- [x] **Decorative motion budget below 900px** — the aurora holds still (three
+      40vw circles under a 90px blur were animating indefinitely), the particle
+      field drops out, and the header trades `backdrop-filter` for a 94%-opaque
+      background.
+
+**Fixed — touch, forms, legibility**
+
+- [x] **44px targets on coarse pointers** — social buttons (32×32), theme
+      switch (58×30), `.btn` (43px), panel CTAs (39px), footer link rows (35px),
+      "Read more" (24px). Hover-lift transforms suppressed so they do not stick
+      after a tap. Only inline breadcrumb/legal text links remain narrower; they
+      meet WCAG 2.5.8 and padding them would break the trail.
+- [x] **iOS focus-zoom** — `.field input`/`textarea` (15.36px) and the
+      newsletter input (14.08px) are 16px at phone widths. Safari zooms on any
+      focused control under 16px and does not zoom back out.
+- [x] Brand slogan 0.52rem (**8.32px**) → 0.6rem; content micro-labels floored
+      at 0.75rem on phones (the hero console's `aria-hidden` telemetry is
+      deliberately left dense).
+
+**Fixed — layouts that opted out of flow**
+
+- [x] Contact promise chip — three flex children (text / `<strong>` / text)
+      squeezed into three narrow columns; the sentence is now one `.cp-text`.
+- [x] Hero trust row — wrapping left the `·` separators dangling at line ends;
+      centred stack below 640px with the separators dropped.
+- [x] Paired CTAs — `align-items: stretch` stretched the `<Magnetic>` wrapper
+      but not the button inside it, so the two actions were different widths.
+- [x] Mega-menu descriptions wrap below 900px (the desktop `nowrap` + ellipsis
+      truncated real copy in the accordion).
+- [x] 5-step timeline drops to two rows below 1100px (169px tracks at 1024px
+      could not hold a step title).
+- [x] Section/card/panel padding and `--nav-h` (74 → 60px) step down on phones;
+      homepage 18,581px → 17,612px at 375px. A trim, not a fix — the length is
+      editorial, see the audit's Part B item 1.
+
+**Fixed — accessibility**
+
+- [x] **Skip link** as the first focusable element (`#main`), revealed on focus.
+- [x] **Focus trap** in the mobile sheet — it locked body scroll but tabbing
+      past the last link walked into the page behind an invisible overlay.
+      Verified 45 forward tabs + 12 back never leave; Escape returns focus to
+      the toggle and restores scroll.
+- [x] **Scrim** behind the open sheet, rendered outside `<header>` because the
+      bar's `backdrop-filter` makes it the containing block for fixed
+      descendants (a nested scrim resolved its inset against the 60px bar).
+- [x] Footer column headings `<h4>` → `<h3>` — the one failure Lighthouse
+      reported (`heading-order`, an h2 → h4 skip). A11y 98 → **100**.
+- [x] Hamburger `☰`/`✕` → lucide `Menu`/`X`; `scroll-margin-top` on in-page
+      anchors so the sticky header stops covering deep-link targets.
+
+**Fixed — a formatter bug that silently broke three components**
+
+- [x] **`npm run format` produced `hv-paneis-active`.**
+      `prettier-plugin-tailwindcss` drops the leading space when it sorts a
+      conditional inside a template-literal class string, so
+      `` `hv-pane${x ? " is-active" : ""}` `` became
+      `` `hv-pane${x ? "is-active" : ""}` ``. Lint, typecheck, and build all
+      stay green while the hero console's pane switching and the 5-step
+      timeline layout stop working. Four sites in `hero-visual/index.tsx` plus
+      `service-landing.tsx` and `hire-landing.tsx` now use `cn()`, which the
+      plugin cannot mangle. **Convention going forward: build class names with
+      `cn()`, never with a template literal that concatenates a conditional.**
+
+**Fixed — three A2 rules that were written but never took effect**
+
+Found by re-measuring the rendered page instead of re-reading the stylesheet.
+Both rules were present and looked correct; neither won the cascade.
+
+- [x] **The micro-label floor never applied to the contact labels.** The floor
+      selectors `.cm-label` / `.cp-label` (0,1,0) are less specific than their
+      base rules `.contact-method .cm-label` / `.contact-place .cp-label`
+      (0,2,0), so the base won and the labels still rendered at **11.2px**.
+      Both floor selectors now carry their parent. `.eyebrow` and `.footer h3`
+      (both 0.72rem, both sitewide) are the same family of micro-label, were
+      never listed, and are now included. Visible sub-12px text at 393px:
+      **16 → 1** on `/contact/`. The survivor is `.brand-slogan` at 9.6px, a
+      deliberate documented choice. **Convention: when flooring a value inside
+      a media query, match the specificity of the rule being overridden — a
+      bare class selector loses to any descendant base rule and fails silently.**
+- [x] **Footer legal links were 43.2px, not 44px.** `10px + 10px + a 23.232px
+  line box` = 43.2. All six links in the footer bottom row were a fraction
+      under the target the padding was added to hit. `min-height: 44px` with
+      flex centring closes it without moving the text or the `::after` dot
+      separator. Controls under 44px at 393×851: **7 → 0**.
+
+- [x] **Breadcrumb labels sat at the top of their 44px target.** `.crumbs a`
+      takes the coarse-pointer `min-height: 44px` but was left out of the rule
+      that flex-centres the other enlarged controls, so the label pinned to the
+      top of the box and "Home" rendered ~12px above the `›` separator next to
+      it. Caught in a screenshot, not in the sweep — overflow and target-size
+      checks both pass on a mis-aligned trail. **When a rule grows a control to
+      hit a touch target, it must also say where the label goes inside it.**
+
+**Design Review** — lint + typecheck + clean static build (132 pages) all green.
+
+Re-measured independently before commit. Accessibility, best practices, SEO and
+CLS are stable across every run; **performance is not** — four homepage runs on
+the identical export scored 84 / 69 / 68 / 66 depending on which Chrome binary
+ran and how loaded the shared container was.
+
+| Check                                     | Result                                                                        |
+| ----------------------------------------- | ----------------------------------------------------------------------------- |
+| Accessibility / Best practices / SEO      | **100 / 100 / 100** every run                                                 |
+| CLS · failing binary audits               | **0** · **0**                                                                 |
+| Performance                               | 66–84, load-dependent — **the ≥95 target in `CLAUDE.md` is not demonstrated** |
+| Horizontal overflow, 21 routes × 8 widths | **0 / 168**                                                                   |
+| Controls under 44px (393×851, touch)      | **0**                                                                         |
+| Visible text under 12px                   | **1** (the deliberate slogan)                                                 |
+| Internal link integrity, whole export     | **120 hrefs, 0 broken**                                                       |
+| Skip link / focus trap / Escape           | first tab stop · 45 tabs, 0 escapes · refocuses toggle, restores scroll       |
+| Hydration under `prefers-reduced-motion`  | **0** console errors                                                          |
+
+The remaining LCP cost is main-thread work — 2.9s of it against a 2,203-element
+DOM — which is the mega menu (audit Part B item 2), not anything the `eager` prop
+can reach. A trustworthy score needs a dedicated runner: Lighthouse CI, Part B
+item 4, still open.
+
+**Not verified here:** Firefox and Safari (only Chromium is available), a real
+device (emulation does not reproduce iOS Safari's URL-bar resize or focus-zoom),
+and the deployed URL — everything above is a local static export.
+
+The mobile ≥95 target is met on all four categories (Phase M's Lighthouse goal
+now has real numbers to guard). Both themes verified at 375px; zero horizontal
+overflow at every width 320–1280.
+
+- [ ] **Not verified:** Firefox and Safari (only Chromium is available here) and
+      a real device — emulation gets media queries and hit-testing right but not
+      iOS URL-bar resize or the focus-zoom the 16px rule prevents. Deployed-URL
+      verification is still open (Phase O).
+
+**Newly discovered — detail in the audit's Part B:**
+
+- [ ] Homepage is ~26 screens on a phone; three sections make overlapping
+      arguments and the testimonials are still placeholders. Editorial cut.
+      _P1. M._
+- [ ] 2,203 DOM elements / 235KB HTML per page, roughly half of it the mega menu
+      rendered in full on all 132 pages. Largest remaining mobile lever, but it
+      trades against the deliberate internal linking. _P1. M._
+- [ ] No tests at all. Link-integrity and overflow-regression scripts would each
+      have caught a bug this project actually shipped. _P1. M._
+- [ ] Footer copyright year is baked at build time by `new Date()` in a server
+      component of a static export. _P2. S._
+- [ ] `globals.css` is 4,300 lines with load-bearing source ordering; split into
+      `@import`ed layers. _P2. M._
+- [ ] Shorten the "Artificial Intelligence" nav trigger to reclaim ~150px and
+      give 1280/1366 laptops the desktop bar back (the option Phase N.2 left
+      open). _P2. S._
+
+---
+
 ## Phase 6 — Future Expansion (superseded — see Phases A–O above)
 
 - [ ] Product detail pages (`generateStaticParams` from `content/`)
@@ -1731,9 +2097,9 @@ Notes / follow-ups:
 - [~] Blog / insights — static `/blog` index shipped (Phase 10); per-post
   routes still to come
 - [x] Case studies — `/case-studies` index shipped (Phase 11) with illustrative
-  studies + metrics; per-study detail routes shipped (Phase G). Per-industry
-  filter views not built: with six studies a filter adds navigation without
-  adding information — revisit if the collection grows
+      studies + metrics; per-study detail routes shipped (Phase G). Per-industry
+      filter views not built: with six studies a filter adds navigation without
+      adding information — revisit if the collection grows
 - [ ] Open source page
 - [ ] Press kit
 - [~] Testimonials / trust section — homepage placeholders shipped (Phase 10);

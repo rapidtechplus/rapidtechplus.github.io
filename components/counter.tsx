@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useReducedMotion } from "motion/react";
+import { useReducedMotionSafe } from "@/lib/use-motion-preference";
 
 /**
  * Count-up animation that runs once when scrolled into view. Parses a display
@@ -10,7 +10,7 @@ import { useReducedMotion } from "motion/react";
  * non-numeric values render statically.
  */
 export function Counter({ value }: { value: string }) {
-  const reduce = useReducedMotion();
+  const reduce = useReducedMotionSafe();
   const ref = useRef<HTMLSpanElement>(null);
   const match = value.match(/^(\d+)(.*)$/);
   const target = match ? parseInt(match[1], 10) : null;

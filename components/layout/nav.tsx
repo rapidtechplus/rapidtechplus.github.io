@@ -3,18 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Ico } from "@/components/icon";
 import { Magnetic } from "@/components/magnetic";
 import { MegaLink } from "@/components/layout/mega-link";
 import { CompanyMega } from "@/components/layout/company-mega";
-import {
-  megaMenu,
-  site,
-  type MegaColumn,
-  type MegaItem,
-} from "@/content/site";
+import { megaMenu, site, type MegaColumn, type MegaItem } from "@/content/site";
 
 /**
  * Panel footer — the overview link plus a consultation CTA. Shared by every
@@ -118,11 +113,7 @@ function FeaturePanel({
           Explore {item.label}
           <span aria-hidden>→</span>
         </Link>
-        <Link
-          className="mm-feature-ghost"
-          href="/contact"
-          onClick={onNavigate}
-        >
+        <Link className="mm-feature-ghost" href="/contact" onClick={onNavigate}>
           Book Consultation
         </Link>
       </div>
@@ -175,7 +166,13 @@ function MegaMenuItem({
   // Flat mode — a single grid of items, no category rail.
   if (item.flat && item.links) {
     return (
-      <div className={cn("nav-item", item.compact && "mm-anchored", isOpen && "open")}>
+      <div
+        className={cn(
+          "nav-item",
+          item.compact && "mm-anchored",
+          isOpen && "open",
+        )}
+      >
         <button
           type="button"
           className={cn("nav-trigger", isActive && "active")}
@@ -302,10 +299,41 @@ export function Nav() {
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
+    // Escape closes; Tab is cycled inside the sheet. Without the trap, tabbing
+    // past the last link walks into the page behind an open, scroll-locked
+    // overlay — a dead end for keyboard and switch-control users alike.
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         close();
         toggleRef.current?.focus();
+        return;
+      }
+      if (e.key !== "Tab") return;
+
+      const panel = panelRef.current;
+      const toggle = toggleRef.current;
+      if (!panel || !toggle) return;
+
+      const focusable = [
+        ...panel.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), input, [tabindex]:not([tabindex="-1"])',
+        ),
+      ].filter((el) => el.offsetParent !== null);
+      // The toggle lives outside the sheet but is part of it functionally —
+      // it is how the sheet gets closed, so it anchors the end of the cycle.
+      const stops = [...focusable, toggle];
+      if (stops.length === 0) return;
+
+      const first = stops[0];
+      const last = stops[stops.length - 1];
+      const activeEl = document.activeElement;
+
+      if (e.shiftKey && activeEl === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && activeEl === last) {
+        e.preventDefault();
+        first.focus();
       }
     };
     document.addEventListener("keydown", onKeyDown);
@@ -325,81 +353,105 @@ export function Nav() {
   };
 
   return (
-    <header className={cn("nav", scrolled && "is-scrolled")}>
-      <div className="nav-inner container-wide container">
-        <Link className="brand brand-lockup" href="/" onClick={close}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img className="logo" src="/logo.svg" alt="" width={38} height={38} />
-          <span className="brand-text">
-            <span className="brand-name">{site.name}</span>
-            <span className="brand-slogan">{site.slogan}</span>
-          </span>
-        </Link>
-
-        <nav
-          ref={panelRef}
-          id="primary-nav"
-          className={cn("nav-links", mobileOpen && "open")}
-          aria-label="Primary"
-        >
-          {megaMenu.map((item, i) =>
-            item.columns || ((item.flat || item.company) && item.links) ? (
-              <MegaMenuItem
-                key={item.label}
-                item={item}
-                isOpen={openIndex === i}
-                isActive={isActive(item.href)}
-                onToggle={() => setOpenIndex(openIndex === i ? null : i)}
-                onNavigate={close}
-              />
-            ) : (
-              <Link
-                key={item.label}
-                href={item.href}
-                className={cn("nav-plain", isActive(item.href) && "active")}
-                onClick={close}
-              >
-                {item.label}
-              </Link>
-            ),
-          )}
-
-          <Link
-            className="btn btn-primary nav-cta nav-cta-mobile"
-            href="/contact"
-            onClick={close}
-          >
-            Get A Quote
-            <span className="btn-arrow" aria-hidden>
-              →
+    <>
+      <header className={cn("nav", scrolled && "is-scrolled")}>
+        <div className="nav-inner container-wide container">
+          <Link className="brand brand-lockup" href="/" onClick={close}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              className="logo"
+              src="/logo.svg"
+              alt=""
+              width={38}
+              height={38}
+            />
+            <span className="brand-text">
+              <span className="brand-name">{site.name}</span>
+              <span className="brand-slogan">{site.slogan}</span>
             </span>
           </Link>
-        </nav>
 
-        <div className="nav-right">
-          <Magnetic className="nav-cta-magnet">
+          <nav
+            ref={panelRef}
+            id="primary-nav"
+            className={cn("nav-links", mobileOpen && "open")}
+            aria-label="Primary"
+          >
+            {megaMenu.map((item, i) =>
+              item.columns || ((item.flat || item.company) && item.links) ? (
+                <MegaMenuItem
+                  key={item.label}
+                  item={item}
+                  isOpen={openIndex === i}
+                  isActive={isActive(item.href)}
+                  onToggle={() => setOpenIndex(openIndex === i ? null : i)}
+                  onNavigate={close}
+                />
+              ) : (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className={cn("nav-plain", isActive(item.href) && "active")}
+                  onClick={close}
+                >
+                  {item.label}
+                </Link>
+              ),
+            )}
+
             <Link
-              className="btn btn-primary nav-cta nav-cta-desktop"
+              className="btn btn-primary nav-cta nav-cta-mobile"
               href="/contact"
+              onClick={close}
             >
               Get A Quote
               <span className="btn-arrow" aria-hidden>
                 →
               </span>
             </Link>
-          </Magnetic>
-          <button
-            ref={toggleRef}
-            className="nav-toggle"
-            aria-label={mobileOpen ? "Close menu" : "Open menu"}
-            aria-expanded={mobileOpen}
-            aria-controls="primary-nav"
-            onClick={() => setMobileOpen((v) => !v)}
-          >
-            {mobileOpen ? "✕" : "☰"}
-          </button>
+          </nav>
+
+          <div className="nav-right">
+            <Magnetic className="nav-cta-magnet">
+              <Link
+                className="btn btn-primary nav-cta nav-cta-desktop"
+                href="/contact"
+              >
+                Get A Quote
+                <span className="btn-arrow" aria-hidden>
+                  →
+                </span>
+              </Link>
+            </Magnetic>
+            <button
+              ref={toggleRef}
+              className="nav-toggle"
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileOpen}
+              aria-controls="primary-nav"
+              onClick={() => setMobileOpen((v) => !v)}
+            >
+              {mobileOpen ? (
+                <X size={20} aria-hidden />
+              ) : (
+                <Menu size={20} aria-hidden />
+              )}
+            </button>
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+
+      {/* Dims and blocks the page behind the open sheet. `aria-hidden` because
+          Escape and the toggle already close it — this is pointer sugar, not a
+          second control. It sits outside <header> deliberately: the bar's
+          `backdrop-filter` makes it the containing block for fixed descendants,
+          so a scrim nested inside would resolve its inset against the 60px bar
+          instead of the viewport. */}
+      <div
+        className={cn("nav-scrim", mobileOpen && "open")}
+        aria-hidden
+        onClick={close}
+      />
+    </>
   );
 }

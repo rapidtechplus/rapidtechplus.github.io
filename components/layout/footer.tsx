@@ -77,6 +77,10 @@ export function Footer() {
               </span>
             </Link>
             <p className="foot-tagline">{site.tagline}</p>
+            <p className="foot-hours">
+              <span className="foot-hours-label">Business hours</span>
+              {site.hours}
+            </p>
             <div className="foot-social">
               {socialLinks.map((s) => (
                 <a
@@ -110,7 +114,9 @@ export function Footer() {
           <div className="footer-cols">
             {footerColumns.map((col) => (
               <div key={col.title} className="foot-col">
-                <h4>{col.title}</h4>
+                {/* h3, not h4: page sections are h2, so h4 here skips a level
+                    and breaks the document outline for screen-reader users. */}
+                <h3>{col.title}</h3>
                 <div className="foot-links">
                   {col.links.map((link) => (
                     <FooterLink key={link.label} link={link} />

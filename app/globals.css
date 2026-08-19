@@ -107,7 +107,7 @@
 
   --text: #ededf6;
   --text-muted: #a2a1bc;
-  --text-dim: #6b6a85;
+  --text-dim: #85849e;
 
   --accent: #8a8fff;
   --accent-2: #a78bfa;
@@ -156,7 +156,7 @@
 
   --text: #16152a;
   --text-muted: #52516a;
-  --text-dim: #8a89a0;
+  --text-dim: #6b6a80;
 
   --accent: #4f46e5;
   --accent-2: #7c3aed;
@@ -396,7 +396,7 @@ section {
   white-space: nowrap;
 }
 .btn-primary {
-  background: linear-gradient(180deg, #6366f1 0%, #4f46e5 100%);
+  background: linear-gradient(180deg, #6165f0 0%, #4f46e5 100%);
   color: var(--on-accent);
   border-color: rgba(255, 255, 255, 0.12);
   box-shadow:
@@ -406,7 +406,7 @@ section {
 }
 .btn-primary:hover {
   transform: translateY(-1px);
-  background: linear-gradient(180deg, #6d70f4 0%, #574ee8 100%);
+  background: linear-gradient(180deg, #6165f0 0%, #574ee8 100%);
   box-shadow:
     0 2px 4px rgba(10, 10, 19, 0.3),
     0 12px 30px var(--cta-glow),
@@ -517,7 +517,7 @@ section {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
+  gap: 16px;
 }
 .brand {
   display: flex;
@@ -557,7 +557,9 @@ section {
   align-items: center;
   font-family: var(--font-mono);
   font-weight: 600;
-  font-size: 0.52rem;
+  /* 9.6px. Still a micro-label, but 0.52rem (8.3px) was below the size at
+     which letter-spaced uppercase mono stays readable on a phone screen. */
+  font-size: 0.6rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--accent);
@@ -586,7 +588,7 @@ section {
 /* Header CTA — deliberately more compact than the base .btn so it reads as the
    primary action without dominating the bar. */
 .nav-cta {
-  padding: 10px 16px;
+  padding: 10px 14px;
   font-size: 0.88rem;
   gap: 6px;
   border-radius: 9px;
@@ -656,14 +658,14 @@ section {
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  padding: 8px 14px;
+  gap: 4px;
+  padding: 8px 10px;
   border: 0;
   background: none;
   border-radius: 10px;
   color: var(--text-muted);
   font-family: inherit;
-  font-size: 0.94rem;
+  font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
   white-space: nowrap;
@@ -674,8 +676,8 @@ section {
 .nav-plain::after {
   content: "";
   position: absolute;
-  left: 14px;
-  right: 14px;
+  left: 10px;
+  right: 10px;
   bottom: 4px;
   height: 2px;
   border-radius: 2px;
@@ -780,7 +782,7 @@ section {
 /* Anchored panels (compact menus) open directly under their own trigger,
    right-aligned, instead of centring on the viewport — so the pointer has
    only a short, direct path from the trigger into the panel. */
-@media (min-width: 1025px) {
+@media (min-width: 1401px) {
   .nav-item.mm-anchored {
     position: relative;
   }
@@ -805,7 +807,7 @@ section {
    play once at page load and never again. `backwards` holds the pre-animation
    state through the delay. Desktop only — on mobile these are accordion
    sections, not a panel that opens. */
-@media (min-width: 1025px) {
+@media (min-width: 1401px) {
   .nav-item:hover .mega-link,
   .nav-item:focus-within .mega-link {
     animation: mmLinkIn 0.3s var(--ease-out-expo) backwards;
@@ -1114,7 +1116,7 @@ section {
   gap: 8px;
   padding: 10px 16px;
   border-radius: 9px;
-  background: linear-gradient(180deg, #6366f1 0%, #4f46e5 100%);
+  background: linear-gradient(180deg, #6165f0 0%, #4f46e5 100%);
   color: var(--on-accent);
   font-size: 0.82rem;
   font-weight: 600;
@@ -1126,7 +1128,7 @@ section {
   transition: transform 0.2s var(--ease);
 }
 .mm-feature-cta:hover {
-  background: linear-gradient(180deg, #6d70f4 0%, #574ee8 100%);
+  background: linear-gradient(180deg, #6165f0 0%, #574ee8 100%);
   transform: translateY(-1px);
 }
 .mm-feature-cta:focus-visible,
@@ -1352,7 +1354,7 @@ section {
   gap: 8px;
   padding: 10px 16px;
   border-radius: 9px;
-  background: linear-gradient(180deg, #6366f1 0%, #4f46e5 100%);
+  background: linear-gradient(180deg, #6165f0 0%, #4f46e5 100%);
   color: var(--on-accent);
   font-size: 0.82rem;
   font-weight: 600;
@@ -1365,7 +1367,7 @@ section {
   transition: transform 0.2s var(--ease);
 }
 .mm-co-cta:hover {
-  background: linear-gradient(180deg, #6d70f4 0%, #574ee8 100%);
+  background: linear-gradient(180deg, #6165f0 0%, #574ee8 100%);
   transform: translateY(-1px);
 }
 .mm-co-cta:hover span {
@@ -1495,9 +1497,13 @@ section {
     background 0.15s var(--ease),
     color 0.15s var(--ease);
 }
+/* Fixed indigo gradient (not var(--accent)): the accent is tuned for legibility
+   *on* the canvas, so white text on it fails AA in dark (measured 2.82:1). This
+   gradient carries --on-accent at ≥4.5:1 in both themes, matching .mm-feature-cta. */
 .mm-foot-cta:hover {
-  background: var(--accent);
-  color: #fff;
+  background: linear-gradient(180deg, #6165f0 0%, #4f46e5 100%);
+  color: var(--on-accent);
+  border-color: transparent;
 }
 .mega .mega-link {
   display: flex;
@@ -3230,7 +3236,37 @@ section {
 .contact-info-lead {
   color: var(--text-muted);
   max-width: 46ch;
+  margin-bottom: 18px;
+}
+
+/* Response-time + free-consultation promise chip */
+.contact-promise {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 10px;
+  max-width: 46ch;
   margin-bottom: 28px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--success-soft, var(--surface));
+  color: var(--text);
+  font-size: 0.92rem;
+  line-height: 1.4;
+}
+.contact-promise strong {
+  color: var(--accent);
+  font-weight: 600;
+}
+.contact-promise .cp-dot {
+  flex: none;
+  margin-top: 7px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--success, var(--accent));
+  box-shadow: 0 0 0 4px
+    color-mix(in srgb, var(--success, var(--accent)) 22%, transparent);
 }
 
 /* Ways-to-reach-us cards */
@@ -3471,6 +3507,20 @@ a.contact-method:hover .cm-value {
   max-width: 40ch;
   color: var(--footer-text-muted);
 }
+.foot-hours {
+  margin-top: 14px;
+  font-size: 0.9rem;
+  color: var(--footer-text-muted);
+}
+.foot-hours-label {
+  display: block;
+  font-family: var(--font-mono, inherit);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--footer-accent, var(--footer-text));
+  margin-bottom: 3px;
+}
 .foot-news-label {
   font-size: 0.9rem;
   font-weight: 600;
@@ -3546,7 +3596,7 @@ a.contact-method:hover .cm-value {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
-.footer h4 {
+.footer h3 {
   font-family: var(--font-mono);
   font-size: 0.72rem;
   text-transform: uppercase;
@@ -3814,8 +3864,13 @@ a.contact-method:hover .cm-value {
     margin-left: 0;
   }
 }
-/* Collapse the primary nav to a sheet before the 8 links can overflow. */
-@media (max-width: 1024px) {
+/* Collapse the primary nav to a sheet before the 8 links can overflow. The
+   eight top-level items (led by the wide "Artificial Intelligence") need
+   ~1273px of bar; with brand + CTA + gutters the full nav only fits from
+   ~1401px up, so the desktop nav is shown at >=1401px and everything below
+   uses the sheet. Raised from 1024px (Phase Q item 3: at 1024–1400 the last
+   items — and at 1366 the Get A Quote CTA — were clipped by body overflow). */
+@media (max-width: 1400px) {
   .nav-links {
     position: fixed;
     top: var(--nav-h);
@@ -4116,5 +4171,348 @@ a.contact-method:hover .cm-value {
   .form-error,
   .faq-item details[open] .faq-body {
     animation: none;
+  }
+}
+
+/* ==========================================================================
+   MOBILE HARDENING
+   --------------------------------------------------------------------------
+   The desktop system is built from fluid clamps, so most of the site already
+   reflows. What did not survive the phone were the places that opted out of
+   flow — `nowrap` labels, fixed pixel control sizes, hover-only affordances,
+   and sub-16px form text (which makes iOS Safari zoom the page on focus).
+   Everything below is a small-screen override; the desktop rules are untouched.
+   ========================================================================== */
+
+/* ---- Touch pointers ------------------------------------------------------
+   Anything a finger has to hit needs ~44px. These controls were sized for a
+   mouse cursor, so they get a real hit area on coarse pointers regardless of
+   viewport width (a 1024px tablet is still a thumb). `min-height` on the
+   control plus centred content keeps the visual size intact where the design
+   depends on it (the theme switch track, the social glyph squares). */
+@media (pointer: coarse) {
+  .footer .foot-social a,
+  .theme-switch,
+  .btn,
+  .post-more,
+  .mm-foot-overview,
+  .mm-foot-cta,
+  .crumbs a {
+    min-height: 44px;
+  }
+  /* Footer link rows are dense by design; padding buys the target height
+     without changing the visual rhythm much. */
+  .footer .foot-links a,
+  .footer .foot-links .foot-soon,
+  .foot-legal a {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  /* 10px + 10px + a 23.2px line box lands at 43.2px — just under the target.
+     The min-height closes the gap without adding visible vertical rhythm; the
+     flex centring keeps the text (and the `::after` dot separator, which is
+     positioned from the box's midpoint) exactly where it was. */
+  .foot-legal a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+  .brand-lockup {
+    padding: 5px 0;
+  }
+  .footer .foot-social a {
+    min-width: 44px;
+  }
+  .theme-switch,
+  .btn,
+  .post-more,
+  .mm-foot-overview,
+  .mm-foot-cta {
+    align-items: center;
+    justify-content: center;
+  }
+  /* `.crumbs a` takes the 44px min-height above, but it is a plain inline box
+     blockified by the inline-flex `li` — so the label renders at the *top* of
+     the 44px target and sits ~12px above the `›` separator and the current-page
+     text beside it. Centring it puts the trail back on one baseline while
+     keeping the target height. */
+  .crumbs a {
+    display: inline-flex;
+    align-items: center;
+  }
+  /* Suppress the lift-on-hover states that stick after a tap on touch. */
+  .card:hover,
+  .footer .foot-social a:hover,
+  .footer .foot-links a:hover {
+    transform: none;
+  }
+}
+
+/* ---- Tablet and below ---------------------------------------------------- */
+@media (max-width: 900px) {
+  /* Menu descriptions are a single ellipsised line on desktop, where the panel
+     is 1020px wide. In the accordion sheet that truncates real copy, so let
+     them wrap. */
+  .mega-link-desc {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+  }
+}
+
+/* ---- Decorative motion budget --------------------------------------------
+   Continuous compositor work costs a phone battery and scroll smoothness in a
+   way it does not cost a laptop: three 40vw circles under a 90px blur repaint
+   every frame, the particle field animates 22 more layers, and the header
+   composites a backdrop blur on every scroll tick. Below the tablet breakpoint
+   the aurora holds still (the colour wash is what carries the brand, not the
+   drift), the particles drop out, and the header trades its blur for a nearly
+   opaque background that reads the same at a glance. */
+@media (max-width: 900px) {
+  .aurora {
+    animation: none;
+    filter: blur(64px);
+    will-change: auto;
+  }
+  .particle {
+    display: none;
+  }
+  .bg-parallax {
+    transition: none;
+  }
+  .nav {
+    backdrop-filter: none;
+    background: color-mix(in srgb, var(--bg) 94%, transparent);
+  }
+}
+
+/* ---- Narrow laptops and tablets in landscape -----------------------------
+   Five timeline columns need ~200px each to hold a step title without the
+   longest word breaking out of its track. Below ~1100px they get two rows
+   instead of five squeezed columns. */
+@media (max-width: 1100px) {
+  .timeline,
+  .timeline.timeline-5 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .timeline .step:not(:last-child)::after {
+    display: none;
+  }
+}
+
+/* ---- Phones -------------------------------------------------------------- */
+@media (max-width: 640px) {
+  :root {
+    /* A 74px bar costs 11% of a 667px screen on every scroll. */
+    --nav-h: 60px;
+  }
+
+  /* Vertical rhythm: the desktop clamps bottom out at values tuned for a
+     three-across grid. Stacked to one column they turn a page into a very long
+     scroll, so both section and card padding step down. */
+  section {
+    padding: clamp(40px, 9vw, 56px) 0;
+  }
+  .section-head {
+    margin-bottom: clamp(28px, 7vw, 40px);
+  }
+  .card,
+  .panel {
+    padding: 22px 20px;
+  }
+  .grid,
+  .grid-2,
+  .grid-3,
+  .grid-4 {
+    gap: 16px;
+  }
+
+  /* Paired CTAs stack full-width so both actions get the same thumb target.
+     The primary sits inside a `.magnetic` wrapper, which needs stretching too
+     or the button inside it stays auto-width. */
+  .cta-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .cta-actions .magnetic,
+  .cta-actions .btn,
+  .hero-actions .magnetic,
+  .hero-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Wrapped, the interpunct separators land at the ends of lines instead of
+     between items. One centred item per row reads correctly without them. */
+  .trust-row {
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 36px;
+  }
+  .trust-row .sep {
+    display: none;
+  }
+
+  /* The newsletter label is deliberately `nowrap` at desktop widths (it is the
+     measure the input row is sized from). At 320px its 334px natural width was
+     the site's only source of horizontal overflow. */
+  .foot-news-label {
+    white-space: normal;
+  }
+  .foot-newsletter {
+    width: 100%;
+  }
+
+  /* Buttons are `nowrap` so a label never breaks mid-phrase. At 320px a long
+     one ("Email careers@rapidtechplus.com →") then runs off the screen, so
+     below the fold-width they may wrap instead — they are full-width here. */
+  .btn {
+    max-width: 100%;
+    white-space: normal;
+    text-align: center;
+    overflow-wrap: anywhere;
+  }
+
+  /* Mono micro-labels sit at 0.68–0.72rem so they read as engineering-console
+     chrome next to the body copy. Below ~12px that stops being a stylistic
+     choice and starts being unreadable on a phone, so they get a floor. The
+     hero console's own telemetry is exempt — it is `aria-hidden` decoration
+     that is meant to look like dense terminal output.
+
+     The two contact labels are matched via their parent on purpose: their base
+     rules are `.contact-method .cm-label` / `.contact-place .cp-label`, so a
+     bare `.cm-label` here loses on specificity and the floor silently does
+     nothing. Keep these selectors at least as specific as the base rule. */
+  .contact-method .cm-label,
+  .contact-place .cp-label,
+  .footer h3,
+  .eyebrow,
+  .case-cat,
+  .case-metric-label,
+  .foot-hours-label,
+  .mm-panel-head,
+  .mm-feature-eyebrow {
+    font-size: 0.75rem;
+  }
+
+  /* Long addresses and URLs in cards have no break opportunity of their own. */
+  .cm-value,
+  .contact-place a,
+  .prose a {
+    overflow-wrap: anywhere;
+  }
+}
+
+/* ---- Header + navigation sheet ------------------------------------------- */
+@media (max-width: 640px) {
+  /* Trim the lockup with the shorter bar so the brand still balances it. */
+  .brand .logo {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+  }
+  .brand-name {
+    font-size: 1rem;
+  }
+  .nav-inner {
+    gap: 12px;
+  }
+}
+
+/* Scrim behind the open sheet. The sheet is a fixed panel that stops short of
+   the fold, so without this the page behind it stays fully lit and reads as
+   still-interactive even though body scroll is locked. Sits under the sheet
+   (`.nav-links` is z-index 50 via `.nav`) and above everything else. */
+.nav-scrim {
+  position: fixed;
+  inset: var(--nav-h) 0 0;
+  z-index: 40;
+  background: rgba(4, 4, 10, 0.55);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s var(--ease);
+}
+.nav-scrim.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+@media (min-width: 1401px) {
+  .nav-scrim {
+    display: none;
+  }
+}
+
+/* Skip link — first focusable element on the page, revealed on focus. */
+.skip-link {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 100;
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-elev-2);
+  border: 1px solid var(--accent);
+  color: var(--text);
+  font-size: 0.9rem;
+  font-weight: 600;
+  transform: translateY(-200%);
+  transition: transform 0.18s var(--ease);
+}
+/* `:focus`, not `:focus-visible` — the link is off-screen until focused, so
+   the only way to reach it at all is the keyboard. */
+.skip-link:focus {
+  transform: translateY(0);
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* In-page anchors (`#faq`, section deep links) must clear the sticky header. */
+:target,
+[id] {
+  scroll-margin-top: calc(var(--nav-h) + 16px);
+}
+
+/* ---- Form controls -------------------------------------------------------
+   iOS Safari zooms the viewport whenever a focused control's text is under
+   16px, and never zooms back out. Every text control therefore lands on 16px
+   at phone widths; the desktop sizes (0.96rem / 0.88rem) are unchanged above
+   it. `max-width` is the guard: this must not fire on a desktop that merely
+   has a coarse pointer attached. */
+@media (max-width: 640px) {
+  .field input,
+  .field textarea,
+  .foot-news-row input {
+    font-size: 16px;
+  }
+  .field textarea {
+    min-height: 120px;
+  }
+}
+
+/* ---- Small phones (iPhone SE, folded devices) ---------------------------- */
+@media (max-width: 400px) {
+  :root {
+    --gutter: 16px;
+  }
+  .card,
+  .panel {
+    padding: 20px 16px;
+  }
+}
+
+/* Sheet-range guard (last in source so it wins over the desktop hover rule and
+   the reduced-motion block alike). In the accordion range the panels are
+   position:static, so the desktop `transform: translate(-50%, …)` — meant to
+   centre a fixed panel — would instead shift a static panel off by half its own
+   width on mouse hover/focus. Pin every panel variant to no transform here. */
+@media (max-width: 1400px) {
+  .mega,
+  .nav-item:hover .mega,
+  .nav-item:focus-within .mega,
+  .nav-item.mm-anchored .mega,
+  .nav-item.mm-anchored:hover .mega,
+  .nav-item.mm-anchored:focus-within .mega {
+    transform: none;
   }
 }

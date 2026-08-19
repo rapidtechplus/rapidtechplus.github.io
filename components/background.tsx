@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef } from "react";
-import { useReducedMotion } from "motion/react";
+import { useReducedMotionSafe } from "@/lib/use-motion-preference";
 
 /**
  * Fixed, behind-content motion layer for the Ink & Electric Violet system:
@@ -15,7 +15,7 @@ import { useReducedMotion } from "motion/react";
  * so React never re-renders on mouse move.
  */
 export function Background() {
-  const reduce = useReducedMotion();
+  const reduce = useReducedMotionSafe();
   const layerRef = useRef<HTMLDivElement>(null);
 
   // Deterministic particle field (stable across renders, no hydration drift).

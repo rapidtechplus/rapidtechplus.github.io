@@ -5,6 +5,7 @@ import { caseStudySlugs } from "@/content/case-studies";
 import { serviceSlugs } from "@/content/services";
 import { hireSlugs } from "@/content/hire";
 import { industrySlugs } from "@/content/industries";
+import { productSlugs } from "@/content/products";
 import { solutionSlugs } from "@/content/solutions";
 import { techSlugs } from "@/content/technologies";
 
@@ -32,6 +33,7 @@ const staticRoutes = [
   "/privacy",
   "/terms",
   "/cookies",
+  "/disclaimer",
   "/sitemap",
 ];
 
@@ -44,6 +46,7 @@ const collectionRoutes = [
   ...serviceSlugs.map((slug) => `/services/${slug}`),
   ...hireSlugs.map((slug) => `/hire/${slug}`),
   ...industrySlugs.map((slug) => `/industries/${slug}`),
+  ...productSlugs.map((slug) => `/products/${slug}`),
   ...solutionSlugs.map((slug) => `/solutions/${slug}`),
   ...techSlugs.map((slug) => `/technologies/${slug}`),
   ...caseStudySlugs.map((slug) => `/case-studies/${slug}`),
