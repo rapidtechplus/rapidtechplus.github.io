@@ -17,6 +17,7 @@ import {
   TimelineStep,
 } from "@/components/sections/pieces";
 import type { RelatedItem } from "@/components/sections/detail-layout";
+import { cn } from "@/lib/utils";
 
 type ProcessStep = { icon: string; title: string; body: string };
 
@@ -108,10 +109,7 @@ export function ServiceLanding({
       {problems && problems.length > 0 ? (
         <section className="band">
           <div className="container-wide container">
-            <SectionHead
-              eyebrow="Business problems"
-              title="Problems we solve"
-            >
+            <SectionHead eyebrow="Business problems" title="Problems we solve">
               Where teams get stuck — and where this service makes the
               difference.
             </SectionHead>
@@ -154,9 +152,7 @@ export function ServiceLanding({
             A clear, collaborative path from first conversation to launch and
             beyond.
           </SectionHead>
-          <div
-            className={`timeline${process.length === 5 ? " timeline-5" : ""}`}
-          >
+          <div className={cn("timeline", process.length === 5 && "timeline-5")}>
             {process.map((p, i) => (
               <TimelineStep
                 key={p.title}

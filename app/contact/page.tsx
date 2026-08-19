@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import { Ico } from "@/components/icon";
 import { Reveal } from "@/components/reveal";
-import { PageHero, FaqAccordion, SectionHead } from "@/components/sections/pieces";
+import {
+  PageHero,
+  FaqAccordion,
+  SectionHead,
+} from "@/components/sections/pieces";
 import { ContactForm } from "@/components/contact-form";
 import { site, contactFaqs } from "@/content/site";
 import { JsonLd } from "@/components/seo/json-ld";
@@ -97,8 +101,13 @@ export default function ContactPage() {
               </p>
               <p className="contact-promise">
                 <span className="cp-dot" aria-hidden />
-                We reply within <strong>one business day</strong> — and the
-                first consultation is free.
+                {/* One flex item, not three: the bare text nodes either side of
+                    the <strong> would each become their own flex child and
+                    squeeze into separate columns on a narrow screen. */}
+                <span className="cp-text">
+                  We reply within <strong>one business day</strong> — and the
+                  first consultation is free.
+                </span>
               </p>
 
               <div className="contact-methods">

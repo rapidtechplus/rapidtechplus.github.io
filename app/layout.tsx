@@ -23,11 +23,16 @@ const sora = Sora({
   variable: "--font-sora",
 });
 
+// The mono face only sets eyebrows, chips, and stat labels — never a heading or
+// a paragraph. Preloading it made it compete with the body and display faces
+// for the same throttled-connection bandwidth that the LCP text is waiting on,
+// so it loads on demand and falls back to the system mono until it arrives.
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   display: "swap",
   weight: ["400", "500", "600"],
   variable: "--font-jbmono",
+  preload: false,
 });
 
 export const metadata: Metadata = {
@@ -67,7 +72,6 @@ export const metadata: Metadata = {
   icons: { icon: "/favicon.svg" },
 };
 
-
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -96,8 +100,11 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Background />
           <PointerSheen />
+          <a className="skip-link" href="#main">
+            Skip to content
+          </a>
           <Nav />
-          <main>{children}</main>
+          <main id="main">{children}</main>
           <Footer />
         </ThemeProvider>
       </body>

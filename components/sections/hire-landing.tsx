@@ -13,6 +13,7 @@ import {
   TimelineStep,
 } from "@/components/sections/pieces";
 import type { RelatedItem } from "@/components/sections/detail-layout";
+import { cn } from "@/lib/utils";
 
 type ProcessStep = { icon: string; title: string; body: string };
 
@@ -83,9 +84,12 @@ export function HireLanding({
       {reasons.length > 0 ? (
         <section className="band">
           <div className="container-wide container">
-            <SectionHead eyebrow="Why us" title="Why hire through Rapid Tech Plus">
-              Senior specialists, matched fast, working the way your team already
-              does.
+            <SectionHead
+              eyebrow="Why us"
+              title="Why hire through Rapid Tech Plus"
+            >
+              Senior specialists, matched fast, working the way your team
+              already does.
             </SectionHead>
             <div className="grid-3 grid">
               {reasons.map((r, i) => (
@@ -107,7 +111,8 @@ export function HireLanding({
         <section>
           <div className="container-wide container">
             <SectionHead eyebrow="Skills" title={skillsTitle}>
-              The core strengths this specialist brings to your team from day one.
+              The core strengths this specialist brings to your team from day
+              one.
             </SectionHead>
             <div className="grid-3 grid">
               {skills.map((s, i) => (
@@ -151,7 +156,10 @@ export function HireLanding({
       {technologies && technologies.length > 0 ? (
         <section>
           <div className="container">
-            <SectionHead eyebrow="Technology stack" title="Tools they work with">
+            <SectionHead
+              eyebrow="Technology stack"
+              title="Tools they work with"
+            >
               A modern, proven stack — matched to your project, not forced onto
               it.
             </SectionHead>
@@ -167,11 +175,14 @@ export function HireLanding({
       {/* Development / hiring process */}
       <section className="band">
         <div className="container-wide container">
-          <SectionHead eyebrow="How it works" title="From first call to shipping">
-            A clear, low-friction path from telling us your needs to a specialist
-            delivering in your team.
+          <SectionHead
+            eyebrow="How it works"
+            title="From first call to shipping"
+          >
+            A clear, low-friction path from telling us your needs to a
+            specialist delivering in your team.
           </SectionHead>
-          <div className={`timeline${process.length === 5 ? " timeline-5" : ""}`}>
+          <div className={cn("timeline", process.length === 5 && "timeline-5")}>
             {process.map((p, i) => (
               <TimelineStep
                 key={p.title}
