@@ -114,7 +114,9 @@ export function Footer() {
           <div className="footer-cols">
             {footerColumns.map((col) => (
               <div key={col.title} className="foot-col">
-                <h4>{col.title}</h4>
+                {/* h3, not h4: page sections are h2, so h4 here skips a level
+                    and breaks the document outline for screen-reader users. */}
+                <h3>{col.title}</h3>
                 <div className="foot-links">
                   {col.links.map((link) => (
                     <FooterLink key={link.label} link={link} />
