@@ -55,13 +55,13 @@ export function TechnologyLanding({
 }) {
   return (
     <>
-      <PageHero crumbs={crumbs} eyebrow={eyebrow} title={title} lead={lead} />
-
-      <section style={{ paddingTop: 0 }}>
-        <div className="container">
-          <CtaActions />
-        </div>
-      </section>
+      <PageHero
+        crumbs={crumbs}
+        eyebrow={eyebrow}
+        title={title}
+        lead={lead}
+        actions={<CtaActions />}
+      />
 
       {/* Overview */}
       {overview ? (
@@ -80,9 +80,12 @@ export function TechnologyLanding({
       {reasons.length > 0 ? (
         <section className="band">
           <div className="container-wide container">
-            <SectionHead eyebrow={`Why ${label}`} title={`Why build with ${label}`}>
-              What makes {label} the right foundation for the product you&rsquo;re
-              building.
+            <SectionHead
+              eyebrow={`Why ${label}`}
+              title={`Why build with ${label}`}
+            >
+              What makes {label} the right foundation for the product
+              you&rsquo;re building.
             </SectionHead>
             <div className="grid-3 grid">
               {reasons.map((r, i) => (
@@ -103,10 +106,7 @@ export function TechnologyLanding({
       {whyUs.length > 0 ? (
         <section>
           <div className="container-wide container">
-            <SectionHead
-              eyebrow="Why us"
-              title="Why Rapid Tech Plus"
-            >
+            <SectionHead eyebrow="Why us" title="Why Rapid Tech Plus">
               Senior engineering, delivered the way your team already works.
             </SectionHead>
             <div className="grid-3 grid">
@@ -129,11 +129,16 @@ export function TechnologyLanding({
         <section className="band">
           <div className="container-wide container">
             <SectionHead eyebrow="Projects" title={`${label} in action`}>
-              Representative builds that show what {label} delivers in production.
+              Representative builds that show what {label} delivers in
+              production.
             </SectionHead>
             <div className="grid-3 grid">
               {projects.map((p, i) => (
-                <Reveal className="card case-card" key={p.title} delay={i * 0.05}>
+                <Reveal
+                  className="card case-card"
+                  key={p.title}
+                  delay={i * 0.05}
+                >
                   <div className="case-top">
                     <span className="ico">
                       <Ico name={p.icon} />
@@ -144,7 +149,11 @@ export function TechnologyLanding({
                   <p>{p.summary}</p>
                   <div className="case-metrics">
                     {p.metrics.map((m) => (
-                      <MetricStat key={m.label} value={m.value} label={m.label} />
+                      <MetricStat
+                        key={m.label}
+                        value={m.value}
+                        label={m.label}
+                      />
                     ))}
                   </div>
                 </Reveal>

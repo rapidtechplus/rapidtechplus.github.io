@@ -67,13 +67,13 @@ export function ServiceLanding({
 }) {
   return (
     <>
-      <PageHero crumbs={crumbs} eyebrow={eyebrow} title={title} lead={lead} />
-
-      <section style={{ paddingTop: 0 }}>
-        <div className="container">
-          <CtaActions />
-        </div>
-      </section>
+      <PageHero
+        crumbs={crumbs}
+        eyebrow={eyebrow}
+        title={title}
+        lead={lead}
+        actions={<CtaActions />}
+      />
 
       {/* Overview + what we deliver */}
       <section style={{ paddingTop: "clamp(24px,4vw,48px)" }}>

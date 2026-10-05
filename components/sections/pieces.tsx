@@ -40,12 +40,15 @@ export function PageHero({
   eyebrow,
   title,
   lead,
+  actions,
   container = "container",
 }: {
   crumbs: Crumb[];
   eyebrow: string;
   title: ReactNode;
   lead?: ReactNode;
+  /** Optional CTA row rendered inside the hero, under the lead. */
+  actions?: ReactNode;
   container?: string;
 }) {
   return (
@@ -55,6 +58,7 @@ export function PageHero({
         <span className="eyebrow">{eyebrow}</span>
         <h1>{title}</h1>
         {lead ? <p>{lead}</p> : null}
+        {actions ? <div className="page-hero-actions">{actions}</div> : null}
       </div>
     </section>
   );

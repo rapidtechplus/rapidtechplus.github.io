@@ -127,6 +127,10 @@ export function Footer() {
           </div>
         </div>
 
+        <div className="foot-wordmark" aria-hidden>
+          {site.name}
+        </div>
+
         <div className="footer-bottom">
           <span className="foot-copy">
             © {year} {site.name}. {site.footerNote}

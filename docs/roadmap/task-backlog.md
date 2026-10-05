@@ -2108,6 +2108,38 @@ Owner-approved low-risk refresh, done entirely through tokens and literals in
       decision (recolour vs keep as deliberate contrast)
 - [ ] Follow-up: type-scale/spacing pass (phase 2 of the refresh), if wanted
 
+## Phase 32 — Design language v2: shell + shared primitives ✅
+
+Owner request: modern, 2026 AI-company look from landing through inner pages,
+including header and footer. Done at the shared-primitive layer so all ~60
+routes inherit it with minimal markup change.
+
+- [x] Editorial type scale — larger, tighter, lighter-weight h1/h2
+- [x] `SectionHead` → left-aligned editorial layout (title left, lead right;
+      single column < 900px); eyebrow uses an accent dot, muted mono text
+- [x] Section rhythm increased; alternating bands softened; gradient-text
+      shimmer animation removed (static gradient)
+- [x] Buttons → pill shape, reduced glow; ghost button is translucent
+- [x] Header — 66px bar with a permanent hairline, sentence-case wordmark,
+      quieter slogan, logo glow removed (nav IA + underline indicator kept)
+- [x] Cards — subtle top sheen, 2px hover lift (was 5px), neutral icon tile
+- [x] `PageHero` — left-aligned editorial hero with gradient mesh + fading
+      grid; new `actions` prop puts CTAs inside the hero (service, hire and
+      technology landings migrated off a separate CTA section)
+- [x] Footer — now theme-aware (light/dark palettes) + oversized decorative
+      wordmark (`aria-hidden`); hardcoded white rgba hovers tokenised
+- [x] Home: `section-head` misused as a button wrapper → new `.section-actions`
+- [x] Verified: lint, typecheck, build; no horizontal overflow on 9 routes ×
+      7 widths (320–1920) × 2 themes (Playwright/Chromium); visual review of
+      home, services, service detail, case studies, privacy (both themes,
+      desktop + 375px)
+- ⚠️ Not verified here: Lighthouse, Firefox/Safari/Edge, mega-menu open states
+- [ ] Next — Phase 33: landing page restructure (bento capability grid,
+      logo/metrics strip, fewer uniform card grids)
+- [ ] Next — Phase 34: detail templates (sticky in-page nav, richer visuals)
+- [ ] Decision needed: 8 top-level nav items is heavy for a 2026 site —
+      consider consolidating (e.g. fold Hire Expert + Industries)
+
 ## Phase 6 — Future Expansion (superseded — see Phases A–O above)
 
 - [ ] Product detail pages (`generateStaticParams` from `content/`)

@@ -47,22 +47,28 @@
   --spark: #5ad1ff;
 
   /* ---- Footer palette ----
-     Intentionally theme-independent: a deep indigo-ink panel in both light and
-     dark so the footer reads as a distinct band from the page above it. */
+     Theme-aware since Phase 32 (was a fixed navy slab in both themes): the
+     footer continues the page surface, set apart by a hairline and a glow.
+     Dark values here; light values in `.light`. */
   --footer-bg:
-    radial-gradient(120% 140% at 85% 0%, #172554 0%, transparent 55%),
-    linear-gradient(180deg, #0f172a 0%, #020617 100%);
+    radial-gradient(
+      70% 120% at 50% 0%,
+      rgba(37, 99, 235, 0.1),
+      transparent 60%
+    ),
+    #080b12;
   --footer-text: #f1f5f9;
   --footer-text-muted: #a9b4c6;
   --footer-text-dim: #7d889b;
-  --footer-border: rgba(255, 255, 255, 0.09);
+  --footer-border: rgba(255, 255, 255, 0.08);
   --footer-surface: rgba(255, 255, 255, 0.045);
+  --footer-surface-hover: rgba(255, 255, 255, 0.07);
   --footer-accent: #93c5fd;
 
   --radius-sm: 8px;
   --radius: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 20px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
 
   --font:
     var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -85,7 +91,7 @@
   --maxw-wide: 1680px;
   --maxw-xwide: 1860px;
   --gutter: clamp(20px, 4vw, 80px);
-  --nav-h: 74px;
+  --nav-h: 66px;
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   /* Expo-out: near-instant response, long luxurious settle. For elements that
@@ -188,6 +194,21 @@
   --shadow-lg: 0 24px 56px rgba(15, 23, 42, 0.12);
   --shadow-glow: 0 16px 48px rgba(37, 99, 235, 0.16);
 
+  --footer-bg:
+    radial-gradient(
+      70% 120% at 50% 0%,
+      rgba(37, 99, 235, 0.07),
+      transparent 60%
+    ),
+    #f4f6fa;
+  --footer-text: #0f172a;
+  --footer-text-muted: #475569;
+  --footer-text-dim: #5b6779;
+  --footer-border: rgba(15, 23, 42, 0.09);
+  --footer-surface: rgba(15, 23, 42, 0.03);
+  --footer-surface-hover: rgba(15, 23, 42, 0.06);
+  --footer-accent: #1d4ed8;
+
   color-scheme: light;
 }
 
@@ -253,15 +274,18 @@ h4 {
   letter-spacing: -0.03em;
   text-wrap: balance;
 }
+/* Editorial display scale (Phase 32): larger, tighter, lighter-weight
+   headings — the single biggest lever on whether the site reads as 2026. */
 h1 {
-  font-size: clamp(2.3rem, 4.6vw, 3.6rem);
-  line-height: 1.06;
-  font-weight: 700;
-  letter-spacing: -0.035em;
+  font-size: clamp(2.45rem, 5.2vw, 4.4rem);
+  line-height: 1.02;
+  font-weight: 600;
+  letter-spacing: -0.045em;
 }
 h2 {
-  font-size: clamp(1.75rem, 3.2vw, 2.5rem);
-  line-height: 1.12;
+  font-size: clamp(1.9rem, 3.6vw, 3.1rem);
+  line-height: 1.06;
+  letter-spacing: -0.04em;
 }
 h3 {
   font-size: 1.25rem;
@@ -310,16 +334,49 @@ strong {
 }
 section {
   position: relative;
-  padding: clamp(48px, 6.5vw, 88px) 0;
+  padding: clamp(56px, 8vw, 120px) 0;
 }
+/* Editorial section head: eyebrow + title on the left, lead on the right,
+   baseline-aligned. Collapses to one column below 900px. */
 .section-head {
-  max-width: 760px;
-  margin: 0 auto clamp(44px, 6vw, 72px);
-  text-align: center;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  column-gap: clamp(32px, 6vw, 96px);
+  align-items: end;
+  margin: 0 0 clamp(40px, 5vw, 64px);
+  text-align: left;
+}
+.section-head .eyebrow {
+  grid-column: 1;
+}
+.section-head h2 {
+  grid-column: 1;
+  margin: 0;
+  max-width: 18ch;
 }
 .section-head p {
-  font-size: 1.05rem;
+  grid-column: 2;
+  grid-row: 2;
+  font-size: 1.08rem;
   margin: 0;
+  max-width: 52ch;
+}
+/* Trailing action row under a section's grid ("Explore all …"). */
+.section-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: clamp(32px, 4vw, 48px);
+}
+@media (max-width: 900px) {
+  .section-head {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .section-head p {
+    grid-column: 1;
+    grid-row: auto;
+    margin-top: 16px;
+  }
 }
 
 .eyebrow {
@@ -331,46 +388,27 @@ section {
   font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--text-muted);
   margin-bottom: 18px;
 }
 .eyebrow::before {
   content: "";
-  width: 18px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--accent));
-}
-.section-head .eyebrow {
-  justify-content: center;
-}
-.section-head .eyebrow::after {
-  content: "";
-  width: 18px;
-  height: 1px;
-  background: linear-gradient(90deg, var(--accent), transparent);
+  width: 6px;
+  height: 6px;
+  border-radius: 2px;
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent-ring);
 }
 .grad-text {
   background: var(--grad-text);
-  background-size: 220% 100%;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  animation: grad-shift 8s ease-in-out infinite;
-}
-/* Slow horizontal drift of the gradient across the text — a premium sheen. */
-@keyframes grad-shift {
-  0%,
-  100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
 }
 
 /* Divider tint on alternating bands */
 .band {
-  background: var(--bg-elev);
+  background: color-mix(in srgb, var(--bg-elev) 60%, var(--bg));
   border-top: 1px solid var(--hairline);
   border-bottom: 1px solid var(--hairline);
 }
@@ -386,7 +424,7 @@ section {
   font-size: 0.95rem;
   line-height: 1;
   padding: 13px 22px;
-  border-radius: 10px;
+  border-radius: 999px;
   border: 1px solid transparent;
   cursor: pointer;
   transition:
@@ -403,15 +441,15 @@ section {
   border-color: rgba(255, 255, 255, 0.12);
   box-shadow:
     0 1px 2px rgba(11, 15, 23, 0.3),
-    0 8px 22px var(--cta-glow),
+    0 4px 14px var(--cta-glow),
     inset 0 1px 0 rgba(255, 255, 255, 0.22);
 }
 .btn-primary:hover {
   transform: translateY(-1px);
-  background: linear-gradient(180deg, #2563eb 0%, #2563eb 100%);
+  background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
   box-shadow:
     0 2px 4px rgba(11, 15, 23, 0.3),
-    0 12px 30px var(--cta-glow),
+    0 8px 22px var(--cta-glow),
     inset 0 1px 0 rgba(255, 255, 255, 0.26);
 }
 .btn:focus-visible {
@@ -440,7 +478,7 @@ section {
   transform: translateX(4px);
 }
 .btn-ghost {
-  background: var(--bg-elev);
+  background: var(--surface);
   border-color: var(--border-strong);
   color: var(--text);
 }
@@ -504,7 +542,7 @@ section {
   height: var(--nav-h);
   backdrop-filter: blur(16px) saturate(140%);
   background: var(--nav-bg);
-  border-bottom: 1px solid transparent;
+  border-bottom: 1px solid var(--hairline);
   transition:
     border-color 0.25s var(--ease),
     box-shadow 0.25s var(--ease),
@@ -550,8 +588,7 @@ section {
   font-family: var(--font-display);
   font-weight: 600;
   font-size: 1.08rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  letter-spacing: -0.02em;
   color: var(--text);
 }
 .brand-slogan {
@@ -562,18 +599,16 @@ section {
   /* 9.6px. Still a micro-label, but 0.52rem (8.3px) was below the size at
      which letter-spaced uppercase mono stays readable on a phone screen. */
   font-size: 0.6rem;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--text-dim);
 }
 .brand .logo {
   flex: none;
-  width: 38px;
-  height: 38px;
-  border-radius: 11px;
-  box-shadow:
-    0 6px 18px rgba(37, 99, 235, 0.42),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
 }
 .nav-links {
   display: flex;
@@ -593,7 +628,7 @@ section {
   padding: 10px 14px;
   font-size: 0.88rem;
   gap: 6px;
-  border-radius: 9px;
+  border-radius: 999px;
 }
 .nav-cta:hover {
   transform: none;
@@ -2514,7 +2549,8 @@ section {
 
 .card {
   position: relative;
-  background: var(--bg-elev);
+  background:
+    linear-gradient(180deg, var(--surface), transparent 40%), var(--bg-elev);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   padding: clamp(28px, 2.4vw, 40px);
@@ -2540,8 +2576,8 @@ section {
   pointer-events: none;
 }
 .card:hover {
-  transform: translateY(-5px);
-  border-color: var(--accent-ring);
+  transform: translateY(-2px);
+  border-color: var(--border-strong);
   box-shadow: var(--shadow-md);
 }
 .card:hover::before {
@@ -2554,13 +2590,13 @@ section {
   width: 46px;
   height: 46px;
   border-radius: 12px;
-  background: var(--accent-soft);
+  background: var(--surface-2);
   color: var(--accent);
   display: grid;
   place-items: center;
   font-size: 1.2rem;
-  margin-bottom: 20px;
-  border: 1px solid var(--accent-ring);
+  margin-bottom: 24px;
+  border: 1px solid var(--border);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
   transition:
     transform 0.25s var(--ease),
@@ -2570,7 +2606,7 @@ section {
    doesn't move as one rigid slab. */
 .card:hover .ico {
   transform: translateY(-2px);
-  border-color: var(--accent);
+  border-color: var(--accent-ring);
 }
 .card .ico svg {
   width: 21px;
@@ -3074,9 +3110,8 @@ section {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
   gap: 6px;
-  margin: 0 0 20px;
+  margin: 0 0 28px;
   padding: 0;
   list-style: none;
   font-family: var(--font-mono);
@@ -3104,18 +3139,51 @@ section {
 }
 
 /* Inner page header */
+/* Inner-page hero (Phase 32): left-aligned editorial header over a soft
+   gradient mesh and a fading grid. */
 .page-hero {
-  padding: clamp(56px, 8vw, 96px) 0 clamp(36px, 5vw, 60px);
-  text-align: center;
+  position: relative;
+  overflow: hidden;
+  padding: clamp(64px, 9vw, 128px) 0 clamp(48px, 6vw, 88px);
+  text-align: left;
+}
+.page-hero::before,
+.page-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.page-hero::before {
+  background:
+    radial-gradient(55% 75% at 88% 0%, var(--aurora-2), transparent 70%),
+    radial-gradient(35% 55% at 100% 70%, var(--aurora-1), transparent 70%);
+}
+.page-hero::after {
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(60% 90% at 85% 0%, #000, transparent 75%);
+  -webkit-mask-image: radial-gradient(60% 90% at 85% 0%, #000, transparent 75%);
+}
+.page-hero > .container {
+  position: relative;
+  z-index: 1;
 }
 .page-hero h1 {
-  margin-inline: auto;
-  max-width: 20ch;
+  max-width: 17ch;
 }
 .page-hero p {
-  max-width: 60ch;
-  margin: 18px auto 0;
-  font-size: 1.15rem;
+  max-width: 58ch;
+  margin: 22px 0 0;
+  font-size: 1.18rem;
+}
+.page-hero .hero-actions {
+  justify-content: flex-start;
+}
+.page-hero-actions {
+  margin-top: 32px;
 }
 
 /* FAQ (native details/summary — no JS) */
@@ -3453,6 +3521,7 @@ a.contact-method:hover .cm-value {
 /* ---------- Footer ---------- */
 .footer {
   position: relative;
+  overflow: hidden;
   padding: clamp(56px, 5vw, 84px) 0 30px;
   color: var(--footer-text-muted);
   background: var(--footer-bg);
@@ -3471,7 +3540,7 @@ a.contact-method:hover .cm-value {
     var(--spark) 70%,
     transparent
   );
-  opacity: 0.6;
+  opacity: 0.35;
 }
 .footer-shell {
   padding-inline: clamp(24px, 5vw, 88px);
@@ -3556,11 +3625,11 @@ a.contact-method:hover .cm-value {
   color: var(--footer-text-dim);
 }
 .foot-news-row input:hover {
-  border-color: rgba(255, 255, 255, 0.16);
+  border-color: var(--footer-text-dim);
 }
 .foot-news-row input:focus {
   border-color: var(--footer-accent);
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--footer-surface-hover);
   box-shadow: 0 0 0 3px
     color-mix(in srgb, var(--footer-accent) 22%, transparent);
 }
@@ -3654,7 +3723,7 @@ a.contact-method:hover .cm-value {
 .footer .foot-social a:hover {
   color: var(--footer-text);
   border-color: var(--footer-accent);
-  background: rgba(147, 197, 253, 0.12);
+  background: var(--footer-surface-hover);
   transform: translateY(-2px);
 }
 .footer .foot-social a:active {
@@ -3718,6 +3787,28 @@ a.contact-method:hover .cm-value {
   border-radius: 50%;
   background: var(--footer-text-dim);
   transform: translateY(-50%);
+}
+
+/* Oversized decorative wordmark closing the page. aria-hidden in markup; sized
+   in vw so the full name always fits the viewport without wrapping. */
+.foot-wordmark {
+  margin: clamp(8px, 2vw, 24px) 0 clamp(20px, 3vw, 36px);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2.6rem, 10.5vw, 14rem);
+  line-height: 0.9;
+  letter-spacing: -0.055em;
+  white-space: nowrap;
+  text-align: center;
+  user-select: none;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--footer-text) 16%, transparent),
+    transparent 92%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 /* Sitemap page — link lists inside the grouped cards. */

@@ -211,7 +211,7 @@ export default function HomePage() {
               />
             ))}
           </div>
-          <Reveal className="section-head" style={{ marginTop: 44 }}>
+          <Reveal className="section-actions">
             <ButtonLink href="/services" variant="ghost">
               Explore all services →
             </ButtonLink>
@@ -240,7 +240,7 @@ export default function HomePage() {
               />
             ))}
           </div>
-          <Reveal className="section-head" style={{ marginTop: 44 }}>
+          <Reveal className="section-actions">
             <ButtonLink href="/solutions" variant="ghost">
               Explore AI solutions →
             </ButtonLink>
@@ -269,11 +269,8 @@ export default function HomePage() {
               />
             ))}
           </div>
-          <Reveal
-            className="section-head"
-            style={{ marginTop: 44, marginBottom: 0 }}
-          >
-            <CtaActions className="cta-actions-center" />
+          <Reveal className="section-actions">
+            <CtaActions />
           </Reveal>
         </div>
       </section>
@@ -323,7 +320,7 @@ export default function HomePage() {
               />
             ))}
           </div>
-          <Reveal className="section-head" style={{ marginTop: 44 }}>
+          <Reveal className="section-actions">
             <ButtonLink href="/products" variant="ghost">
               See all products →
             </ButtonLink>
@@ -393,7 +390,7 @@ export default function HomePage() {
               </Reveal>
             ))}
           </div>
-          <Reveal className="section-head" style={{ marginTop: 44 }}>
+          <Reveal className="section-actions">
             <ButtonLink href="/blog" variant="ghost">
               Read all insights →
             </ButtonLink>
