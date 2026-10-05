@@ -40,6 +40,11 @@ const companyLinks: MegaItem["links"] = [
     icon: "briefcase",
   },
   {
+    label: "Blog",
+    href: "/blog",
+    icon: "book-open",
+  },
+  {
     label: "Contact",
     href: CONTACT_HREF,
     icon: "mail",

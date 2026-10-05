@@ -543,6 +543,10 @@ section {
   backdrop-filter: blur(16px) saturate(140%);
   background: var(--nav-bg);
   border-bottom: 1px solid var(--hairline);
+  /* The mega panels' hover bridges reach 60px past each panel; on narrower
+     desktops that runs off the viewport and adds a horizontal scrollbar.
+     Clip horizontally only, so panels still drop down freely. */
+  overflow-x: clip;
   transition:
     border-color 0.25s var(--ease),
     box-shadow 0.25s var(--ease),
@@ -819,7 +823,7 @@ section {
 /* Anchored panels (compact menus) open directly under their own trigger,
    right-aligned, instead of centring on the viewport — so the pointer has
    only a short, direct path from the trigger into the panel. */
-@media (min-width: 1401px) {
+@media (min-width: 1101px) {
   .nav-item.mm-anchored {
     position: relative;
   }
@@ -844,7 +848,7 @@ section {
    play once at page load and never again. `backwards` holds the pre-animation
    state through the delay. Desktop only — on mobile these are accordion
    sections, not a panel that opens. */
-@media (min-width: 1401px) {
+@media (min-width: 1101px) {
   .nav-item:hover .mega-link,
   .nav-item:focus-within .mega-link {
     animation: mmLinkIn 0.3s var(--ease-out-expo) backwards;
@@ -3957,13 +3961,11 @@ a.contact-method:hover .cm-value {
     margin-left: 0;
   }
 }
-/* Collapse the primary nav to a sheet before the 8 links can overflow. The
-   eight top-level items (led by the wide "Artificial Intelligence") need
-   ~1273px of bar; with brand + CTA + gutters the full nav only fits from
-   ~1401px up, so the desktop nav is shown at >=1401px and everything below
-   uses the sheet. Raised from 1024px (Phase Q item 3: at 1024–1400 the last
-   items — and at 1366 the Get A Quote CTA — were clipped by body overflow). */
-@media (max-width: 1400px) {
+/* Collapse the primary nav to a sheet before the links can overflow. Phase 33
+   cut the top level from eight items to five, so the full bar (brand + 5
+   items + CTA) now fits from ~1101px; below that the sheet takes over.
+   (History: Phase Q item 3 had raised this to 1400px for the 8-item bar.) */
+@media (max-width: 1100px) {
   .nav-links {
     position: fixed;
     top: var(--nav-h);
@@ -4530,7 +4532,7 @@ a.contact-method:hover .cm-value {
   opacity: 1;
   pointer-events: auto;
 }
-@media (min-width: 1401px) {
+@media (min-width: 1101px) {
   .nav-scrim {
     display: none;
   }
@@ -4599,7 +4601,7 @@ a.contact-method:hover .cm-value {
    position:static, so the desktop `transform: translate(-50%, …)` — meant to
    centre a fixed panel — would instead shift a static panel off by half its own
    width on mouse hover/focus. Pin every panel variant to no transform here. */
-@media (max-width: 1400px) {
+@media (max-width: 1100px) {
   .mega,
   .nav-item:hover .mega,
   .nav-item:focus-within .mega,

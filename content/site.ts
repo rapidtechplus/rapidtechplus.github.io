@@ -11,7 +11,7 @@ import { CONTACT_HREF, SITE_URL } from "@/config/site";
 import type { MegaItem, NavLink } from "@/content/types";
 import { aiMenu } from "@/content/ai";
 import { servicesMenu } from "@/content/services";
-import { hireMenuColumns } from "@/content/hire";
+import { hireCategories, hireRoles } from "@/content/hire";
 import { solutionMenuColumns } from "@/content/solutions";
 import { industriesMenu } from "@/content/industries";
 import { caseStudiesMenu } from "@/content/case-studies";
@@ -71,27 +71,67 @@ export type NavItem = { label: string; href: string };
  * Top-level navigation, composed from the content collections. Every entry's
  * copy comes from a collection so there is one source of truth shared by the
  * nav and the pages.
+ *
+ * Five items (Phase 33, was eight): Hire Expert folds into Services, Industries
+ * into Solutions, and Blog into Company. Every destination is still one hover
+ * away — only the top level got shorter.
  */
+const servicesNav: MegaItem = {
+  label: "Services",
+  href: "/services",
+  overview: "Explore all services",
+  columns: [
+    {
+      title: "Core services",
+      icon: "code-xml",
+      links: servicesMenu.links ?? [],
+    },
+    {
+      title: "Hire experts",
+      icon: "user-plus",
+      // One representative role per discipline keeps the column scannable;
+      // the full roster lives on /hire.
+      links: hireCategories.flatMap((category) => {
+        const role = hireRoles.find((r) => r.category === category);
+        return role
+          ? [
+              {
+                label: category,
+                href: `/hire/${role.slug}`,
+                icon: role.icon,
+                desc: role.summary,
+              },
+            ]
+          : [];
+      }),
+    },
+  ],
+};
+
+const solutionsNav: MegaItem = {
+  label: "Solutions",
+  href: "/solutions",
+  overview: "Explore all solutions",
+  showcase: true,
+  columns: [
+    ...solutionMenuColumns,
+    {
+      title: "By industry",
+      icon: "building-2",
+      blurb:
+        "Sector-specific platforms for healthcare, fintech, manufacturing, retail, and education — built around each industry's rules and workflows.",
+      href: industriesMenu.href,
+      links: industriesMenu.links ?? [],
+    },
+  ],
+};
+
 export const megaMenu: MegaItem[] = [
-  aiMenu,
-  servicesMenu,
-  {
-    label: "Hire Expert",
-    href: "/hire",
-    overview: "Explore all roles",
-    columns: hireMenuColumns,
-  },
-  {
-    label: "Solutions",
-    href: "/solutions",
-    overview: "Explore all solutions",
-    showcase: true,
-    columns: solutionMenuColumns,
-  },
-  industriesMenu,
+  { ...aiMenu, label: "AI" },
+  servicesNav,
+  solutionsNav,
   caseStudiesMenu,
   companyMenu,
-  { label: "Blogs", href: "/blog" },
 ];
 
 export const footerColumns: { title: string; links: NavLink[] }[] = [

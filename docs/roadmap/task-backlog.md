@@ -2137,8 +2137,24 @@ routes inherit it with minimal markup change.
 - [ ] Next — Phase 33: landing page restructure (bento capability grid,
       logo/metrics strip, fewer uniform card grids)
 - [ ] Next — Phase 34: detail templates (sticky in-page nav, richer visuals)
-- [ ] Decision needed: 8 top-level nav items is heavy for a 2026 site —
-      consider consolidating (e.g. fold Hire Expert + Industries)
+- [x] ~~Decision needed: 8 top-level nav items~~ → done in Phase 33a
+
+## Phase 33a — Primary nav: 8 → 5 items ✅
+
+Owner-approved. Top level is now **AI · Services · Solutions · Case Studies ·
+Company** (composed in `content/site.ts`).
+
+- [x] Hire Expert → second rail category ("Hire experts") in the Services
+      panel, one representative role per discipline; Services panel moved from
+      flat to master–detail
+- [x] Industries → "By industry" category in the Solutions showcase
+- [x] Blog → Company panel sidebar
+- [x] "Artificial Intelligence" label shortened to "AI" in the bar
+- [x] Desktop/sheet breakpoint lowered 1400 → 1100px (bar now fits from 1101px)
+- [x] `.nav { overflow-x: clip }` — mega hover bridges no longer create a
+      horizontal scrollbar at 1101–1300px
+- [x] Verified: no overflow 1101/1180/1280/1440; Services, Solutions, Company
+      panels screenshot-checked at 1280 (Chromium)
 
 ## Phase 6 — Future Expansion (superseded — see Phases A–O above)
 
