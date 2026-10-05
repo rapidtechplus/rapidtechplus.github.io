@@ -84,12 +84,12 @@ export default function RootLayout({
       <head>
         <meta
           name="theme-color"
-          content="#0a0a13"
+          content="#0b0f17"
           media="(prefers-color-scheme: dark)"
         />
         <meta
           name="theme-color"
-          content="#fbfbfd"
+          content="#fafbfc"
           media="(prefers-color-scheme: light)"
         />
         {/* Site-wide nodes. Pages reference these by `@id` instead of repeating them. */}

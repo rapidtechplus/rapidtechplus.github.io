@@ -15,11 +15,11 @@
    ============================================================= */
 
 @theme {
-  --color-bg: #0a0a13;
-  --color-bg-elev: #10101c;
-  --color-accent: #8a8fff;
-  --color-accent-2: #a78bfa;
-  --color-navy: #4f46e5;
+  --color-bg: #0b0f17;
+  --color-bg-elev: #111621;
+  --color-accent: #60a5fa;
+  --color-accent-2: #38bdf8;
+  --color-navy: #2563eb;
   --font-sans:
     var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Helvetica, Arial, sans-serif;
@@ -32,30 +32,32 @@
 }
 
 :root {
-  /* ---- Brand palette (electric indigo → violet) ---- */
-  --brand-indigo: #4f46e5;
-  --brand-indigo-deep: #3730a3;
-  --brand-violet: #7c3aed;
-  --brand-iris: #8a8fff;
-  --brand-gray: #8b90a6;
+  /* ---- Brand palette (cobalt → sky, slate neutrals) ----
+     Token names kept (indigo/violet/iris) so the class API is stable; the
+     values were moved to a cobalt/sky ramp in the Phase 31 visual refresh. */
+  --brand-indigo: #2563eb;
+  --brand-indigo-deep: #1e40af;
+  --brand-violet: #0284c7;
+  --brand-iris: #60a5fa;
+  --brand-gray: #8b95a8;
 
   /* ---- Shared, theme-independent ---- */
-  --grad: linear-gradient(135deg, #4f46e5 0%, #8b5cf6 100%);
-  --grad-vivid: linear-gradient(135deg, #6366f1 0%, #7c3aed 100%);
+  --grad: linear-gradient(135deg, #2563eb 0%, #0ea5e9 100%);
+  --grad-vivid: linear-gradient(135deg, #3b82f6 0%, #0284c7 100%);
   --spark: #5ad1ff;
 
   /* ---- Footer palette ----
      Intentionally theme-independent: a deep indigo-ink panel in both light and
      dark so the footer reads as a distinct band from the page above it. */
   --footer-bg:
-    radial-gradient(120% 140% at 85% 0%, #241f5a 0%, transparent 55%),
-    linear-gradient(180deg, #14122e 0%, #0a0918 100%);
-  --footer-text: #f2f1fb;
-  --footer-text-muted: #b0accd;
-  --footer-text-dim: #7c789a;
+    radial-gradient(120% 140% at 85% 0%, #172554 0%, transparent 55%),
+    linear-gradient(180deg, #0f172a 0%, #020617 100%);
+  --footer-text: #f1f5f9;
+  --footer-text-muted: #a9b4c6;
+  --footer-text-dim: #7d889b;
   --footer-border: rgba(255, 255, 255, 0.09);
   --footer-surface: rgba(255, 255, 255, 0.045);
-  --footer-accent: #a6acff;
+  --footer-accent: #93c5fd;
 
   --radius-sm: 8px;
   --radius: 12px;
@@ -94,25 +96,25 @@
   --ease-exit: cubic-bezier(0.4, 0, 1, 1);
 
   /* =========================================================
-     DARK THEME (default) — deep indigo ink, luminous iris
+     DARK THEME (default) — slate ink, cobalt accent
      ========================================================= */
-  --bg: #0a0a13;
-  --bg-elev: #10101c;
-  --bg-elev-2: #171726;
+  --bg: #0b0f17;
+  --bg-elev: #111621;
+  --bg-elev-2: #182030;
   --surface: rgba(255, 255, 255, 0.028);
   --surface-2: rgba(255, 255, 255, 0.06);
   --border: rgba(255, 255, 255, 0.08);
   --border-strong: rgba(255, 255, 255, 0.14);
   --hairline: rgba(255, 255, 255, 0.055);
 
-  --text: #ededf6;
-  --text-muted: #a2a1bc;
-  --text-dim: #85849e;
+  --text: #e8edf5;
+  --text-muted: #a3acbd;
+  --text-dim: #8791a3;
 
-  --accent: #8a8fff;
-  --accent-2: #a78bfa;
-  --accent-soft: rgba(138, 143, 255, 0.13);
-  --accent-ring: rgba(138, 143, 255, 0.42);
+  --accent: #60a5fa;
+  --accent-2: #38bdf8;
+  --accent-soft: rgba(96, 165, 250, 0.13);
+  --accent-ring: rgba(96, 165, 250, 0.42);
 
   --success: #3dd68c;
   --warning: #f5b94b;
@@ -121,47 +123,47 @@
   --warning-soft: rgba(245, 185, 75, 0.12);
   --error-soft: rgba(240, 98, 93, 0.12);
 
-  --grad-text: linear-gradient(115deg, #c7c2ff 0%, #a897ff 50%, #8a8fff 100%);
+  --grad-text: linear-gradient(115deg, #bfdbfe 0%, #7dd3fc 50%, #60a5fa 100%);
 
-  --nav-bg: rgba(10, 10, 19, 0.72);
-  --aurora-1: rgba(124, 58, 237, 0.26);
-  --aurora-2: rgba(79, 70, 229, 0.28);
-  --aurora-3: rgba(90, 209, 255, 0.1);
+  --nav-bg: rgba(11, 15, 23, 0.72);
+  --aurora-1: rgba(14, 165, 233, 0.14);
+  --aurora-2: rgba(37, 99, 235, 0.16);
+  --aurora-3: rgba(90, 209, 255, 0.06);
   --grid-line: rgba(255, 255, 255, 0.032);
-  --particle: rgba(199, 194, 255, 0.55);
-  --cta-glow: rgba(99, 102, 241, 0.3);
+  --particle: rgba(191, 219, 254, 0.35);
+  --cta-glow: rgba(59, 130, 246, 0.3);
   --on-accent: #ffffff;
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.45);
   --shadow-md: 0 10px 32px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 24px 64px rgba(0, 0, 0, 0.5);
-  --shadow-glow: 0 16px 48px rgba(99, 102, 241, 0.28);
+  --shadow-glow: 0 16px 48px rgba(59, 130, 246, 0.28);
 
   color-scheme: dark;
 }
 
 /* =========================================================
-   LIGHT THEME — cool off-white, confident navy ink
+   LIGHT THEME — cool off-white, slate ink, cobalt accent
    Independently tuned: not a straight inversion.
    ========================================================= */
 .light {
-  --bg: #fbfbfd;
+  --bg: #fafbfc;
   --bg-elev: #ffffff;
-  --bg-elev-2: #f3f3f8;
-  --surface: rgba(24, 23, 46, 0.022);
-  --surface-2: rgba(24, 23, 46, 0.05);
-  --border: rgba(24, 23, 46, 0.09);
-  --border-strong: rgba(24, 23, 46, 0.16);
-  --hairline: rgba(24, 23, 46, 0.06);
+  --bg-elev-2: #f1f5f9;
+  --surface: rgba(15, 23, 42, 0.022);
+  --surface-2: rgba(15, 23, 42, 0.05);
+  --border: rgba(15, 23, 42, 0.09);
+  --border-strong: rgba(15, 23, 42, 0.16);
+  --hairline: rgba(15, 23, 42, 0.06);
 
-  --text: #16152a;
-  --text-muted: #52516a;
-  --text-dim: #6b6a80;
+  --text: #0f172a;
+  --text-muted: #475569;
+  --text-dim: #64748b;
 
-  --accent: #4f46e5;
-  --accent-2: #7c3aed;
-  --accent-soft: rgba(79, 70, 229, 0.08);
-  --accent-ring: rgba(79, 70, 229, 0.26);
+  --accent: #2563eb;
+  --accent-2: #0284c7;
+  --accent-soft: rgba(37, 99, 235, 0.08);
+  --accent-ring: rgba(37, 99, 235, 0.26);
 
   --success: #0e9f6e;
   --warning: #b45309;
@@ -170,21 +172,21 @@
   --warning-soft: rgba(180, 83, 9, 0.1);
   --error-soft: rgba(220, 38, 38, 0.08);
 
-  --grad-text: linear-gradient(115deg, #4f46e5 0%, #6d28d9 50%, #9333ea 100%);
+  --grad-text: linear-gradient(115deg, #2563eb 0%, #1d4ed8 50%, #0369a1 100%);
 
-  --nav-bg: rgba(251, 251, 253, 0.78);
-  --aurora-1: rgba(124, 58, 237, 0.1);
-  --aurora-2: rgba(79, 70, 229, 0.09);
+  --nav-bg: rgba(250, 251, 252, 0.78);
+  --aurora-1: rgba(14, 165, 233, 0.1);
+  --aurora-2: rgba(37, 99, 235, 0.09);
   --aurora-3: rgba(90, 209, 255, 0.1);
-  --grid-line: rgba(24, 23, 46, 0.045);
-  --particle: rgba(79, 70, 229, 0.3);
-  --cta-glow: rgba(99, 102, 241, 0.16);
+  --grid-line: rgba(15, 23, 42, 0.045);
+  --particle: rgba(37, 99, 235, 0.18);
+  --cta-glow: rgba(59, 130, 246, 0.16);
   --on-accent: #ffffff;
 
-  --shadow-sm: 0 1px 2px rgba(24, 23, 46, 0.05);
-  --shadow-md: 0 12px 32px rgba(30, 25, 90, 0.08);
-  --shadow-lg: 0 24px 56px rgba(30, 25, 90, 0.12);
-  --shadow-glow: 0 16px 48px rgba(79, 70, 229, 0.16);
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
+  --shadow-md: 0 12px 32px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 24px 56px rgba(15, 23, 42, 0.12);
+  --shadow-glow: 0 16px 48px rgba(37, 99, 235, 0.16);
 
   color-scheme: light;
 }
@@ -396,19 +398,19 @@ section {
   white-space: nowrap;
 }
 .btn-primary {
-  background: linear-gradient(180deg, #6165f0 0%, #4f46e5 100%);
+  background: linear-gradient(180deg, #2563eb 0%, #2563eb 100%);
   color: var(--on-accent);
   border-color: rgba(255, 255, 255, 0.12);
   box-shadow:
-    0 1px 2px rgba(10, 10, 19, 0.3),
+    0 1px 2px rgba(11, 15, 23, 0.3),
     0 8px 22px var(--cta-glow),
     inset 0 1px 0 rgba(255, 255, 255, 0.22);
 }
 .btn-primary:hover {
   transform: translateY(-1px);
-  background: linear-gradient(180deg, #6165f0 0%, #574ee8 100%);
+  background: linear-gradient(180deg, #2563eb 0%, #2563eb 100%);
   box-shadow:
-    0 2px 4px rgba(10, 10, 19, 0.3),
+    0 2px 4px rgba(11, 15, 23, 0.3),
     0 12px 30px var(--cta-glow),
     inset 0 1px 0 rgba(255, 255, 255, 0.26);
 }
@@ -423,9 +425,9 @@ section {
   transition-duration: 0.08s;
 }
 .btn-primary:active {
-  background: linear-gradient(180deg, #5a5eee 0%, #4a41d9 100%);
+  background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%);
   box-shadow:
-    0 1px 2px rgba(10, 10, 19, 0.35),
+    0 1px 2px rgba(11, 15, 23, 0.35),
     0 4px 12px var(--cta-glow),
     inset 0 1px 0 rgba(255, 255, 255, 0.14);
 }
@@ -570,7 +572,7 @@ section {
   height: 38px;
   border-radius: 11px;
   box-shadow:
-    0 6px 18px rgba(91, 70, 229, 0.42),
+    0 6px 18px rgba(37, 99, 235, 0.42),
     inset 0 0 0 1px rgba(255, 255, 255, 0.08);
 }
 .nav-links {
@@ -1116,7 +1118,7 @@ section {
   gap: 8px;
   padding: 10px 16px;
   border-radius: 9px;
-  background: linear-gradient(180deg, #6165f0 0%, #4f46e5 100%);
+  background: linear-gradient(180deg, #2563eb 0%, #2563eb 100%);
   color: var(--on-accent);
   font-size: 0.82rem;
   font-weight: 600;
@@ -1128,7 +1130,7 @@ section {
   transition: transform 0.2s var(--ease);
 }
 .mm-feature-cta:hover {
-  background: linear-gradient(180deg, #6165f0 0%, #574ee8 100%);
+  background: linear-gradient(180deg, #2563eb 0%, #2563eb 100%);
   transform: translateY(-1px);
 }
 .mm-feature-cta:focus-visible,
@@ -1354,7 +1356,7 @@ section {
   gap: 8px;
   padding: 10px 16px;
   border-radius: 9px;
-  background: linear-gradient(180deg, #6165f0 0%, #4f46e5 100%);
+  background: linear-gradient(180deg, #2563eb 0%, #2563eb 100%);
   color: var(--on-accent);
   font-size: 0.82rem;
   font-weight: 600;
@@ -1367,7 +1369,7 @@ section {
   transition: transform 0.2s var(--ease);
 }
 .mm-co-cta:hover {
-  background: linear-gradient(180deg, #6165f0 0%, #574ee8 100%);
+  background: linear-gradient(180deg, #2563eb 0%, #2563eb 100%);
   transform: translateY(-1px);
 }
 .mm-co-cta:hover span {
@@ -1501,7 +1503,7 @@ section {
    *on* the canvas, so white text on it fails AA in dark (measured 2.82:1). This
    gradient carries --on-accent at ≥4.5:1 in both themes, matching .mm-feature-cta. */
 .mm-foot-cta:hover {
-  background: linear-gradient(180deg, #6165f0 0%, #4f46e5 100%);
+  background: linear-gradient(180deg, #2563eb 0%, #2563eb 100%);
   color: var(--on-accent);
   border-color: transparent;
 }
@@ -3652,7 +3654,7 @@ a.contact-method:hover .cm-value {
 .footer .foot-social a:hover {
   color: var(--footer-text);
   border-color: var(--footer-accent);
-  background: rgba(166, 172, 255, 0.12);
+  background: rgba(147, 197, 253, 0.12);
   transform: translateY(-2px);
 }
 .footer .foot-social a:active {
@@ -4427,7 +4429,7 @@ a.contact-method:hover .cm-value {
   position: fixed;
   inset: var(--nav-h) 0 0;
   z-index: 40;
-  background: rgba(4, 4, 10, 0.55);
+  background: rgba(2, 6, 23, 0.55);
   backdrop-filter: blur(2px);
   opacity: 0;
   pointer-events: none;

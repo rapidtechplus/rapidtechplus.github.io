@@ -2089,6 +2089,25 @@ overflow at every width 320–1280.
 
 ---
 
+## Phase 31 — Visual refresh: cobalt & slate palette ✅
+
+Owner-approved low-risk refresh, done entirely through tokens and literals in
+`app/globals.css` (class API unchanged, so every page inherits it).
+
+- [x] Palette moved from indigo/violet to a cobalt → sky ramp on slate neutrals
+      (both themes tuned separately; token names kept for API stability)
+- [x] Calmer background: aurora opacity roughly halved, particles dimmed
+- [x] `theme-color` metas, `global-error.tsx` and OG template recoloured;
+      13 OG images regenerated (`npm run og:generate`)
+- [x] Verified: lint, typecheck, build; home page has no horizontal overflow at
+      360/768/1280/1440/1920 in light + dark (Playwright/Chromium screenshots)
+- [x] Contrast: accent `#2563eb` on white ≈ 5.2:1, `#60a5fa` on `#0b0f17` ≈ 7.5:1;
+      muted text uses Tailwind slate-600/500 (≥ 4.5:1 on light bg)
+- ⚠️ Not verified here: Lighthouse, Firefox/Safari/Edge, inner pages beyond spot checks
+- [ ] Follow-up: official logo mark is still violet — needs a brand-asset
+      decision (recolour vs keep as deliberate contrast)
+- [ ] Follow-up: type-scale/spacing pass (phase 2 of the refresh), if wanted
+
 ## Phase 6 — Future Expansion (superseded — see Phases A–O above)
 
 - [ ] Product detail pages (`generateStaticParams` from `content/`)
