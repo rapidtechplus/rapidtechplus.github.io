@@ -8,7 +8,7 @@ import { Magnetic } from "@/components/magnetic";
 import { TextReveal } from "@/components/text-reveal";
 import { TechMarquee } from "@/components/sections/home/tech-marquee";
 import { CapabilityBento } from "@/components/sections/home/capability-bento";
-import { ProcessScroll } from "@/components/sections/home/process-scroll";
+import { ProcessScroll } from "@/components/sections/process-scroll";
 import {
   SectionHead,
   IconCard,

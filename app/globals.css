@@ -92,6 +92,7 @@
   --maxw-xwide: 1860px;
   --gutter: clamp(20px, 4vw, 80px);
   --nav-h: 66px;
+  --secnav-h: 52px;
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   /* Expo-out: near-instant response, long luxurious settle. For elements that
@@ -3192,8 +3193,8 @@ section {
 
 /* FAQ (native details/summary — no JS) */
 .faq-list {
-  max-width: 800px;
-  margin-inline: auto;
+  /* Left-aligned under the editorial section head (Phase 34). */
+  max-width: 880px;
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -4562,10 +4563,11 @@ a.contact-method:hover .cm-value {
   outline-offset: 2px;
 }
 
-/* In-page anchors (`#faq`, section deep links) must clear the sticky header. */
+/* In-page anchors (`#faq`, section deep links) must clear the sticky header
+   and, on detail pages, the sticky section nav beneath it. */
 :target,
 [id] {
-  scroll-margin-top: calc(var(--nav-h) + 16px);
+  scroll-margin-top: calc(var(--nav-h) + var(--secnav-h) + 16px);
 }
 
 /* ---- Form controls -------------------------------------------------------
@@ -4909,7 +4911,7 @@ a.contact-method:hover .cm-value {
 }
 .proc-intro {
   position: sticky;
-  top: calc(var(--nav-h) + 48px);
+  top: calc(var(--nav-h) + var(--secnav-h) + 32px);
 }
 .proc-intro h2 {
   max-width: 14ch;
@@ -5006,5 +5008,359 @@ a.contact-method:hover .cm-value {
   }
   .proc-intro {
     position: static;
+  }
+}
+
+/* Visually hidden, still announced. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ==========================================================================
+   Detail-page chrome (Phase 34) — sticky section nav + guided assistant
+   ========================================================================== */
+
+/* ---- Sticky section nav ---- */
+.secnav {
+  position: sticky;
+  top: var(--nav-h);
+  z-index: 40;
+  height: var(--secnav-h);
+  background: var(--nav-bg);
+  backdrop-filter: blur(16px) saturate(140%);
+  border-bottom: 1px solid var(--hairline);
+}
+.secnav-inner {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.secnav-inner::-webkit-scrollbar {
+  display: none;
+}
+.secnav a {
+  flex: none;
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  transition:
+    color 0.15s var(--ease),
+    background 0.15s var(--ease);
+}
+.secnav a:hover {
+  color: var(--text);
+  background: var(--surface-2);
+}
+.secnav a.is-active {
+  color: var(--text);
+  background: var(--accent-soft);
+  box-shadow: inset 0 0 0 1px var(--accent-ring);
+}
+.secnav a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ---- Guided assistant ---- */
+.ga-launcher {
+  position: fixed;
+  right: clamp(16px, 2.5vw, 32px);
+  bottom: clamp(16px, 2.5vw, 32px);
+  z-index: 70;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  background: linear-gradient(180deg, #2563eb, #1d4ed8);
+  color: #fff;
+  font: inherit;
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow:
+    0 10px 30px var(--cta-glow),
+    0 2px 6px rgba(2, 6, 23, 0.3);
+  transition: transform 0.2s var(--ease);
+}
+.ga-launcher:hover {
+  transform: translateY(-2px);
+}
+.ga-launcher:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.ga-panel {
+  position: fixed;
+  right: clamp(16px, 2.5vw, 32px);
+  bottom: calc(clamp(16px, 2.5vw, 32px) + 60px);
+  z-index: 70;
+  display: flex;
+  flex-direction: column;
+  width: min(400px, calc(100vw - 32px));
+  height: min(600px, calc(100dvh - 140px));
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-xl);
+  background: var(--bg-elev);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  animation: ga-in 0.28s var(--ease-out-expo);
+}
+.ga-panel[hidden] {
+  display: none;
+}
+@keyframes ga-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+}
+.ga-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  background:
+    radial-gradient(80% 140% at 100% 0%, var(--accent-soft), transparent 70%),
+    var(--bg-elev);
+}
+.ga-avatar {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: var(--grad);
+  color: #fff;
+}
+.ga-title {
+  margin: 0;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text);
+  line-height: 1.3;
+}
+.ga-sub {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  line-height: 1.3;
+}
+.ga-close {
+  margin-left: auto;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: var(--surface);
+  color: var(--text-muted);
+  cursor: pointer;
+}
+.ga-close:hover {
+  color: var(--text);
+}
+.ga-close:focus-visible,
+.ga-suggest button:focus-visible,
+.ga-form button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.ga-log {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+}
+.ga-msg {
+  max-width: 88%;
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  animation: ga-msg-in 0.25s var(--ease);
+}
+@keyframes ga-msg-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+.ga-msg p {
+  margin: 0;
+  font-size: inherit;
+  color: inherit;
+}
+.ga-msg p + p,
+.ga-msg p + ul,
+.ga-msg ul + p {
+  margin-top: 8px;
+}
+.ga-msg ul {
+  margin: 0;
+  padding-left: 18px;
+}
+.ga-msg li + li {
+  margin-top: 4px;
+}
+.ga-bot {
+  align-self: flex-start;
+  background: var(--surface-2);
+  color: var(--text);
+  border-bottom-left-radius: 4px;
+}
+.ga-user {
+  align-self: flex-end;
+  background: #2563eb;
+  color: #fff;
+  border-bottom-right-radius: 4px;
+}
+.ga-links {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 10px;
+}
+.ga-links a {
+  color: var(--accent);
+  font-weight: 600;
+}
+.ga-links a:hover {
+  text-decoration: underline;
+}
+.ga-typing {
+  display: inline-flex;
+  gap: 4px;
+  padding: 14px;
+}
+.ga-typing span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text-dim);
+  animation: ga-dot 1s infinite ease-in-out;
+}
+.ga-typing span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.ga-typing span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+@keyframes ga-dot {
+  50% {
+    transform: translateY(-4px);
+    opacity: 0.5;
+  }
+}
+.ga-suggest {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 0 16px 12px;
+}
+.ga-suggest button {
+  padding: 7px 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text-muted);
+  font: inherit;
+  font-size: 0.8rem;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    color 0.15s,
+    border-color 0.15s;
+}
+.ga-suggest button:hover:not(:disabled) {
+  color: var(--text);
+  border-color: var(--accent-ring);
+}
+.ga-suggest button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.ga-form {
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px 16px;
+  border-top: 1px solid var(--border);
+}
+.ga-form input {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 14px;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+  /* 16px stops iOS Safari zooming the page on focus. */
+  font-size: 16px;
+}
+.ga-form input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+.ga-form button {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 42px;
+  height: 42px;
+  border: 0;
+  border-radius: 50%;
+  background: #2563eb;
+  color: #fff;
+  cursor: pointer;
+}
+.ga-form button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+@media (max-width: 480px) {
+  .ga-launcher span {
+    /* Icon-only launcher on phones; the button keeps its accessible name. */
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+  }
+  .ga-launcher {
+    padding: 14px;
+  }
+  .ga-panel {
+    right: 16px;
+    left: 16px;
+    width: auto;
+    bottom: 84px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ga-panel,
+  .ga-msg,
+  .ga-typing span {
+    animation: none;
   }
 }

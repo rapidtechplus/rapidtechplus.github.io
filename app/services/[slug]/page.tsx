@@ -9,7 +9,10 @@ import {
   serviceCaseStudies,
   serviceProcess,
 } from "@/content/services";
-import { SITE_URL } from "@/config/site";
+import { CONTACT_HREF, SITE_URL } from "@/config/site";
+import { GuidedAssistant } from "@/components/assistant/guided-assistant";
+import { buildServiceTopics } from "@/lib/assistant";
+import { caseStudyHref } from "@/content/case-studies";
 import { ogImageFor } from "@/config/og-templates";
 
 /** Static export: pre-render one page per service, 404 on anything else. */
@@ -52,6 +55,22 @@ export default async function ServiceDetailPage({ params }: Params) {
   }));
   const industries = serviceIndustries(service);
   const caseStudies = serviceCaseStudies(service);
+  // Built at export time from this page's own content (static, no backend).
+  const assistantTopics = buildServiceTopics({
+    label: service.label,
+    overview: service.overview,
+    capabilities: service.capabilities,
+    problems: service.problems,
+    technologies: service.technologies,
+    benefits: service.benefits,
+    process: serviceProcess,
+    caseStudies: caseStudies.map((c) => ({
+      title: c.title,
+      href: caseStudyHref(c.slug),
+    })),
+    faqs: service.faqs,
+    contactHref: CONTACT_HREF,
+  });
 
   const serviceJsonLd = {
     "@context": "https://schema.org",
@@ -117,6 +136,13 @@ export default async function ServiceDetailPage({ params }: Params) {
           title: "Ready to build with us?",
           body: `Tell us about your ${service.label} project and we'll help you plan the right approach.`,
         }}
+        assistant={
+          <GuidedAssistant
+            subject={service.label}
+            topics={assistantTopics}
+            contactHref={CONTACT_HREF}
+          />
+        }
       />
     </>
   );

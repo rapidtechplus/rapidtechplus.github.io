@@ -2174,6 +2174,38 @@ Company** (composed in `content/site.ts`).
 - [ ] Content: `homeStats` ("100% focus on quality", "∞ room to scale") are
       not credible proof points — replace with real numbers (owner input)
 
+## Phase 34 — Service template v2 + guided assistant ✅
+
+Owner chose option A (static guided assistant) over a third-party widget or
+lifting the static constraint.
+
+- [x] `lib/assistant.ts` — pure topic builder + keyword matcher; answers are
+      the page's own content (capabilities, problems, stack, process,
+      benefits, case studies, FAQs); pricing/timeline always hand off to
+      /contact; unmatched questions hand off too. Built at export time.
+- [x] `components/assistant/guided-assistant.tsx` — floating launcher +
+      non-modal dialog: focus moves to input on open, Escape closes and
+      returns focus, `role="log"` + `aria-live`, suggestion chips, typing
+      indicator skipped under reduced motion, icon-only launcher on phones
+- [x] `components/sections/section-nav.tsx` — sticky "On this page" nav,
+      IntersectionObserver active state, `aria-current="location"`, renders
+      only sections that exist; anchors offset by `--secnav-h`
+- [x] `ProcessScroll` promoted to `components/sections/` and used in the
+      service template; `ServiceLanding` gains section ids + `assistant` slot
+- [x] FAQ list left-aligned to match editorial section heads
+- [x] `.sr-only` utility added (did not exist)
+- [x] Verified (Chromium, 1440 dark + 375 light): chip answer, free-text
+      pricing answer, unmatched → handoff, Escape → focus to launcher,
+      section-nav jump + active state, no console errors; no overflow on
+      10 routes × 7 widths × 2 themes
+- ⚠️ Not verified: Lighthouse, Firefox/Safari/Edge, screen-reader pass
+- Privacy: assistant runs entirely in the browser; nothing is sent or stored,
+  so the privacy policy needs no change
+- [ ] Phase 35 — roll section nav + assistant + ProcessScroll to solutions,
+      industries, hire, technology, and AI detail templates
+- [ ] Unit tests for `lib/assistant.ts` once a test runner is added (none
+      configured in the repo today)
+
 ## Phase 6 — Future Expansion (superseded — see Phases A–O above)
 
 - [ ] Product detail pages (`generateStaticParams` from `content/`)
