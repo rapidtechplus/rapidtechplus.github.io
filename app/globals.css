@@ -4611,3 +4611,400 @@ a.contact-method:hover .cm-value {
     transform: none;
   }
 }
+
+/* ==========================================================================
+   Homepage composition (Phase 33b) — marquee, capability bento, scroll-told
+   process. Patterns documented in docs/design/benchmark-patterns.md.
+   ========================================================================== */
+
+/* ---- Toolkit marquee ---- */
+.marquee-section {
+  padding: clamp(8px, 2vw, 24px) 0 clamp(40px, 5vw, 64px);
+}
+.marquee-label {
+  margin: 0 0 18px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+.marquee-viewport {
+  display: flex;
+  overflow: hidden;
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+}
+.marquee-track {
+  display: flex;
+  flex: none;
+  gap: 12px;
+  margin: 0;
+  padding: 0 12px 0 0;
+  list-style: none;
+  animation: marquee 40s linear infinite;
+}
+.marquee-viewport:hover .marquee-track {
+  animation-play-state: paused;
+}
+.marquee-track li {
+  flex: none;
+  padding: 9px 16px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  font-family: var(--font-mono);
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-100%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-viewport {
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+  .marquee-track {
+    flex-wrap: wrap;
+    flex: 1;
+    animation: none;
+  }
+  .marquee-track[aria-hidden] {
+    display: none;
+  }
+}
+
+/* ---- Capability bento ---- */
+.cap-bento {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(14px, 1.4vw, 20px);
+}
+.cap-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(24px, 2.2vw, 32px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(180deg, var(--surface), transparent 40%), var(--bg-elev);
+  overflow: hidden;
+  transition:
+    border-color 0.25s var(--ease),
+    transform 0.25s var(--ease);
+}
+.cap-tile:hover {
+  border-color: var(--border-strong);
+  transform: translateY(-2px);
+}
+.cap-tile h3 {
+  font-size: 1.12rem;
+  margin-bottom: 8px;
+}
+.cap-tile p {
+  margin: 0;
+  font-size: 0.95rem;
+}
+.cap-ico {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 20px;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: var(--surface-2);
+  color: var(--accent);
+}
+.cap-ico svg {
+  width: 19px;
+  height: 19px;
+}
+
+/* Flagship AI tile — 2×2 with an animated orbital motif. */
+.cap-ai {
+  grid-column: span 2;
+  grid-row: span 2;
+  justify-content: flex-end;
+  min-height: 460px;
+  background:
+    radial-gradient(70% 60% at 75% 20%, var(--aurora-2), transparent 70%),
+    radial-gradient(50% 50% at 100% 60%, var(--aurora-1), transparent 70%),
+    var(--bg-elev);
+}
+.cap-ai h3 {
+  font-size: clamp(1.5rem, 2.2vw, 2rem);
+  letter-spacing: -0.035em;
+  max-width: 16ch;
+}
+.cap-ai p {
+  max-width: 46ch;
+  font-size: 1rem;
+}
+.cap-ai-viz {
+  position: absolute;
+  top: 28px;
+  right: 28px;
+  width: 200px;
+  height: 200px;
+  display: grid;
+  place-items: center;
+}
+.cap-ai-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid var(--accent-ring);
+  animation: cap-orbit 14s linear infinite;
+}
+.cap-ai-ring::after {
+  content: "";
+  position: absolute;
+  top: -3px;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 12px var(--accent);
+}
+.cap-ai-ring.r1 {
+  inset: 60px;
+}
+.cap-ai-ring.r2 {
+  inset: 30px;
+  animation-duration: 22s;
+  animation-direction: reverse;
+  opacity: 0.7;
+}
+.cap-ai-ring.r3 {
+  inset: 0;
+  animation-duration: 32s;
+  opacity: 0.45;
+}
+.cap-ai-core {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  border: 1px solid var(--accent-ring);
+  background: var(--bg-elev);
+  color: var(--accent);
+  box-shadow: 0 0 32px var(--accent-soft);
+}
+.cap-ai-core svg {
+  width: 24px;
+  height: 24px;
+}
+@keyframes cap-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.cap-ai-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.cap-ai-list li {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  font-size: 0.86rem;
+  color: var(--text);
+}
+.cap-ai-list svg {
+  width: 14px;
+  height: 14px;
+  color: var(--accent);
+}
+.cap-link {
+  align-self: flex-start;
+  margin-top: 22px;
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+.cap-link span {
+  display: inline-block;
+  transition: transform 0.2s var(--ease);
+}
+.cap-link:hover span {
+  transform: translateX(4px);
+}
+.cap-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Wide closing CTA tile. */
+.cap-cta {
+  grid-column: span 2;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+@media (max-width: 1024px) {
+  .cap-bento {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .cap-ai {
+    grid-row: auto;
+    min-height: 420px;
+  }
+}
+@media (max-width: 640px) {
+  .cap-bento {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .cap-ai,
+  .cap-cta {
+    grid-column: auto;
+  }
+  .cap-ai {
+    min-height: 0;
+    padding-top: 180px;
+  }
+  .cap-ai-viz {
+    top: 16px;
+    right: 50%;
+    transform: translateX(50%) scale(0.8);
+  }
+}
+
+/* ---- Scroll-told process ---- */
+.proc {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(40px, 7vw, 120px);
+  align-items: start;
+}
+.proc-intro {
+  position: sticky;
+  top: calc(var(--nav-h) + 48px);
+}
+.proc-intro h2 {
+  max-width: 14ch;
+}
+.proc-intro p {
+  max-width: 44ch;
+  margin-bottom: 28px;
+  font-size: 1.08rem;
+}
+.proc-steps {
+  position: relative;
+  margin: 0;
+  padding: 0 0 0 36px;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 2vw, 24px);
+  view-timeline-name: --proc;
+}
+/* Rail track + fill. The fill grows with scroll where scroll-driven
+   animations are supported; elsewhere it is shown full (static). */
+.proc-steps::before,
+.proc-steps::after {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  border-radius: 2px;
+}
+.proc-steps::before {
+  background: var(--border);
+}
+.proc-steps::after {
+  background: linear-gradient(180deg, var(--accent), var(--spark));
+  transform-origin: top;
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .proc-steps::after {
+      animation: proc-fill linear both;
+      animation-timeline: --proc;
+      animation-range: entry 40% exit 60%;
+    }
+  }
+}
+@keyframes proc-fill {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+.proc-step {
+  position: relative;
+  display: flex;
+  gap: 20px;
+  padding: clamp(22px, 2.2vw, 30px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg-elev);
+}
+.proc-step::before {
+  content: "";
+  position: absolute;
+  left: -36px;
+  top: 34px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  background: var(--bg);
+}
+.proc-n {
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--accent);
+  padding-top: 3px;
+}
+.proc-step h3 {
+  font-size: 1.15rem;
+  margin-bottom: 6px;
+}
+.proc-step p {
+  margin: 0;
+  font-size: 0.97rem;
+}
+@media (max-width: 900px) {
+  .proc {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .proc-intro {
+    position: static;
+  }
+}

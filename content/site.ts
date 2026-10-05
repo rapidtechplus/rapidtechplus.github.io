@@ -150,7 +150,10 @@ export const footerColumns: { title: string; links: NavLink[] }[] = [
     title: "Services",
     links: [
       { label: "Artificial Intelligence", href: "/services/ai-development" },
-      { label: "Custom Software Development", href: "/services/custom-software-development" },
+      {
+        label: "Custom Software Development",
+        href: "/services/custom-software-development",
+      },
       { label: "SaaS Development", href: "/services/saas-development" },
       { label: "Web Development", href: "/services/web-development" },
       { label: "Mobile Development", href: "/services/mobile-development" },
@@ -270,14 +273,14 @@ export type SocialLink = {
   href: string;
   /** Icon key resolved to an inline SVG in the footer. */
   icon:
-  | "github"
-  | "linkedin"
-  | "x"
-  | "email"
-  | "instagram"
-  | "facebook"
-  | "youtube"
-  | "whatsapp";
+    | "github"
+    | "linkedin"
+    | "x"
+    | "email"
+    | "instagram"
+    | "facebook"
+    | "youtube"
+    | "whatsapp";
 };
 
 export const socialLinks: SocialLink[] = [

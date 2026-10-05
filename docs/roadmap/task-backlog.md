@@ -2156,6 +2156,24 @@ Company** (composed in `content/site.ts`).
 - [x] Verified: no overflow 1101/1180/1280/1440; Services, Solutions, Company
       panels screenshot-checked at 1280 (Chromium)
 
+## Phase 33b — Pattern study + homepage restructure ✅
+
+- [x] `docs/design/benchmark-patterns.md` — 12-site reference set, 10
+      adopted patterns, rejected patterns with reasons
+- [x] Toolkit marquee under the hero (`components/sections/home/tech-marquee.tsx`);
+      pure CSS, pauses on hover, static wrapped row under reduced motion;
+      replaces the bottom "Our toolkit" chip section
+- [x] Services + AI grids merged into one asymmetric capability bento with a
+      2×2 flagship AI tile (animated orbit motif) and a wide CTA tile
+- [x] Process → scroll-told layout: sticky intro + stage list with a rail
+      that fills via CSS scroll-driven animation (`animation-timeline: view()`);
+      static full rail where unsupported (Firefox/Safari) or reduced motion
+- [x] Verified: lint, typecheck, build; no overflow 9 routes × 7 widths ×
+      2 themes; desktop 1440 dark + mobile 375 light screenshot review
+- ⚠️ Not verified: Lighthouse, non-Chromium browsers
+- [ ] Content: `homeStats` ("100% focus on quality", "∞ room to scale") are
+      not credible proof points — replace with real numbers (owner input)
+
 ## Phase 6 — Future Expansion (superseded — see Phases A–O above)
 
 - [ ] Product detail pages (`generateStaticParams` from `content/`)
