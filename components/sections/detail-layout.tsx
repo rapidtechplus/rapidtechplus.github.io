@@ -24,6 +24,7 @@ export type RelatedItem = {
  * "what's included" panel, a capability card grid, an optional FAQ, a related
  * grid of cross-links, and a closing CTA banner. Shared by every `[slug]`
  * detail template so pages stay declarative and visually consistent.
+ * `assistant` is an optional slot for the page's guided assistant.
  */
 export function DetailLayout({
   crumbs,
@@ -39,6 +40,7 @@ export function DetailLayout({
   relatedEyebrow = "Related",
   relatedTitle,
   cta,
+  assistant,
 }: {
   crumbs: Crumb[];
   eyebrow: string;
@@ -53,6 +55,7 @@ export function DetailLayout({
   relatedEyebrow?: string;
   relatedTitle?: string;
   cta: { title: string; body: string };
+  assistant?: ReactNode;
 }) {
   return (
     <>
@@ -129,6 +132,7 @@ export function DetailLayout({
       ) : null}
 
       <CtaBanner title={cta.title} body={cta.body} />
+      {assistant}
     </>
   );
 }

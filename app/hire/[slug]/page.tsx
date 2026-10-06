@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { PageAssistant } from "@/components/assistant/page-assistant";
 import { HireLanding } from "@/components/sections/hire-landing";
 import {
   getHireRole,
@@ -100,7 +101,7 @@ export default async function HireRolePage({ params }: Params) {
         title={title}
         lead={role.intro}
         overview={role.overview}
-        overviewTitle={`Why teams hire ${role.label.toLowerCase()}`}
+        overviewTitle={`Why teams hire ${role.label}`}
         reasons={whyRapidTechPlus}
         skills={role.capabilities}
         skillsTitle="What they bring"
@@ -109,11 +110,56 @@ export default async function HireRolePage({ params }: Params) {
         process={hireProcess}
         faqs={hireFaqs}
         related={related}
-        relatedTitle={`More ${role.category.toLowerCase()}`}
+        relatedTitle={`More ${role.category}`}
         cta={{
-          title: `Ready to hire ${role.label.toLowerCase()}?`,
-          body: `Tell us about your project and how you'd like to work — we'll match you with the right ${role.label.toLowerCase()} fast.`,
+          title: `Ready to hire ${role.label}?`,
+          body: `Tell us about your project and how you'd like to work — we'll match you with the right ${role.label} fast.`,
         }}
+        assistant={
+          <PageAssistant
+            label={role.label}
+            overview={role.overview}
+            included={role.capabilities}
+            technologies={technologies}
+            process={hireProcess}
+            extras={[
+              {
+                id: "models",
+                label: "What hiring models do you offer?",
+                keywords: [
+                  "model",
+                  "models",
+                  "hire",
+                  "hiring",
+                  "engagement",
+                  "contract",
+                  "dedicated",
+                  "part-time",
+                  "full-time",
+                  "hourly",
+                  "team",
+                ],
+                items: engagementModels,
+              },
+              {
+                id: "why-us",
+                label: "Why hire through Rapid Tech Plus?",
+                keywords: [
+                  "why",
+                  "choose",
+                  "different",
+                  "vetted",
+                  "quality",
+                  "trust",
+                  "experience",
+                  "senior",
+                ],
+                items: whyRapidTechPlus,
+              },
+            ]}
+            faqs={hireFaqs}
+          />
+        }
       />
     </>
   );

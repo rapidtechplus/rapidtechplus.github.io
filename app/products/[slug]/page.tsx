@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { PageAssistant } from "@/components/assistant/page-assistant";
 import { DetailLayout } from "@/components/sections/detail-layout";
 import {
   getProduct,
@@ -79,8 +80,7 @@ export default async function ProductDetailPage({ params }: Params) {
         eyebrow="Products"
         title={
           <>
-            {product.title}{" "}
-            <span className="grad-text">built to last</span>
+            {product.title} <span className="grad-text">built to last</span>
           </>
         }
         lead={product.intro}
@@ -95,6 +95,14 @@ export default async function ProductDetailPage({ params }: Params) {
           title: `Planning a ${product.label.toLowerCase()} project?`,
           body: `Tell us what you're building and we'll help you plan the right approach. The first consultation is free.`,
         }}
+        assistant={
+          <PageAssistant
+            label={product.label}
+            overview={product.overview}
+            included={product.capabilities}
+            faqs={productFaqs}
+          />
+        }
       />
     </>
   );

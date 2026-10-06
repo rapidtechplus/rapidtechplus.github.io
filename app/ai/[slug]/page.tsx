@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { PageAssistant } from "@/components/assistant/page-assistant";
+import { caseStudyHref } from "@/content/case-studies";
 import { ServiceLanding } from "@/components/sections/service-landing";
 import {
   getAiCapability,
@@ -117,6 +119,22 @@ export default async function AiCapabilityPage({ params }: Params) {
           title: "Ready to put AI to work?",
           body: `Tell us about your ${capability.label} project and we'll help you plan a production-ready approach.`,
         }}
+        assistant={
+          <PageAssistant
+            label={capability.label}
+            overview={capability.overview}
+            included={capability.capabilities}
+            problems={capability.problems}
+            technologies={capability.technologies}
+            benefits={capability.benefits}
+            process={aiProcess}
+            caseStudies={caseStudies.map((c) => ({
+              title: c.title,
+              href: caseStudyHref(c.slug),
+            }))}
+            faqs={capability.faqs}
+          />
+        }
       />
     </>
   );

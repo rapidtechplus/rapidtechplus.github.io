@@ -17,8 +17,8 @@ export const OG_CONTENT_TYPE = "image/png";
 
 const INK = "#08080f";
 const INK_2 = "#101020";
-const ACCENT_FROM = "#4f46e5";
-const ACCENT_MID = "#7c3aed";
+const ACCENT_FROM = "#2563eb";
+const ACCENT_MID = "#0284c7";
 const ACCENT_TO = "#a855f7";
 const TEXT = "#f4f4f8";
 const TEXT_DIM = "#9a9ab0";

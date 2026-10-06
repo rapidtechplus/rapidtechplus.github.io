@@ -16,13 +16,18 @@ import {
   Tag,
 } from "@/components/sections/pieces";
 import type { RelatedItem } from "@/components/sections/detail-layout";
+import {
+  SectionNav,
+  type SectionLink,
+} from "@/components/sections/section-nav";
 
 /**
  * Technology landing template. Each `/technologies/[slug]` reads like a
  * dedicated landing page, following the Priority 6 flow:
  * hero ([Tech] Development) → overview → Why [Tech] → Why Rapid Tech Plus →
  * Projects → FAQs → related technologies → CTA. Every optional section hides
- * gracefully when its data is absent.
+ * gracefully when its data is absent. A sticky section nav lists the sections
+ * that render; `assistant` is an optional slot for the guided assistant.
  */
 export function TechnologyLanding({
   crumbs,
@@ -38,6 +43,7 @@ export function TechnologyLanding({
   faqs,
   related,
   cta,
+  assistant,
 }: {
   crumbs: Crumb[];
   eyebrow: string;
@@ -52,20 +58,31 @@ export function TechnologyLanding({
   faqs?: Faq[];
   related?: RelatedItem[];
   cta: { title: string; body: string };
+  assistant?: ReactNode;
 }) {
+  const sections: SectionLink[] = [
+    ...(overview ? [{ id: "overview", label: "Overview" }] : []),
+    ...(reasons.length ? [{ id: "why-tech", label: `Why ${label}` }] : []),
+    ...(whyUs.length ? [{ id: "why-us", label: "Why us" }] : []),
+    ...(projects?.length ? [{ id: "projects", label: "Projects" }] : []),
+    ...(faqs?.length ? [{ id: "faq", label: "FAQ" }] : []),
+  ];
+
   return (
     <>
-      <PageHero crumbs={crumbs} eyebrow={eyebrow} title={title} lead={lead} />
+      <PageHero
+        crumbs={crumbs}
+        eyebrow={eyebrow}
+        title={title}
+        lead={lead}
+        actions={<CtaActions />}
+      />
 
-      <section style={{ paddingTop: 0 }}>
-        <div className="container">
-          <CtaActions />
-        </div>
-      </section>
+      <SectionNav sections={sections} />
 
       {/* Overview */}
       {overview ? (
-        <section style={{ paddingTop: "clamp(24px,4vw,48px)" }}>
+        <section id="overview">
           <div className="container-content container">
             <Reveal>
               <span className="eyebrow">Overview</span>
@@ -78,11 +95,14 @@ export function TechnologyLanding({
 
       {/* Why [Tech] */}
       {reasons.length > 0 ? (
-        <section className="band">
+        <section id="why-tech" className="band">
           <div className="container-wide container">
-            <SectionHead eyebrow={`Why ${label}`} title={`Why build with ${label}`}>
-              What makes {label} the right foundation for the product you&rsquo;re
-              building.
+            <SectionHead
+              eyebrow={`Why ${label}`}
+              title={`Why build with ${label}`}
+            >
+              What makes {label} the right foundation for the product
+              you&rsquo;re building.
             </SectionHead>
             <div className="grid-3 grid">
               {reasons.map((r, i) => (
@@ -101,12 +121,9 @@ export function TechnologyLanding({
 
       {/* Why Rapid Tech Plus */}
       {whyUs.length > 0 ? (
-        <section>
+        <section id="why-us">
           <div className="container-wide container">
-            <SectionHead
-              eyebrow="Why us"
-              title="Why Rapid Tech Plus"
-            >
+            <SectionHead eyebrow="Why us" title="Why Rapid Tech Plus">
               Senior engineering, delivered the way your team already works.
             </SectionHead>
             <div className="grid-3 grid">
@@ -126,14 +143,19 @@ export function TechnologyLanding({
 
       {/* Projects */}
       {projects && projects.length > 0 ? (
-        <section className="band">
+        <section id="projects" className="band">
           <div className="container-wide container">
             <SectionHead eyebrow="Projects" title={`${label} in action`}>
-              Representative builds that show what {label} delivers in production.
+              Representative builds that show what {label} delivers in
+              production.
             </SectionHead>
             <div className="grid-3 grid">
               {projects.map((p, i) => (
-                <Reveal className="card case-card" key={p.title} delay={i * 0.05}>
+                <Reveal
+                  className="card case-card"
+                  key={p.title}
+                  delay={i * 0.05}
+                >
                   <div className="case-top">
                     <span className="ico">
                       <Ico name={p.icon} />
@@ -144,7 +166,11 @@ export function TechnologyLanding({
                   <p>{p.summary}</p>
                   <div className="case-metrics">
                     {p.metrics.map((m) => (
-                      <MetricStat key={m.label} value={m.value} label={m.label} />
+                      <MetricStat
+                        key={m.label}
+                        value={m.value}
+                        label={m.label}
+                      />
                     ))}
                   </div>
                 </Reveal>
@@ -156,7 +182,7 @@ export function TechnologyLanding({
 
       {/* FAQs */}
       {faqs && faqs.length > 0 ? (
-        <section>
+        <section id="faq">
           <div className="container">
             <SectionHead eyebrow="FAQ" title="Frequently asked questions" />
             <FaqAccordion items={faqs} />
@@ -174,6 +200,7 @@ export function TechnologyLanding({
       ) : null}
 
       <CtaBanner title={cta.title} body={cta.body} />
+      {assistant}
     </>
   );
 }
