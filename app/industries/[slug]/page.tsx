@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { PageAssistant } from "@/components/assistant/page-assistant";
 import { DetailLayout } from "@/components/sections/detail-layout";
 import {
   getIndustry,
@@ -96,6 +97,14 @@ export default async function IndustryDetailPage({ params }: Params) {
           title: `Building software for ${industry.label.toLowerCase()}?`,
           body: `Tell us about your project and we'll help you plan the right approach for the ${industry.label.toLowerCase()} sector.`,
         }}
+        assistant={
+          <PageAssistant
+            label={industry.label}
+            overview={industry.overview}
+            included={industry.capabilities}
+            faqs={industryFaqs}
+          />
+        }
       />
     </>
   );

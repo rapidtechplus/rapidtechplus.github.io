@@ -76,29 +76,48 @@ export function matchTopic(
 
 type Feature = { title: string; body: string };
 
-/** Inputs for a service page's topic set — all already on the page. */
-export type ServiceKnowledge = {
+/** A template-specific section the assistant should be able to answer from. */
+export type ExtraTopic = {
+  id: string;
   label: string;
-  overview: string;
-  capabilities: Feature[];
-  problems?: Feature[];
-  technologies?: string[];
-  benefits?: Feature[];
-  process: readonly Feature[];
-  caseStudies?: { title: string; href: string }[];
-  faqs?: { q: string; a: string }[];
+  keywords: string[];
+  items: readonly Feature[];
+  /** Optional sentence shown before the bullet list. */
+  intro?: string;
+};
+
+/**
+ * Inputs for a detail page's topic set — everything is content already on
+ * the page. Shared by every detail template (services, AI, hire, technology,
+ * solutions, industries, products); omit what a page doesn't have.
+ */
+export type PageKnowledge = {
+  label: string;
+  overview?: string;
+  /** "What's included" — capabilities, deliverables, or features. */
+  included: readonly Feature[];
+  /** Chip text for `included`; defaults to "What's included in {label}?". */
+  includedLabel?: string;
+  problems?: readonly Feature[];
+  technologies?: readonly string[];
+  benefits?: readonly Feature[];
+  process?: readonly Feature[];
+  /** Template-specific sections (e.g. hiring models, projects). */
+  extras?: readonly ExtraTopic[];
+  caseStudies?: readonly { title: string; href: string }[];
+  faqs?: readonly { q: string; a: string }[];
   contactHref: string;
 };
 
 const bullets = (items: readonly Feature[]) =>
   items.map((i) => `• ${i.title} — ${i.body}`);
 
-/** Builds the assistant's topics for one service from its record. */
-export function buildServiceTopics(k: ServiceKnowledge): AssistantTopic[] {
+/** Builds the assistant's topics for one detail page. */
+export function buildPageTopics(k: PageKnowledge): AssistantTopic[] {
   const topics: AssistantTopic[] = [
     {
       id: "included",
-      label: `What's included in ${k.label}?`,
+      label: k.includedLabel ?? `What's included in ${k.label}?`,
       keywords: [
         "included",
         "include",
@@ -110,8 +129,9 @@ export function buildServiceTopics(k: ServiceKnowledge): AssistantTopic[] {
         "capabilities",
         "provide",
         "overview",
+        "features",
       ],
-      answer: [k.overview, ...bullets(k.capabilities)],
+      answer: [...(k.overview ? [k.overview] : []), ...bullets(k.included)],
     },
   ];
 
@@ -130,6 +150,15 @@ export function buildServiceTopics(k: ServiceKnowledge): AssistantTopic[] {
         "why",
       ],
       answer: bullets(k.problems),
+    });
+  }
+  for (const extra of k.extras ?? []) {
+    if (!extra.items.length) continue;
+    topics.push({
+      id: extra.id,
+      label: extra.label,
+      keywords: extra.keywords,
+      answer: [...(extra.intro ? [extra.intro] : []), ...bullets(extra.items)],
     });
   }
   if (k.technologies?.length) {
@@ -153,23 +182,26 @@ export function buildServiceTopics(k: ServiceKnowledge): AssistantTopic[] {
       ],
     });
   }
-  topics.push({
-    id: "process",
-    label: "How does the process work?",
-    keywords: [
-      "process",
-      "steps",
-      "start",
-      "work",
-      "approach",
-      "method",
-      "agile",
-      "phases",
-      "begin",
-      "engagement",
-    ],
-    answer: bullets(k.process),
-  });
+  if (k.process?.length) {
+    topics.push({
+      id: "process",
+      label: "How does the process work?",
+      keywords: [
+        "process",
+        "steps",
+        "start",
+        "work",
+        "approach",
+        "method",
+        "agile",
+        "phases",
+        "begin",
+        "engagement",
+        "onboarding",
+      ],
+      answer: bullets(k.process),
+    });
+  }
   if (k.benefits?.length) {
     topics.push({
       id: "benefits",
@@ -199,10 +231,9 @@ export function buildServiceTopics(k: ServiceKnowledge): AssistantTopic[] {
         "portfolio",
         "proof",
         "clients",
-        "work",
         "projects",
       ],
-      answer: ["Here is representative work related to this service:"],
+      answer: ["Here is representative work related to this page:"],
       links: k.caseStudies.map((c) => ({ label: c.title, href: c.href })),
     });
   }
@@ -225,6 +256,7 @@ export function buildServiceTopics(k: ServiceKnowledge): AssistantTopic[] {
       "duration",
       "weeks",
       "fee",
+      "hourly",
     ],
     answer: [
       "Cost and timeline depend on scope, so we don't publish fixed prices.",

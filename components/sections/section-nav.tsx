@@ -8,7 +8,8 @@ export type SectionLink = { id: string; label: string };
 /**
  * Sticky in-page section nav for long detail pages. Highlights the section
  * currently in view (IntersectionObserver) and scrolls horizontally on narrow
- * screens. Plain anchor links, so it works without JS too.
+ * screens. Plain anchor links, so it works without JS too. Renders nothing
+ * for fewer than three sections — a two-item nav is noise, not navigation.
  */
 export function SectionNav({ sections }: { sections: SectionLink[] }) {
   const [active, setActive] = useState(sections[0]?.id);
@@ -28,6 +29,8 @@ export function SectionNav({ sections }: { sections: SectionLink[] }) {
     targets.forEach((t) => observer.observe(t));
     return () => observer.disconnect();
   }, [sections]);
+
+  if (sections.length < 3) return null;
 
   return (
     <nav className="secnav" aria-label="On this page">

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { PageAssistant } from "@/components/assistant/page-assistant";
 import { TechnologyLanding } from "@/components/sections/technology-landing";
 import {
   getTechnology,
@@ -106,6 +107,49 @@ export default async function TechnologyPage({ params }: Params) {
         faqs={tech.faqs}
         related={related}
         cta={technologyCta}
+        assistant={
+          <PageAssistant
+            label={tech.label}
+            overview={tech.overview}
+            included={tech.reasons}
+            includedLabel={`Why build with ${tech.label}?`}
+            extras={[
+              {
+                id: "why-us",
+                label: "Why build it with Rapid Tech Plus?",
+                keywords: [
+                  "why",
+                  "choose",
+                  "different",
+                  "team",
+                  "experience",
+                  "senior",
+                  "quality",
+                ],
+                items: whyRapidTechPlus,
+              },
+              {
+                id: "projects",
+                label: `What have you built with ${tech.label}?`,
+                keywords: [
+                  "project",
+                  "projects",
+                  "built",
+                  "examples",
+                  "example",
+                  "portfolio",
+                  "work",
+                  "case",
+                ],
+                items: (tech.projects ?? []).map((p) => ({
+                  title: p.title,
+                  body: p.summary,
+                })),
+              },
+            ]}
+            faqs={tech.faqs}
+          />
+        }
       />
     </>
   );

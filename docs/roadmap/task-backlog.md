@@ -2201,10 +2201,33 @@ lifting the static constraint.
 - ⚠️ Not verified: Lighthouse, Firefox/Safari/Edge, screen-reader pass
 - Privacy: assistant runs entirely in the browser; nothing is sent or stored,
   so the privacy policy needs no change
-- [ ] Phase 35 — roll section nav + assistant + ProcessScroll to solutions,
-      industries, hire, technology, and AI detail templates
+- [x] Phase 35 — rollout to the other detail templates (see Phase 35)
 - [ ] Unit tests for `lib/assistant.ts` once a test runner is added (none
       configured in the repo today)
+
+## Phase 35 — Detail templates: section nav + assistant rollout ✅
+
+- [x] `lib/assistant.ts`: `buildServiceTopics` → generic `buildPageTopics`
+      (`PageKnowledge`: optional problems/stack/process/benefits/case
+      studies/FAQs, template-specific `extras`, custom `includedLabel`)
+- [x] `components/assistant/page-assistant.tsx` — server wrapper that builds
+      topics at export time; all detail pages use it (no duplicated wiring)
+- [x] AI capability pages (`ServiceLanding`) — assistant added
+- [x] Hire roles — section nav (7 sections), scroll-told hiring process,
+      assistant with hiring-model + why-us topics
+- [x] Technologies — section nav (5 sections), assistant with why-us +
+      projects topics; first chip "Why build with {tech}?"
+- [x] Solutions / industries / products (`DetailLayout`) — assistant only;
+      `SectionNav` now renders nothing below 3 sections (these pages have 2)
+- [x] Fix: hire pages lower-cased role names in headings/CTA ("ai agent
+      engineers", "More ai engineers") — acronyms now preserved
+- [x] Verified (Chromium): one route per type — every nav link resolves to
+      an existing id, chips render, pricing question answers + hands off,
+      zero console errors; no overflow on 10 routes × 7 widths × 2 themes
+- ⚠️ Not verified: Lighthouse, Firefox/Safari/Edge, screen-reader pass
+- [ ] Case-study detail pages (`CaseStudyLayout`) not yet covered — they
+      are narrative, not Q&A; decide whether an assistant adds value there
+- [ ] Unit tests for `lib/assistant.ts` once a test runner exists
 
 ## Phase 6 — Future Expansion (superseded — see Phases A–O above)
 
