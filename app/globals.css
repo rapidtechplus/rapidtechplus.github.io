@@ -1692,7 +1692,9 @@ section {
 .aurora {
   position: absolute;
   border-radius: 50%;
-  filter: blur(90px);
+  /* Soft edge from the gradient itself, not `filter: blur()`: a 90px blur on
+     a scale-animated layer is re-rasterised every frame (measured 13 → 56 fps
+     on software rendering, Phase 36). Transform-only animation stays cheap. */
   will-change: transform;
 }
 .aurora.a1 {
@@ -1700,7 +1702,7 @@ section {
   height: 46vw;
   top: -14vw;
   right: -6vw;
-  background: var(--aurora-1);
+  background: radial-gradient(closest-side, var(--aurora-1), transparent);
   animation: drift1 26s var(--ease) infinite alternate;
 }
 .aurora.a2 {
@@ -1708,7 +1710,7 @@ section {
   height: 40vw;
   top: 6vw;
   left: -12vw;
-  background: var(--aurora-2);
+  background: radial-gradient(closest-side, var(--aurora-2), transparent);
   animation: drift2 32s var(--ease) infinite alternate;
 }
 .aurora.a3 {
@@ -1716,7 +1718,7 @@ section {
   height: 30vw;
   top: 44vw;
   left: 40vw;
-  background: var(--aurora-3);
+  background: radial-gradient(closest-side, var(--aurora-3), transparent);
   animation: drift3 38s var(--ease) infinite alternate;
 }
 @keyframes drift1 {
@@ -1868,555 +1870,114 @@ section {
   margin-top: 40px;
 }
 
-/* AI neural-network hero visual */
-.hero-visual {
+/* Hero stage (Phase 36): canvas "neural globe" + floating telemetry chips.
+   The canvas overflows its stage on purpose and the hero clips it, so the
+   globe can be large without affecting layout. */
+.hero-split {
   position: relative;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-xl);
-  background:
-    radial-gradient(90% 90% at 70% 10%, var(--accent-soft), transparent 60%),
-    var(--bg-elev);
-  box-shadow: var(--shadow-lg);
-  padding: clamp(18px, 2.4vw, 32px);
   overflow: hidden;
+  isolation: isolate;
 }
-.hero-visual::before {
-  content: "";
+.hero-stage {
+  position: relative;
+  min-height: clamp(360px, 42vw, 560px);
+}
+.hero-scene {
   position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(var(--grid-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-  background-size: 34px 34px;
-  mask-image: radial-gradient(80% 80% at 50% 40%, #000, transparent 78%);
-  -webkit-mask-image: radial-gradient(
-    80% 80% at 50% 40%,
-    #000,
-    transparent 78%
-  );
+  inset: -22% -30% -22% -20%;
+  z-index: -1;
   pointer-events: none;
-}
-.hero-visual svg {
-  position: relative;
-  width: 100%;
-  height: auto;
-  display: block;
-}
-/* Console framing — mono status bar above the visual, telemetry row below.
-   Frames the neural core as a running engineering system, not an illustration. */
-.hv-bar {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 2px 4px 14px;
-  border-bottom: 1px solid var(--hairline);
-  margin-bottom: 8px;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  color: var(--text-dim);
-}
-.hv-bar-left {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  min-width: 0;
-}
-.hv-dots {
-  display: inline-flex;
-  gap: 6px;
-}
-.hv-dots i {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  opacity: 0.75;
-}
-.hv-dots i:nth-child(1) {
-  background: var(--error);
-}
-.hv-dots i:nth-child(2) {
-  background: var(--warning);
-}
-.hv-dots i:nth-child(3) {
-  background: var(--success);
-}
-.hv-title {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.hv-live {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  color: var(--success);
-  white-space: nowrap;
-}
-.hv-live::before {
-  content: "";
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--success);
-  box-shadow: 0 0 0 3px var(--success-soft);
-  animation: pulse 2.6s var(--ease) infinite;
-}
-/* Tab strip — a picture of tabs (the console is decorative and aria-hidden),
-   with an ink bar that slides to track the auto-cycling pane. */
-.hv-tabs {
-  position: relative;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0;
-  margin-bottom: 14px;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-}
-.hv-tab {
-  padding: 7px 4px;
-  text-align: center;
-  color: var(--text-dim);
-  white-space: nowrap;
-  transition: color 0.35s var(--ease);
-}
-.hv-tab.is-active {
-  color: var(--text);
-}
-.hv-tab-ink {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: calc(100% / 3);
-  height: 2px;
-  border-radius: 2px;
-  background: linear-gradient(90deg, var(--accent), var(--accent-2));
-  box-shadow: 0 0 10px var(--accent-soft);
-  /* --i is the active pane index, set inline by the component. */
-  transform: translateX(calc(var(--i) * 100%));
-  transition: transform 0.45s var(--ease);
-}
-/* Panes — stacked in one grid cell so the console keeps a fixed height and
-   nothing reflows as content swaps. 2:1 matches the graph SVG's viewBox. */
-.hv-panes {
-  display: grid;
-  aspect-ratio: 2 / 1;
-  /* Pane content sizes off this box (cqw), not the viewport: the hero is two
-     columns on desktop and one when stacked, so a pane's width and the viewport
-     width do not track each other. */
-  container-type: inline-size;
-}
-.hv-pane {
-  position: relative;
-  grid-area: 1 / 1;
-  min-width: 0;
-  /* On narrow screens the code pane is taller than the 2:1 box, so the shared
-     cell grows to fit it (clipping code would be worse). Centering keeps the
-     shorter panes — the graph especially — from hanging off the top edge. */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   opacity: 0;
-  visibility: hidden;
-  transform: translateY(8px) scale(0.985);
-  transition:
-    opacity 0.45s var(--ease),
-    transform 0.45s var(--ease),
-    visibility 0.45s;
+  transition: opacity 1.4s var(--ease);
 }
-.hv-pane.is-active {
+.hero-scene.is-ready {
   opacity: 1;
-  visibility: visible;
-  transform: none;
 }
-.hv-chips {
+.hero-scene canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+/* Static stand-in shown until (or instead of) the canvas: a soft orb, so
+   reduced-motion and no-JS visitors still get a composed hero. */
+.hero-stage::before {
+  content: "";
   position: absolute;
-  inset: 0;
-  pointer-events: none;
+  inset: 12% 14%;
+  z-index: -2;
+  border-radius: 50%;
+  background:
+    radial-gradient(closest-side, var(--accent-soft), transparent 70%),
+    radial-gradient(closest-side at 60% 40%, var(--aurora-1), transparent 80%);
+  filter: blur(8px);
 }
-.hv-chip {
+.hero-chip {
   position: absolute;
   display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 6px 11px;
-  border: 1px solid var(--border);
-  border-radius: 9px;
-  background: color-mix(in srgb, var(--bg-elev) 78%, transparent);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  box-shadow: var(--shadow-sm);
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  color: var(--text-muted);
-  white-space: nowrap;
-  animation: hv-float 6s var(--ease) infinite;
-}
-.hv-chip-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-soft);
-}
-.hv-chip--tl {
-  top: 6%;
-  left: 2%;
-}
-.hv-chip--tr {
-  top: 12%;
-  right: 3%;
-}
-.hv-chip--bl {
-  bottom: 12%;
-  left: 4%;
-}
-.hv-chip--br {
-  bottom: 7%;
-  right: 2%;
-}
-@keyframes hv-float {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-7px);
-  }
-}
-/* Live terminal log below the stage. */
-.hv-term {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  padding: 14px 4px 2px;
-  border-top: 1px solid var(--hairline);
-  margin-top: 8px;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  color: var(--text-dim);
-}
-.hv-term-line {
-  display: flex;
   align-items: center;
   gap: 8px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  opacity: 0;
-  transform: translateX(-6px);
-  animation: hv-log-in 0.5s var(--ease) forwards;
-}
-.hv-term-glyph {
-  font-weight: 700;
-}
-.hv-term-glyph--prompt {
-  color: var(--accent);
-}
-.hv-term-glyph--info {
-  color: var(--text-muted);
-}
-.hv-term-glyph--ok {
-  color: var(--success);
-}
-@keyframes hv-log-in {
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-.hv-term-caret {
-  width: 8px;
-  height: 14px;
-  margin-top: 2px;
-  background: var(--accent);
-  border-radius: 1px;
-  animation: hv-blink 1.1s steps(1) infinite;
-}
-@keyframes hv-blink {
-  0%,
-  50% {
-    opacity: 1;
-  }
-  50.01%,
-  100% {
-    opacity: 0;
-  }
-}
-/* Orbital rings spin around the core (viewBox center: 640x320 → 320,160). */
-.hv-orbit {
-  transform-box: view-box;
-  transform-origin: 320px 160px;
-}
-.hv-spin {
-  animation: hv-rotate 40s linear infinite;
-}
-@keyframes hv-rotate {
-  to {
-    transform: rotate(360deg);
-  }
-}
-/* Satellite nodes gently pulse. */
-.hv-node {
-  filter: drop-shadow(0 0 4px var(--accent-soft));
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: hv-pulse 3.6s var(--ease) infinite;
-}
-@keyframes hv-pulse {
-  0%,
-  100% {
-    opacity: 0.72;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.22);
-  }
-}
-/* Core halo breathes; inner dot flickers with intelligence. */
-.hv-halo {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: hv-breathe 4.2s var(--ease) infinite;
-}
-@keyframes hv-breathe {
-  0%,
-  100% {
-    opacity: 0.5;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.9;
-    transform: scale(1.25);
-  }
-}
-.hv-core-dot {
-  filter: drop-shadow(0 0 8px var(--spark));
-  animation: hv-flicker 2.8s var(--ease) infinite;
-}
-@keyframes hv-flicker {
-  0%,
-  100% {
-    opacity: 0.85;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-/* Signal spokes flow outward from the core. */
-.hv-spoke {
-  stroke-dasharray: 22 120;
-  animation: hv-flow 3.4s linear infinite;
-}
-@keyframes hv-flow {
-  from {
-    stroke-dashoffset: 142;
-  }
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-/* ── Code pane ─────────────────────────────────────────────────────────────
-   The snippet types itself in: each line's clip-path opens left-to-right on
-   character steps, so the reveal lands on glyph boundaries like a real editor. */
-.hv-code {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 100%;
-  padding: 0 clamp(4px, 2cqw, 18px);
-  font-family: var(--font-mono);
-  /* Floor is the readability limit on a 320px phone; ceiling stops the snippet
-     ballooning in a wide desktop pane. */
-  font-size: clamp(0.68rem, 3.2cqw, 0.9rem);
-  line-height: 1.85;
-  overflow: hidden;
-}
-.hv-code-line {
-  display: flex;
-  gap: clamp(6px, 2.4cqw, 12px);
-  min-width: 0;
-}
-.hv-code-num {
-  flex: none;
-  width: 1.4em;
-  text-align: right;
-  color: var(--text-dim);
-  font-style: normal;
-  opacity: 0.5;
-  user-select: none;
-}
-.hv-code-text {
-  min-width: 0;
-  color: var(--text-muted);
-  white-space: pre;
-  overflow: hidden;
-  text-overflow: clip;
-}
-.hv-code-type {
-  clip-path: inset(0 100% 0 0);
-  animation-name: hv-type;
-  animation-fill-mode: forwards;
-}
-@keyframes hv-type {
-  to {
-    clip-path: inset(0 0 0 0);
-  }
-}
-/* Syntax tokens */
-.hv-t--kw {
-  color: var(--accent-2);
-}
-.hv-t--str {
-  color: var(--success);
-}
-.hv-t--fn {
-  color: var(--spark);
-}
-.hv-t--num {
-  color: var(--warning);
-}
-.hv-t--prop {
-  color: var(--text);
-}
-.hv-t--punc {
-  color: var(--text-dim);
-}
-.hv-t--com {
-  color: var(--text-dim);
-  font-style: italic;
-}
-
-/* ── Deploy pane ─────────────────────────────────────────────────────────── */
-.hv-deploy {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(6px, 2cqw, 14px);
-  height: 100%;
-  justify-content: center;
-  padding: 0 clamp(2px, 1cqw, 8px);
-  font-family: var(--font-mono);
-  font-size: clamp(0.62rem, 2.4cqw, 0.75rem);
-}
-.hv-dep-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  color: var(--text-dim);
-}
-.hv-dep-env {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.hv-dep-health {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 3px 9px;
+  padding: 9px 14px;
+  border: 1px solid var(--border-strong);
   border-radius: 999px;
-  background: var(--success-soft);
-  color: var(--success);
-  white-space: nowrap;
-}
-.hv-dep-stats {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(5px, 1.6cqw, 12px);
-}
-.hv-dep-stat {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding: clamp(7px, 2.2cqw, 14px);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  background: color-mix(in srgb, var(--bg-elev) 70%, transparent);
-  min-width: 0;
-}
-.hv-dep-val {
-  font-size: clamp(0.9rem, 4.4cqw, 1.4rem);
-  font-weight: 700;
-  color: var(--text);
-  letter-spacing: -0.02em;
-  line-height: 1.15;
-}
-.hv-dep-label {
-  color: var(--text-dim);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.hv-dep-delta--up,
-.hv-dep-delta--down {
-  color: var(--success);
-}
-.hv-dep-delta--flat {
-  color: var(--text-dim);
-}
-/* Throughput chart — bars grow from the baseline to their own --h. */
-.hv-dep-chart {
-  display: flex;
-  align-items: flex-end;
-  gap: clamp(2px, 1.1cqw, 7px);
-  height: clamp(34px, 13cqw, 66px);
-}
-.hv-dep-bar {
-  flex: 1;
-  min-width: 0;
-  height: var(--h);
-  border-radius: 3px 3px 1px 1px;
-  background: linear-gradient(
-    180deg,
-    var(--accent),
-    color-mix(in srgb, var(--accent-2) 55%, transparent)
-  );
-  transform-origin: bottom;
-}
-.hv-dep-grow {
-  animation: hv-bar-grow 0.6s var(--ease) both;
-}
-@keyframes hv-bar-grow {
-  from {
-    transform: scaleY(0);
-    opacity: 0;
-  }
-  to {
-    transform: scaleY(1);
-    opacity: 1;
-  }
-}
-.hv-dep-steps {
-  display: flex;
-  flex-wrap: wrap;
-  gap: clamp(5px, 2cqw, 14px);
-  color: var(--text-dim);
-}
-.hv-dep-step {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  white-space: nowrap;
-}
-.hv-dep-tick {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--success);
-  flex: none;
-}
-.hv-dep-step--active {
+  background: color-mix(in srgb, var(--bg-elev) 72%, transparent);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-md);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
   color: var(--text-muted);
+  white-space: nowrap;
+  animation: hero-float 7s ease-in-out infinite;
 }
-.hv-dep-step--active .hv-dep-tick {
+.hero-chip b {
+  color: var(--text);
+  font-weight: 600;
+}
+.hero-chip .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
   background: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-soft);
-  animation: pulse 1.8s var(--ease) infinite;
+  box-shadow: 0 0 10px var(--accent);
+}
+.hero-chip.ok .dot {
+  background: var(--success);
+  box-shadow: 0 0 10px var(--success);
+}
+.hero-chip.c1 {
+  top: 12%;
+  left: 2%;
+}
+.hero-chip.c2 {
+  top: 46%;
+  right: 0;
+  animation-delay: -2.3s;
+}
+.hero-chip.c3 {
+  bottom: 10%;
+  left: 14%;
+  animation-delay: -4.6s;
+}
+@keyframes hero-float {
+  50% {
+    transform: translateY(-10px);
+  }
+}
+@media (max-width: 1024px) {
+  .hero-stage {
+    min-height: 380px;
+    max-width: 560px;
+    width: 100%;
+    margin-inline: auto;
+  }
+}
+@media (max-width: 480px) {
+  .hero-stage {
+    min-height: 300px;
+  }
+  .hero-chip {
+    font-size: 0.72rem;
+    padding: 7px 11px;
+  }
 }
 
 /* Testimonials */
@@ -3933,10 +3494,6 @@ a.contact-method:hover .cm-value {
   .hero-split .trust-row {
     justify-content: center;
   }
-  .hero-split .hero-visual {
-    max-width: 560px;
-    margin-inline: auto;
-  }
   .timeline,
   .timeline.timeline-5 {
     grid-template-columns: repeat(2, 1fr);
@@ -4177,33 +3734,9 @@ a.contact-method:hover .cm-value {
   .aurora,
   .particle,
   .hero .badge .dot,
-  .hv-node,
-  .hv-spin,
-  .hv-halo,
-  .hv-core-dot,
-  .hv-spoke,
-  .hv-chip,
-  .hv-term-caret,
-  .grad-text,
-  .hv-dep-grow,
-  .hv-dep-step--active .hv-dep-tick,
-  .hv-live::before {
+  .hero-chip,
+  .grad-text {
     animation: none !important;
-  }
-  /* The console holds on the Graph pane; the ink bar and pane swap stop moving,
-     and the code snippet shows fully typed. */
-  .hv-tab,
-  .hv-tab-ink,
-  .hv-pane {
-    transition: none !important;
-  }
-  .hv-code-type {
-    clip-path: none;
-    animation: none !important;
-  }
-  .hv-dep-bar {
-    transform: none;
-    opacity: 1;
   }
   .bg-parallax,
   .magnetic {
@@ -4223,14 +3756,6 @@ a.contact-method:hover .cm-value {
     transform: none;
     opacity: 1;
     animation: none;
-  }
-  .hv-term-line {
-    opacity: 1;
-    transform: none;
-    animation: none !important;
-  }
-  .hv-term-caret {
-    display: none;
   }
   .particle {
     display: none;
