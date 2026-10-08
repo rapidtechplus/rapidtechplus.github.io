@@ -2229,6 +2229,31 @@ lifting the static constraint.
       are narrative, not Q&A; decide whether an assistant adds value there
 - [ ] Unit tests for `lib/assistant.ts` once a test runner exists
 
+## Phase 36 — Animated hero: canvas "neural globe" 🔍 (awaiting owner review)
+
+Owner asked for a "tremendous" animated site; Three.js was evaluated and then
+ruled out by the owner. Built on the Canvas 2D API with zero dependencies.
+
+- [x] `components/hero-scene/globe.ts` — framework-free renderer: ~640
+      Fibonacci-sphere nodes (360 on small screens), great-circle arcs with
+      travelling pulses, orbit rings, pointer tilt, scroll zoom; batched draws
+- [x] `components/hero-scene/index.tsx` — loads the 1.8 KB (gz) chunk on
+      idle after first paint; skipped under reduced motion / Save-Data; pauses
+      off-screen and in hidden tabs; follows theme changes
+- [x] Hero right column → globe stage + 3 floating telemetry chips;
+      old console visual (`components/hero-visual/`, ~550 lines CSS) removed
+- [x] Perf fix (pre-existing, site-wide): aurora blobs used `filter:
+      blur(90px)` on scale-animated layers → re-rasterised every frame.
+      Replaced with radial gradients: 13 → 58 fps desktop (software render)
+- [x] Verified: lint, typecheck, build; prod export LCP 312 ms, globe ready
+      630 ms; no overflow 10 routes × 7 widths × 2 themes; zero console errors;
+      reduced-motion never boots the scene
+- ⚠️ Not verified: Lighthouse, Firefox/Safari/Edge, real GPU devices
+- [ ] Owner: hero chip values ("agents online 12", "p95 42ms") are
+      illustrative — replace or neutralise
+- [ ] Next: SVG motion for the rest of the site (service illustrations,
+      scroll-linked section transitions)
+
 ## Phase 6 — Future Expansion (superseded — see Phases A–O above)
 
 - [ ] Product detail pages (`generateStaticParams` from `content/`)
