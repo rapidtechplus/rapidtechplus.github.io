@@ -2089,6 +2089,146 @@ overflow at every width 320–1280.
 
 ---
 
+## Phase 31 — Visual refresh: cobalt & slate palette ✅
+
+Owner-approved low-risk refresh, done entirely through tokens and literals in
+`app/globals.css` (class API unchanged, so every page inherits it).
+
+- [x] Palette moved from indigo/violet to a cobalt → sky ramp on slate neutrals
+      (both themes tuned separately; token names kept for API stability)
+- [x] Calmer background: aurora opacity roughly halved, particles dimmed
+- [x] `theme-color` metas, `global-error.tsx` and OG template recoloured;
+      13 OG images regenerated (`npm run og:generate`)
+- [x] Verified: lint, typecheck, build; home page has no horizontal overflow at
+      360/768/1280/1440/1920 in light + dark (Playwright/Chromium screenshots)
+- [x] Contrast: accent `#2563eb` on white ≈ 5.2:1, `#60a5fa` on `#0b0f17` ≈ 7.5:1;
+      muted text uses Tailwind slate-600/500 (≥ 4.5:1 on light bg)
+- ⚠️ Not verified here: Lighthouse, Firefox/Safari/Edge, inner pages beyond spot checks
+- [ ] Follow-up: official logo mark is still violet — needs a brand-asset
+      decision (recolour vs keep as deliberate contrast)
+- [ ] Follow-up: type-scale/spacing pass (phase 2 of the refresh), if wanted
+
+## Phase 32 — Design language v2: shell + shared primitives ✅
+
+Owner request: modern, 2026 AI-company look from landing through inner pages,
+including header and footer. Done at the shared-primitive layer so all ~60
+routes inherit it with minimal markup change.
+
+- [x] Editorial type scale — larger, tighter, lighter-weight h1/h2
+- [x] `SectionHead` → left-aligned editorial layout (title left, lead right;
+      single column < 900px); eyebrow uses an accent dot, muted mono text
+- [x] Section rhythm increased; alternating bands softened; gradient-text
+      shimmer animation removed (static gradient)
+- [x] Buttons → pill shape, reduced glow; ghost button is translucent
+- [x] Header — 66px bar with a permanent hairline, sentence-case wordmark,
+      quieter slogan, logo glow removed (nav IA + underline indicator kept)
+- [x] Cards — subtle top sheen, 2px hover lift (was 5px), neutral icon tile
+- [x] `PageHero` — left-aligned editorial hero with gradient mesh + fading
+      grid; new `actions` prop puts CTAs inside the hero (service, hire and
+      technology landings migrated off a separate CTA section)
+- [x] Footer — now theme-aware (light/dark palettes) + oversized decorative
+      wordmark (`aria-hidden`); hardcoded white rgba hovers tokenised
+- [x] Home: `section-head` misused as a button wrapper → new `.section-actions`
+- [x] Verified: lint, typecheck, build; no horizontal overflow on 9 routes ×
+      7 widths (320–1920) × 2 themes (Playwright/Chromium); visual review of
+      home, services, service detail, case studies, privacy (both themes,
+      desktop + 375px)
+- ⚠️ Not verified here: Lighthouse, Firefox/Safari/Edge, mega-menu open states
+- [ ] Next — Phase 33: landing page restructure (bento capability grid,
+      logo/metrics strip, fewer uniform card grids)
+- [ ] Next — Phase 34: detail templates (sticky in-page nav, richer visuals)
+- [x] ~~Decision needed: 8 top-level nav items~~ → done in Phase 33a
+
+## Phase 33a — Primary nav: 8 → 5 items ✅
+
+Owner-approved. Top level is now **AI · Services · Solutions · Case Studies ·
+Company** (composed in `content/site.ts`).
+
+- [x] Hire Expert → second rail category ("Hire experts") in the Services
+      panel, one representative role per discipline; Services panel moved from
+      flat to master–detail
+- [x] Industries → "By industry" category in the Solutions showcase
+- [x] Blog → Company panel sidebar
+- [x] "Artificial Intelligence" label shortened to "AI" in the bar
+- [x] Desktop/sheet breakpoint lowered 1400 → 1100px (bar now fits from 1101px)
+- [x] `.nav { overflow-x: clip }` — mega hover bridges no longer create a
+      horizontal scrollbar at 1101–1300px
+- [x] Verified: no overflow 1101/1180/1280/1440; Services, Solutions, Company
+      panels screenshot-checked at 1280 (Chromium)
+
+## Phase 33b — Pattern study + homepage restructure ✅
+
+- [x] `docs/design/benchmark-patterns.md` — 12-site reference set, 10
+      adopted patterns, rejected patterns with reasons
+- [x] Toolkit marquee under the hero (`components/sections/home/tech-marquee.tsx`);
+      pure CSS, pauses on hover, static wrapped row under reduced motion;
+      replaces the bottom "Our toolkit" chip section
+- [x] Services + AI grids merged into one asymmetric capability bento with a
+      2×2 flagship AI tile (animated orbit motif) and a wide CTA tile
+- [x] Process → scroll-told layout: sticky intro + stage list with a rail
+      that fills via CSS scroll-driven animation (`animation-timeline: view()`);
+      static full rail where unsupported (Firefox/Safari) or reduced motion
+- [x] Verified: lint, typecheck, build; no overflow 9 routes × 7 widths ×
+      2 themes; desktop 1440 dark + mobile 375 light screenshot review
+- ⚠️ Not verified: Lighthouse, non-Chromium browsers
+- [ ] Content: `homeStats` ("100% focus on quality", "∞ room to scale") are
+      not credible proof points — replace with real numbers (owner input)
+
+## Phase 34 — Service template v2 + guided assistant ✅
+
+Owner chose option A (static guided assistant) over a third-party widget or
+lifting the static constraint.
+
+- [x] `lib/assistant.ts` — pure topic builder + keyword matcher; answers are
+      the page's own content (capabilities, problems, stack, process,
+      benefits, case studies, FAQs); pricing/timeline always hand off to
+      /contact; unmatched questions hand off too. Built at export time.
+- [x] `components/assistant/guided-assistant.tsx` — floating launcher +
+      non-modal dialog: focus moves to input on open, Escape closes and
+      returns focus, `role="log"` + `aria-live`, suggestion chips, typing
+      indicator skipped under reduced motion, icon-only launcher on phones
+- [x] `components/sections/section-nav.tsx` — sticky "On this page" nav,
+      IntersectionObserver active state, `aria-current="location"`, renders
+      only sections that exist; anchors offset by `--secnav-h`
+- [x] `ProcessScroll` promoted to `components/sections/` and used in the
+      service template; `ServiceLanding` gains section ids + `assistant` slot
+- [x] FAQ list left-aligned to match editorial section heads
+- [x] `.sr-only` utility added (did not exist)
+- [x] Verified (Chromium, 1440 dark + 375 light): chip answer, free-text
+      pricing answer, unmatched → handoff, Escape → focus to launcher,
+      section-nav jump + active state, no console errors; no overflow on
+      10 routes × 7 widths × 2 themes
+- ⚠️ Not verified: Lighthouse, Firefox/Safari/Edge, screen-reader pass
+- Privacy: assistant runs entirely in the browser; nothing is sent or stored,
+  so the privacy policy needs no change
+- [x] Phase 35 — rollout to the other detail templates (see Phase 35)
+- [ ] Unit tests for `lib/assistant.ts` once a test runner is added (none
+      configured in the repo today)
+
+## Phase 35 — Detail templates: section nav + assistant rollout ✅
+
+- [x] `lib/assistant.ts`: `buildServiceTopics` → generic `buildPageTopics`
+      (`PageKnowledge`: optional problems/stack/process/benefits/case
+      studies/FAQs, template-specific `extras`, custom `includedLabel`)
+- [x] `components/assistant/page-assistant.tsx` — server wrapper that builds
+      topics at export time; all detail pages use it (no duplicated wiring)
+- [x] AI capability pages (`ServiceLanding`) — assistant added
+- [x] Hire roles — section nav (7 sections), scroll-told hiring process,
+      assistant with hiring-model + why-us topics
+- [x] Technologies — section nav (5 sections), assistant with why-us +
+      projects topics; first chip "Why build with {tech}?"
+- [x] Solutions / industries / products (`DetailLayout`) — assistant only;
+      `SectionNav` now renders nothing below 3 sections (these pages have 2)
+- [x] Fix: hire pages lower-cased role names in headings/CTA ("ai agent
+      engineers", "More ai engineers") — acronyms now preserved
+- [x] Verified (Chromium): one route per type — every nav link resolves to
+      an existing id, chips render, pricing question answers + hands off,
+      zero console errors; no overflow on 10 routes × 7 widths × 2 themes
+- ⚠️ Not verified: Lighthouse, Firefox/Safari/Edge, screen-reader pass
+- [ ] Case-study detail pages (`CaseStudyLayout`) not yet covered — they
+      are narrative, not Q&A; decide whether an assistant adds value there
+- [ ] Unit tests for `lib/assistant.ts` once a test runner exists
+
 ## Phase 6 — Future Expansion (superseded — see Phases A–O above)
 
 - [ ] Product detail pages (`generateStaticParams` from `content/`)

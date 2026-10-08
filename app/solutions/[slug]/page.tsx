@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { PageAssistant } from "@/components/assistant/page-assistant";
 import { DetailLayout } from "@/components/sections/detail-layout";
 import {
   getSolution,
@@ -89,6 +90,14 @@ export default async function SolutionDetailPage({ params }: Params) {
           title: "Ready to solve this together?",
           body: `Tell us about your ${solution.label} goals and we'll help you plan the right approach.`,
         }}
+        assistant={
+          <PageAssistant
+            label={solution.label}
+            overview={solution.overview}
+            included={solution.capabilities}
+            faqs={solutionFaqs}
+          />
+        }
       />
     </>
   );

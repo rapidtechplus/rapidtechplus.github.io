@@ -34,9 +34,9 @@ export default function GlobalError({
       >
         {/* Scoped theme tokens — no globals.css available in this boundary. */}
         <style>{`
-          :root { --bg: #fbfbfd; --fg: #12121a; --dim: #55556a; --accent: #4f46e5; --on-accent: #fff; --line: #e6e6ee; }
+          :root { --bg: #fbfbfd; --fg: #12121a; --dim: #55556a; --accent: #2563eb; --on-accent: #fff; --line: #e6e6ee; }
           @media (prefers-color-scheme: dark) {
-            :root { --bg: #0a0a13; --fg: #f4f4fa; --dim: #a5a5bd; --accent: #8a8fff; --on-accent: #0a0a13; --line: #23232f; }
+            :root { --bg: #0b0f17; --fg: #f4f4fa; --dim: #a5a5bd; --accent: #60a5fa; --on-accent: #0b0f17; --line: #23232f; }
           }
           .ge-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
         `}</style>
@@ -94,7 +94,7 @@ export default function GlobalError({
                 padding: "12px 22px",
                 fontSize: "0.98rem",
                 fontWeight: 600,
-                background: "linear-gradient(180deg, #6165f0, #4f46e5)",
+                background: "linear-gradient(180deg, #2563eb, #2563eb)",
                 color: "#fff",
               }}
             >

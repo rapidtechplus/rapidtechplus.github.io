@@ -10,10 +10,13 @@ import {
   CtaBanner,
   CtaActions,
   Tag,
-  TimelineStep,
 } from "@/components/sections/pieces";
 import type { RelatedItem } from "@/components/sections/detail-layout";
-import { cn } from "@/lib/utils";
+import { ProcessScroll } from "@/components/sections/process-scroll";
+import {
+  SectionNav,
+  type SectionLink,
+} from "@/components/sections/section-nav";
 
 type ProcessStep = { icon: string; title: string; body: string };
 
@@ -22,7 +25,9 @@ type ProcessStep = { icon: string; title: string; body: string };
  * dedicated hire-a-specialist landing page, following the high-converting flow:
  * hero → why Rapid Tech Plus → developer skills → hiring models → technology
  * stack → development process → FAQs → related roles → contact CTA. Every
- * optional section hides gracefully when its data is absent.
+ * optional section hides gracefully when its data is absent. A sticky section
+ * nav lists the sections that render; `assistant` is an optional slot for the
+ * page's guided assistant.
  */
 export function HireLanding({
   crumbs,
@@ -41,6 +46,7 @@ export function HireLanding({
   related,
   relatedTitle,
   cta,
+  assistant,
 }: {
   crumbs: Crumb[];
   eyebrow: string;
@@ -58,20 +64,33 @@ export function HireLanding({
   related?: RelatedItem[];
   relatedTitle?: string;
   cta: { title: string; body: string };
+  assistant?: ReactNode;
 }) {
+  const sections: SectionLink[] = [
+    ...(overview ? [{ id: "overview", label: "Overview" }] : []),
+    ...(reasons.length ? [{ id: "why-us", label: "Why us" }] : []),
+    ...(skills.length ? [{ id: "skills", label: "Skills" }] : []),
+    ...(models.length ? [{ id: "models", label: "Hiring models" }] : []),
+    ...(technologies?.length ? [{ id: "stack", label: "Stack" }] : []),
+    { id: "process", label: "Process" },
+    ...(faqs?.length ? [{ id: "faq", label: "FAQ" }] : []),
+  ];
+
   return (
     <>
-      <PageHero crumbs={crumbs} eyebrow={eyebrow} title={title} lead={lead} />
+      <PageHero
+        crumbs={crumbs}
+        eyebrow={eyebrow}
+        title={title}
+        lead={lead}
+        actions={<CtaActions />}
+      />
 
-      <section style={{ paddingTop: 0 }}>
-        <div className="container">
-          <CtaActions />
-        </div>
-      </section>
+      <SectionNav sections={sections} />
 
       {/* Overview */}
       {overview ? (
-        <section style={{ paddingTop: "clamp(24px,4vw,48px)" }}>
+        <section id="overview">
           <div className="container">
             <SectionHead eyebrow="Overview" title={overviewTitle}>
               {overview}
@@ -82,7 +101,7 @@ export function HireLanding({
 
       {/* Why Rapid Tech Plus */}
       {reasons.length > 0 ? (
-        <section className="band">
+        <section id="why-us" className="band">
           <div className="container-wide container">
             <SectionHead
               eyebrow="Why us"
@@ -108,7 +127,7 @@ export function HireLanding({
 
       {/* Developer skills */}
       {skills.length > 0 ? (
-        <section>
+        <section id="skills">
           <div className="container-wide container">
             <SectionHead eyebrow="Skills" title={skillsTitle}>
               The core strengths this specialist brings to your team from day
@@ -131,7 +150,7 @@ export function HireLanding({
 
       {/* Hiring models */}
       {models.length > 0 ? (
-        <section className="band">
+        <section id="models" className="band">
           <div className="container-wide container">
             <SectionHead eyebrow="Hiring models" title="Ways to hire">
               Choose the engagement that fits how you want to work — switch as
@@ -154,7 +173,7 @@ export function HireLanding({
 
       {/* Technology stack */}
       {technologies && technologies.length > 0 ? (
-        <section>
+        <section id="stack">
           <div className="container">
             <SectionHead
               eyebrow="Technology stack"
@@ -172,33 +191,22 @@ export function HireLanding({
         </section>
       ) : null}
 
-      {/* Development / hiring process */}
-      <section className="band">
+      {/* Hiring process — scroll-told */}
+      <section id="process" className="band">
         <div className="container-wide container">
-          <SectionHead
+          <ProcessScroll
             eyebrow="How it works"
             title="From first call to shipping"
-          >
-            A clear, low-friction path from telling us your needs to a
-            specialist delivering in your team.
-          </SectionHead>
-          <div className={cn("timeline", process.length === 5 && "timeline-5")}>
-            {process.map((p, i) => (
-              <TimelineStep
-                key={p.title}
-                n={p.icon}
-                title={p.title}
-                body={p.body}
-                delay={i * 0.05}
-              />
-            ))}
-          </div>
+            lead="A clear, low-friction path from telling us your needs to a specialist delivering in your team."
+            steps={process}
+            actions={<CtaActions />}
+          />
         </div>
       </section>
 
       {/* FAQs */}
       {faqs && faqs.length > 0 ? (
-        <section>
+        <section id="faq">
           <div className="container">
             <SectionHead eyebrow="FAQ" title="Frequently asked questions" />
             <FaqAccordion items={faqs} />
@@ -216,6 +224,7 @@ export function HireLanding({
       ) : null}
 
       <CtaBanner title={cta.title} body={cta.body} />
+      {assistant}
     </>
   );
 }

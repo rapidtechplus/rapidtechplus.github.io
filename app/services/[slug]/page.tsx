@@ -10,6 +10,8 @@ import {
   serviceProcess,
 } from "@/content/services";
 import { SITE_URL } from "@/config/site";
+import { PageAssistant } from "@/components/assistant/page-assistant";
+import { caseStudyHref } from "@/content/case-studies";
 import { ogImageFor } from "@/config/og-templates";
 
 /** Static export: pre-render one page per service, 404 on anything else. */
@@ -117,6 +119,22 @@ export default async function ServiceDetailPage({ params }: Params) {
           title: "Ready to build with us?",
           body: `Tell us about your ${service.label} project and we'll help you plan the right approach.`,
         }}
+        assistant={
+          <PageAssistant
+            label={service.label}
+            overview={service.overview}
+            included={service.capabilities}
+            problems={service.problems}
+            technologies={service.technologies}
+            benefits={service.benefits}
+            process={serviceProcess}
+            caseStudies={caseStudies.map((c) => ({
+              title: c.title,
+              href: caseStudyHref(c.slug),
+            }))}
+            faqs={service.faqs}
+          />
+        }
       />
     </>
   );

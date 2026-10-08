@@ -14,10 +14,13 @@ import {
   CtaBanner,
   CtaActions,
   Tag,
-  TimelineStep,
 } from "@/components/sections/pieces";
 import type { RelatedItem } from "@/components/sections/detail-layout";
-import { cn } from "@/lib/utils";
+import { ProcessScroll } from "@/components/sections/process-scroll";
+import {
+  SectionNav,
+  type SectionLink,
+} from "@/components/sections/section-nav";
 
 type ProcessStep = { icon: string; title: string; body: string };
 
@@ -26,7 +29,9 @@ type ProcessStep = { icon: string; title: string; body: string };
  * dedicated landing page: hero → overview → business problems → technologies →
  * development process → benefits → industries → case studies → FAQs → CTA.
  * Every section hides gracefully when its data is absent, so the same template
- * serves both fully-authored and lightly-authored records.
+ * serves both fully-authored and lightly-authored records. A sticky section
+ * nav lists only the sections that render; `assistant` is an optional slot
+ * for the page's guided assistant.
  */
 export function ServiceLanding({
   crumbs,
@@ -46,6 +51,7 @@ export function ServiceLanding({
   related,
   relatedTitle,
   cta,
+  assistant,
 }: {
   crumbs: Crumb[];
   eyebrow: string;
@@ -64,19 +70,32 @@ export function ServiceLanding({
   related?: RelatedItem[];
   relatedTitle?: string;
   cta: { title: string; body: string };
+  assistant?: ReactNode;
 }) {
+  const sections: SectionLink[] = [
+    { id: "overview", label: "Overview" },
+    ...(problems?.length ? [{ id: "problems", label: "Problems" }] : []),
+    ...(technologies?.length ? [{ id: "stack", label: "Stack" }] : []),
+    { id: "process", label: "Process" },
+    ...(benefits?.length ? [{ id: "benefits", label: "Benefits" }] : []),
+    ...(caseStudies?.length ? [{ id: "proof", label: "Case studies" }] : []),
+    ...(faqs?.length ? [{ id: "faq", label: "FAQ" }] : []),
+  ];
+
   return (
     <>
-      <PageHero crumbs={crumbs} eyebrow={eyebrow} title={title} lead={lead} />
+      <PageHero
+        crumbs={crumbs}
+        eyebrow={eyebrow}
+        title={title}
+        lead={lead}
+        actions={<CtaActions />}
+      />
 
-      <section style={{ paddingTop: 0 }}>
-        <div className="container">
-          <CtaActions />
-        </div>
-      </section>
+      <SectionNav sections={sections} />
 
       {/* Overview + what we deliver */}
-      <section style={{ paddingTop: "clamp(24px,4vw,48px)" }}>
+      <section id="overview">
         <div className="split container">
           <Reveal>
             <span className="eyebrow">Overview</span>
@@ -107,7 +126,7 @@ export function ServiceLanding({
 
       {/* Business problems solved */}
       {problems && problems.length > 0 ? (
-        <section className="band">
+        <section id="problems" className="band">
           <div className="container-wide container">
             <SectionHead eyebrow="Business problems" title="Problems we solve">
               Where teams get stuck — and where this service makes the
@@ -130,7 +149,7 @@ export function ServiceLanding({
 
       {/* Technologies */}
       {technologies && technologies.length > 0 ? (
-        <section>
+        <section id="stack">
           <div className="container">
             <SectionHead eyebrow="Technologies" title="Our toolkit">
               A modern, proven stack chosen to fit the job — not the other way
@@ -145,30 +164,22 @@ export function ServiceLanding({
         </section>
       ) : null}
 
-      {/* Development process */}
-      <section className="band">
+      {/* Development process — scroll-told */}
+      <section id="process" className="band">
         <div className="container-wide container">
-          <SectionHead eyebrow="How we work" title="Our development process">
-            A clear, collaborative path from first conversation to launch and
-            beyond.
-          </SectionHead>
-          <div className={cn("timeline", process.length === 5 && "timeline-5")}>
-            {process.map((p, i) => (
-              <TimelineStep
-                key={p.title}
-                n={p.icon}
-                title={p.title}
-                body={p.body}
-                delay={i * 0.05}
-              />
-            ))}
-          </div>
+          <ProcessScroll
+            eyebrow="How we work"
+            title="Our development process"
+            lead="A clear, collaborative path from first conversation to launch and beyond."
+            steps={process}
+            actions={<CtaActions />}
+          />
         </div>
       </section>
 
       {/* Benefits */}
       {benefits && benefits.length > 0 ? (
-        <section>
+        <section id="benefits">
           <div className="container-wide container">
             <SectionHead eyebrow="Benefits" title="What you get out of it">
               The outcomes this service is built to deliver for your business.
@@ -199,7 +210,7 @@ export function ServiceLanding({
 
       {/* Case studies */}
       {caseStudies && caseStudies.length > 0 ? (
-        <section>
+        <section id="proof">
           <div className="container-wide container">
             <SectionHead eyebrow="Proof" title="Related case studies">
               Representative engagements that put this work into practice.
@@ -225,7 +236,7 @@ export function ServiceLanding({
 
       {/* FAQs */}
       {faqs && faqs.length > 0 ? (
-        <section className="band">
+        <section id="faq" className="band">
           <div className="container">
             <SectionHead eyebrow="FAQ" title="Frequently asked questions" />
             <FaqAccordion items={faqs} />
@@ -243,6 +254,7 @@ export function ServiceLanding({
       ) : null}
 
       <CtaBanner title={cta.title} body={cta.body} />
+      {assistant}
     </>
   );
 }

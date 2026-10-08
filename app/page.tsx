@@ -6,10 +6,12 @@ import { Counter } from "@/components/counter";
 import { HeroVisual } from "@/components/hero-visual";
 import { Magnetic } from "@/components/magnetic";
 import { TextReveal } from "@/components/text-reveal";
+import { TechMarquee } from "@/components/sections/home/tech-marquee";
+import { CapabilityBento } from "@/components/sections/home/capability-bento";
+import { ProcessScroll } from "@/components/sections/process-scroll";
 import {
   SectionHead,
   IconCard,
-  TimelineStep,
   Quote,
   FaqAccordion,
   CtaBanner,
@@ -110,6 +112,16 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* TOOLKIT MARQUEE */}
+      <section className="marquee-section">
+        <div className="container-wide container">
+          <TechMarquee
+            label="Built with a modern, battle-tested stack"
+            items={techStack}
+          />
+        </div>
+      </section>
+
       {/* PROOF STATS */}
       <section style={{ paddingTop: 0 }}>
         <div className="container-wide container">
@@ -193,88 +205,27 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* SERVICES */}
+      {/* CAPABILITIES — one asymmetric grid for services + AI. */}
       <section>
         <div className="container-wide container">
           <SectionHead eyebrow="What we do" title="Capabilities, end to end">
             Everything needed to design, build, and evolve a modern digital
             product — under one roof, with one accountable team.
           </SectionHead>
-          <div className="grid-3 grid">
-            {homeServices.map((s, i) => (
-              <IconCard
-                key={s.title}
-                icon={s.icon}
-                title={s.title}
-                body={s.body}
-                delay={i * 0.05}
-              />
-            ))}
-          </div>
-          <Reveal className="section-head" style={{ marginTop: 44 }}>
-            <ButtonLink href="/services" variant="ghost">
-              Explore all services →
-            </ButtonLink>
-          </Reveal>
+          <CapabilityBento ai={aiExpertise} services={homeServices} />
         </div>
       </section>
 
-      {/* AI EXPERTISE */}
-      <section className="band">
-        <div className="container-wide container">
-          <SectionHead
-            eyebrow="AI expertise"
-            title="Applied AI, built to run in production"
-          >
-            We ship AI that does real work — agents, retrieval, and integrations
-            that are reliable, observable, and grounded in your data.
-          </SectionHead>
-          <div className="grid-4 grid">
-            {aiExpertise.map((a, i) => (
-              <IconCard
-                key={a.title}
-                icon={a.icon}
-                title={a.title}
-                body={a.body}
-                delay={i * 0.05}
-              />
-            ))}
-          </div>
-          <Reveal className="section-head" style={{ marginTop: 44 }}>
-            <ButtonLink href="/solutions" variant="ghost">
-              Explore AI solutions →
-            </ButtonLink>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* PROCESS TIMELINE — one consulting-led path, five numbered stages. */}
+      {/* PROCESS — scroll-told, five numbered stages. */}
       <section>
         <div className="container-wide container">
-          <SectionHead
+          <ProcessScroll
             eyebrow="How we work"
             title="Our process for tailored IT solutions"
-          >
-            No black boxes. Every engagement moves through five transparent,
-            reviewable stages — from first conversation to lasting support.
-          </SectionHead>
-          <div className="timeline timeline-5">
-            {tailoredProcess.map((p, i) => (
-              <TimelineStep
-                key={p.title}
-                n={p.icon}
-                title={p.title}
-                body={p.body}
-                delay={i * 0.08}
-              />
-            ))}
-          </div>
-          <Reveal
-            className="section-head"
-            style={{ marginTop: 44, marginBottom: 0 }}
-          >
-            <CtaActions className="cta-actions-center" />
-          </Reveal>
+            lead="No black boxes. Every engagement moves through five transparent, reviewable stages — from first conversation to lasting support."
+            steps={tailoredProcess}
+            actions={<CtaActions />}
+          />
         </div>
       </section>
 
@@ -323,7 +274,7 @@ export default function HomePage() {
               />
             ))}
           </div>
-          <Reveal className="section-head" style={{ marginTop: 44 }}>
+          <Reveal className="section-actions">
             <ButtonLink href="/products" variant="ghost">
               See all products →
             </ButtonLink>
@@ -355,23 +306,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* TECHNOLOGIES */}
-      <section>
-        <div className="container-xwide container">
-          <SectionHead
-            eyebrow="Our toolkit"
-            title="A modern, battle-tested stack"
-          />
-          <Reveal className="chips">
-            {techStack.map((t) => (
-              <span className="chip" key={t}>
-                {t}
-              </span>
-            ))}
-          </Reveal>
-        </div>
-      </section>
-
       {/* INSIGHTS */}
       <section className="band">
         <div className="container-wide container">
@@ -393,7 +327,7 @@ export default function HomePage() {
               </Reveal>
             ))}
           </div>
-          <Reveal className="section-head" style={{ marginTop: 44 }}>
+          <Reveal className="section-actions">
             <ButtonLink href="/blog" variant="ghost">
               Read all insights →
             </ButtonLink>
