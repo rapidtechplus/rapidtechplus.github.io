@@ -9,6 +9,13 @@ import { TextReveal } from "@/components/text-reveal";
 import { TechMarquee } from "@/components/sections/home/tech-marquee";
 import { CapabilityBento } from "@/components/sections/home/capability-bento";
 import { ProcessScroll } from "@/components/sections/process-scroll";
+import { CaseShowcase } from "@/components/sections/home/case-showcase";
+import { IndustryTabs } from "@/components/sections/home/industry-tabs";
+import { StackTabs } from "@/components/sections/home/stack-tabs";
+import { CASE_STUDY_DISCLOSURE, caseStudies } from "@/content/case-studies";
+import { industrySectors } from "@/content/industries";
+import { services } from "@/content/services";
+import { technologies } from "@/content/technologies";
 import {
   SectionHead,
   IconCard,
@@ -24,7 +31,6 @@ import {
   whyChoose,
   aiExpertise,
   techStack,
-  industries,
   products,
   tailoredProcess,
   testimonials,
@@ -226,6 +232,28 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* SELECTED WORK — proof first: outcomes + animated visuals. */}
+      <section className="band">
+        <div className="container-wide container">
+          <SectionHead
+            eyebrow="Selected work"
+            title="Outcomes, not just output"
+          >
+            A look at the kind of engagements we take on — the problem, the
+            build, and the measurable result.
+          </SectionHead>
+          <CaseShowcase
+            studies={caseStudies.slice(0, 3)}
+            disclosure={CASE_STUDY_DISCLOSURE}
+          />
+          <Reveal className="section-actions">
+            <ButtonLink href="/case-studies" variant="ghost">
+              See all case studies →
+            </ButtonLink>
+          </Reveal>
+        </div>
+      </section>
+
       {/* PROCESS — scroll-told, five numbered stages. */}
       <section>
         <div className="container-wide container">
@@ -239,7 +267,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* INDUSTRIES */}
+      {/* INDUSTRIES — tabbed sector explorer. */}
       <section className="band">
         <div className="container-wide container">
           <SectionHead
@@ -249,22 +277,34 @@ export default function HomePage() {
             We adapt our craft to the realities of your industry — its users,
             constraints, and pace — to drive measurable growth.
           </SectionHead>
-          <div className="grid-3 grid">
-            {industries.map((it, i) => (
-              <IconCard
-                key={it.title}
-                icon={it.icon}
-                title={it.title}
-                body={it.body}
-                delay={i * 0.05}
-              />
-            ))}
-          </div>
+          <IndustryTabs sectors={industrySectors} />
+        </div>
+      </section>
+
+      {/* TECH STACK — by discipline, derived from each service. */}
+      <section>
+        <div className="container-wide container">
+          <SectionHead
+            eyebrow="Tech stack"
+            title="The right tools for each job"
+          >
+            The technologies behind every discipline we deliver — chosen to fit
+            the problem, not the other way round.
+          </SectionHead>
+          <StackTabs
+            services={services}
+            techLinks={Object.fromEntries(
+              technologies.map((t) => [
+                t.label.toLowerCase(),
+                `/technologies/${t.slug}`,
+              ]),
+            )}
+          />
         </div>
       </section>
 
       {/* FEATURED PRODUCTS */}
-      <section>
+      <section className="band">
         <div className="container-wide container">
           <SectionHead
             eyebrow="Featured products"
@@ -293,7 +333,7 @@ export default function HomePage() {
       </section>
 
       {/* TESTIMONIALS */}
-      <section className="band">
+      <section>
         <div className="container-wide container">
           <SectionHead
             eyebrow="What clients say"

@@ -2254,6 +2254,37 @@ ruled out by the owner. Built on the Canvas 2D API with zero dependencies.
 - [ ] Next: SVG motion for the rest of the site (service illustrations,
       scroll-linked section transitions)
 
+## Phase 37 — Homepage patterns from the reference set 🔍 (awaiting owner review)
+
+Owner asked for a redesign mixing ever.tech, imaginovation.net and
+sdlccorp.com. **The environment's network policy blocks all three domains**,
+so the patterns were drawn from their archetypes (product studio / case-study
+agency / service-catalogue converter), not verified against the live sites.
+Re-check once the domains are allowed. Nothing copied; our tokens throughout.
+
+- [x] **Selected work** (`case-showcase.tsx`, `case-visual.tsx`): 3 large
+      alternating case-study rows with outcome metrics, link to the study and
+      an animated SVG motif (chart draw / network pulse / card grid); the chart
+      badge shows the study's own headline metric; the representative-study
+      disclosure is shown under the rows
+- [x] **Industries as tabs** (`industry-tabs.tsx`): 10-sector rail + detail
+      panel (overview, 3 capabilities, link); horizontal scroll on phones;
+      replaces the uniform 6-card grid
+- [x] **Tech stack by discipline** (`stack-tabs.tsx`): tabs derived from each
+      service's `technologies` (single source of truth); techs with a landing
+      page link to it; wraps on desktop, scrolls with edge fade on phones
+- [x] Shared `components/ui/tabs.tsx` (WAI-ARIA tabs: roving tabindex, arrow
+      keys, Home/End; all panels in static HTML) and `components/in-view.tsx`
+      (SVG animations wait until scrolled into view; set only after hydration
+      so no-JS visitors still see the final frame)
+- [x] Fixed homepage band alternation (two adjacent shaded / plain pairs)
+- [x] Verified: lint, typecheck, build; keyboard tabs; zero console errors;
+      no overflow 10 routes × 7 widths × 2 themes; screenshots desktop dark +
+      light and 390px
+- ⚠️ Not verified: Lighthouse, Firefox/Safari/Edge; reference sites unreachable
+- Note: running `next build` beside `next dev` broke the dev server's module
+  cache even with `NEXT_DIST_DIR`; restart dev after any build
+
 ## Phase 6 — Future Expansion (superseded — see Phases A–O above)
 
 - [ ] Product detail pages (`generateStaticParams` from `content/`)
