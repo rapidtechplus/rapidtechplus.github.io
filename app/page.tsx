@@ -3,7 +3,7 @@ import { ButtonLink } from "@/components/ui/button";
 import { Ico } from "@/components/icon";
 import { Reveal } from "@/components/reveal";
 import { Counter } from "@/components/counter";
-import { HeroVisual } from "@/components/hero-visual";
+import { HeroScene } from "@/components/hero-scene";
 import { Magnetic } from "@/components/magnetic";
 import { TextReveal } from "@/components/text-reveal";
 import { TechMarquee } from "@/components/sections/home/tech-marquee";
@@ -105,9 +105,19 @@ export default function HomePage() {
                 </div>
               </Reveal>
             </div>
-            <Reveal delay={0.15}>
-              <HeroVisual />
-            </Reveal>
+            {/* Decorative: the canvas globe + telemetry chips. */}
+            <div className="hero-stage" aria-hidden="true">
+              <HeroScene />
+              <span className="hero-chip c1">
+                <span className="dot" /> agents online <b>12</b>
+              </span>
+              <span className="hero-chip c2">
+                <span className="dot" /> p95 latency <b>42ms</b>
+              </span>
+              <span className="hero-chip ok c3">
+                <span className="dot" /> shipped to production
+              </span>
+            </div>
           </div>
         </div>
       </section>
