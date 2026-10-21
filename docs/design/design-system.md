@@ -144,7 +144,6 @@ arrivals), `--dur-slow` (0.8s); easings `--ease`, `--ease-out-expo`,
 - **Cards** (`.card`): `--bg-elev`, `1px` border, `radius-lg`, `28px` pad; hover lifts
   `-4px` + `shadow-md`. Icon tile `.ico` = `46px`, `accent-soft` bg, accent glyph.
 - **Panel** (`.panel`): like a card but for grouped content (feature lists, forms).
-- **Stats** (`.stat .num`): gradient-clipped numerals, `800` weight.
 - **Chips** (`.chip`): pill tags for the tech list; accent border on hover.
 - **CTA banner** (`.cta-banner`): a light panel — white → `bg-elev-2`
   gradient, sky glows, dot grid, flowing wave shapes and the travelling accent
