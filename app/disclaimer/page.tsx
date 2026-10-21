@@ -27,6 +27,7 @@ export default function DisclaimerPage() {
         eyebrow="Legal"
         title="Disclaimer"
         container="container-content"
+        tone="light"
       />
 
       <section style={{ paddingTop: 0 }}>

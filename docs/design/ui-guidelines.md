@@ -3,7 +3,8 @@
 Practical rules for building screens. The token reference is
 [`design-system.md`](./design-system.md); this covers how to _apply_ it.
 
-Aesthetic target: premium, minimal, dark-first SaaS (Vercel · Linear · Stripe).
+Aesthetic target: premium, credible IT-services company — a dark navy hero over
+clean light sections (Stripe · Vercel · Linear), keyed to the logo's colours.
 Never let the UI read as a generic agency template.
 
 ---
@@ -66,7 +67,7 @@ noise, or animation that competes for attention.
 | `≤ 900px`  | 3/4-col grids → 2-col; stats → 2-col; split & contact stack; footer 2-col |
 | `≤ 640px`  | Base font 16px; grids → 1-col; nav → toggle menu; hero actions stack      |
 
-Check every new component at desktop, ≤900px, and ≤640px, in **both themes**.
+Check every new component at desktop, ≤900px, and ≤640px, on the light page surface **and** inside the dark bands (hero, CTA, footer).
 
 ## Accessibility (see [`accessibility.md`](./accessibility.md))
 

@@ -88,22 +88,17 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
-        <meta
-          name="theme-color"
-          content="#0b0f17"
-          media="(prefers-color-scheme: dark)"
-        />
-        <meta
-          name="theme-color"
-          content="#fafbfc"
-          media="(prefers-color-scheme: light)"
-        />
+        <meta name="theme-color" content="#f6f8fb" />
         {/* Site-wide nodes. Pages reference these by `@id` instead of repeating them. */}
         <JsonLd data={organizationJsonLd} />
         <JsonLd data={websiteJsonLd} />
       </head>
       <body>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        {/* Light-only for now (owner decision, Phase 39): `forcedTheme` pins the
+            class and ignores any stored preference. The dark token set and
+            `ThemeToggle` stay in the codebase so dark can be re-enabled by
+            dropping this prop and restoring the footer switch. */}
+        <ThemeProvider attribute="class" defaultTheme="light" forcedTheme="light">
           <Background />
           <PointerSheen />
           <a className="skip-link" href="#main">

@@ -3,10 +3,10 @@ import Link from "next/link";
 import { Ico } from "@/components/icon";
 import { Reveal } from "@/components/reveal";
 import { TextReveal } from "@/components/text-reveal";
-import { Magnetic } from "@/components/magnetic";
 import { ButtonLink } from "@/components/ui/button";
 import { Breadcrumbs, type Crumb } from "@/components/sections/breadcrumbs";
 import { CONTACT_HREF } from "@/config/site";
+import { cn } from "@/lib/utils";
 
 /** Centered eyebrow + heading + optional lead used above card grids. */
 export function SectionHead({
@@ -34,6 +34,10 @@ export function SectionHead({
  * from the near-identical `.page-hero` block that was inlined on every inner
  * page. `title` accepts rich nodes so pages keep their `.grad-text` highlight.
  * `container` lets legal/prose pages use the narrower reading width.
+ *
+ * `tone` — "dark" (default) renders the hero as a navy band in both themes,
+ * the brand composition every marketing page opens with; "light" keeps it on
+ * the page surface for reading-first pages (legal, prose).
  */
 export function PageHero({
   crumbs,
@@ -42,6 +46,7 @@ export function PageHero({
   lead,
   actions,
   container = "container",
+  tone = "dark",
 }: {
   crumbs: Crumb[];
   eyebrow: string;
@@ -50,9 +55,10 @@ export function PageHero({
   /** Optional CTA row rendered inside the hero, under the lead. */
   actions?: ReactNode;
   container?: string;
+  tone?: "dark" | "light";
 }) {
   return (
-    <section className="page-hero">
+    <section className={cn("page-hero", tone === "dark" && "surface-dark")}>
       <div className={`${container} container`}>
         <Breadcrumbs items={crumbs} />
         <span className="eyebrow">{eyebrow}</span>
@@ -315,9 +321,7 @@ export function CtaActions({
 }) {
   return (
     <div className={["cta-actions", className].filter(Boolean).join(" ")}>
-      <Magnetic>
-        <ButtonLink href={CONTACT_HREF}>Get A Quote →</ButtonLink>
-      </Magnetic>
+      <ButtonLink href={CONTACT_HREF}>Get A Quote →</ButtonLink>
       <ButtonLink href={CONTACT_HREF} variant="ghost">
         {consult ? "Book a free consultation" : "Hire Us"}
       </ButtonLink>
@@ -346,7 +350,7 @@ export function CtaBanner({ title, body }: { title: string; body: string }) {
   return (
     <section>
       <div className="container">
-        <Reveal className="cta-banner">
+        <Reveal className="cta-banner surface-dark">
           <h2>{title}</h2>
           <p>{body}</p>
           <CtaActions className="cta-actions-center" consult />
