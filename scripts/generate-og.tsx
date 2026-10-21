@@ -16,7 +16,7 @@
  * (Facebook, LinkedIn, X, Slack, WhatsApp) renders SVG Open Graph images.
  */
 import { createRequire } from "node:module";
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { ogImage, OG_SIZE } from "../lib/og-image";
 import { ogTemplates } from "../config/og-templates";
@@ -29,13 +29,18 @@ const { ImageResponse } = require("next/og.js") as typeof import("next/og");
 const APP_DIR = path.join(process.cwd(), "app");
 
 async function main() {
+  const logo = await readFile(
+    path.join(process.cwd(), "public", site.logo.markLarge),
+  );
+  const logoSrc = `data:image/png;base64,${logo.toString("base64")}`;
+
   for (const { dir, title, eyebrow } of ogTemplates) {
     const outDir = path.join(APP_DIR, dir);
     await mkdir(outDir, { recursive: true });
 
     const png = Buffer.from(
       await new ImageResponse(
-        ogImage({ title, eyebrow }),
+        ogImage({ title, eyebrow, logoSrc }),
         OG_SIZE,
       ).arrayBuffer(),
     );
