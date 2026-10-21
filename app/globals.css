@@ -622,6 +622,30 @@ section {
     0 1px 2px rgba(15, 23, 42, 0.12);
   object-fit: contain;
 }
+/* Header logo — the full lockup (mark + wordmark + tagline). Its navy and grey
+   type disappear on the dark canvas, so in the (default) dark theme it sits on
+   a white plate, like the mark's app-icon tile; light drops the plate. */
+.brand-full {
+  padding: 4px 0;
+}
+.logo-full {
+  display: block;
+  box-sizing: content-box;
+  width: auto;
+  height: 32px;
+  padding: 5px 10px;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow:
+    0 0 0 1px var(--border),
+    0 1px 2px rgba(15, 23, 42, 0.12);
+}
+.light .logo-full {
+  height: 40px;
+  padding: 0;
+  background: none;
+  box-shadow: none;
+}
 .nav-links {
   display: flex;
   align-items: center;
@@ -4036,6 +4060,14 @@ a.contact-method:hover .cm-value {
   /* Trim the lockup with the shorter bar so the brand still balances it. */
   .brand-name {
     font-size: 1rem;
+  }
+  .logo-full {
+    height: 28px;
+    padding: 4px 8px;
+  }
+  .light .logo-full {
+    height: 34px;
+    padding: 0;
   }
   .nav-inner {
     gap: 12px;

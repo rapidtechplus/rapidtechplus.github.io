@@ -2278,6 +2278,22 @@ Replaces the placeholder gradient-"R" SVG.
 - [ ] Optional: a vector (SVG) master of the mark would render crisper than
       the cropped PNG at large sizes
 
+## Phase 38 — Full logo lockup in the header ✅
+
+- [x] Header shows the full lockup (`logo-full.webp`: mark + "Rapid Tech Plus"
+      + "The way to web presence") instead of the mark + text spans; footer
+      keeps the mark lockup
+- [x] Header-sized cut `public/brand/logo-full-header.webp` (529×120, 14 KB vs
+      the 54 KB 2000px master) via `site.logo.fullHeader`; `alt` is the site
+      name so the home link keeps its accessible name
+- [x] Dark theme (the default) puts the lockup on a white plate — its navy and
+      grey type vanish on the dark canvas; light theme shows it bare
+- [x] Verified: lint, typecheck, build; static export at 1440px and 320px,
+      light + dark — logo loads and fits beside nav / menu button
+- ⚠️ Not verified: 768/1280/1920px spot checks, Lighthouse, Firefox/Safari/Edge
+- Note: the header now shows "The way to web presence" while `site.slogan`
+  (footer) is still "AI-Native Engineering" — see the open Phase 37 item
+
 ## Phase 6 — Future Expansion (superseded — see Phases A–O above)
 
 - [ ] Product detail pages (`generateStaticParams` from `content/`)

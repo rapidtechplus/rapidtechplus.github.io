@@ -356,19 +356,15 @@ export function Nav() {
     <>
       <header className={cn("nav", scrolled && "is-scrolled")}>
         <div className="nav-inner container-wide container">
-          <Link className="brand brand-lockup" href="/" onClick={close}>
+          <Link className="brand brand-full" href="/" onClick={close}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              className="logo"
-              src={site.logo.mark}
-              alt=""
-              width={38}
-              height={38}
+              className="logo-full"
+              src={site.logo.fullHeader}
+              alt={site.name}
+              width={529}
+              height={120}
             />
-            <span className="brand-text">
-              <span className="brand-name">{site.name}</span>
-              <span className="brand-slogan">{site.slogan}</span>
-            </span>
           </Link>
 
           <nav
