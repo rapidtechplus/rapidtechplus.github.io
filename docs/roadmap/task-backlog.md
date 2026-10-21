@@ -2243,7 +2243,7 @@ ruled out by the owner. Built on the Canvas 2D API with zero dependencies.
 - [x] Hero right column → globe stage + 3 floating telemetry chips;
       old console visual (`components/hero-visual/`, ~550 lines CSS) removed
 - [x] Perf fix (pre-existing, site-wide): aurora blobs used `filter:
-    blur(90px)` on scale-animated layers → re-rasterised every frame.
+blur(90px)` on scale-animated layers → re-rasterised every frame.
       Replaced with radial gradients: 13 → 58 fps desktop (software render)
 - [x] Verified: lint, typecheck, build; prod export LCP 312 ms, globe ready
       630 ms; no overflow 10 routes × 7 widths × 2 themes; zero console errors;
@@ -2280,8 +2280,7 @@ Replaces the placeholder gradient-"R" SVG.
 
 ## Phase 38 — Full logo lockup in the header ✅
 
-- [x] Header shows the full lockup (`logo-full.webp`: mark + "Rapid Tech Plus"
-      + "The way to web presence") instead of the mark + text spans; footer
+- [x] Header shows the full lockup (`logo-full.webp`: mark + "Rapid Tech Plus" + "The way to web presence") instead of the mark + text spans; footer
       keeps the mark lockup
 - [x] Header-sized cut `public/brand/logo-full-header.webp` (529×120, 14 KB vs
       the 54 KB 2000px master) via `site.logo.fullHeader`; `alt` is the site
@@ -2293,6 +2292,89 @@ Replaces the placeholder gradient-"R" SVG.
 - ⚠️ Not verified: 768/1280/1920px spot checks, Lighthouse, Firefox/Safari/Edge
 - Note: the header now shows "The way to web presence" while `site.slogan`
   (footer) is still "AI-Native Engineering" — see the open Phase 37 item
+
+## Phase 40 — Brand-true redesign, part 2: enterprise-light homepage concept ✅
+
+Owner brief (approved concept image): a clean enterprise-light site — white
+and soft-grey surfaces, navy type, brand-blue actions — with an immersive
+3D-inspired hero visual, a four-card services grid, a featured-project
+section with a product-dashboard composition, and a light closing CTA with
+three value points. Dark surfaces only where they add contrast. Homepage
+first, then the same language on every route. Audit context:
+[`docs/audit/redesign-audit-2026-10.md`](../audit/redesign-audit-2026-10.md).
+
+- [x] Tokens: motion durations (`--dur-fast/--dur/--dur-slow`), light-surface
+      atmosphere (`--glow-sky`, `--glow-sky-soft`, `--glass`,
+      `--glass-border`, `--dot`), all `color-mix` derivations of the logo
+      palette. `.surface-dark` stays for the footer and the dark pieces
+      inside the illustrations
+- [x] Header: the five concept entries already match (AI, Services,
+      Solutions, Case Studies, Company); primary CTA relabelled
+      "Start a project" from one constant (`CTA_LABEL`, `config/site.ts`)
+      used by the header, hero, paired CTAs and banner. No search control —
+      the site has no search, so none is shown
+- [x] Hero: light two-column; eyebrow, headline with accented "ahead", lead,
+      "Start a project" / "Explore services", technology badges
+      (`TechBadges`). Right: `HeroVisual` — glass core reusing the canvas
+      globe, three `rotateX` conic rings, four frosted panels (analytics,
+      capability list, code editor, idea → impact), isometric cubes,
+      particles, dashed connection lines. CSS transforms + keyframes on the
+      individual `translate` property, no 3D library; code panel, pill and
+      outer ring hidden below 640px; every drift stops under reduced motion;
+      the whole figure is `aria-hidden`
+- [x] Services: four real offerings (Artificial Intelligence, Custom
+      Software Development, Cloud & DevOps, Web Development) derived from
+      `content/services` by slug, "Learn more →" pinned to each card's foot
+      (`IconCard more`), "View all services →" via `SectionHead action` +
+      `ArrowLink`
+- [x] Featured project: copy + "View case study" to the first representative
+      study's real route; `ProductShowcase` laptop + phone mockup, captioned
+      "Illustrative product interface", mockup `aria-hidden`
+- [x] Closing CTA: eyebrow / title / copy, "Start a project" + "Schedule a
+      call" (both → `/contact`, the one functional destination), three value
+      points; `CtaBanner` is now a light panel (gradient, sky glows, dot
+      grid, wave shapes, travelling seam) site-wide, with `eyebrow`,
+      `points` and `secondary` props
+- [x] Homepage trimmed to the concept: placeholder stats and testimonials
+      removed (content integrity), capability bento / tech marquee /
+      products / industries / insights / who-we-are sections dropped (all
+      reachable from the nav); Why us, the scroll-told process and the FAQ
+      (with its JSON-LD) kept. `Counter`, `CapabilityBento`, `TechMarquee`
+      and their CSS deleted
+- [x] Inner routes: `PageHero` defaults to `tone="light"` (sky glow + dot
+      grid); the four legal pages drop the explicit override. All 115
+      exported pages change through the shared primitives
+- [x] Verification: lint, typecheck, clean static build. Playwright/Chrome
+      sweep of 32 routes × 320/375/768/1024/1280/1440/1920 against the
+      export = 224 loads: **0 horizontal overflow, 0 console errors**
+      (reduced motion). Homepage reviewed with motion on at 1440 and 375
+      (full-page screenshots), `/services` and `/contact` at 1440. Keyboard
+      pass: skip link → header → mega panels → "View all services" (2px
+      outline) → service card (focus outline); decorative figures hidden
+      from assistive tech, caption exposed
+- ⚠️ Not verified here: Lighthouse, Firefox/Safari/Edge, real devices, the
+  deployed URL. `color-mix`, `translate` and `aspect-ratio` need
+  Chrome 111+ / Safari 16.4+ / Firefox 113+ (already used elsewhere in
+  the stylesheet)
+- [x] Owner-supplied mobile number `+91-8264110143` set as `site.contact.phone`
+      / `phoneHref` — the contact page, `tel:` link, WhatsApp link and
+      Organization JSON-LD all read it from there
+- [x] Both homepages kept while the owner decides (same day): the Phase 40
+      page is `HomeConcept`, the Phase 39 page is `HomeClassic` (its
+      counter / bento / marquee components and CSS restored, scoped in a
+      "Classic homepage" stylesheet section). `HOME_VARIANT` in
+      `config/site.ts` picks the live one at `/` ("concept" now); the other
+      serves at `/home-preview` with a notice bar, `noindex, nofollow`, a
+      robots disallow and no sitemap entry. Verified: build, both routes ×
+      7 widths = 14 loads, 0 overflow, 0 console errors. To settle: flip or
+      keep `HOME_VARIANT`, delete the losing `home-*.tsx`, the preview
+      route and (for classic) the restored components + CSS section
+- [ ] Owner: choose between the concept and classic homepages
+- [ ] Owner: slogan decision ("AI-Native Engineering" vs "The way to web
+      presence"); real proof points if stats/testimonials should return;
+      confirm the sales/HR inboxes and postal address
+- [ ] Phase 41 — page-level layouts (differentiated hub sections, blog post
+      routes), Lighthouse CI
 
 ## Phase 39 — Brand-true redesign, part 1: logo-derived design system 🔧
 
@@ -2341,12 +2423,43 @@ primitives — so all 115 exported pages change together.
       browser-pane review of home, service detail, services hub, privacy,
       CTA band, footer and the mobile header/footer
 - ⚠️ Not verified here: Lighthouse, Firefox/Safari/Edge, real devices, the
-      deployed URL; the dark theme is disabled so its re-tuned tokens were
-      only spot-checked before the light-only decision
+  deployed URL; the dark theme is disabled so its re-tuned tokens were
+  only spot-checked before the light-only decision
 - [ ] Owner: real proof points for `homeStats`, testimonials, hero chips;
       slogan decision ("AI-Native Engineering" vs "The way to web presence")
 - [ ] Phase 40 — page-level layouts (differentiated hub sections, blog post
       routes), Lighthouse CI
+
+## Phase 41 — Single typeface: Inter everywhere (ackplus.com parity) ✅
+
+- [x] Owner request: match ackplus.com typography. Measured there: Inter for
+      body, headings, nav and buttons, from Google Fonts. No second face
+- [x] Dropped Sora (display) and JetBrains Mono (labels) from
+      `app/layout.tsx`. Every heading, eyebrow, chip, stat and label rule in
+      `globals.css` now uses `var(--font)` (Inter). The `--font-display` and
+      `--font-mono` tokens were removed
+- [x] New `--font-code` token (system mono stack, no download) used only by the
+      decorative code panel `.tv-panel.is-code`
+- [x] Pages load 1 font file instead of 3 (should help LCP; Lighthouse not run)
+- [x] Verified: lint, typecheck, static build. Built export at 1440px and
+      375px (no horizontal overflow). Computed fonts on home: every text node
+      Inter, except the code panel. Light theme only (dark is disabled site-wide)
+- ⚠️ Not verified: 768/1280/1920px spot checks, Lighthouse, Firefox/Safari/Edge
+- [x] Tracking retuned to ackplus's scale (measured there: `normal` on all
+      headings, nav, body; 0.1em on eyebrows; 0.05em on tiny uppercase tags)
+  - Headings, brand text, stat/metric numbers, footer wordmark: negative
+    tracking removed. Base `h1–h4` is `letter-spacing: normal`
+  - Badges, trust row, breadcrumbs (were 0.02em): back to `normal`
+  - New tokens: `--tracking-eyebrow: 0.1em` for eyebrows, section/panel
+    labels, footer headings and figcaptions (were 0.1–0.14em), and
+    `--tracking-tag: 0.05em` for pills, categories, stat/metric labels and
+    milestone years (were 0.04–0.08em). Seven ad-hoc values became two
+  - `app/global-error.tsx` (standalone, no globals.css): inline 0.14em → 0.1em
+- [x] Verified (tracking): lint, typecheck, static build. Computed styles on `/`
+      show only `normal` / 0.1em / 0.05em; `/about` headings, breadcrumbs and
+      eyebrows checked. 1440px and 375px screenshots, no horizontal overflow
+- Decision (owner, 2026-10-21): keep heading weight at 600, even though
+  ackplus uses 700 for h1/h2
 
 ## Phase 6 — Future Expansion (superseded — see Phases A–O above)
 

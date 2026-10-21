@@ -45,7 +45,7 @@ export default function GlobalError({
             style={{
               margin: "0 0 12px",
               fontSize: "0.8rem",
-              letterSpacing: "0.14em",
+              letterSpacing: "0.1em",
               textTransform: "uppercase",
               fontWeight: 600,
               color: "var(--accent)",
