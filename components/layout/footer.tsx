@@ -7,7 +7,6 @@ import {
   type NavLink,
   type SocialLink,
 } from "@/content/site";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { NewsletterForm } from "@/components/newsletter";
 
 function FooterLink({ link }: { link: NavLink }) {
@@ -57,7 +56,7 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="footer">
+    <footer className="footer surface-dark">
       <div className="container-full footer-shell container">
         {/* Masthead — brand lockup + newsletter capture spanning the full width. */}
         <div className="footer-masthead">
@@ -144,10 +143,6 @@ export function Footer() {
             ))}
             <Link href="/sitemap">Sitemap</Link>
           </nav>
-          <span className="foot-theme">
-            <span className="foot-theme-label">Theme</span>
-            <ThemeToggle />
-          </span>
         </div>
       </div>
     </footer>

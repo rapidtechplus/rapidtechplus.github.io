@@ -41,7 +41,8 @@ not bolted on — every task is accountable to this document.
 
 - All meaningful imagery has descriptive `alt`.
 - Decorative glyphs (`◆ ▲ ● ⬡ ⇄ ↻ ⚙`) are `aria-hidden`.
-- Icon-only controls (theme toggle, nav toggle) carry an `aria-label`.
+- Icon-only controls (nav toggle; the theme toggle when it returns) carry an
+  `aria-label`.
 
 ## Motion
 
@@ -59,6 +60,7 @@ not bolted on — every task is accountable to this document.
 
 - [ ] Tab through the page — order is logical, focus always visible.
 - [ ] Run Lighthouse / axe — zero critical issues (target a11y ≥ 95).
-- [ ] Check contrast in **both** themes.
+- [ ] Check contrast in **both** themes (light page surfaces and the dark
+      `.surface-dark` bands — hero, CTA, footer).
 - [ ] Verify with reduced motion enabled.
 - [ ] Confirm headings form a sensible outline.

@@ -16,6 +16,7 @@ export default function CookiePolicyPage() {
         eyebrow="Legal"
         title="Cookie Policy"
         container="container-content"
+        tone="light"
       />
 
       <section style={{ paddingTop: 0 }}>

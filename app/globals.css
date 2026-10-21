@@ -3,23 +3,30 @@
 /* =============================================================
    Rapid Tech Plus — Brand Design System
    ------------------------------------------------------------
-   An original, handcrafted system for an AI-first software
-   engineering studio, keyed to the logo: deep navy → sky-blue
-   accent with a light-blue spark and a neutral gray. Two
-   independently-tuned themes (not an inversion), a display/body
-   type pairing, and a motion layer (aurora, grid, particles)
-   driven from here.
+   Keyed to the official logo (Phase 39). Every colour below is
+   derived from the lockup itself: the "R" body and wordmark are
+   navy (#183860), the rising arrow and "PLUS" are sky blue
+   (#5890d0) with a navy → sky ramp between them, and the leg and
+   tagline are steel grey (#888e92). See
+   docs/audit/redesign-audit-2026-10.md for the sampling.
+
+   Light is the designed default ("clean, spacious content
+   sections"); dark is an independently tuned theme, not an
+   inversion. `.surface-dark` re-declares the dark set on any
+   element, so a band (hero, CTA, footer) can be dark inside a
+   light page and every child component — buttons, chips, cards,
+   form fields — adapts through the same tokens with no extra CSS.
 
    Class API is intentionally stable (.hero, .card, .stat, …)
-   so every page inherits the new look without edits.
+   so every page inherits the system without edits.
    ============================================================= */
 
 @theme {
-  --color-bg: #0b0f17;
-  --color-bg-elev: #111621;
-  --color-accent: #60a5fa;
-  --color-accent-2: #38bdf8;
-  --color-navy: #2563eb;
+  --color-bg: #f6f8fb;
+  --color-bg-elev: #ffffff;
+  --color-accent: #2b66a8;
+  --color-accent-2: #183860;
+  --color-navy: #183860;
   --font-sans:
     var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Helvetica, Arial, sans-serif;
@@ -32,38 +39,52 @@
 }
 
 :root {
-  /* ---- Brand palette (cobalt → sky, slate neutrals) ----
-     Token names kept (indigo/violet/iris) so the class API is stable; the
-     values were moved to a cobalt/sky ramp in the Phase 31 visual refresh. */
-  --brand-indigo: #2563eb;
-  --brand-indigo-deep: #1e40af;
-  --brand-violet: #0284c7;
-  --brand-iris: #60a5fa;
-  --brand-gray: #8b95a8;
+  /* ---- Brand palette — sampled from public/brand/logo-full.webp ---- */
+  --brand-navy-ink: #0a1322; /* dark canvas: the navy taken to near-black */
+  --brand-navy-deep: #12294a;
+  --brand-navy: #183860; /* "R" body + wordmark */
+  --brand-blue: #3a6fa8; /* gradient mid-tone */
+  --brand-sky: #5890d0; /* arrow tip + "PLUS" */
+  --brand-sky-light: #8ab8ea;
+  --brand-steel: #888e92; /* leg + tagline */
 
   /* ---- Shared, theme-independent ---- */
-  --grad: linear-gradient(135deg, #2563eb 0%, #0ea5e9 100%);
-  --grad-vivid: linear-gradient(135deg, #3b82f6 0%, #0284c7 100%);
-  --spark: #5ad1ff;
+  /* The logo's own ramp: navy → sky, exactly as the "R" is drawn. */
+  --grad: linear-gradient(
+    135deg,
+    var(--brand-navy) 0%,
+    var(--brand-blue) 55%,
+    var(--brand-sky) 100%
+  );
+  --grad-vivid: linear-gradient(
+    135deg,
+    var(--brand-blue) 0%,
+    var(--brand-sky) 100%
+  );
+  --spark: var(--brand-sky-light);
+  /* The lockup's navy and grey type vanish on a dark canvas, so the logo sits
+     on this plate wherever the surface is dark. Never recolour the mark. */
+  --logo-plate: #ffffff;
+  /* Label colour on the brand gradient itself (theme-independent). */
+  --on-brand: #ffffff;
 
   /* ---- Footer palette ----
-     Theme-aware since Phase 32 (was a fixed navy slab in both themes): the
-     footer continues the page surface, set apart by a hairline and a glow.
-     Dark values here; light values in `.light`. */
+     The footer is a dark navy band in both themes (it closes the page the way
+     the dark hero opens it), so its set is declared once. */
   --footer-bg:
     radial-gradient(
       70% 120% at 50% 0%,
-      rgba(37, 99, 235, 0.1),
+      rgba(88, 144, 208, 0.14),
       transparent 60%
     ),
-    #080b12;
-  --footer-text: #f1f5f9;
-  --footer-text-muted: #a9b4c6;
-  --footer-text-dim: #7d889b;
+    #08101c;
+  --footer-text: #eef3fa;
+  --footer-text-muted: #aab7c9;
+  --footer-text-dim: #8392a8;
   --footer-border: rgba(255, 255, 255, 0.08);
   --footer-surface: rgba(255, 255, 255, 0.045);
   --footer-surface-hover: rgba(255, 255, 255, 0.07);
-  --footer-accent: #93c5fd;
+  --footer-accent: #8ab8ea;
 
   --radius-sm: 8px;
   --radius: 12px;
@@ -103,25 +124,84 @@
   --ease-exit: cubic-bezier(0.4, 0, 1, 1);
 
   /* =========================================================
-     DARK THEME (default) — slate ink, cobalt accent
+     LIGHT THEME (default) — cool white, navy ink, navy actions
      ========================================================= */
-  --bg: #0b0f17;
-  --bg-elev: #111621;
-  --bg-elev-2: #182030;
-  --surface: rgba(255, 255, 255, 0.028);
-  --surface-2: rgba(255, 255, 255, 0.06);
-  --border: rgba(255, 255, 255, 0.08);
-  --border-strong: rgba(255, 255, 255, 0.14);
-  --hairline: rgba(255, 255, 255, 0.055);
+  --bg: #f6f8fb;
+  --bg-elev: #ffffff;
+  --bg-elev-2: #edf1f7;
+  --surface: rgba(16, 36, 64, 0.024);
+  --surface-2: rgba(16, 36, 64, 0.055);
+  --border: rgba(16, 36, 64, 0.1);
+  --border-strong: rgba(16, 36, 64, 0.17);
+  --hairline: rgba(16, 36, 64, 0.065);
 
-  --text: #e8edf5;
-  --text-muted: #a3acbd;
-  --text-dim: #8791a3;
+  --text: #0f1f35;
+  --text-muted: #495a70;
+  --text-dim: #5f7089;
 
-  --accent: #60a5fa;
-  --accent-2: #38bdf8;
-  --accent-soft: rgba(96, 165, 250, 0.13);
-  --accent-ring: rgba(96, 165, 250, 0.42);
+  /* Text/icon accent is the sky darkened to 5.9:1 on white; the raw sky is
+     reserved for large type, gradients and non-text accents. */
+  --accent: #2b66a8;
+  --accent-2: var(--brand-navy);
+  --accent-soft: rgba(43, 102, 168, 0.09);
+  --accent-ring: rgba(43, 102, 168, 0.3);
+
+  --success: #0e8a60;
+  --warning: #a35a05;
+  --error: #c92a2a;
+  --success-soft: rgba(14, 138, 96, 0.1);
+  --warning-soft: rgba(163, 90, 5, 0.1);
+  --error-soft: rgba(201, 42, 42, 0.08);
+
+  --grad-text: linear-gradient(115deg, #183860 0%, #2b66a8 55%, #3a7cc4 100%);
+
+  /* Primary action fill. Navy in light (white label ≥ 8:1); sky in dark with
+     a navy-ink label (5.3:1) — the one place the raw brand sky carries text. */
+  --btn-bg: linear-gradient(180deg, #1e4a7f 0%, #183860 100%);
+  --btn-bg-hover: linear-gradient(180deg, #24558f 0%, #1a3d69 100%);
+  --btn-bg-active: linear-gradient(180deg, #183860 0%, #12294a 100%);
+  --on-accent: #ffffff;
+
+  --nav-bg: rgba(246, 248, 251, 0.8);
+  --aurora-1: rgba(88, 144, 208, 0.12);
+  --aurora-2: rgba(24, 56, 96, 0.08);
+  --aurora-3: rgba(138, 184, 234, 0.12);
+  --grid-line: rgba(16, 36, 64, 0.05);
+  --particle: rgba(43, 102, 168, 0.18);
+  --cta-glow: rgba(24, 56, 96, 0.22);
+
+  --shadow-sm: 0 1px 2px rgba(16, 36, 64, 0.06);
+  --shadow-md: 0 12px 32px rgba(16, 36, 64, 0.09);
+  --shadow-lg: 0 24px 56px rgba(16, 36, 64, 0.13);
+  --shadow-glow: 0 16px 48px rgba(24, 56, 96, 0.18);
+
+  color-scheme: light;
+}
+
+/* =========================================================
+   DARK THEME — navy ink, sky accent
+   `.dark` is the whole-page theme (next-themes); `.surface-dark`
+   is the same set scoped to one band inside a light page.
+   ========================================================= */
+.dark,
+.surface-dark {
+  --bg: #0a1322;
+  --bg-elev: #101c30;
+  --bg-elev-2: #16253e;
+  --surface: rgba(255, 255, 255, 0.03);
+  --surface-2: rgba(255, 255, 255, 0.065);
+  --border: rgba(255, 255, 255, 0.09);
+  --border-strong: rgba(255, 255, 255, 0.15);
+  --hairline: rgba(255, 255, 255, 0.06);
+
+  --text: #e8eef6;
+  --text-muted: #a9b6c8;
+  --text-dim: #8d9bb0;
+
+  --accent: #7fb0e6;
+  --accent-2: var(--brand-sky);
+  --accent-soft: rgba(127, 176, 230, 0.14);
+  --accent-ring: rgba(127, 176, 230, 0.42);
 
   --success: #3dd68c;
   --warning: #f5b94b;
@@ -130,87 +210,52 @@
   --warning-soft: rgba(245, 185, 75, 0.12);
   --error-soft: rgba(240, 98, 93, 0.12);
 
-  --grad-text: linear-gradient(115deg, #bfdbfe 0%, #7dd3fc 50%, #60a5fa 100%);
+  --grad-text: linear-gradient(115deg, #d6e4f5 0%, #8ab8ea 50%, #5890d0 100%);
 
-  --nav-bg: rgba(11, 15, 23, 0.72);
-  --aurora-1: rgba(14, 165, 233, 0.14);
-  --aurora-2: rgba(37, 99, 235, 0.16);
-  --aurora-3: rgba(90, 209, 255, 0.06);
-  --grid-line: rgba(255, 255, 255, 0.032);
-  --particle: rgba(191, 219, 254, 0.35);
-  --cta-glow: rgba(59, 130, 246, 0.3);
-  --on-accent: #ffffff;
+  --btn-bg: linear-gradient(180deg, #6fa3de 0%, #5890d0 100%);
+  --btn-bg-hover: linear-gradient(180deg, #7fb0e6 0%, #5f98d6 100%);
+  --btn-bg-active: linear-gradient(180deg, #5890d0 0%, #4a82c2 100%);
+  --on-accent: #0a1322;
+
+  --nav-bg: rgba(10, 19, 34, 0.72);
+  --aurora-1: rgba(88, 144, 208, 0.16);
+  --aurora-2: rgba(58, 111, 168, 0.2);
+  --aurora-3: rgba(138, 184, 234, 0.07);
+  --grid-line: rgba(255, 255, 255, 0.035);
+  --particle: rgba(198, 220, 243, 0.35);
+  --cta-glow: rgba(88, 144, 208, 0.3);
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.45);
   --shadow-md: 0 10px 32px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 24px 64px rgba(0, 0, 0, 0.5);
-  --shadow-glow: 0 16px 48px rgba(59, 130, 246, 0.28);
+  --shadow-glow: 0 16px 48px rgba(88, 144, 208, 0.28);
 
   color-scheme: dark;
 }
 
-/* =========================================================
-   LIGHT THEME — cool off-white, slate ink, cobalt accent
-   Independently tuned: not a straight inversion.
-   ========================================================= */
-.light {
-  --bg: #fafbfc;
-  --bg-elev: #ffffff;
-  --bg-elev-2: #f1f5f9;
-  --surface: rgba(15, 23, 42, 0.022);
-  --surface-2: rgba(15, 23, 42, 0.05);
-  --border: rgba(15, 23, 42, 0.09);
-  --border-strong: rgba(15, 23, 42, 0.16);
-  --hairline: rgba(15, 23, 42, 0.06);
-
-  --text: #0f172a;
-  --text-muted: #475569;
-  --text-dim: #64748b;
-
-  --accent: #2563eb;
-  --accent-2: #0284c7;
-  --accent-soft: rgba(37, 99, 235, 0.08);
-  --accent-ring: rgba(37, 99, 235, 0.26);
-
-  --success: #0e9f6e;
-  --warning: #b45309;
-  --error: #dc2626;
-  --success-soft: rgba(14, 159, 110, 0.1);
-  --warning-soft: rgba(180, 83, 9, 0.1);
-  --error-soft: rgba(220, 38, 38, 0.08);
-
-  --grad-text: linear-gradient(115deg, #2563eb 0%, #1d4ed8 50%, #0369a1 100%);
-
-  --nav-bg: rgba(250, 251, 252, 0.78);
-  --aurora-1: rgba(14, 165, 233, 0.1);
-  --aurora-2: rgba(37, 99, 235, 0.09);
-  --aurora-3: rgba(90, 209, 255, 0.1);
-  --grid-line: rgba(15, 23, 42, 0.045);
-  --particle: rgba(37, 99, 235, 0.18);
-  --cta-glow: rgba(59, 130, 246, 0.16);
-  --on-accent: #ffffff;
-
-  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
-  --shadow-md: 0 12px 32px rgba(15, 23, 42, 0.08);
-  --shadow-lg: 0 24px 56px rgba(15, 23, 42, 0.12);
-  --shadow-glow: 0 16px 48px rgba(37, 99, 235, 0.16);
-
-  --footer-bg:
+/* A dark band inside a light page. Opaque, so it covers the fixed motion
+   layer; the navy mesh keeps it from reading as a flat slab. Pair with a
+   structural class (.hero, .page-hero, .cta-banner, .footer). */
+.surface-dark {
+  background:
     radial-gradient(
-      70% 120% at 50% 0%,
-      rgba(37, 99, 235, 0.07),
+      60% 80% at 82% 8%,
+      rgba(88, 144, 208, 0.22),
+      transparent 62%
+    ),
+    radial-gradient(
+      48% 70% at 8% 96%,
+      rgba(58, 111, 168, 0.18),
       transparent 60%
     ),
-    #f4f6fa;
-  --footer-text: #0f172a;
-  --footer-text-muted: #475569;
-  --footer-text-dim: #5b6779;
-  --footer-border: rgba(15, 23, 42, 0.09);
-  --footer-surface: rgba(15, 23, 42, 0.03);
-  --footer-surface-hover: rgba(15, 23, 42, 0.06);
-  --footer-accent: #1d4ed8;
-
-  color-scheme: light;
+    var(--bg);
+  color: var(--text);
+}
+/* Full-bleed bands end on a hairline so the edge still reads when the page
+   itself is dark (in light the band's own edge is the boundary). */
+.hero.surface-dark,
+.page-hero.surface-dark {
+  border-bottom: 1px solid var(--hairline);
 }
 
 /* Smooth theme transition. Scoped to color properties only so it never
@@ -437,7 +482,7 @@ section {
   white-space: nowrap;
 }
 .btn-primary {
-  background: linear-gradient(180deg, #2563eb 0%, #2563eb 100%);
+  background: var(--btn-bg);
   color: var(--on-accent);
   border-color: rgba(255, 255, 255, 0.12);
   box-shadow:
@@ -447,7 +492,7 @@ section {
 }
 .btn-primary:hover {
   transform: translateY(-1px);
-  background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
+  background: var(--btn-bg-hover);
   box-shadow:
     0 2px 4px rgba(11, 15, 23, 0.3),
     0 8px 22px var(--cta-glow),
@@ -464,7 +509,7 @@ section {
   transition-duration: 0.08s;
 }
 .btn-primary:active {
-  background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%);
+  background: var(--btn-bg-active);
   box-shadow:
     0 1px 2px rgba(11, 15, 23, 0.35),
     0 4px 12px var(--cta-glow),
@@ -497,18 +542,6 @@ section {
 .btn-lg {
   padding: 15px 28px;
   font-size: 1rem;
-}
-
-/* Magnetic wrapper — the button drifts toward the pointer within its hit area.
-   Offset is written to --mag-x/--mag-y from JS; the eased transition gives it a
-   springy settle on pointer-leave. inline-flex keeps layout identical. */
-.magnetic {
-  display: inline-flex;
-  --mag-x: 0px;
-  --mag-y: 0px;
-  transform: translate3d(var(--mag-x), var(--mag-y), 0);
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: transform;
 }
 
 /* Staggered word reveal — each word rises + fades in on scroll into view. */
@@ -616,15 +649,15 @@ section {
   height: 34px;
   padding: 3px;
   border-radius: 10px;
-  background: #ffffff;
+  background: var(--logo-plate);
   box-shadow:
     0 0 0 1px var(--border),
     0 1px 2px rgba(15, 23, 42, 0.12);
   object-fit: contain;
 }
-/* Header logo — the full lockup (mark + wordmark + tagline). Its navy and grey
-   type disappear on the dark canvas, so in the (default) dark theme it sits on
-   a white plate, like the mark's app-icon tile; light drops the plate. */
+/* Header logo — the full lockup (mark + wordmark + tagline). Bare on the light
+   bar; its navy and grey type disappear on the dark canvas, so the dark theme
+   sets it on a white plate, like the mark's app-icon tile. */
 .brand-full {
   padding: 4px 0;
 }
@@ -632,19 +665,16 @@ section {
   display: block;
   box-sizing: content-box;
   width: auto;
+  height: 40px;
+}
+.dark .logo-full {
   height: 32px;
   padding: 5px 10px;
   border-radius: 10px;
-  background: #ffffff;
+  background: var(--logo-plate);
   box-shadow:
     0 0 0 1px var(--border),
     0 1px 2px rgba(15, 23, 42, 0.12);
-}
-.light .logo-full {
-  height: 40px;
-  padding: 0;
-  background: none;
-  box-shadow: none;
 }
 .nav-links {
   display: flex;
@@ -680,12 +710,6 @@ section {
   display: none;
 }
 .nav-cta-desktop {
-  display: inline-flex;
-}
-/* The magnetic wrapper around the desktop CTA must share its breakpoint
-   visibility. Hiding only the inner link would leave a zero-width flex child in
-   `.nav-right`, doubling its gap on mobile. */
-.nav-cta-magnet {
   display: inline-flex;
 }
 .nav-toggle {
@@ -1189,7 +1213,7 @@ section {
   gap: 8px;
   padding: 10px 16px;
   border-radius: 9px;
-  background: linear-gradient(180deg, #2563eb 0%, #2563eb 100%);
+  background: var(--btn-bg);
   color: var(--on-accent);
   font-size: 0.82rem;
   font-weight: 600;
@@ -1201,7 +1225,7 @@ section {
   transition: transform 0.2s var(--ease);
 }
 .mm-feature-cta:hover {
-  background: linear-gradient(180deg, #2563eb 0%, #2563eb 100%);
+  background: var(--btn-bg);
   transform: translateY(-1px);
 }
 .mm-feature-cta:focus-visible,
@@ -1427,7 +1451,7 @@ section {
   gap: 8px;
   padding: 10px 16px;
   border-radius: 9px;
-  background: linear-gradient(180deg, #2563eb 0%, #2563eb 100%);
+  background: var(--btn-bg);
   color: var(--on-accent);
   font-size: 0.82rem;
   font-weight: 600;
@@ -1440,7 +1464,7 @@ section {
   transition: transform 0.2s var(--ease);
 }
 .mm-co-cta:hover {
-  background: linear-gradient(180deg, #2563eb 0%, #2563eb 100%);
+  background: var(--btn-bg);
   transform: translateY(-1px);
 }
 .mm-co-cta:hover span {
@@ -1574,7 +1598,7 @@ section {
    *on* the canvas, so white text on it fails AA in dark (measured 2.82:1). This
    gradient carries --on-accent at ≥4.5:1 in both themes, matching .mm-feature-cta. */
 .mm-foot-cta:hover {
-  background: linear-gradient(180deg, #2563eb 0%, #2563eb 100%);
+  background: var(--btn-bg);
   color: var(--on-accent);
   border-color: transparent;
 }
@@ -3338,22 +3362,10 @@ a.contact-method:hover .cm-value {
   color: var(--footer-text-dim);
   font-size: 0.88rem;
 }
-/* The copyright and theme flanks flex equally so the legal nav between them
-   lands on the true centre of the bar rather than the centre of the gap. */
-.foot-copy,
-.foot-theme {
+/* Copyright left, legal nav right. (The theme switch that used to sit on the
+   right flank is removed while the site is light-only — Phase 39.) */
+.foot-copy {
   flex: 1;
-}
-.foot-theme {
-  display: inline-flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 12px;
-}
-.foot-theme-label {
-  font-size: 0.82rem;
-  font-weight: 500;
-  color: var(--footer-text-muted);
 }
 
 /* Legal + sitemap links in the footer bottom bar (before the theme toggle). */
@@ -3468,7 +3480,7 @@ a.contact-method:hover .cm-value {
   transition: color 0.2s;
 }
 .theme-switch[data-state="light"] .theme-switch-ico.sun {
-  color: #f2b34b;
+  color: var(--warning);
 }
 .theme-switch[data-state="dark"] .theme-switch-ico.moon {
   color: var(--footer-accent);
@@ -3480,7 +3492,7 @@ a.contact-method:hover .cm-value {
   width: 24px;
   height: 24px;
   border-radius: 999px;
-  background: #eef4fb;
+  background: var(--footer-text);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
   transform: translate(0, -50%);
   transition:
@@ -3590,8 +3602,7 @@ a.contact-method:hover .cm-value {
     margin: 8px 0 0;
     text-align: center;
   }
-  .nav-cta-desktop,
-  .nav-cta-magnet {
+  .nav-cta-desktop {
     display: none;
   }
   .nav-toggle {
@@ -3745,15 +3756,11 @@ a.contact-method:hover .cm-value {
     flex-direction: column;
     align-items: flex-start;
   }
-  /* Stacked: each item is its own row, so drop the single-row centring. */
-  .foot-copy,
-  .foot-theme {
+  /* Stacked: each item is its own row. */
+  .foot-copy {
     flex: none;
   }
   .foot-legal {
-    justify-content: flex-start;
-  }
-  .foot-theme {
     justify-content: flex-start;
   }
 }
@@ -3769,8 +3776,7 @@ a.contact-method:hover .cm-value {
   .grad-text {
     animation: none !important;
   }
-  .bg-parallax,
-  .magnetic {
+  .bg-parallax {
     transform: none !important;
     transition: none;
   }
@@ -3979,16 +3985,12 @@ a.contact-method:hover .cm-value {
     gap: 16px;
   }
 
-  /* Paired CTAs stack full-width so both actions get the same thumb target.
-     The primary sits inside a `.magnetic` wrapper, which needs stretching too
-     or the button inside it stays auto-width. */
+  /* Paired CTAs stack full-width so both actions get the same thumb target. */
   .cta-actions {
     flex-direction: column;
     align-items: stretch;
   }
-  .cta-actions .magnetic,
   .cta-actions .btn,
-  .hero-actions .magnetic,
   .hero-actions .btn {
     width: 100%;
     justify-content: center;
@@ -4062,12 +4064,11 @@ a.contact-method:hover .cm-value {
     font-size: 1rem;
   }
   .logo-full {
+    height: 34px;
+  }
+  .dark .logo-full {
     height: 28px;
     padding: 4px 8px;
-  }
-  .light .logo-full {
-    height: 34px;
-    padding: 0;
   }
   .nav-inner {
     gap: 12px;
@@ -4645,8 +4646,8 @@ a.contact-method:hover .cm-value {
   padding: 12px 18px;
   border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 999px;
-  background: linear-gradient(180deg, #2563eb, #1d4ed8);
-  color: #fff;
+  background: var(--btn-bg);
+  color: var(--on-accent);
   font: inherit;
   font-size: 0.92rem;
   font-weight: 600;
@@ -4705,7 +4706,7 @@ a.contact-method:hover .cm-value {
   height: 34px;
   border-radius: 10px;
   background: var(--grad);
-  color: #fff;
+  color: var(--on-brand);
 }
 .ga-title {
   margin: 0;
@@ -4789,8 +4790,8 @@ a.contact-method:hover .cm-value {
 }
 .ga-user {
   align-self: flex-end;
-  background: #2563eb;
-  color: #fff;
+  background: var(--btn-bg);
+  color: var(--on-accent);
   border-bottom-right-radius: 4px;
 }
 .ga-links {
@@ -4889,8 +4890,8 @@ a.contact-method:hover .cm-value {
   height: 42px;
   border: 0;
   border-radius: 50%;
-  background: #2563eb;
-  color: #fff;
+  background: var(--btn-bg);
+  color: var(--on-accent);
   cursor: pointer;
 }
 .ga-form button:disabled {

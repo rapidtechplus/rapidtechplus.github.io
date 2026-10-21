@@ -6,7 +6,6 @@ import { useEffect, useRef, useState } from "react";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Ico } from "@/components/icon";
-import { Magnetic } from "@/components/magnetic";
 import { MegaLink } from "@/components/layout/mega-link";
 import { CompanyMega } from "@/components/layout/company-mega";
 import { megaMenu, site, type MegaColumn, type MegaItem } from "@/content/site";
@@ -408,17 +407,15 @@ export function Nav() {
           </nav>
 
           <div className="nav-right">
-            <Magnetic className="nav-cta-magnet">
-              <Link
-                className="btn btn-primary nav-cta nav-cta-desktop"
-                href="/contact"
-              >
-                Get A Quote
-                <span className="btn-arrow" aria-hidden>
-                  →
-                </span>
-              </Link>
-            </Magnetic>
+            <Link
+              className="btn btn-primary nav-cta nav-cta-desktop"
+              href="/contact"
+            >
+              Get A Quote
+              <span className="btn-arrow" aria-hidden>
+                →
+              </span>
+            </Link>
             <button
               ref={toggleRef}
               className="nav-toggle"

@@ -4,12 +4,15 @@ import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import type { GlobePalette } from "./globe";
 
-/** Reads the current theme's colours from the design tokens. */
-function readPalette(): GlobePalette {
-  const light = document.documentElement.classList.contains("light");
-  return light
-    ? { node: "37, 99, 235", pulse: "14, 165, 233", additive: false }
-    : { node: "147, 197, 253", pulse: "90, 209, 255", additive: true };
+/** Brand colours for the surface the canvas sits on. The hero is a dark band
+    in both themes (`.surface-dark`), so this keys off the nearest dark scope
+    rather than the page theme: sky-light nodes with additive glow on navy
+    ink, the darkened sky on a light canvas. */
+function readPalette(canvas: HTMLCanvasElement): GlobePalette {
+  const dark = canvas.closest(".surface-dark, .dark") !== null;
+  return dark
+    ? { node: "138, 184, 234", pulse: "127, 176, 230", additive: true }
+    : { node: "43, 102, 168", pulse: "88, 144, 208", additive: false };
 }
 
 /**
@@ -47,7 +50,7 @@ export function HeroScene() {
       const globe = createGlobe(canvas, {
         nodes: small ? 360 : 640,
         arcs: small ? 14 : 26,
-        palette: readPalette(),
+        palette: readPalette(canvas),
       });
       if (!globe) return;
       cleanups.push(() => globe.dispose());
@@ -71,8 +74,10 @@ export function HeroScene() {
       ro.observe(wrap);
       cleanups.push(() => ro.disconnect());
 
-      // Theme switches toggle the `light` class on <html>.
-      const mo = new MutationObserver(() => globe.setPalette(readPalette()));
+      // Theme switches swap the `light`/`dark` class on <html>.
+      const mo = new MutationObserver(() =>
+        globe.setPalette(readPalette(canvas)),
+      );
       mo.observe(document.documentElement, {
         attributes: true,
         attributeFilter: ["class"],

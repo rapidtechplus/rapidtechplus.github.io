@@ -6,22 +6,24 @@ import { site } from "@/content/site";
  *
  * One template, one place to re-key if the brand moves — each route's
  * `opengraph-image.tsx` supplies only its own title/eyebrow. Keyed to the
- * "Ink & Electric Violet" system in `app/globals.css`; the tokens are
- * duplicated as literals below because Satori resolves no CSS variables and
- * never sees the stylesheet.
+ * logo-derived system in `app/globals.css` (navy ink, navy → sky ramp); the
+ * tokens are duplicated as literals below because Satori resolves no CSS
+ * variables and never sees the stylesheet.
  */
 
 /** 1200×630 is the size every major platform crops against. */
 export const OG_SIZE = { width: 1200, height: 630 };
 export const OG_CONTENT_TYPE = "image/png";
 
-const INK = "#08080f";
-const INK_2 = "#101020";
-const ACCENT_FROM = "#2563eb";
-const ACCENT_MID = "#0284c7";
-const ACCENT_TO = "#a855f7";
-const TEXT = "#f4f4f8";
-const TEXT_DIM = "#9a9ab0";
+const INK = "#0a1322";
+const INK_2 = "#12294a";
+const ACCENT_FROM = "#183860";
+const ACCENT_MID = "#3a6fa8";
+const ACCENT_TO = "#5890d0";
+const EYEBROW = "#8ab8ea";
+const TEXT = "#eef3fa";
+const TEXT_DIM = "#9fb3cc";
+const RULE = "#1d2f4a";
 
 /** Longer titles would overflow the fixed canvas, so they clamp with an ellipsis. */
 const TITLE_MAX = 78;
@@ -110,7 +112,7 @@ export function ogImage({
                 fontWeight: 500,
                 letterSpacing: 3,
                 textTransform: "uppercase",
-                color: ACCENT_TO,
+                color: EYEBROW,
               }}
             >
               {eyebrow}
@@ -137,7 +139,7 @@ export function ogImage({
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            borderTop: `1px solid #24243a`,
+            borderTop: `1px solid ${RULE}`,
             paddingTop: 28,
           }}
         >
