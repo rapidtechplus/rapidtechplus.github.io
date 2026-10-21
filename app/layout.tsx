@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono, Sora } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { Nav } from "@/components/layout/nav";
 import { Footer } from "@/components/layout/footer";
@@ -10,29 +10,12 @@ import { JsonLd } from "@/components/seo/json-ld";
 import { organizationJsonLd, websiteJsonLd } from "@/lib/structured-data";
 import { site } from "@/content/site";
 
+// Inter is the only typeface, for every role (matches the ackplus.com
+// reference). Variable font, so all weights come from one file.
 const inter = Inter({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-inter",
-});
-
-const sora = Sora({
-  subsets: ["latin"],
-  display: "swap",
-  weight: ["500", "600", "700"],
-  variable: "--font-sora",
-});
-
-// The mono face only sets eyebrows, chips, and stat labels — never a heading or
-// a paragraph. Preloading it made it compete with the body and display faces
-// for the same throttled-connection bandwidth that the LCP text is waiting on,
-// so it loads on demand and falls back to the system mono until it arrives.
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  display: "swap",
-  weight: ["400", "500", "600"],
-  variable: "--font-jbmono",
-  preload: false,
 });
 
 export const metadata: Metadata = {
@@ -84,7 +67,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${sora.variable} ${jetbrainsMono.variable}`}
+      className={inter.variable}
       suppressHydrationWarning
     >
       <head>

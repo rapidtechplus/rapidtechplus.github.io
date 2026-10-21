@@ -2445,9 +2445,21 @@ primitives — so all 115 exported pages change together.
       375px (no horizontal overflow). Computed fonts on home: every text node
       Inter, except the code panel. Light theme only (dark is disabled site-wide)
 - ⚠️ Not verified: 768/1280/1920px spot checks, Lighthouse, Firefox/Safari/Edge
-- Follow-up to consider: heading tracking (`-0.03em`) and label tracking were
-  tuned for Sora/JetBrains Mono, and ackplus uses normal tracking. Retune if
-  the owner wants an exact match
+- [x] Tracking retuned to ackplus's scale (measured there: `normal` on all
+      headings, nav, body; 0.1em on eyebrows; 0.05em on tiny uppercase tags)
+  - Headings, brand text, stat/metric numbers, footer wordmark: negative
+    tracking removed. Base `h1–h4` is `letter-spacing: normal`
+  - Badges, trust row, breadcrumbs (were 0.02em): back to `normal`
+  - New tokens: `--tracking-eyebrow: 0.1em` for eyebrows, section/panel
+    labels, footer headings and figcaptions (were 0.1–0.14em), and
+    `--tracking-tag: 0.05em` for pills, categories, stat/metric labels and
+    milestone years (were 0.04–0.08em). Seven ad-hoc values became two
+  - `app/global-error.tsx` (standalone, no globals.css): inline 0.14em → 0.1em
+- [x] Verified (tracking): lint, typecheck, static build. Computed styles on `/`
+      show only `normal` / 0.1em / 0.05em; `/about` headings, breadcrumbs and
+      eyebrows checked. 1440px and 375px screenshots, no horizontal overflow
+- Decision (owner, 2026-10-21): keep heading weight at 600, even though
+  ackplus uses 700 for h1/h2
 
 ## Phase 6 — Future Expansion (superseded — see Phases A–O above)
 
