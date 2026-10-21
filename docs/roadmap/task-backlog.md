@@ -2281,7 +2281,7 @@ Replaces the placeholder gradient-"R" SVG.
 ## Phase 38 — Full logo lockup in the header ✅
 
 - [x] Header shows the full lockup (`logo-full.webp`: mark + "Rapid Tech Plus" + "The way to web presence") instead of the mark + text spans; footer
-      keeps the mark lockup
+      keeps the mark lockup (until Phase 43)
 - [x] Header-sized cut `public/brand/logo-full-header.webp` (529×120, 14 KB vs
       the 54 KB 2000px master) via `site.logo.fullHeader`; `alt` is the site
       name so the home link keeps its accessible name
@@ -2488,6 +2488,32 @@ it read as a focused professional page.
 - ⚠️ Not verified here: Lighthouse, Firefox/Safari/Edge, real devices
 - [ ] Owner: still to choose between the concept and classic homepages (see
       Phase 40)
+
+## Phase 43 — Taller header, full lockup in the footer ✅
+
+Owner request: a taller header bar, and the header's logo in the footer too.
+
+- [x] `--nav-h` 66px → 80px (phones 60px → 68px); the header lockup grows
+      with it, 40px → 48px (phones 34px → 40px). Mega panels, the mobile
+      sheet, the scrim and every `scroll-margin-top` read the token, so they
+      follow without edits
+- [x] Footer masthead shows the same full lockup image as the header
+      (`site.logo.fullHeader`, `alt` = site name) instead of the mark +
+      name + `site.slogan` spans. The white plate that the dark theme gives
+      the header lockup now also applies inside any `.surface-dark` band, so
+      the footer gets it through the existing tokens
+- [x] Removed with the old footer lockup: `.brand-lockup`, `.brand-text`,
+      `.brand-name`, `.brand-slogan`, `.brand .logo` and their footer/phone
+      overrides. `site.slogan` and `site.logo.mark` stay (OG cards, JSON-LD)
+- [x] Verified: lint, typecheck, Prettier, clean static build; Playwright/
+      Chrome sweep of 32 routes × 7 widths (320–1920) = 224 loads, 0
+      horizontal overflow, 0 console errors; header and footer reviewed at
+      1440 and 375 (computed: nav 80px, header logo 48px, footer logo on a
+      white plate)
+- ⚠️ Not verified here: Lighthouse, Firefox/Safari/Edge, real devices
+- Note: the footer now carries the lockup's "The way to web presence" line,
+  so header and footer agree; `site.slogan` ("AI-Native Engineering") still
+  feeds the OG cards and Organization JSON-LD — see the open slogan decision
 
 ## Phase 6 — Future Expansion (superseded — see Phases A–O above)
 

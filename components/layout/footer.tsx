@@ -61,19 +61,17 @@ export function Footer() {
         {/* Masthead — brand lockup + newsletter capture spanning the full width. */}
         <div className="footer-masthead">
           <div className="foot-brand">
-            <Link className="brand brand-lockup" href="/">
+            <Link className="brand brand-full" href="/">
+              {/* Same lockup as the header; the dark band puts it on a
+                  white plate (see `.surface-dark .logo-full`). */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                className="logo"
-                src={site.logo.mark}
-                alt=""
-                width={40}
-                height={40}
+                className="logo-full"
+                src={site.logo.fullHeader}
+                alt={site.name}
+                width={529}
+                height={120}
               />
-              <span className="brand-text">
-                <span className="brand-name">{site.name}</span>
-                <span className="brand-slogan">{site.slogan}</span>
-              </span>
             </Link>
             <p className="foot-tagline">{site.tagline}</p>
             <p className="foot-hours">
