@@ -120,7 +120,7 @@
   --maxw-wide: 1680px;
   --maxw-xwide: 1860px;
   --gutter: clamp(20px, 4vw, 80px);
-  --nav-h: 66px;
+  --nav-h: 80px;
   --secnav-h: 52px;
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
@@ -671,56 +671,10 @@ section {
   font-size: 1.1rem;
   white-space: nowrap;
 }
-.brand .logo {
-  flex: none;
-}
-/* Header brand lockup — wordmark with a small supporting slogan beneath it.
-   Uses a tight line-box so it doesn't grow the 74px header. */
-.brand-lockup {
-  gap: 11px;
-}
-.brand-text {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 1px;
-  line-height: 1.05;
-}
-.brand-name {
-  font-family: var(--font);
-  font-weight: 600;
-  font-size: 1.08rem;
-  color: var(--text);
-}
-.brand-slogan {
-  display: inline-flex;
-  align-items: center;
-  font-family: var(--font);
-  font-weight: 600;
-  /* 9.6px. Still a micro-label, but 0.52rem (8.3px) was below the size at
-     which letter-spaced uppercase mono stays readable on a phone screen. */
-  font-size: 0.6rem;
-  letter-spacing: var(--tracking-eyebrow);
-  text-transform: uppercase;
-  color: var(--text-dim);
-}
-/* The mark's navy strokes vanish on the dark canvas, so it always sits on a
-   white app-icon tile — one treatment for both themes, true brand colours. */
-.brand .logo {
-  flex: none;
-  width: 34px;
-  height: 34px;
-  padding: 3px;
-  border-radius: 10px;
-  background: var(--logo-plate);
-  box-shadow:
-    0 0 0 1px var(--border),
-    0 1px 2px rgba(15, 23, 42, 0.12);
-  object-fit: contain;
-}
-/* Header logo — the full lockup (mark + wordmark + tagline). Bare on the light
-   bar; its navy and grey type disappear on the dark canvas, so the dark theme
-   sets it on a white plate, like the mark's app-icon tile. */
+/* Brand logo — the full lockup (mark + wordmark + tagline), shared by the
+   header and the footer. Bare on the light bar; its navy and grey type
+   disappear on a dark canvas, so the dark theme and any `.surface-dark` band
+   (the footer) set it on a white plate. */
 .brand-full {
   padding: 4px 0;
 }
@@ -728,11 +682,12 @@ section {
   display: block;
   box-sizing: content-box;
   width: auto;
-  height: 40px;
+  height: 48px;
 }
-.dark .logo-full {
-  height: 32px;
-  padding: 5px 10px;
+.dark .logo-full,
+.surface-dark .logo-full {
+  height: 40px;
+  padding: 6px 12px;
   border-radius: 10px;
   background: var(--logo-plate);
   box-shadow:
@@ -4017,12 +3972,6 @@ a.contact-method:hover .cm-value {
 .foot-brand {
   min-width: 0;
 }
-.footer .brand-name {
-  color: var(--footer-text);
-}
-.footer .brand-slogan {
-  color: var(--footer-accent);
-}
 .foot-tagline {
   margin-top: 18px;
   font-size: 0.95rem;
@@ -4702,9 +4651,6 @@ a.contact-method:hover .cm-value {
     align-items: center;
     min-height: 44px;
   }
-  .brand-lockup {
-    padding: 5px 0;
-  }
   .footer .foot-social a {
     min-width: 44px;
   }
@@ -4788,8 +4734,8 @@ a.contact-method:hover .cm-value {
 /* ---- Phones -------------------------------------------------------------- */
 @media (max-width: 640px) {
   :root {
-    /* A 74px bar costs 11% of a 667px screen on every scroll. */
-    --nav-h: 60px;
+    /* An 80px bar costs 12% of a 667px screen on every scroll. */
+    --nav-h: 68px;
   }
 
   /* Vertical rhythm: the desktop clamps bottom out at values tuned for a
@@ -4887,15 +4833,13 @@ a.contact-method:hover .cm-value {
 /* ---- Header + navigation sheet ------------------------------------------- */
 @media (max-width: 640px) {
   /* Trim the lockup with the shorter bar so the brand still balances it. */
-  .brand-name {
-    font-size: 1rem;
-  }
   .logo-full {
-    height: 34px;
+    height: 40px;
   }
-  .dark .logo-full {
-    height: 28px;
-    padding: 4px 8px;
+  .dark .logo-full,
+  .surface-dark .logo-full {
+    height: 32px;
+    padding: 5px 10px;
   }
   .nav-inner {
     gap: 12px;
