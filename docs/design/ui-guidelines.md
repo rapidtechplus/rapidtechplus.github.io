@@ -3,8 +3,10 @@
 Practical rules for building screens. The token reference is
 [`design-system.md`](./design-system.md); this covers how to _apply_ it.
 
-Aesthetic target: premium, credible IT-services company — a dark navy hero over
-clean light sections (Stripe · Vercel · Linear), keyed to the logo's colours.
+Aesthetic target: premium, credible IT-services company — an enterprise-light
+composition (white and soft-grey surfaces, navy type, brand-blue actions,
+immersive technology visuals; Stripe · Vercel · Linear), keyed to the logo's
+colours.
 Never let the UI read as a generic agency template.
 
 ---
@@ -50,8 +52,10 @@ The standard pattern is **Eyebrow → Heading → Lead**, centered, `max-width:
   hover. Icon tile (`.ico`) uses `accent-soft` background.
 - **Panels** (`.panel`) — grouped content (feature lists, the contact form).
 - **Chips** (`.chip`) — the tech-stack tags.
-- **CTA banner** (`.cta-banner`) — bordered block with a radial accent glow;
-  closes most pages.
+- **CTA banner** (`.cta-banner`) — light panel with sky glows, a dot grid and
+  flowing shapes; closes most pages. The homepage adds three value points.
+- **Primary CTA label** — always `CTA_LABEL` from `config/site.ts`
+  ("Start a project"); never hardcode the wording.
 
 ## Do / Don't
 

@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { Ico } from "@/components/icon";
 import { MegaLink } from "@/components/layout/mega-link";
 import { CompanyMega } from "@/components/layout/company-mega";
+import { CTA_LABEL } from "@/config/site";
 import { megaMenu, site, type MegaColumn, type MegaItem } from "@/content/site";
 
 /**
@@ -399,7 +400,7 @@ export function Nav() {
               href="/contact"
               onClick={close}
             >
-              Get A Quote
+              {CTA_LABEL}
               <span className="btn-arrow" aria-hidden>
                 →
               </span>
@@ -411,7 +412,7 @@ export function Nav() {
               className="btn btn-primary nav-cta nav-cta-desktop"
               href="/contact"
             >
-              Get A Quote
+              {CTA_LABEL}
               <span className="btn-arrow" aria-hidden>
                 →
               </span>

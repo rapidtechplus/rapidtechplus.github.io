@@ -13,16 +13,16 @@ Audit date: 2026-10-21 · Branch: `feat/header-full-logo` (= `origin/master`)
 
 ## 1. Stack and build (preserved — no migration)
 
-| Area       | Finding                                                                             |
-| ---------- | ----------------------------------------------------------------------------------- |
-| Framework  | Next.js 15 App Router, React 19, TypeScript strict, `output: "export"`              |
-| Styling    | Tailwind v4 (PostCSS) + a hand-written class API in `app/globals.css` (4,925 lines) |
-| Motion     | `motion` for reveals; Canvas 2D hero globe; CSS scroll-driven process rail           |
-| Icons      | `lucide-react` through `components/icon.tsx`                                        |
-| Fonts      | Sora (display), Inter (body), JetBrains Mono (labels) via `next/font`               |
-| Tooling    | ESLint 9 flat config, Prettier + Tailwind plugin, Husky + lint-staged               |
-| Deploy     | GitHub Actions → GitHub Pages on push to `master` (`.github/workflows/deploy.yml`)  |
-| Images     | `unoptimized: true` — no image server on Pages                                      |
+| Area      | Finding                                                                             |
+| --------- | ----------------------------------------------------------------------------------- |
+| Framework | Next.js 15 App Router, React 19, TypeScript strict, `output: "export"`              |
+| Styling   | Tailwind v4 (PostCSS) + a hand-written class API in `app/globals.css` (4,925 lines) |
+| Motion    | `motion` for reveals; Canvas 2D hero globe; CSS scroll-driven process rail          |
+| Icons     | `lucide-react` through `components/icon.tsx`                                        |
+| Fonts     | Sora (display), Inter (body), JetBrains Mono (labels) via `next/font`               |
+| Tooling   | ESLint 9 flat config, Prettier + Tailwind plugin, Husky + lint-staged               |
+| Deploy    | GitHub Actions → GitHub Pages on push to `master` (`.github/workflows/deploy.yml`)  |
+| Images    | `unoptimized: true` — no image server on Pages                                      |
 
 The stack is suitable and stays. There is no router, dependency, or build
 change in the redesign.
@@ -35,19 +35,19 @@ reconcile. `develop` is one merge behind `master`.
 
 ## 2. Route inventory (115 exported routes)
 
-| Section         | Routes | Template                                   |
-| --------------- | ------ | ------------------------------------------ |
-| `/`             | 1      | `app/page.tsx` (home)                      |
-| `/hire`         | 1 + 29 | `HireLanding`                              |
-| `/solutions`    | 1 + 18 | `DetailLayout`                             |
-| `/industries`   | 1 + 10 | `DetailLayout`                             |
-| `/services`     | 1 + 8  | `ServiceLanding`                           |
-| `/technologies` | 1 + 7  | `TechnologyLanding`                        |
-| `/ai`           | 1 + 7  | `ServiceLanding`                           |
-| `/products`     | 1 + 6  | `DetailLayout`                             |
-| `/case-studies` | 1 + 6  | `CaseStudyLayout`                          |
-| Company         | 6      | about, careers, engineering, open-source, our-process, why-us |
-| Resources       | 2      | blog (index only), contact                 |
+| Section         | Routes | Template                                                       |
+| --------------- | ------ | -------------------------------------------------------------- |
+| `/`             | 1      | `app/page.tsx` (home)                                          |
+| `/hire`         | 1 + 29 | `HireLanding`                                                  |
+| `/solutions`    | 1 + 18 | `DetailLayout`                                                 |
+| `/industries`   | 1 + 10 | `DetailLayout`                                                 |
+| `/services`     | 1 + 8  | `ServiceLanding`                                               |
+| `/technologies` | 1 + 7  | `TechnologyLanding`                                            |
+| `/ai`           | 1 + 7  | `ServiceLanding`                                               |
+| `/products`     | 1 + 6  | `DetailLayout`                                                 |
+| `/case-studies` | 1 + 6  | `CaseStudyLayout`                                              |
+| Company         | 6      | about, careers, engineering, open-source, our-process, why-us  |
+| Resources       | 2      | blog (index only), contact                                     |
 | Legal / system  | 7      | privacy, terms, cookies, disclaimer, sitemap, coming-soon, 404 |
 
 Every hub and detail page is composed from six shared templates plus the
@@ -66,12 +66,12 @@ Assets in `public/brand/`: `logo-full.webp` (master lockup, 2000×454),
 Dominant opaque colours, sampled from the master lockup with `sharp`
 (8-bit buckets, alpha ≥ 200):
 
-| Sample    | Share | Where in the logo                  | Token               |
-| --------- | ----- | ---------------------------------- | ------------------- |
-| `#183860` | 26%   | "R" body, "RAPID TECH" wordmark    | `--brand-navy`      |
-| `#808888` | 14%   | grey leg, "THE WAY TO WEB PRESENCE" | `--brand-steel`     |
-| `#5890d0` | 9%    | arrow tip, "PLUS"                  | `--brand-sky`       |
-| `#305888`–`#4070a0` | 8% | the navy → sky gradient mid-tones | `--brand-blue`      |
+| Sample              | Share | Where in the logo                   | Token           |
+| ------------------- | ----- | ----------------------------------- | --------------- |
+| `#183860`           | 26%   | "R" body, "RAPID TECH" wordmark     | `--brand-navy`  |
+| `#808888`           | 14%   | grey leg, "THE WAY TO WEB PRESENCE" | `--brand-steel` |
+| `#5890d0`           | 9%    | arrow tip, "PLUS"                   | `--brand-sky`   |
+| `#305888`–`#4070a0` | 8%    | the navy → sky gradient mid-tones   | `--brand-blue`  |
 
 **Finding:** the live palette is _not_ logo-derived. Phase 31 chose Tailwind
 cobalt/sky (`#2563eb`, `#60a5fa`, `#0ea5e9`) before the official logo existed
@@ -80,16 +80,16 @@ grey never appears. The redesign keys every token to the sampled values above.
 
 Contrast of the chosen values (WCAG, computed):
 
-| Pair                                      | Ratio   |
-| ----------------------------------------- | ------- |
-| navy `#183860` text on white              | 11.8 :1 |
-| accent `#2b66a8` text on white            | 5.9 :1  |
-| white on button `#1e4a7f`→`#183860`       | ≥ 8 :1  |
-| sky `#5890d0` on dark `#0a1322`           | 5.6 :1  |
-| accent `#7fb0e6` on dark `#0a1322`        | 8.2 :1  |
-| dark ink on sky button `#5890d0`          | 5.3 :1  |
-| muted `#495a70` / dim `#5f7089` on white  | 7.1 / 5.0 :1 |
-| muted `#a9b6c8` / dim `#8d9bb0` on dark   | 9.0 / 6.6 :1 |
+| Pair                                     | Ratio        |
+| ---------------------------------------- | ------------ |
+| navy `#183860` text on white             | 11.8 :1      |
+| accent `#2b66a8` text on white           | 5.9 :1       |
+| white on button `#1e4a7f`→`#183860`      | ≥ 8 :1       |
+| sky `#5890d0` on dark `#0a1322`          | 5.6 :1       |
+| accent `#7fb0e6` on dark `#0a1322`       | 8.2 :1       |
+| dark ink on sky button `#5890d0`         | 5.3 :1       |
+| muted `#495a70` / dim `#5f7089` on white | 7.1 / 5.0 :1 |
+| muted `#a9b6c8` / dim `#8d9bb0` on dark  | 9.0 / 6.6 :1 |
 
 Raw sky `#5890d0` on white is 3.3:1, so it is used for large type, gradients
 and non-text accents only; text uses the darkened `#2b66a8`.
@@ -145,6 +145,12 @@ Phase 39 — brand-true design system (this change)
 5. Verification: lint, typecheck, build; static export reviewed at 320/375/768/
    1024/1280/1440/1920 in both themes; keyboard pass on header, sheet, toggle.
 
-Phase 40 (follow-up) — page-level layouts: hub pages get differentiated section
+Phase 40 — enterprise-light homepage concept (done): the owner's approved
+concept image moved the composition from a navy hero to a light one with an
+immersive technology visual; `PageHero` and `CtaBanner` went light with it,
+the primary CTA became "Start a project", and the homepage was trimmed to the
+concept (placeholder stats/testimonials removed). See the backlog entry.
+
+Phase 41 (follow-up) — page-level layouts: hub pages get differentiated section
 layouts (fewer uniform card grids), blog post routes, real proof points once
 the owner supplies them, Lighthouse CI.

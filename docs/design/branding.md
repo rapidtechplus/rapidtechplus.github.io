@@ -52,10 +52,12 @@ Every colour is sampled from the logo itself (Phase 39; sampling in
   for the logo; muted text uses navy-tinted greys instead.
 - **`--grad`** — the R's own navy → sky ramp.
 
-Light is the designed (and, for now, only) theme: a dark navy hero band opens
-every marketing page, light sections carry the content, and a navy footer
-closes it. A full dark theme exists in the tokens but is disabled until the
-owner wants it back. Tokens in
+Light is the designed (and, for now, only) theme — enterprise-light (Phase
+40): white and soft-grey surfaces, navy type, brand-blue actions, sky glows
+and a fine dot grid behind the heroes, and a navy footer closing the page.
+Dark surfaces appear only where they add contrast (the footer, the hero's
+glass core and code panel, the dashboard sidebar). A full dark theme exists
+in the tokens but is disabled until the owner wants it back. Tokens in
 [`design-system.md`](./design-system.md).
 
 ## Typography
