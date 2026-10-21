@@ -16,7 +16,6 @@ export default function PrivacyPage() {
         eyebrow="Legal"
         title="Privacy Policy"
         container="container-content"
-        tone="light"
       />
 
       <section style={{ paddingTop: 0 }}>

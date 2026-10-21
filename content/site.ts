@@ -10,11 +10,11 @@
 import { CONTACT_HREF, SITE_URL } from "@/config/site";
 import type { MegaItem, NavLink } from "@/content/types";
 import { aiMenu } from "@/content/ai";
-import { servicesMenu } from "@/content/services";
+import { services, servicesMenu } from "@/content/services";
 import { hireCategories, hireRoles } from "@/content/hire";
 import { solutionMenuColumns } from "@/content/solutions";
 import { industriesMenu } from "@/content/industries";
-import { caseStudiesMenu } from "@/content/case-studies";
+import { caseStudies, caseStudiesMenu } from "@/content/case-studies";
 import { companyMenu } from "@/content/company";
 
 // Re-export shared content types so existing `@/content/site` importers keep
@@ -323,6 +323,99 @@ export const socialLinks: SocialLink[] = [
   },
   { label: "Email", href: `mailto:${site.email}`, icon: "email" },
 ];
+
+/* ---------------------------------------------------------------------------
+   Homepage (Phase 40 — enterprise-light concept). Copy and references for the
+   concept's four sections live here so `app/page.tsx` stays presentational.
+   --------------------------------------------------------------------------- */
+
+export const homeHero = {
+  eyebrow: "AI-native engineering",
+  title: "Software that thinks ahead of your roadmap",
+  /** The one word in `title` that carries the brand accent. */
+  accent: "ahead",
+  lead: "We design and build production-grade software, SaaS platforms and AI-powered systems that help ambitious businesses move faster, work smarter and create real impact.",
+  secondary: { label: "Explore services", href: "/services" },
+  techLabel: "Technologies we work with",
+} as const;
+
+/**
+ * Technology badges under the hero actions. Every entry is part of the stack
+ * the site already lists (`techStack`) or a service we offer (`/ai`).
+ */
+export const homeTech = [
+  { label: "TypeScript", icon: "ts" },
+  { label: "React", icon: "atom" },
+  { label: "Next.js", icon: "next" },
+  { label: "Node.js", icon: "hexagon" },
+  { label: "AI Engineering", icon: "sparkles" },
+] as const;
+
+/**
+ * The four services featured on the homepage, in order, by slug. Titles,
+ * icons and summaries come from `content/services` so the cards cannot drift
+ * from the detail pages they link to.
+ */
+const homeServiceSlugs = [
+  "ai-development",
+  "custom-software-development",
+  "cloud-devops",
+  "web-development",
+] as const;
+
+export const homeServiceCards = homeServiceSlugs.flatMap((slug) => {
+  const s = services.find((svc) => svc.slug === slug);
+  return s
+    ? [
+        {
+          icon: s.icon,
+          title: s.title,
+          body: s.summary,
+          href: `/services/${s.slug}`,
+        },
+      ]
+    : [];
+});
+
+/**
+ * The study behind the "Featured project" section — the first representative
+ * engagement. The section links to its real route; the dashboard beside it
+ * is an illustrative product interface, not that client's data.
+ */
+export const featuredProject = {
+  eyebrow: "Featured project",
+  title: "Turning complex ideas into powerful products",
+  body: "A closer look at how we help businesses transform challenges into scalable, real-world solutions.",
+  cta: "View case study",
+  study: caseStudies[0],
+  /** Caption that keeps the mockup honest. */
+  note: "Illustrative product interface",
+} as const;
+
+/** Closing call-to-action — the concept's final band. */
+export const homeCta = {
+  eyebrow: "Ready to build what's next?",
+  title: "Let's turn your vision into reality",
+  body: "Share your goals with us and we'll help you find the right approach, technologies and team to make it happen.",
+  secondary: { label: "Schedule a call", href: CONTACT_HREF },
+  points: [
+    {
+      icon: "messages-square",
+      title: "Clear communication",
+      body: "throughout your project",
+    },
+    {
+      icon: "layers",
+      title: "Flexible engagement",
+      body: "models that fit your team",
+    },
+    {
+      icon: "shield-check",
+      title: "Long-term partnership",
+      body: "and support after launch",
+    },
+  ],
+} as const;
 
 export const homeStats = [
   { num: "10+", label: "Years combined experience" },

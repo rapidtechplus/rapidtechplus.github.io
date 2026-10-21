@@ -11,14 +11,14 @@ not bolted on — every task is accountable to this document.
   Accent colors are pre-tuned and darkened in light mode for this reason — don't
   introduce raw colors that break it.
 - **`--accent` is a foreground color, not a button background.** It is tuned to
-  be legible *on* the canvas, which in dark makes it light (`#8a8fff`) — white
+  be legible _on_ the canvas, which in dark makes it light (`#8a8fff`) — white
   text on it measures **2.82:1** and fails AA. (Light theme's `#4f46e5` happens
   to pass at 6.29:1, so a dark-only failure is easy to ship unnoticed.) For any
   filled control carrying text, use the primary button's fixed gradient
   (`linear-gradient(180deg, #6366f1, #4f46e5)`) with `var(--on-accent)`, which
   holds up in both themes. `background: var(--accent); color: #fff` has caused
   this bug twice — see Phase Q in the task backlog.
-- Accent as a *background* is fine for decorative, text-free elements (rules,
+- Accent as a _background_ is fine for decorative, text-free elements (rules,
   dots, indicator bars) and for tinted surfaces via `--accent-soft`.
 - Never convey information by color alone; pair with text, icon, or shape.
 
@@ -61,6 +61,8 @@ not bolted on — every task is accountable to this document.
 - [ ] Tab through the page — order is logical, focus always visible.
 - [ ] Run Lighthouse / axe — zero critical issues (target a11y ≥ 95).
 - [ ] Check contrast in **both** themes (light page surfaces and the dark
-      `.surface-dark` bands — hero, CTA, footer).
+      `.surface-dark` bands — the footer and the dark pieces inside the
+      illustrations). Decorative illustrations (`HeroVisual`,
+      `ProductShowcase`) are `aria-hidden`; their text is not content.
 - [ ] Verify with reduced motion enabled.
 - [ ] Confirm headings form a sensible outline.

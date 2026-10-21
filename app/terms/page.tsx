@@ -16,7 +16,6 @@ export default function TermsPage() {
         eyebrow="Legal"
         title="Terms of Service"
         container="container-content"
-        tone="light"
       />
 
       <section style={{ paddingTop: 0 }}>

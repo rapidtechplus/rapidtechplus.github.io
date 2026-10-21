@@ -12,3 +12,9 @@ export const CONTACT_HREF = "/contact";
 
 /** Default `changeFrequency` for generated sitemap entries. */
 export const SITEMAP_CHANGE_FREQUENCY = "monthly" as const;
+
+/**
+ * Label of the primary conversion action everywhere it appears — header,
+ * hero, paired CTAs, closing banner — so the wording changes in one place.
+ */
+export const CTA_LABEL = "Start a project";
