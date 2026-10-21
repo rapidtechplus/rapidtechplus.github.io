@@ -2294,6 +2294,60 @@ Replaces the placeholder gradient-"R" SVG.
 - Note: the header now shows "The way to web presence" while `site.slogan`
   (footer) is still "AI-Native Engineering" — see the open Phase 37 item
 
+## Phase 39 — Brand-true redesign, part 1: logo-derived design system 🔧
+
+Owner brief: a complete, premium redesign with a consistent brand identity
+derived from the actual logo, a dark hero over clean light content sections,
+and every page covered. Audit first, no stack change:
+[`docs/audit/redesign-audit-2026-10.md`](../audit/redesign-audit-2026-10.md).
+
+Part 1 works at the layer every route inherits — tokens, shell, shared
+primitives — so all 115 exported pages change together.
+
+- [x] Audit: stack, 115-route inventory, template map, brand assets, logo
+      colour sampling (`sharp`), placeholder-content list, repo = live check
+- [x] Palette re-keyed to the logo: navy `#183860` (R body/wordmark), sky
+      `#5890d0` (arrow/"PLUS"), blue `#3a6fa8` (ramp), steel `#888e92` (leg).
+      `--grad` is now the R's own navy → sky ramp
+- [x] Light is the designed default — the dark-hero/light-sections
+      composition is the brand look. **Light-only for now** (owner, same day):
+      `forcedTheme="light"` on the provider, footer theme switch removed from
+      the markup, single `theme-color`. The re-tuned dark token set and
+      `theme-toggle.tsx` stay in the codebase for when dark returns
+- [x] `.surface-dark` scope: the dark token set on any band; home hero,
+      inner-page heroes (`PageHero tone="dark"`, default), CTA banner and
+      footer are dark in both themes — children adapt via tokens, no new CSS
+- [x] Primary-action fill tokens (`--btn-bg`, `-hover`, `-active`,
+      `--on-accent`): navy + white label in light (≥ 8:1), sky + navy-ink
+      label in dark (5.3:1). Buttons, three mega-menu CTAs, assistant
+      launcher/bubble/send all read them — 0 hardcoded colours left outside
+      the token block (was 21). `--logo-plate` for the white logo tile
+- [x] Header: bare lockup on the light bar; white plate only in `.dark`
+- [x] "Get A Quote" no longer drifts toward the pointer (owner request): the
+      `Magnetic` wrapper is removed from the hero, header and paired CTAs and
+      the component + its CSS deleted. The button keeps its ordinary hover
+      lift and arrow nudge
+- [x] Hero chips neutralised (illustrative telemetry → capability labels);
+      globe palette reads the surface it sits on, not the page theme
+- [x] `theme-color` metas, `global-error.tsx`, OG template (violet stop
+      removed) recoloured; 13 OG cards regenerated
+- [x] Docs: design-system.md and branding.md colour/theme sections rewritten
+- [x] Verification: lint, typecheck, clean static build (132 pages).
+      Playwright/Chrome sweep of 32 routes (every hub, one of each detail
+      template, legal/system pages) × 320/375/768/1024/1280/1440/1920 =
+      224 loads: **0 horizontal overflow, 0 console errors**, `.light` on
+      every load even with a stored `dark` preference. Full-page screenshots
+      reviewed at 375 and 1440 (home, about, case studies, hire, contact);
+      browser-pane review of home, service detail, services hub, privacy,
+      CTA band, footer and the mobile header/footer
+- ⚠️ Not verified here: Lighthouse, Firefox/Safari/Edge, real devices, the
+      deployed URL; the dark theme is disabled so its re-tuned tokens were
+      only spot-checked before the light-only decision
+- [ ] Owner: real proof points for `homeStats`, testimonials, hero chips;
+      slogan decision ("AI-Native Engineering" vs "The way to web presence")
+- [ ] Phase 40 — page-level layouts (differentiated hub sections, blog post
+      routes), Lighthouse CI
+
 ## Phase 6 — Future Expansion (superseded — see Phases A–O above)
 
 - [ ] Product detail pages (`generateStaticParams` from `content/`)

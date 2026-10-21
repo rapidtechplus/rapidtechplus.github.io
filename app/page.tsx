@@ -4,7 +4,6 @@ import { Ico } from "@/components/icon";
 import { Reveal } from "@/components/reveal";
 import { Counter } from "@/components/counter";
 import { HeroScene } from "@/components/hero-scene";
-import { Magnetic } from "@/components/magnetic";
 import { TextReveal } from "@/components/text-reveal";
 import { TechMarquee } from "@/components/sections/home/tech-marquee";
 import { CapabilityBento } from "@/components/sections/home/capability-bento";
@@ -59,7 +58,7 @@ export default function HomePage() {
       />
 
       {/* HERO */}
-      <section className="hero hero-split">
+      <section className="hero hero-split surface-dark">
         <div className="container-wide container">
           <div className="hero-grid">
             <div className="hero-copy">
@@ -82,11 +81,9 @@ export default function HomePage() {
                   cutting corners.
                 </p>
                 <div className="hero-actions">
-                  <Magnetic>
-                    <ButtonLink href="/contact" className="btn-lg">
-                      Get A Quote →
-                    </ButtonLink>
-                  </Magnetic>
+                  <ButtonLink href="/contact" className="btn-lg">
+                    Get A Quote →
+                  </ButtonLink>
                   <ButtonLink
                     href="/contact"
                     variant="ghost"
@@ -109,13 +106,13 @@ export default function HomePage() {
             <div className="hero-stage" aria-hidden="true">
               <HeroScene />
               <span className="hero-chip c1">
-                <span className="dot" /> agents online <b>12</b>
+                <span className="dot" /> AI agents <b>in production</b>
               </span>
               <span className="hero-chip c2">
-                <span className="dot" /> p95 latency <b>42ms</b>
+                <span className="dot" /> cloud-native <b>platforms</b>
               </span>
               <span className="hero-chip ok c3">
-                <span className="dot" /> shipped to production
+                <span className="dot" /> shipped, then supported
               </span>
             </div>
           </div>

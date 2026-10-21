@@ -16,8 +16,9 @@ in [`design-system.md`](./design-system.md); brand facts live in
 
 - Official mark: the **"R" with a rising arrow and circuit traces** (navy →
   sky-blue, gray leg), cut from the master lockup `public/brand/logo-full.webp`.
-- On screen the mark always sits on a **white rounded tile** — the navy strokes
-  disappear against the dark theme. Don't recolour the mark.
+- On a dark surface (the dark theme, the footer) the mark and lockup sit on a
+  **white tile** (`--logo-plate`) — the navy strokes disappear otherwise. On
+  the light header the lockup is shown bare. Don't recolour the mark.
 - Assets: `public/brand/` (paths in `site.logo`), `public/favicon.ico`,
   `public/apple-touch-icon.png`, plus the generated social cards
   `app/**/opengraph-image.png` (template: `lib/og-image.tsx`, rebuilt with
@@ -39,10 +40,23 @@ in [`design-system.md`](./design-system.md); brand facts live in
 
 ## Color
 
-- Base palette is **dark, neutral, premium** (deep blue-black backgrounds).
-- Brand accent: **cyan `#38d6f0` → blue `#4f8cff`** gradient (`--grad`), used for
-  the logo, primary buttons, and clipped headline words. Accents are darkened in
-  light mode for AA contrast.
+Every colour is sampled from the logo itself (Phase 39; sampling in
+[`../audit/redesign-audit-2026-10.md`](../audit/redesign-audit-2026-10.md)):
+
+- **Navy `#183860`** — the "R" body and "RAPID TECH" wordmark. Primary
+  actions and headline gradients in light; the ink the dark theme is built on.
+- **Sky `#5890d0`** — the rising arrow and "PLUS". Accents, the gradient's
+  end, and the primary action in dark. Darkened to `#2b66a8` wherever it has
+  to carry text on white (5.9:1).
+- **Steel `#888e92`** — the grey leg and "THE WAY TO WEB PRESENCE". Reserved
+  for the logo; muted text uses navy-tinted greys instead.
+- **`--grad`** — the R's own navy → sky ramp.
+
+Light is the designed (and, for now, only) theme: a dark navy hero band opens
+every marketing page, light sections carry the content, and a navy footer
+closes it. A full dark theme exists in the tokens but is disabled until the
+owner wants it back. Tokens in
+[`design-system.md`](./design-system.md).
 
 ## Typography
 

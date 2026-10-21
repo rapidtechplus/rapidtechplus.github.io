@@ -2,41 +2,83 @@
 
 The visual language of the Rapid Tech Plus site. Source of truth for the tokens
 is [`app/globals.css`](../../app/globals.css); this document explains intent and
-usage. Aesthetic target: premium, minimal, dark-first SaaS (Vercel / Linear /
-Stripe).
+usage. Aesthetic target: premium, credible IT-services company — a dark navy hero over
+clean light sections (Stripe / Vercel / Linear), keyed to the logo's own colours.
 
 ---
 
 ## Theming
 
-Two themes, driven by CSS custom properties. Dark is the default; `.light` on
-`<html>` (set by `next-themes`) overrides the palette. Components reference
-tokens (`var(--bg)`), never raw hex, so both themes stay consistent.
+Two themes, driven by CSS custom properties and keyed to the official logo
+(Phase 39). **Light is the designed default** — the brand composition is a
+dark navy hero over clean, spacious light sections — and dark is an
+independently tuned theme (navy ink, sky accent), not an inversion.
+**For now the site ships light-only** (owner decision): `ThemeProvider` passes
+`forcedTheme="light"`, so `<html>` always carries `.light` and no stored or
+system preference is read; the footer theme switch is removed from the markup.
+The dark token set and `components/theme-toggle.tsx` stay in the codebase —
+re-enable dark by dropping `forcedTheme` and restoring the switch.
+
+`.surface-dark` re-declares the whole dark token set on one element. The home
+hero, every marketing `PageHero` (`tone="dark"`, the default), the CTA banner
+and the footer carry it, so they are navy bands in both themes and every child
+— buttons, chips, cards, fields — adapts through the same tokens with no extra
+CSS. Legal/prose pages pass `tone="light"` to keep a reading-first header.
+
+Components reference tokens (`var(--bg)`), never raw hex. The only literals
+outside the token block are `#000` inside mask gradients.
+
+## Brand palette (sampled from the logo)
+
+| Token                | Value     | In the logo                           |
+| -------------------- | --------- | ------------------------------------- |
+| `--brand-navy`       | `#183860` | "R" body, "RAPID TECH" wordmark       |
+| `--brand-blue`       | `#3a6fa8` | the navy → sky ramp's mid-tone        |
+| `--brand-sky`        | `#5890d0` | arrow tip, "PLUS"                     |
+| `--brand-sky-light`  | `#8ab8ea` | tint used for dark-theme text accents |
+| `--brand-steel`      | `#888e92` | grey leg, "THE WAY TO WEB PRESENCE"   |
+| `--brand-navy-deep`  | `#12294a` | —                                     |
+| `--brand-navy-ink`   | `#0a1322` | the navy taken to near-black (dark canvas) |
+
+`--grad` is the R's own ramp: `135deg, navy → blue 55% → sky`.
 
 ## Color tokens
 
-| Token             | Dark        | Light     | Use                                 |
-| ----------------- | ----------- | --------- | ----------------------------------- |
-| `--bg`            | `#0a0e16`   | `#f7f9fc` | Page background                     |
-| `--bg-elev`       | `#10151f`   | `#ffffff` | Cards, panels, footer, alt sections |
-| `--bg-elev-2`     | `#151b28`   | `#eef2f8` | Higher elevation                    |
-| `--surface`       | `white 2%`  | `ink 2%`  | Subtle fills (ghost btn, chips)     |
-| `--border`        | `white 8%`  | `ink 10%` | Hairlines                           |
-| `--border-strong` | `white 14%` | `ink 16%` | Emphasized borders                  |
-| `--text`          | `#eef2f8`   | `#0c1320` | Headings, primary text              |
-| `--text-muted`    | `#9aa6b8`   | `#47566b` | Body copy                           |
-| `--text-dim`      | `#6b7688`   | `#6b7688` | Labels, captions                    |
-| `--accent`        | `#38d6f0`   | `#0a95b0` | Cyan — eyebrows, icons, focus       |
-| `--accent-2`      | `#4f8cff`   | `#2f6bff` | Blue — gradient partner             |
-| `--accent-soft`   | cyan 12%    | cyan 10%  | Icon tile backgrounds               |
+| Token             | Light (default) | Dark / `.surface-dark` | Use                              |
+| ----------------- | --------------- | ---------------------- | -------------------------------- |
+| `--bg`            | `#f6f8fb`       | `#0a1322`              | Page / band background           |
+| `--bg-elev`       | `#ffffff`       | `#101c30`              | Cards, panels, alt sections      |
+| `--bg-elev-2`     | `#edf1f7`       | `#16253e`              | Higher elevation                 |
+| `--surface`       | navy 2.4%       | white 3%               | Subtle fills (ghost btn, chips)  |
+| `--border`        | navy 10%        | white 9%               | Hairlines                        |
+| `--border-strong` | navy 17%        | white 15%              | Emphasised borders               |
+| `--text`          | `#0f1f35`       | `#e8eef6`              | Headings, primary text           |
+| `--text-muted`    | `#495a70`       | `#a9b6c8`              | Body copy (7.1 / 9.0 :1)         |
+| `--text-dim`      | `#5f7089`       | `#8d9bb0`              | Labels, captions (5.0 / 6.6 :1)  |
+| `--accent`        | `#2b66a8`       | `#7fb0e6`              | Eyebrow dots, icons, links, focus |
+| `--accent-2`      | navy            | sky                    | Gradient partner                 |
+| `--accent-soft`   | accent 9%       | accent 14%             | Icon tiles, hover glows          |
+| `--btn-bg`        | navy ramp       | sky ramp               | Primary action fill              |
+| `--on-accent`     | `#ffffff`       | `#0a1322`              | Label on `--btn-bg` (≥ 8 / 5.3 :1) |
+| `--on-brand`      | `#ffffff`       | same                   | Label on `--grad` itself         |
+| `--logo-plate`    | `#ffffff`       | same                   | Tile under the logo on dark      |
+
+The raw sky `#5890d0` measures 3.3:1 on white, so in light it carries only
+large type, gradients and non-text accents; text uses the darkened `#2b66a8`.
+In dark the primary button is the sky with a navy-ink label — the one place the
+raw brand sky carries text.
 
 **Gradients**
 
-- `--grad` `linear-gradient(135deg, #38d6f0 → #4f8cff)` — primary buttons, logo.
-- `--grad-text` — clipped onto headline spans (`.grad-text`); darker in light mode
-  for contrast.
+- `--grad` `linear-gradient(135deg, #183860 → #3a6fa8 → #5890d0)` — the logo
+  ramp; icon tiles, decorative seams.
+- `--grad-text` — clipped onto headline spans (`.grad-text`); navy-led in light,
+  sky-led in dark.
+- `--btn-bg` / `--btn-bg-hover` / `--btn-bg-active` — vertical ramps for
+  primary actions, tuned per theme.
 
-Accent colors are darkened in light mode to keep text/icon contrast ≥ WCAG AA.
+The footer palette (`--footer-*`) is a single dark set — the footer is a navy
+band in both themes.
 
 ---
 
@@ -80,14 +122,17 @@ Accent colors are darkened in light mode to keep text/icon contrast ≥ WCAG AA.
 
 - **Buttons** (`.btn`): pill (`999px`), weight 600, `13px 24px`. Variants via the
   `Button`/`ButtonLink` cva API:
-  - `primary` — `--grad` fill, dark text (`--on-accent`), lifts `-2px` on hover.
+  - `primary` — `--btn-bg` fill with `--on-accent` label (navy + white in
+    light, sky + navy-ink in dark; inside a `.surface-dark` band it is always
+    the sky), lifts `-1px` on hover.
   - `ghost` — `--surface` fill, strong border, accent border on hover.
 - **Cards** (`.card`): `--bg-elev`, `1px` border, `radius-lg`, `28px` pad; hover lifts
   `-4px` + `shadow-md`. Icon tile `.ico` = `46px`, `accent-soft` bg, accent glyph.
 - **Panel** (`.panel`): like a card but for grouped content (feature lists, forms).
 - **Stats** (`.stat .num`): gradient-clipped numerals, `800` weight.
 - **Chips** (`.chip`): pill tags for the tech list; accent border on hover.
-- **CTA banner** (`.cta-banner`): bordered block with a radial accent glow.
+- **CTA banner** (`.cta-banner`): a `.surface-dark` navy block with a radial
+  sky glow and a travelling accent seam — dark in both themes.
 - **Prose** (`.prose`): legal pages — `780px` measure, spaced headings, accent links.
 - **Eyebrow → Heading → Lead** is the standard section-head pattern.
 

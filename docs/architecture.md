@@ -59,7 +59,7 @@ docs/                PRD, architecture, roadmap
 
 Colors, spacing, radius, and typography live as CSS custom properties in
 `globals.css` and are exposed to Tailwind via the v4 `@theme` block, so the
-palette can evolve in one place. Dark, neutral base palette per the design
+palette can evolve in one place. Logo-derived navy / sky palette, light-first, per the design
 philosophy.
 
 ## Scalability path
