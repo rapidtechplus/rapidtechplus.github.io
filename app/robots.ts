@@ -5,7 +5,8 @@ export const dynamic = "force-static";
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: { userAgent: "*", allow: "/" },
+    // `/home-preview` is the review-only homepage variant (also noindex).
+    rules: { userAgent: "*", allow: "/", disallow: "/home-preview/" },
     sitemap: `${site.url}/sitemap.xml`,
   };
 }

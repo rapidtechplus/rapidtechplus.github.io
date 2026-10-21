@@ -2243,7 +2243,7 @@ ruled out by the owner. Built on the Canvas 2D API with zero dependencies.
 - [x] Hero right column → globe stage + 3 floating telemetry chips;
       old console visual (`components/hero-visual/`, ~550 lines CSS) removed
 - [x] Perf fix (pre-existing, site-wide): aurora blobs used `filter:
-  blur(90px)` on scale-animated layers → re-rasterised every frame.
+blur(90px)` on scale-animated layers → re-rasterised every frame.
       Replaced with radial gradients: 13 → 58 fps desktop (software render)
 - [x] Verified: lint, typecheck, build; prod export LCP 312 ms, globe ready
       630 ms; no overflow 10 routes × 7 widths × 2 themes; zero console errors;
@@ -2359,6 +2359,17 @@ first, then the same language on every route. Audit context:
 - [x] Owner-supplied mobile number `+91-8264110143` set as `site.contact.phone`
       / `phoneHref` — the contact page, `tel:` link, WhatsApp link and
       Organization JSON-LD all read it from there
+- [x] Both homepages kept while the owner decides (same day): the Phase 40
+      page is `HomeConcept`, the Phase 39 page is `HomeClassic` (its
+      counter / bento / marquee components and CSS restored, scoped in a
+      "Classic homepage" stylesheet section). `HOME_VARIANT` in
+      `config/site.ts` picks the live one at `/` ("concept" now); the other
+      serves at `/home-preview` with a notice bar, `noindex, nofollow`, a
+      robots disallow and no sitemap entry. Verified: build, both routes ×
+      7 widths = 14 loads, 0 overflow, 0 console errors. To settle: flip or
+      keep `HOME_VARIANT`, delete the losing `home-*.tsx`, the preview
+      route and (for classic) the restored components + CSS section
+- [ ] Owner: choose between the concept and classic homepages
 - [ ] Owner: slogan decision ("AI-Native Engineering" vs "The way to web
       presence"); real proof points if stats/testimonials should return;
       confirm the sales/HR inboxes and postal address
@@ -2418,6 +2429,25 @@ primitives — so all 115 exported pages change together.
       slogan decision ("AI-Native Engineering" vs "The way to web presence")
 - [ ] Phase 40 — page-level layouts (differentiated hub sections, blog post
       routes), Lighthouse CI
+
+## Phase 41 — Single typeface: Inter everywhere (ackplus.com parity) ✅
+
+- [x] Owner request: match ackplus.com typography. Measured there: Inter for
+      body, headings, nav and buttons, from Google Fonts. No second face
+- [x] Dropped Sora (display) and JetBrains Mono (labels) from
+      `app/layout.tsx`. Every heading, eyebrow, chip, stat and label rule in
+      `globals.css` now uses `var(--font)` (Inter). The `--font-display` and
+      `--font-mono` tokens were removed
+- [x] New `--font-code` token (system mono stack, no download) used only by the
+      decorative code panel `.tv-panel.is-code`
+- [x] Pages load 1 font file instead of 3 (should help LCP; Lighthouse not run)
+- [x] Verified: lint, typecheck, static build. Built export at 1440px and
+      375px (no horizontal overflow). Computed fonts on home: every text node
+      Inter, except the code panel. Light theme only (dark is disabled site-wide)
+- ⚠️ Not verified: 768/1280/1920px spot checks, Lighthouse, Firefox/Safari/Edge
+- Follow-up to consider: heading tracking (`-0.03em`) and label tracking were
+  tuned for Sora/JetBrains Mono, and ackplus uses normal tracking. Retune if
+  the owner wants an exact match
 
 ## Phase 6 — Future Expansion (superseded — see Phases A–O above)
 
