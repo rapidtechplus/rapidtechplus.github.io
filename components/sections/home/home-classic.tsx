@@ -1,34 +1,22 @@
-import Link from "next/link";
 import { ButtonLink } from "@/components/ui/button";
-import { Ico } from "@/components/icon";
 import { Reveal } from "@/components/reveal";
-import { Counter } from "@/components/counter";
 import { HeroScene } from "@/components/hero-scene";
 import { TextReveal } from "@/components/text-reveal";
-import { TechMarquee } from "@/components/sections/home/tech-marquee";
 import { CapabilityBento } from "@/components/sections/home/capability-bento";
 import { ProcessScroll } from "@/components/sections/process-scroll";
 import {
   SectionHead,
   IconCard,
-  Quote,
   FaqAccordion,
   CtaBanner,
   CtaActions,
 } from "@/components/sections/pieces";
 import { FaqJsonLd } from "@/components/sections/home/faq-json-ld";
 import {
-  homeStats,
-  homeFeatures,
   homeServices,
   whyChoose,
   aiExpertise,
-  techStack,
-  industries,
-  products,
   tailoredProcess,
-  testimonials,
-  blogPosts,
   faqs,
 } from "@/content/site";
 import { CONTACT_HREF, CTA_LABEL } from "@/config/site";
@@ -42,17 +30,15 @@ const trust = [
 /**
  * The Phase 39 homepage, kept as a switchable variant while the owner
  * decides between it and `HomeConcept` (see `HOME_VARIANT` in
- * `config/site.ts`). A navy hero band with the canvas globe and telemetry
- * chips, then the proof stats, who-we-are split, why-us cards, capability
- * bento, process, industries, products, testimonials, insights, FAQ and CTA.
- * Runs on today's shared primitives (light CTA banner, `CTA_LABEL`).
- *
- * `homeStats` and `testimonials` are placeholder content — see the backlog
- * before this variant goes live again.
+ * `config/site.ts`). Trimmed to the essentials: a navy hero band with the
+ * canvas globe and capability chips, the capability bento, why-us cards,
+ * the scroll-told process, FAQ and CTA. Everything else (stack marquee,
+ * placeholder stats and testimonials, who-we-are, industries, products,
+ * insights) is reachable from the nav and was removed to keep the page
+ * focused and honest. Runs on today's shared primitives (light CTA banner,
+ * `CTA_LABEL`).
  */
 export function HomeClassic() {
-  const featuredPosts = blogPosts.slice(0, 3);
-
   return (
     <>
       <FaqJsonLd />
@@ -88,11 +74,11 @@ export function HomeClassic() {
                     </span>
                   </ButtonLink>
                   <ButtonLink
-                    href={CONTACT_HREF}
+                    href="/services"
                     variant="ghost"
                     className="btn-lg"
                   >
-                    Book a free consultation
+                    Explore services
                   </ButtonLink>
                 </div>
                 <div className="trust-row">
@@ -105,7 +91,7 @@ export function HomeClassic() {
                 </div>
               </Reveal>
             </div>
-            {/* Decorative: the canvas globe + telemetry chips. */}
+            {/* Decorative: the canvas globe + capability chips. */}
             <div className="hero-stage" aria-hidden="true">
               <HeroScene />
               <span className="hero-chip c1">
@@ -122,72 +108,14 @@ export function HomeClassic() {
         </div>
       </section>
 
-      {/* TOOLKIT MARQUEE */}
-      <section className="marquee-section">
-        <div className="container-wide container">
-          <TechMarquee
-            label="Built with a modern, battle-tested stack"
-            items={techStack}
-          />
-        </div>
-      </section>
-
-      {/* PROOF STATS */}
-      <section style={{ paddingTop: 0 }}>
-        <div className="container-wide container">
-          <Reveal className="stats">
-            {homeStats.map((s) => (
-              <div className="stat" key={s.label}>
-                <Counter value={s.num} />
-                <div className="label">{s.label}</div>
-              </div>
-            ))}
-          </Reveal>
-        </div>
-      </section>
-
-      {/* WHO WE ARE */}
+      {/* CAPABILITIES — one asymmetric grid for services + AI. */}
       <section>
-        <div className="split container">
-          <Reveal>
-            <span className="eyebrow">Who we are</span>
-            <h2>An engineering partner built for the AI era</h2>
-            <p>
-              We are a compact team of senior engineers and designers who treat
-              your product like our own. AI accelerates our workflow — from
-              scoping to scaffolding to review — but every decision is made by
-              people who care about the details.
-            </p>
-            <p>
-              From the first commit to launch and beyond, we bring engineering
-              discipline, thoughtful design, and a bias for shipping. Our work
-              spans custom web applications, SaaS platforms, and business
-              automation.
-            </p>
-            <ButtonLink href="/about" variant="ghost">
-              More about us →
-            </ButtonLink>
-          </Reveal>
-
-          <Reveal className="panel" delay={0.1}>
-            {homeFeatures.map((f, i) => (
-              <div
-                className="feature"
-                key={f.title}
-                style={
-                  i < homeFeatures.length - 1 ? { marginBottom: 24 } : undefined
-                }
-              >
-                <span className="check">
-                  <Ico name="check" />
-                </span>
-                <div>
-                  <h3>{f.title}</h3>
-                  <p>{f.body}</p>
-                </div>
-              </div>
-            ))}
-          </Reveal>
+        <div className="container-wide container">
+          <SectionHead eyebrow="What we do" title="Capabilities, end to end">
+            Everything needed to design, build, and evolve a modern digital
+            product — under one roof, with one accountable team.
+          </SectionHead>
+          <CapabilityBento ai={aiExpertise} services={homeServices} />
         </div>
       </section>
 
@@ -215,17 +143,6 @@ export function HomeClassic() {
         </div>
       </section>
 
-      {/* CAPABILITIES — one asymmetric grid for services + AI. */}
-      <section>
-        <div className="container-wide container">
-          <SectionHead eyebrow="What we do" title="Capabilities, end to end">
-            Everything needed to design, build, and evolve a modern digital
-            product — under one roof, with one accountable team.
-          </SectionHead>
-          <CapabilityBento ai={aiExpertise} services={homeServices} />
-        </div>
-      </section>
-
       {/* PROCESS — scroll-told, five numbered stages. */}
       <section>
         <div className="container-wide container">
@@ -236,112 +153,6 @@ export function HomeClassic() {
             steps={tailoredProcess}
             actions={<CtaActions />}
           />
-        </div>
-      </section>
-
-      {/* INDUSTRIES */}
-      <section className="band">
-        <div className="container-wide container">
-          <SectionHead
-            eyebrow="Industries"
-            title="Spurring digital growth across domains"
-          >
-            We adapt our craft to the realities of your industry — its users,
-            constraints, and pace — to drive measurable growth.
-          </SectionHead>
-          <div className="grid-3 grid">
-            {industries.map((it, i) => (
-              <IconCard
-                key={it.title}
-                icon={it.icon}
-                title={it.title}
-                body={it.body}
-                delay={i * 0.05}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* FEATURED PRODUCTS */}
-      <section>
-        <div className="container-wide container">
-          <SectionHead
-            eyebrow="Featured products"
-            title="Platforms we design and ship"
-          >
-            A sample of the kinds of products we build — from customer-facing
-            platforms to internal tooling.
-          </SectionHead>
-          <div className="grid-3 grid">
-            {products.slice(0, 3).map((p, i) => (
-              <IconCard
-                key={p.title}
-                icon={p.icon}
-                title={p.title}
-                body={p.body}
-                delay={i * 0.05}
-              />
-            ))}
-          </div>
-          <Reveal className="section-actions">
-            <ButtonLink href="/products" variant="ghost">
-              See all products →
-            </ButtonLink>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* TESTIMONIALS */}
-      <section className="band">
-        <div className="container-wide container">
-          <SectionHead
-            eyebrow="What clients say"
-            title="Trusted to build and to keep improving"
-          >
-            Representative of the partnerships we build. Real client quotes land
-            here as we collect them.
-          </SectionHead>
-          <div className="quote-grid">
-            {testimonials.map((t, i) => (
-              <Quote
-                key={t.name + t.role}
-                quote={t.quote}
-                name={t.name}
-                role={t.role}
-                delay={i * 0.06}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* INSIGHTS */}
-      <section className="band">
-        <div className="container-wide container">
-          <SectionHead eyebrow="Insights" title="From our engineering desk">
-            Notes on AI, web development, and shipping durable software.
-          </SectionHead>
-          <div className="post-grid">
-            {featuredPosts.map((post, i) => (
-              <Reveal className="post" key={post.slug} delay={i * 0.06}>
-                <div className="post-meta">
-                  <span className="post-cat">{post.category}</span>
-                  <span>{post.readingTime}</span>
-                </div>
-                <h3>{post.title}</h3>
-                <p>{post.excerpt}</p>
-                <Link className="post-more" href="/blog">
-                  Read more →
-                </Link>
-              </Reveal>
-            ))}
-          </div>
-          <Reveal className="section-actions">
-            <ButtonLink href="/blog" variant="ghost">
-              Read all insights →
-            </ButtonLink>
-          </Reveal>
         </div>
       </section>
 

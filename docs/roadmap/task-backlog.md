@@ -2362,13 +2362,13 @@ first, then the same language on every route. Audit context:
 - [x] Both homepages kept while the owner decides (same day): the Phase 40
       page is `HomeConcept`, the Phase 39 page is `HomeClassic` (its
       counter / bento / marquee components and CSS restored, scoped in a
-      "Classic homepage" stylesheet section). `HOME_VARIANT` in
+      "Classic homepage" stylesheet section; trimmed again in Phase 42). `HOME_VARIANT` in
       `config/site.ts` picks the live one at `/` ("concept" now); the other
       serves at `/home-preview` with a notice bar, `noindex, nofollow`, a
       robots disallow and no sitemap entry. Verified: build, both routes ×
       7 widths = 14 loads, 0 overflow, 0 console errors. To settle: flip or
       keep `HOME_VARIANT`, delete the losing `home-*.tsx`, the preview
-      route and (for classic) the restored components + CSS section
+      route and (for classic) `CapabilityBento` + the CSS section
 - [ ] Owner: choose between the concept and classic homepages
 - [ ] Owner: slogan decision ("AI-Native Engineering" vs "The way to web
       presence"); real proof points if stats/testimonials should return;
@@ -2461,6 +2461,34 @@ primitives — so all 115 exported pages change together.
 - Decision (owner, 2026-10-21): keep heading weight at 600, even though
   ackplus uses 700 for h1/h2
 
+## Phase 42 — Classic homepage trimmed to essentials ✅
+
+Owner feedback on `/home-preview` (the classic, Phase 39 variant): too many
+sections, several unnecessary. Keep the important ones, drop the rest, make
+it read as a focused professional page.
+
+- [x] `HomeClassic` is now six sections: navy hero (globe + capability
+      chips), capability bento, Why us, the scroll-told process, FAQ (with
+      its JSON-LD) and the CTA banner — the same spine as the concept page
+- [x] Removed: toolkit marquee, proof stats and testimonials (placeholder
+      content — content integrity), who-we-are split, industries, featured
+      products and insights (all one click away in the nav). Hero secondary
+      action is "Explore services" → `/services` instead of a second
+      `/contact` button
+- [x] Dead code gone with them: `components/counter.tsx`,
+      `components/sections/home/tech-marquee.tsx`, the `homeStats`,
+      `homeFeatures`, `techStack` and `testimonials` content exports, the
+      stats + marquee stylesheet blocks (plus the `.stat`/`.stats` leftovers
+      in the shared transition list and responsive section). `CapabilityBento`
+      and its CSS stay for the bento
+- [x] Verified: lint, typecheck, clean static build; Playwright/Chrome sweep
+      of `/` and `/home-preview` × 320/375/768/1024/1280/1440/1920 = 14
+      loads, 0 horizontal overflow, 0 console errors; `/home-preview`
+      reviewed with motion on at 1440 and 375
+- ⚠️ Not verified here: Lighthouse, Firefox/Safari/Edge, real devices
+- [ ] Owner: still to choose between the concept and classic homepages (see
+      Phase 40)
+
 ## Phase 6 — Future Expansion (superseded — see Phases A–O above)
 
 - [ ] Product detail pages (`generateStaticParams` from `content/`)
@@ -2474,8 +2502,8 @@ primitives — so all 115 exported pages change together.
       adding information — revisit if the collection grows
 - [ ] Open source page
 - [ ] Press kit
-- [~] Testimonials / trust section — homepage placeholders shipped (Phase 10);
-  swap in real, attributed client quotes when available
+- [ ] Testimonials / trust section — placeholder quotes removed (Phase 40 /
+      42); add a section only with real, attributed client quotes
 - [ ] `config/` for shared constants (extract site config if it grows)
 - [ ] Lighthouse CI to guard ≥95 Performance/A11y/SEO/Best-Practices
 

@@ -17,7 +17,7 @@
    light page and every child component — buttons, chips, cards,
    form fields — adapts through the same tokens with no extra CSS.
 
-   Class API is intentionally stable (.hero, .card, .stat, …)
+   Class API is intentionally stable (.hero, .card, .chip, …)
    so every page inherits the system without edits.
    ============================================================= */
 
@@ -278,7 +278,6 @@
   .nav,
   .footer,
   .card,
-  .stat,
   .chip,
   .panel,
   .timeline .step,
@@ -4374,9 +4373,6 @@ a.contact-method:hover .cm-value {
   .timeline .step:not(:last-child)::after {
     display: none;
   }
-  .stats {
-    grid-template-columns: repeat(2, 1fr);
-  }
   .split,
   .contact-grid {
     grid-template-columns: minmax(0, 1fr);
@@ -5554,8 +5550,7 @@ a.contact-method:hover .cm-value {
    (`HOME_VARIANT` in config/site.ts; the non-live one serves at
    /home-preview). Delete this section with `home-classic.tsx` once the owner
    settles on one homepage. Rules below are scoped to the classic sections:
-   the navy hero stage + telemetry chips, proof stats, toolkit marquee and
-   capability bento.
+   the navy hero stage + capability chips and the capability bento.
    ========================================================================== */
 
 /* Dark hero band: the glass core's light-surface glow and dot grid are
@@ -5661,111 +5656,6 @@ a.contact-method:hover .cm-value {
   .hero-chip {
     font-size: 0.72rem;
     padding: 7px 11px;
-  }
-}
-
-/* Stats */
-.stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: clamp(20px, 1.8vw, 30px);
-  text-align: center;
-}
-.stat {
-  padding: 28px 20px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--surface);
-}
-.stat .num {
-  font-family: var(--font);
-  font-size: clamp(2.2rem, 4.5vw, 3.2rem);
-  font-weight: 700;
-  line-height: 1;
-  background: var(--grad-text);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-.stat .label {
-  font-family: var(--font);
-  color: var(--text-dim);
-  font-size: 0.76rem;
-  letter-spacing: var(--tracking-tag);
-  text-transform: uppercase;
-  margin-top: 12px;
-}
-
-/* ---- Toolkit marquee ---- */
-.marquee-section {
-  padding: clamp(8px, 2vw, 24px) 0 clamp(40px, 5vw, 64px);
-}
-.marquee-label {
-  margin: 0 0 18px;
-  font-family: var(--font);
-  font-size: 0.75rem;
-  letter-spacing: var(--tracking-tag);
-  text-transform: uppercase;
-  color: var(--text-dim);
-}
-.marquee-viewport {
-  display: flex;
-  overflow: hidden;
-  mask-image: linear-gradient(
-    90deg,
-    transparent,
-    #000 8%,
-    #000 92%,
-    transparent
-  );
-  -webkit-mask-image: linear-gradient(
-    90deg,
-    transparent,
-    #000 8%,
-    #000 92%,
-    transparent
-  );
-}
-.marquee-track {
-  display: flex;
-  flex: none;
-  gap: 12px;
-  margin: 0;
-  padding: 0 12px 0 0;
-  list-style: none;
-  animation: marquee 40s linear infinite;
-}
-.marquee-viewport:hover .marquee-track {
-  animation-play-state: paused;
-}
-.marquee-track li {
-  flex: none;
-  padding: 9px 16px;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  background: var(--surface);
-  font-family: var(--font);
-  font-size: 0.84rem;
-  color: var(--text-muted);
-  white-space: nowrap;
-}
-@keyframes marquee {
-  to {
-    transform: translateX(-100%);
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .marquee-viewport {
-    mask-image: none;
-    -webkit-mask-image: none;
-  }
-  .marquee-track {
-    flex-wrap: wrap;
-    flex: 1;
-    animation: none;
-  }
-  .marquee-track[aria-hidden] {
-    display: none;
   }
 }
 
@@ -5975,14 +5865,6 @@ a.contact-method:hover .cm-value {
     top: 16px;
     right: 50%;
     transform: translateX(50%) scale(0.8);
-  }
-}
-
-/* The classic rules sit after the shared responsive section, so their
-   breakpoint overrides are restated here to win on source order. */
-@media (max-width: 960px) {
-  .stats {
-    grid-template-columns: repeat(2, 1fr);
   }
 }
 
