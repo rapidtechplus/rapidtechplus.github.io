@@ -29,9 +29,12 @@ const TITLE_MAX = 78;
 export function ogImage({
   title,
   eyebrow,
+  logoSrc,
 }: {
   title: string;
   eyebrow?: string;
+  /** The brand mark as a data URI — Satori cannot fetch site-relative paths. */
+  logoSrc: string;
 }): ReactElement {
   const clamped =
     title.length > TITLE_MAX
@@ -79,13 +82,11 @@ export function ogImage({
               width: 68,
               height: 68,
               borderRadius: 16,
-              backgroundImage: `linear-gradient(135deg, ${ACCENT_FROM}, ${ACCENT_TO})`,
-              fontSize: 40,
-              fontWeight: 700,
-              color: "#ffffff",
+              backgroundColor: "#ffffff",
             }}
           >
-            {site.logoLetter}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={logoSrc} alt="" width={56} height={56} />
           </div>
           <div
             style={{

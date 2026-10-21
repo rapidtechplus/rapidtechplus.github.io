@@ -41,7 +41,7 @@ lib/                      Shared, framework-agnostic helpers
   structured-data.ts      schema.org JSON-LD builders
 
 public/                   Static assets served at the root
-  favicon.svg  logo.svg  .nojekyll
+  favicon.ico  apple-touch-icon.png  brand/ (logo assets)  .nojekyll
 
 scripts/                  Build-time generators (not run by `next build`)
   generate-og.tsx         `npm run og:generate` → app/**/opengraph-image.png

@@ -69,7 +69,13 @@ export const metadata: Metadata = {
     description:
       "We build modern software products, web platforms, and digital systems for growing businesses.",
   },
-  icons: { icon: "/favicon.svg" },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "48x48" },
+      { url: "/brand/favicon-64.png", type: "image/png", sizes: "64x64" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 export default function RootLayout({

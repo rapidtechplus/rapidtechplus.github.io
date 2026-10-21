@@ -38,7 +38,15 @@ export { serviceOfferings, process } from "@/content/services";
 export const site = {
   name: "Rapid Tech Plus",
   shortName: "Rapid Tech Plus",
-  logoLetter: "R",
+  /** Brand assets in `public/brand/`, cut from the master lockup. The mark is
+      the "R" + rising arrow on its own; the full lockup includes the wordmark
+      and the "The way to web presence" line and is kept for press/partner use. */
+  logo: {
+    mark: "/brand/logo-mark-128.png",
+    markLarge: "/brand/logo-mark.png",
+    icon: "/brand/icon-512.png",
+    full: "/brand/logo-full.webp",
+  },
   slogan: "AI-Native Engineering",
   url: SITE_URL,
   tagline:
