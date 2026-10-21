@@ -61,16 +61,18 @@ export const site = {
   hours: "Monday – Friday, 9:00 – 18:00 IST",
   footerNote: "Building software for growing businesses.",
   /**
-   * Footer contact details. Placeholder values — swap in the real sales/HR
-   * inboxes, phone number, and postal address before launch.
+   * Contact details. The mobile number is the owner's real one (Phase 40);
+   * `phone` is the display form, `phoneHref` the E.164 form used by the
+   * `tel:` link, the WhatsApp link and the Organization JSON-LD. The inboxes
+   * and postal address are still placeholders to confirm before launch.
    */
   contact: {
     salesName: "Sales Team",
     salesEmail: "hello@rapidtechplus.com",
     hrName: "People & Talent",
     hrEmail: "careers@rapidtechplus.com",
-    phone: "+91 79 4000 1234",
-    phoneHref: "+917940001234",
+    phone: "+91-8264110143",
+    phoneHref: "+918264110143",
     address: "Ahmedabad, Gujarat, India — serving clients worldwide",
   },
 } as const;

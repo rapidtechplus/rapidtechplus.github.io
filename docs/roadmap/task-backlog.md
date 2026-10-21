@@ -2356,8 +2356,12 @@ first, then the same language on every route. Audit context:
   deployed URL. `color-mix`, `translate` and `aspect-ratio` need
   Chrome 111+ / Safari 16.4+ / Firefox 113+ (already used elsewhere in
   the stylesheet)
+- [x] Owner-supplied mobile number `+91-8264110143` set as `site.contact.phone`
+      / `phoneHref` — the contact page, `tel:` link, WhatsApp link and
+      Organization JSON-LD all read it from there
 - [ ] Owner: slogan decision ("AI-Native Engineering" vs "The way to web
-      presence"); real proof points if stats/testimonials should return
+      presence"); real proof points if stats/testimonials should return;
+      confirm the sales/HR inboxes and postal address
 - [ ] Phase 41 — page-level layouts (differentiated hub sections, blog post
       routes), Lighthouse CI
 
