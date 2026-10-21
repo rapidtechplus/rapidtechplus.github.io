@@ -16,9 +16,11 @@ in [`design-system.md`](./design-system.md); brand facts live in
 
 - Official mark: the **"R" with a rising arrow and circuit traces** (navy →
   sky-blue, gray leg), cut from the master lockup `public/brand/logo-full.webp`.
-- On a dark surface (the dark theme, the footer) the mark and lockup sit on a
-  **white tile** (`--logo-plate`) — the navy strokes disappear otherwise. On
-  the light header the lockup is shown bare. Don't recolour the mark.
+- The header and the footer both show the full lockup
+  (`public/brand/logo-full-header.webp`). On a dark surface (the dark theme,
+  the `.surface-dark` footer) it sits on a **white tile** (`--logo-plate`) —
+  the navy type disappears otherwise. On the light header it is shown bare.
+  Don't recolour the mark.
 - Assets: `public/brand/` (paths in `site.logo`), `public/favicon.ico`,
   `public/apple-touch-icon.png`, plus the generated social cards
   `app/**/opengraph-image.png` (template: `lib/og-image.tsx`, rebuilt with

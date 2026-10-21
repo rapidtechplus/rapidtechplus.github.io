@@ -123,7 +123,7 @@ arrivals), `--dur-slow` (0.8s); easings `--ease`, `--ease-out-expo`,
   sections use `padding-top: 0` to avoid double gaps.
 - Section head: centered, `max-width: 680px`, bottom margin `clamp(40px, 6vw, 64px)`.
 - Card/grid gap: `20px`.
-- Nav height: `68px` (`--nav-h`).
+- Nav height: `80px` (`--nav-h`), `68px` on phones.
 
 ## Radius & elevation
 
