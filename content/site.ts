@@ -40,12 +40,14 @@ export const site = {
   shortName: "Rapid Tech Plus",
   /** Brand assets in `public/brand/`, cut from the master lockup. The mark is
       the "R" + rising arrow on its own; the full lockup includes the wordmark
-      and the "The way to web presence" line and is kept for press/partner use. */
+      and the "The way to web presence" line; `fullHeader` is a 120px-tall cut
+      of it (529×120, 3× the header size) used as the site header logo. */
   logo: {
     mark: "/brand/logo-mark-128.png",
     markLarge: "/brand/logo-mark.png",
     icon: "/brand/icon-512.png",
     full: "/brand/logo-full.webp",
+    fullHeader: "/brand/logo-full-header.webp",
   },
   slogan: "AI-Native Engineering",
   url: SITE_URL,
