@@ -66,7 +66,7 @@ export function Footer() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 className="logo"
-                src="/logo.svg"
+                src={site.logo.mark}
                 alt=""
                 width={40}
                 height={40}

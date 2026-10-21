@@ -536,7 +536,7 @@ service offerings**.
       hub + `[slug]` detail route unchanged and working
 - [x] lint + typecheck + static **build (27 routes)** all green; verified in
       browser — flat menu lists all 8 services + overview link, `/services/
-  ai-development` renders (breadcrumb, overview, 3 capabilities, 3 related,
+ai-development` renders (breadcrumb, overview, 3 capabilities, 3 related,
       CTA), zero console errors. Screenshots/Firefox/Safari/Lighthouse not
       runnable in this pane (unchanged from prior phases)
 
@@ -1186,7 +1186,7 @@ template.
 - [x] `/ai/[slug]` (`app/ai/[slug]/page.tsx`) — reuses `ServiceLanding` with
       `generateStaticParams` + `dynamicParams = false`, per-page metadata
       (canonical + OG), Service + FAQPage JSON-LD; `serviceType: "Artificial
-  Intelligence"`
+Intelligence"`
 - [x] Nav: **AI** added as the first `megaMenu` item; footer gains an **AI**
       column; `/ai` added to the human `/sitemap` "What We Do" group; machine
       `app/sitemap.ts` adds `/ai` + `aiSlugs.map(/ai/[slug])`
@@ -2019,7 +2019,7 @@ Both rules were present and looked correct; neither won the cascade.
       a media query, match the specificity of the rule being overridden — a
       bare class selector loses to any descendant base rule and fails silently.**
 - [x] **Footer legal links were 43.2px, not 44px.** `10px + 10px + a 23.232px
-  line box` = 43.2. All six links in the footer bottom row were a fraction
+line box` = 43.2. All six links in the footer bottom row were a fraction
       under the target the padding was added to hit. `min-height: 44px` with
       flex centring closes it without moving the text or the `::after` dot
       separator. Controls under 44px at 393×851: **7 → 0**.
@@ -2243,7 +2243,7 @@ ruled out by the owner. Built on the Canvas 2D API with zero dependencies.
 - [x] Hero right column → globe stage + 3 floating telemetry chips;
       old console visual (`components/hero-visual/`, ~550 lines CSS) removed
 - [x] Perf fix (pre-existing, site-wide): aurora blobs used `filter:
-      blur(90px)` on scale-animated layers → re-rasterised every frame.
+    blur(90px)` on scale-animated layers → re-rasterised every frame.
       Replaced with radial gradients: 13 → 58 fps desktop (software render)
 - [x] Verified: lint, typecheck, build; prod export LCP 312 ms, globe ready
       630 ms; no overflow 10 routes × 7 widths × 2 themes; zero console errors;
@@ -2253,6 +2253,30 @@ ruled out by the owner. Built on the Canvas 2D API with zero dependencies.
       illustrative — replace or neutralise
 - [ ] Next: SVG motion for the rest of the site (service illustrations,
       scroll-linked section transitions)
+
+## Phase 37 — Official logo rollout ✅
+
+Owner supplied the master lockup (2000×454 transparent WebP: "R" + rising
+arrow mark, "RAPID TECH PLUS" wordmark, "THE WAY TO WEB PRESENCE" line).
+Replaces the placeholder gradient-"R" SVG.
+
+- [x] `public/brand/` — `logo-full.webp` (master, untouched), `logo-mark.png`
+      (512) / `logo-mark-128.png` cropped from it, `icon-512.png` (mark on
+      white), `favicon-64.png`; `public/favicon.ico` (16/32/48) and
+      `apple-touch-icon.png` (180). Old `favicon.svg` / `logo.svg` removed
+- [x] Paths live in `site.logo` (`content/site.ts`); `logoLetter` removed
+- [x] Header + footer lockups use the mark on a white app-icon tile — its navy
+      strokes are invisible on the dark canvas, so one treatment for both themes
+- [x] Metadata icons (ico + png + apple-touch); `Organization.logo` → raster
+      `icon-512.png` (closes the mobile-audit P3 item)
+- [x] OG template embeds the real mark; all 13 cards regenerated
+- [x] Verified: lint, typecheck, build; static export at 320px and desktop,
+      light + dark — logo loads, no horizontal overflow, icons/JSON-LD resolve
+- ⚠️ Not verified: Lighthouse, Firefox/Safari/Edge
+- [ ] Owner: the lockup's line is "The way to web presence" but `site.slogan`
+      is still "AI-Native Engineering" — decide which the site should use
+- [ ] Optional: a vector (SVG) master of the mark would render crisper than
+      the cropped PNG at large sizes
 
 ## Phase 6 — Future Expansion (superseded — see Phases A–O above)
 

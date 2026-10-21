@@ -360,7 +360,7 @@ export function Nav() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               className="logo"
-              src="/logo.svg"
+              src={site.logo.mark}
               alt=""
               width={38}
               height={38}

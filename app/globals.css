@@ -608,12 +608,19 @@ section {
   text-transform: uppercase;
   color: var(--text-dim);
 }
+/* The mark's navy strokes vanish on the dark canvas, so it always sits on a
+   white app-icon tile — one treatment for both themes, true brand colours. */
 .brand .logo {
   flex: none;
   width: 34px;
   height: 34px;
+  padding: 3px;
   border-radius: 10px;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  background: #ffffff;
+  box-shadow:
+    0 0 0 1px var(--border),
+    0 1px 2px rgba(15, 23, 42, 0.12);
+  object-fit: contain;
 }
 .nav-links {
   display: flex;
@@ -4027,11 +4034,6 @@ a.contact-method:hover .cm-value {
 /* ---- Header + navigation sheet ------------------------------------------- */
 @media (max-width: 640px) {
   /* Trim the lockup with the shorter bar so the brand still balances it. */
-  .brand .logo {
-    width: 34px;
-    height: 34px;
-    border-radius: 10px;
-  }
   .brand-name {
     font-size: 1rem;
   }

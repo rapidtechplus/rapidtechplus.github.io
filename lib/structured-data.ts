@@ -24,7 +24,7 @@ export const organizationJsonLd = {
   description: site.description,
   email: site.email,
   slogan: site.slogan,
-  logo: `${site.url}/favicon.svg`,
+  logo: `${site.url}${site.logo.icon}`,
   // Verified profiles let search engines reconcile the brand across platforms.
   sameAs: socialLinks
     .filter((s) => s.href.startsWith("http"))
