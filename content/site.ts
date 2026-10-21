@@ -342,8 +342,8 @@ export const homeHero = {
 } as const;
 
 /**
- * Technology badges under the hero actions. Every entry is part of the stack
- * the site already lists (`techStack`) or a service we offer (`/ai`).
+ * Technology badges under the hero actions. Every entry is a technology we
+ * build with (`/technologies`) or a service we offer (`/ai`).
  */
 export const homeTech = [
   { label: "TypeScript", icon: "ts" },
@@ -419,32 +419,6 @@ export const homeCta = {
   ],
 } as const;
 
-export const homeStats = [
-  { num: "10+", label: "Years combined experience" },
-  { num: "100%", label: "Focus on quality" },
-  { num: "24/7", label: "Reliable delivery" },
-  { num: "∞", label: "Room to scale" },
-];
-
-export const homeFeatures = [
-  {
-    title: "Product-minded engineering",
-    body: "We think about users and outcomes, not just tickets.",
-  },
-  {
-    title: "Modern, maintainable code",
-    body: "TypeScript-first, tested, and documented for the long run.",
-  },
-  {
-    title: "Transparent collaboration",
-    body: "Clear communication and reviewable, incremental progress.",
-  },
-  {
-    title: "Built to scale",
-    body: "Architecture that grows with your business, not against it.",
-  },
-];
-
 export const homeServices = [
   {
     icon: "app-window",
@@ -494,21 +468,6 @@ export const whyUs = [
     title: "Long-term partnership",
     body: "We support what we build and grow alongside your business.",
   },
-];
-
-export const techStack = [
-  "TypeScript",
-  "React",
-  "Next.js",
-  "Node.js",
-  "Astro",
-  "Tailwind CSS",
-  "PostgreSQL",
-  "REST & GraphQL",
-  "AWS",
-  "Docker",
-  "CI/CD",
-  "Cloudflare",
 ];
 
 export const faqs = [
@@ -735,31 +694,6 @@ export const aiExpertise = [
     icon: "bot-message-square",
     title: "Conversational Interfaces",
     body: "Chatbots and copilots that support customers and streamline internal workflows.",
-  },
-];
-
-/**
- * Placeholder testimonials. Clearly representative until real client quotes
- * are collected — copy is illustrative, not attributed to real individuals.
- */
-export const testimonials = [
-  {
-    quote:
-      "They moved faster than any team we'd worked with, and the code was clean enough that our engineers could pick it up on day one.",
-    name: "Product Lead",
-    role: "SaaS platform",
-  },
-  {
-    quote:
-      "The AI automation they built quietly removed hours of manual work every week. It just runs.",
-    name: "Operations Director",
-    role: "Logistics",
-  },
-  {
-    quote:
-      "Thoughtful, senior, and genuinely invested in the outcome. It felt like an extension of our own team.",
-    name: "Founder",
-    role: "Fintech startup",
   },
 ];
 
