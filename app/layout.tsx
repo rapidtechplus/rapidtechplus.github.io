@@ -1,11 +1,5 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
-import { Nav } from "@/components/layout/nav";
-import { Footer } from "@/components/layout/footer";
-import { ThemeProvider } from "@/components/theme-provider";
-import { Background } from "@/components/background";
-import { PointerSheen } from "@/components/pointer-sheen";
 import { JsonLd } from "@/components/seo/json-ld";
 import { organizationJsonLd, websiteJsonLd } from "@/lib/structured-data";
 import { site } from "@/content/site";
@@ -65,33 +59,16 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html
-      lang="en"
-      className={inter.variable}
-      suppressHydrationWarning
-    >
+    <html lang="en" className={inter.variable} suppressHydrationWarning>
       <head>
-        <meta name="theme-color" content="#f6f8fb" />
         {/* Site-wide nodes. Pages reference these by `@id` instead of repeating them. */}
         <JsonLd data={organizationJsonLd} />
         <JsonLd data={websiteJsonLd} />
       </head>
-      <body>
-        {/* Light-only for now (owner decision, Phase 39): `forcedTheme` pins the
-            class and ignores any stored preference. The dark token set and
-            `ThemeToggle` stay in the codebase so dark can be re-enabled by
-            dropping this prop and restoring the footer switch. */}
-        <ThemeProvider attribute="class" defaultTheme="light" forcedTheme="light">
-          <Background />
-          <PointerSheen />
-          <a className="skip-link" href="#main">
-            Skip to content
-          </a>
-          <Nav />
-          <main id="main">{children}</main>
-          <Footer />
-        </ThemeProvider>
-      </body>
+      {/* Chrome, stylesheet and theme live in each route group's layout —
+          `app/(site)/layout.tsx` for the live site, `app/v2/layout.tsx` for
+          the v2 preview — so neither leaks into the other. */}
+      <body>{children}</body>
     </html>
   );
 }

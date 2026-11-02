@@ -39,9 +39,13 @@ via an env var — see `next.config.ts`.
 
 ```
 app/                 App Router routes (one folder per page)
-  layout.tsx         Root layout: fonts, metadata, <Nav>/<Footer>
-  page.tsx           Home
-  about/ services/ products/ contact/ privacy/ terms/
+  layout.tsx         Root layout: <html>/<body>, fonts, metadata, JSON-LD
+  (site)/            Route group for every live route — its layout adds
+                     globals.css and the <Nav>/<Footer> shell
+    page.tsx         Home
+    about/ services/ products/ contact/ privacy/ terms/ …
+  v2/                /v2 design preview with its own layout and stylesheet
+                     (see docs/architecture/project-structure.md)
   not-found.tsx      404
 components/
   ui/                shadcn-style primitives (Button, ...)

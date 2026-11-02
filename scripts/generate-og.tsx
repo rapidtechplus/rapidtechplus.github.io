@@ -27,6 +27,9 @@ const require = createRequire(import.meta.url);
 const { ImageResponse } = require("next/og.js") as typeof import("next/og");
 
 const APP_DIR = path.join(process.cwd(), "app");
+/** Live routes sit in the `(site)` route group; only the root card stays in `app/`. */
+const SITE_DIR = path.join(APP_DIR, "(site)");
+const outDirFor = (dir: string) => (dir ? path.join(SITE_DIR, dir) : APP_DIR);
 
 async function main() {
   const logo = await readFile(
@@ -35,7 +38,7 @@ async function main() {
   const logoSrc = `data:image/png;base64,${logo.toString("base64")}`;
 
   for (const { dir, title, eyebrow } of ogTemplates) {
-    const outDir = path.join(APP_DIR, dir);
+    const outDir = outDirFor(dir);
     await mkdir(outDir, { recursive: true });
 
     const png = Buffer.from(
@@ -54,7 +57,7 @@ async function main() {
     );
 
     console.log(
-      `✓ app/${dir ? `${dir}/` : ""}opengraph-image.png (${png.length} bytes)`,
+      `✓ ${path.relative(process.cwd(), outDir)}/opengraph-image.png (${png.length} bytes)`,
     );
   }
   console.log(`\nGenerated ${ogTemplates.length} Open Graph images.`);

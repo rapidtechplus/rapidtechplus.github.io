@@ -29,15 +29,15 @@ _Project Constraints_.
 
 ## Where things live
 
-| Path              | Purpose                                                                |
-| ----------------- | ---------------------------------------------------------------------- |
-| `app/`            | App Router routes (one folder per page)                                |
-| `components/`     | Reusable UI — `layout/`, `sections/`, `ui/`                            |
-| `content/`        | Typed page content — single source of truth for copy & company details |
-| `lib/`            | Shared logic/utilities                                                 |
-| `app/globals.css` | Design tokens + component styles                                       |
-| `public/`         | Static assets (favicon, OG image, `.nojekyll`)                         |
-| `docs/`           | This overview, PRD, architecture, roadmap                              |
+| Path              | Purpose                                                                      |
+| ----------------- | ---------------------------------------------------------------------------- |
+| `app/`            | App Router routes — live pages in `app/(site)/`, the v2 preview in `app/v2/` |
+| `components/`     | Reusable UI — `layout/`, `sections/`, `ui/`                                  |
+| `content/`        | Typed page content — single source of truth for copy & company details       |
+| `lib/`            | Shared logic/utilities                                                       |
+| `app/globals.css` | Design tokens + component styles                                             |
+| `public/`         | Static assets (favicon, OG image, `.nojekyll`)                               |
+| `docs/`           | This overview, PRD, architecture, roadmap                                    |
 
 ## Related docs
 
