@@ -2515,6 +2515,70 @@ Owner request: a taller header bar, and the header's logo in the footer too.
   so header and footer agree; `site.slogan` ("AI-Native Engineering") still
   feeds the OG cards and Organization JSON-LD — see the open slogan decision
 
+## Phase 44 — v2 design preview at `/v2` (approved "Orbit+" homepage) 🔍 (awaiting owner comparison)
+
+Owner brief: a new, more advanced and fully animated design in the logo's
+colours, built as `/v2` beside the current site (which stays untouched) so the
+two can be compared and the better one kept. Design explored on the canvas in
+three directions; owner approved Concept 1 "Orbit" plus the architecture flow
+from "Blueprint" and the tech radar from "Command" ("Orbit+"). Homepage only
+in this phase.
+
+- [x] **Isolation prerequisite (refactor, own commit):** every live route moved
+      into the `app/(site)/` route group (URLs unchanged). The root layout keeps
+      only `<html>`/`<body>`, fonts, default metadata and JSON-LD; the live
+      stylesheet and chrome load from `(site)/layout.tsx` via `SiteShell`.
+      `not-found.tsx` opts into both itself. Verified the exported page set is
+      identical to the pre-move build, and full-page screenshots of 8 live
+      routes × 375/1440 are pixel-identical (the one exception, the animated
+      canvas globe on `/home-preview`, differs from _itself_ run to run)
+- [x] **OG regression found and fixed:** Next hash-suffixes metadata files
+      inside route groups, so the hard-coded `/<dir>/opengraph-image.png` on
+      ~90 detail pages would have 404'd (182 og/twitter refs). Detail pages now
+      import their section image (`ogImage()`); 234 image refs in the export, 0
+      missing. `scripts/generate-og.tsx` writes into `app/(site)/<dir>`
+- [x] `/v2` shell: own stylesheet (`app/v2/v2.css`, all `v2-` prefixed), own
+      next-themes instance (`data-theme`, key `rtp-v2-theme`, system default,
+      pre-paint script), own header (in-page nav, theme switch, mobile
+      disclosure menu) and footer, preview bar linking back to `/`
+- [x] Sections: hero (rotating "We build …", CSS-3D orbit globe with pointer
+      parallax via CSS variables), outcome stats with count-up, services
+      (flagship AI card with animated border + network figure), reference
+      architecture with data packets (vertical on narrow screens), case-study
+      tabs with autoplay, tech radar with sweep-timed blips, process, CTA
+- [x] Content integrity: services, case-study metrics, process and contact
+      details are referenced from `content/` by slug, not restated;
+      `content/v2-home.ts` holds only v2 presentation data
+- [x] Cross-version links are full page loads (`lib/document-href.ts`) so the
+      two global stylesheets never meet; verified `/v2` loads only the font CSS + `v2.css`, and no live route loads `v2.css`
+- [x] SEO: `noindex, nofollow`, robots `Disallow: /v2/`, absent from the sitemap
+- [x] Typography follows the Phase 41 owner decision (Inter only); the canvas
+      mock-ups used Geist. Mono labels use the system mono stack (no download)
+- [x] Verification: lint, typecheck, clean static build. Playwright/Chromium:
+      `/v2` × 320/375/768/1024/1280/1440/1920 × light/dark = 14 loads, 0
+      horizontal overflow, 0 console errors, plus a stricter check that no
+      visible element crosses the viewport edge (it caught a header CTA
+      overflowing at ≤960px and a 5px header overflow at 320px — both fixed).
+      Behaviour: theme toggle + persistence, rotating words, count-up end
+      values, parallax, tab autoplay / pause-on-hover / pause button, Arrow /
+      Home / End keys, mobile menu open / Escape (focus returns) / close on
+      link, reduced motion (static words, no autoplay, final numbers), Tab
+      order with a visible outline on every stop
+- Design Review Checklist: responsive 320–1920 ✅, light ✅, dark ✅,
+  keyboard ✅ (see above), SEO ✅ (noindex preview by design)
+- ⚠️ Not verified here: Lighthouse, Firefox/Safari/Edge, real devices.
+  Progressive features: scroll reveals need `animation-timeline` (Chrome/Edge
+  115+, Safari 26; others show content without the reveal) and the card border
+  light needs `@property` (static border elsewhere)
+- [ ] Owner: compare `/v2` with `/` and decide which design to keep
+- [ ] If v2 wins: inner pages (services, case studies, contact, …) in the v2
+      system, then promote — move the page into `(site)` and retire one of the
+      two stylesheets; never ship both on one route
+- [ ] If v1 wins: delete `app/v2/`, `components/v2/`, `content/v2-home.ts`,
+      `lib/document-href.ts` (if unused) and the robots rule
+- [ ] Owner: the Rising R mark in the v2 header is a redraw of the official
+      logo — confirm before it replaces registered brand assets
+
 ## Phase 6 — Future Expansion (superseded — see Phases A–O above)
 
 - [ ] Product detail pages (`generateStaticParams` from `content/`)
