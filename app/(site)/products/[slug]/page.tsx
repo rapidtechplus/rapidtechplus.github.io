@@ -9,7 +9,8 @@ import {
   productFaqs,
 } from "@/content/products";
 import { SITE_URL } from "@/config/site";
-import { ogImageFor } from "@/config/og-templates";
+import { ogImage } from "@/config/og-templates";
+import sectionOgImage from "../opengraph-image.png";
 
 /** Static export: pre-render one page per product, 404 on anything else. */
 export const dynamicParams = false;
@@ -34,7 +35,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
       title: `${title} — Rapid Tech Plus`,
       description: product.intro,
       url,
-      images: [ogImageFor("products")],
+      images: [ogImage(sectionOgImage)],
     },
   };
 }

@@ -12,7 +12,8 @@ import {
 import { SITE_URL } from "@/config/site";
 import { PageAssistant } from "@/components/assistant/page-assistant";
 import { caseStudyHref } from "@/content/case-studies";
-import { ogImageFor } from "@/config/og-templates";
+import { ogImage } from "@/config/og-templates";
+import sectionOgImage from "../opengraph-image.png";
 
 /** Static export: pre-render one page per service, 404 on anything else. */
 export const dynamicParams = false;
@@ -36,7 +37,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
       title: `${service.title} — Rapid Tech Plus`,
       description: service.intro,
       url,
-      images: [ogImageFor("services")],
+      images: [ogImage(sectionOgImage)],
     },
   };
 }

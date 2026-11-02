@@ -12,7 +12,8 @@ import {
   aiProcess,
 } from "@/content/ai";
 import { SITE_URL } from "@/config/site";
-import { ogImageFor } from "@/config/og-templates";
+import { ogImage } from "@/config/og-templates";
+import sectionOgImage from "../opengraph-image.png";
 
 /** Static export: pre-render one page per AI capability, 404 on anything else. */
 export const dynamicParams = false;
@@ -36,7 +37,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
       title: `${capability.title} — Rapid Tech Plus`,
       description: capability.intro,
       url,
-      images: [ogImageFor("ai")],
+      images: [ogImage(sectionOgImage)],
     },
   };
 }

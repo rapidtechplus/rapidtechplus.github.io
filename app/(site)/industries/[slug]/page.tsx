@@ -9,7 +9,8 @@ import {
   industryFaqs,
 } from "@/content/industries";
 import { SITE_URL } from "@/config/site";
-import { ogImageFor } from "@/config/og-templates";
+import { ogImage } from "@/config/og-templates";
+import sectionOgImage from "../opengraph-image.png";
 
 /** Static export: pre-render one page per industry, 404 on anything else. */
 export const dynamicParams = false;
@@ -34,7 +35,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
       title: `${title} — Rapid Tech Plus`,
       description: industry.intro,
       url,
-      images: [ogImageFor("industries")],
+      images: [ogImage(sectionOgImage)],
     },
   };
 }

@@ -13,7 +13,8 @@ import { industrySectors, type IndustrySector } from "@/content/industries";
 import type { ServiceRecord } from "@/content/types";
 import type { RelatedItem } from "@/components/sections/detail-layout";
 import { SITE_URL } from "@/config/site";
-import { ogImageFor } from "@/config/og-templates";
+import { ogImage } from "@/config/og-templates";
+import sectionOgImage from "../opengraph-image.png";
 import { ORGANIZATION_ID } from "@/lib/structured-data";
 
 /** Static export: pre-render one page per case study, 404 on anything else. */
@@ -72,7 +73,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
       title: `${study.title} — Rapid Tech Plus`,
       description: study.summary,
       url,
-      images: [ogImageFor("case-studies")],
+      images: [ogImage(sectionOgImage)],
     },
   };
 }

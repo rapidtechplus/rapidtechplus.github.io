@@ -10,7 +10,8 @@ import {
   technologyCta,
 } from "@/content/technologies";
 import { SITE_URL } from "@/config/site";
-import { ogImageFor } from "@/config/og-templates";
+import { ogImage } from "@/config/og-templates";
+import sectionOgImage from "../opengraph-image.png";
 
 /** Static export: pre-render one page per technology, 404 on anything else. */
 export const dynamicParams = false;
@@ -34,7 +35,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
       title: `${tech.title} — Rapid Tech Plus`,
       description: tech.intro,
       url,
-      images: [ogImageFor("technologies")],
+      images: [ogImage(sectionOgImage)],
     },
   };
 }
